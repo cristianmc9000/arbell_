@@ -45,7 +45,7 @@ while($arr = $Busq->fetch_array())
 <div class="row">
 <div class="col s11">
 
-<span class="fuente"><h3>Clientes 
+<span class="fuente"><h3>Nueva Lider/Experta 
   <!-- Modal Trigger -->
   <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a></h3> 
 </span>
@@ -73,7 +73,39 @@ while($arr = $Busq->fetch_array())
         </thead>
 
         <tbody>
-        <?php foreach($fila as $a  => $valor){ ?>
+        <!-- fila 1 -->
+          <tr>
+          <td>0078</td>
+          <td>Rocio</td>
+          <td>Torrejon</td>
+          <td>77894488</td>
+          <td>7210040</td>
+          <td>Villamontes</td>
+          <td>Calle Ingavi #23</td>
+          <td>rociotorrejon123@gmail.com</td>
+          <td>Experta</td>
+          <td><i class="material-icons">build</i></a></td>
+          <td><a href="#"><i class="material-icons">delete</i></a></td>
+          </tr>
+        <!-- fila 2 -->
+        <tr>
+          <td>0079</td>
+          <td>Juana</td>
+          <td>Vidal</td>
+          <td>77978945</td>
+          <td>7289566</td>
+          <td>Yacuiba</td>
+          <td>Prolongacion San Pedro #23</td>
+          <td>vidaljuana@gmail.com</td>
+          <td>Lider</td>
+          <td><i class="material-icons">build</i></a></td>
+          <td><a href="#"><i class="material-icons">delete</i></a></td>
+          </tr>
+
+
+
+
+        <!-- <?php foreach($fila as $a  => $valor){ ?>
           <tr>
             
             <td><?php echo $valor["ci"] ?></td>
@@ -82,9 +114,9 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["telefono"] ?></td>
             <td><a href="#!" onclick="mod_cliente('<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['id'] ?>');"><i class="material-icons">build</i></a></td>
             <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a></td>
-            <!--<td><a href="#"><i class="material-icons">search</i></a></td>-->
+            <td><a href="#"><i class="material-icons">search</i></a></td>
           </tr>
-    <?php } ?>  
+    <?php } ?>   -->
 
 
 
