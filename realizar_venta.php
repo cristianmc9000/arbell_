@@ -33,7 +33,7 @@ while($arr = $Busq2->fetch_array())
 <style>
 .fuente{
   font-family: 'Segoe UI light';
-  color: red;
+  color: black;
 }
 
 @media only screen and (max-width: 767px) {
@@ -55,15 +55,37 @@ table.highlight > tbody > tr:hover {
   border: solid;
   border-color: #1f1f1f;
 }
+.fijo{
+  position: fixed !important;
+  right: 10px;
+  bottom: 30%;
+  max-width: 200px;
 
+  z-index: 10 !important;
+  width: 230px;
+
+}
+.fijo:hover{
+  background: #ffffff;
+
+  max-width: 230px;
+  bottom: 29%;
+}
 
 </style>
 
 </head>
 <body>
 
-<span class="fuente"><h3>Ventas</h3></span>
-
+<span class="fuente"><h4>Código:123 <br> Lider/Experta: Rocio Torrejon</h4></span>
+<br><br>
+<div class="row">
+  <div class="col s3">
+    <input placeholder="Buscar producto" id="first_name" type="text" class="validate">
+  </div>
+  <div class="col s2"><a class="waves-effect waves-light btn">Agregar</a>
+</div>
+</div>
 
 <!-- TABLA -->
 <div class="col s10">
@@ -71,14 +93,16 @@ table.highlight > tbody > tr:hover {
   <thead>
     <tr>
         
-        <th data-field="id">Código</th>
-        <th data-field="id">Nombre</th>
-        <th data-field="name">Apellidos</th>
-        <th data-field="C.I.">C.I.</th>
-        <th data-field="telefono">Teléfono</th>
-        <th data-field="rango">Rango</th>
-        <th>Seleccionar</th>
-
+        <th data-field="codigo">Código<br>(Producto)</th>
+        <th data-field="linea">Linea</th>
+        <th data-field="descripcion">Descripción</th>
+        <th data-field="stock">Stock</th>
+        <th data-field="cantidad">Cantidad</th>
+        <th data-field="pupesos">P.U.<br>Pesos</th>
+        <th data-field="pubob">P.U.<br>Bolivianos</th>
+        <th data-field="psd">PSD</th>
+        <th data-field="subtotal">Subtotal</th>
+      
     </tr>
   </thead>
 
@@ -103,46 +127,37 @@ table.highlight > tbody > tr:hover {
 
     <tbody>
       <tr>
-        <td>123</td>
-        <td>Rocio</td>
-        <td>Torrejon</td>
-        <td>7210040</td>
-        <td>77198751</td>
-        <td>Experta</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
+        <td>7008</td>
+        <td>ESPECIAL NAVIDAD</td>
+        <td>Fragancia femenina Diva deo 150ml</td>
+        <td>50</td>
+        <td><input type="number" value="1"></td>
+        <td>1000 $</td>
+        <td>75 Bs.</td>
+        <td>30 Bs.</td>
+        <td>300 Bs.</td>
       </tr>
 
-      <tr>
-        <td>124</td>
-        <td>Carmen</td>
-        <td>Guzman</td>
-        <td>7210992</td>
-        <td>76158245</td>
-        <td>Lider</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
-      <tr>
-        <td>125</td>
-        <td>Alejandra</td>
-        <td>Santos</td>
-        <td>4458875</td>
-        <td>77174288</td>
-        <td>Experta</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
-      <tr>
-        <td>127</td>
-        <td>Gabriela</td>
-        <td>Flores</td>
-        <td>5412558</td>
-        <td>62158745</td>
-        <td>Lider</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
+
+
     </tbody>
 </table>
 </div>
 
+
+<!-- Modal Trigger -->
+<div class="fijo" id="imprimir" >
+  <a id="modal_trigger_1" onclick="realizarVenta();" href="#modal1"  style="color: red;">
+  <div class="card z-depth-5">
+    <div class="card-image center" onmouseover="hover3.playclip();">
+      <img src="img/shopping_cart2.png" >
+    </div>
+    <div class="card-action">
+      REALIZAR VENTA
+    </div>
+  </div>
+  </a>
+</div>
 
 
 
@@ -180,7 +195,7 @@ $(document).ready(function() {
     $('select').material_select();
 });
 function ventas (){
-  $("#cuerpo").load("realizar_venta.php");
+  $("#cuerpo").load("ventas.php");
 }
 
 
