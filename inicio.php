@@ -11,16 +11,18 @@ while($arr = $Busq->fetch_array())
 ?>
       <div id="contenido_inicial">
         <span class="fuente col s12">
-          <div class="col s4"><h3>Productos escasos</h3></div><br>
+          <div class="col s4"><h3>Productos escasosss</h3></div><br>
         </span>
 
         <!-- TABLA -->
         <table id="tabla1" class="highlight">
           <thead>
             <tr>
-                <th>Código</th>
-                <th>Modelo</th>
+                <th>Código\r(Producto)</th>
+                <th>Producto</th>
                 <th>Cantidad</th>
+                <th>Fecha de\rvencimiento</th>
+
             </tr>
           </thead>
 

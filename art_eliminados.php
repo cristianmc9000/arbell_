@@ -3,7 +3,7 @@
 //aplicando cambios desde sublime
 
 //PUEDES VER ESTO DOLZ
-//SI VEO CHINO
+//SI VEO CHINO .... 
 
 require('recursos/conexion.php');
 

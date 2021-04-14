@@ -73,7 +73,6 @@ require('recursos/sesiones.php');
 </form>
 </div>
 
-<hr>
 
 
 <script>

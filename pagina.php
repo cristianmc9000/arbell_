@@ -1,5 +1,6 @@
 <?php
 //Reanudamos la sesión
+//probando push
 session_start();
 
 //Comprobamos si el usario está logueado
