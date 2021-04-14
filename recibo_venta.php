@@ -1,3 +1,5 @@
+<!-- recibo de venta -->
+
 <style>
 	body{
 		font-family: Segoe UI Light;
