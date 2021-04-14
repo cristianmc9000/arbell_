@@ -21,7 +21,7 @@
             <label for="password">Password</label>
             <input type="password" placeholder="Enter Password">
 
-            <input type="submit"> value="Long In"
+            <input type="submit"> value="Long In">
 
 
 
