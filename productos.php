@@ -55,38 +55,7 @@ table.highlight > tbody > tr:hover {
   border: solid;
   border-color: #1f1f1f;
 }
-#tabla2 td, #tabla2 th{
-  padding: 0 !important;
-}
-#tabla2{
-  font-size: 13px;
-}
-#tabla3 td, #tabla3 th{
-  padding: 0 !important;
 
-
-}
-
-
-#tabla3{
-  font-size: 13px;
-}
-.fijo{
-  position: fixed !important;
-  right: 10px;
-  bottom: 30%;
-  max-width: 200px;
-
-  z-index: 10 !important;
-  width: 230px;
-
-}
-.fijo:hover{
-  background: #ffffff;
-
-  max-width: 230px;
-  bottom: 29%;
-}
 
 </style>
 
