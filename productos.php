@@ -190,6 +190,7 @@ table.highlight > tbody > tr:hover {
 </div>
 -->
 <!-- CARRITO ELIMINADO -->
+<!-- carrito eliminado 2-->
 
 
 <!--MODAL REALIZAR VENTA-->
