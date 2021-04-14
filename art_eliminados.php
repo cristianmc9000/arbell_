@@ -2,6 +2,8 @@
 //Comentario para ver en git
 //aplicando cambios desde sublime
 
+//PUEDES VER ESTO DOLZ
+
 require('recursos/conexion.php');
 
 $_SESSION['filas'] = array(); 
@@ -16,7 +18,6 @@ while($arr = $Busq->fetch_array())
 
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>VENDER PRODUCTOS</title>
