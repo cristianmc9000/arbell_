@@ -84,7 +84,7 @@ while($arr = $Busq->fetch_array())
           <td>Calle Ingavi #23</td>
           <td>rociotorrejon123@gmail.com</td>
           <td>Experta</td>
-          <td><i class="material-icons">build</i></a></td>
+          <td><a href="#"><i class="material-icons">build</i></a></td>
           <td><a href="#"><i class="material-icons">delete</i></a></td>
           </tr>
         <!-- fila 2 -->
@@ -98,7 +98,7 @@ while($arr = $Busq->fetch_array())
           <td>Prolongacion San Pedro #23</td>
           <td>vidaljuana@gmail.com</td>
           <td>Lider</td>
-          <td><i class="material-icons">build</i></a></td>
+          <td><a href="#"><i class="material-icons">build</i></a></td>
           <td><a href="#"><i class="material-icons">delete</i></a></td>
           </tr>
 
@@ -133,24 +133,42 @@ while($arr = $Busq->fetch_array())
           <div class="row">
             <div class="input-field col s6">
               <input name="ci" type="number" class="validate">
-              <label for="ci">CI: (OPCIONAL)</label>
+              <label for="ci">Codigo arbell</label>
+            </div>
+            <div class="input-field col s6">
+              <input name="ci" type="number" class="validate">
+              <label for="ci">Nombre:</label>
             </div>
           </div>
           <div class="row">  
             <div class="input-field col s6">
               <input name="nombre" type="text" class="validate" required>
-              <label for="nombre">Nombre: </label>
+              <label for="nombre">Apellidos:</label>
             </div>
             <div class="input-field col s6">
               <input name="apellidos" type="text" class="validate" required>
-              <label for="apellidos">Apellidos:</label>
+              <label for="apellidos">CI:</label>
             </div>
           </div>
           <div class="row">
           <div class="input-field col s6">
             <input name="telefono" type="number">
-            <label for="telefono">Teléfono (OPCIONAL): </label>
+            <label for="telefono">Teléfono: </label>
           </div>
+          <div class="input-field col s6">
+              <input name="apellidos" type="text" class="validate" required>
+              <label for="apellidos">Lugar:</label>
+            </div>
+          </div>
+          <div class="row">  
+            <div class="input-field col s6">
+              <input name="nombre" type="text" class="validate" required>
+              <label for="nombre">Correo: </label>
+            </div>
+            <div class="input-field col s6">
+              <input name="apellidos" type="text" class="validate" required>
+              <label for="apellidos">Nivel:</label>
+            </div>
           </div>
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
