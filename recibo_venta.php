@@ -6,14 +6,15 @@
 	}
 </style>
 
-<div class="col s8 offset-s2">
+<div class="col s10 offset-s1">
 <div class="row">
 	<div class="center"><h3>Recibo de venta</h3></div>
 </div>
 
+<br>
 
 <div class="row">
-	<div class="col s3 offset-s1">
+	<div class="col s4 offset-s1">
 		Código arbell: 333 <br>
 		Lider/Experta: Rocio Torrejon <br>
 		DIrección: AV. CANAL COTOCA #2090 <br>
@@ -26,7 +27,7 @@
 		Periodo: PERIODO 6-2020 <br>
 	</div>
 
-	<div class="col s4">
+	<div class="col s3">
 		Distribuidora: CARMIÑA
 	</div>
 
@@ -70,10 +71,8 @@
 </div>
 
 <div class="row">
-	<div class="col s6 offset-s1">
-		<i class="material-icons left">comment</i><h5>Observaciones</h5>
-	</div>
-	<div class="col s3 offset-s1">
+
+	<div class="col s3 offset-s8">
 		<table>
 			<thead>
 				<tr>
@@ -101,7 +100,7 @@
 		<a class="waves-effect waves-light btn-large red">Cancelar</a>
 	</div>
 	<div class="col offset-s3">
-		<a class="waves-effect waves-light btn-large"><i class="material-icons left">print</i>button</a>
+		<a class="waves-effect waves-light btn-large"><i class="material-icons left">print</i>Imprimir</a>
 	</div>
 </div>
 
