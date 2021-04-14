@@ -61,12 +61,15 @@ while($arr = $Busq->fetch_array())
   <table id="tabla1" class="highlight">
     <thead>
       <tr>
-          <th data-field="id">CI</th>
-          <th data-field="name">Nombre</th>
-          <th data-field="price">Telefono</th>
-          <th data-field="price">Modificar</th>
-          <th data-field="price">Borrar</th>
-          <th data-field="price">Ver Usuario</th>
+          <th>CI</th>
+          <th>Nombres y apellidos</th>
+
+          <th>Telefono</th>
+          <th>Dirección</th>
+          <th>Rol</th>
+          <th>Modificar</th>
+          <th>Borrar</th>
+          <th>Ver Usuario</th>
       </tr>
     </thead>
 
@@ -76,6 +79,8 @@ while($arr = $Busq->fetch_array())
         <td><?php echo $valor["ci"] ?></td>
         <td><?php echo $valor["nombre"]." ".$valor["apellidos"] ?></td>
         <td><?php echo $valor["telefono"] ?></td>
+        <td>B\ Las Panosas\...</td>
+        <td>Administrador</td>
         <td><a href="#"><i class="material-icons">build</i></a></td>
         <td><a href="#"><i class="material-icons">delete</i></a></td>
         <td><a href="#"><i class="material-icons">search</i></a></td>
@@ -133,7 +138,7 @@ while($arr = $Busq->fetch_array())
 </div>
 </div>
 
-
+<!--
 <div class="fijo" id="imprimir" >
   <a href="#" style="color: red;">
   <div class="card z-depth-5">
@@ -145,7 +150,7 @@ while($arr = $Busq->fetch_array())
     </div>
   </div>
   </a>
-</div>
+</div>-->
 
 <script>
 $(document).ready(function() {
