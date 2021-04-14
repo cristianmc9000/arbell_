@@ -43,6 +43,7 @@ require('recursos/sesiones.php');
 
 <div class="row">
 	<div class="col s4 offset-s1">
+	<h1>sale est </h1>
 		<h4 class="fuente">Accede a tu cuenta</h4>
 	</div>
 </div>
@@ -65,7 +66,7 @@ require('recursos/sesiones.php');
 	</div>
 	<div class="row">
 		<div class="input-field col s3 offset-s1">
-			<button class="btn waves-effect waves-light" type="submit" name="acceso">Ingresar
+			<button class="btn waves-effect waves-light" type="submit" name="acceso">Ingresardddddddddddddddddddddddddddd
 	    	<i class="material-icons right">send</i></button>
     	</div>
   	</div>
