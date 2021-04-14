@@ -57,10 +57,15 @@ while($arr = $Busq->fetch_array())
         <thead>
 
           <tr>
-              <th data-field="id">CI</th>
+          <th data-field="id">Codigo arbell</th>
               <th data-field="name">Nombre</th>
               <th data-field="apellidos">Apellidos</th>
               <th data-field="telefono">Teléfono</th>
+              <th data-field="id">CI</th>
+              <th data-field="id">Lugar</th>
+              <th data-field="id">Direccion</th>
+              <th data-field="id">Correo</th>
+              <th data-field="id">Nivel</th>
               <th data-field="price">Modificar</th>
               <th data-field="price">Borrar</th>
               <!--<th data-field="price">Ver Cliente</th>-->
@@ -70,6 +75,7 @@ while($arr = $Busq->fetch_array())
         <tbody>
         <?php foreach($fila as $a  => $valor){ ?>
           <tr>
+            
             <td><?php echo $valor["ci"] ?></td>
             <td><?php echo $valor["nombre"] ?></td>
             <td><?php echo $valor["apellidos"] ?></td>
