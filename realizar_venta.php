@@ -147,7 +147,7 @@ table.highlight > tbody > tr:hover {
 
 <!-- Modal Trigger -->
 <div class="fijo" id="imprimir" >
-  <a id="modal_trigger_1" onclick="realizarVenta();" href="#modal1"  style="color: red;">
+  <a onclick="realizarVenta();"  style='color: red; cursor: pointer;'>
   <div class="card z-depth-5">
     <div class="card-image center" onmouseover="hover3.playclip();">
       <img src="img/shopping_cart2.png" >
@@ -191,13 +191,16 @@ $(document).ready(function() {
       "lengthMenu": [[5, 10], [5, 10]]
     });
 
-    $('#modal_trigger_1').leanModal();
+    //$('#modal_trigger_1').leanModal();
     $('select').material_select();
 });
 function ventas (){
   $("#cuerpo").load("ventas.php");
 }
 
+function realizarVenta(){
+  $("#cuerpo").load("recibo_venta.php");
+}
 
 </script>
 </body>
