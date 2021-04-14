@@ -43,7 +43,7 @@ require('recursos/sesiones.php');
 
 <div class="row">
 	<div class="col s4 offset-s1">
-	<h1>sale est </h1>
+	
 		<h4 class="fuente">Accede a tu cuenta</h4>
 	</div>
 </div>
