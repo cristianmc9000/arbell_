@@ -1,5 +1,7 @@
 <?php
 //Comentario para ver en git
+//aplicando cambios desde sublime
+
 require('recursos/conexion.php');
 
 $_SESSION['filas'] = array(); 
