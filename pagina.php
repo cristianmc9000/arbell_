@@ -117,7 +117,7 @@ table.highlight > tbody > tr:hover {
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
         <li><a href="#!" onclick="cargar('usuarios');">USUARIOS</a></li>
         <li><a href="#!" onclick="cargar('productos');">VENTAS</a></li>
-        <li><a href="#!" onclick="cargar('productos');">COMPRAS</a></li>
+        <li><a href="#!" onclick="cargar('compras');">COMPRAS</a></li>
         <li><a href="#!" onclick="cargar('inventario');">PRODUCTOS</a></li>
         <!--<li><a href="#!" onclick="cargar('usuarios');">Usuarios</a></li>-->
         <li><a href="#!" onclick="cargar('clientes');">LIDER/EXPERTA</a></li>

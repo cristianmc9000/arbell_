@@ -93,7 +93,7 @@ table.highlight > tbody > tr:hover {
 </head>
 <body>
 
-<!--<span class="fuente"><h5>Ventas / Productos disponibles</h5></span>-->
+<span class="fuente"><h3>Ventas</h3></span>
 
 
 <!-- TABLA -->
@@ -103,15 +103,17 @@ table.highlight > tbody > tr:hover {
     <tr>
         
         <th data-field="id">Código</th>
-        <th data-field="id">Producto</th>
-        <th data-field="name">cantidad</th>
-        <th data-field="price">Precio</th>
-        <th data-field="price">Vender</th>
+        <th data-field="id">Nombre</th>
+        <th data-field="name">Apellidos</th>
+        <th data-field="C.I.">C.I.</th>
+        <th data-field="telefono">Teléfono</th>
+        <th data-field="rango">Rango</th>
+        <th>Seleccionar</th>
 
     </tr>
   </thead>
 
-  <tbody>
+ <!-- <tbody>
     <?php foreach($fila as $a  => $valor){ ?>
       <tr <?php if(($valor['cantidad']) =='0') echo 'style="background-color: #FA5858"'; if(($valor['cantidad'])<71){ echo 'style="background-color: #F4FA58"';}?>>
         
@@ -128,7 +130,47 @@ table.highlight > tbody > tr:hover {
 
     
 
-  </tbody>
+  </tbody>-->
+
+    <tbody>
+      <tr>
+        <td>123</td>
+        <td>Rocio</td>
+        <td>Torrejon</td>
+        <td>7210040</td>
+        <td>77198751</td>
+        <td>Experta</td>
+        <td><a href="#"><i class="material-icons">forward</i></a></td>
+      </tr>
+
+      <tr>
+        <td>124</td>
+        <td>Carmen</td>
+        <td>Guzman</td>
+        <td>7210992</td>
+        <td>76158245</td>
+        <td>Lider</td>
+        <td><a href="#"><i class="material-icons">forward</i></a></td>
+      </tr>
+      <tr>
+        <td>125</td>
+        <td>Alejandra</td>
+        <td>Santos</td>
+        <td>4458875</td>
+        <td>77174288</td>
+        <td>Experta</td>
+        <td><a href="#"><i class="material-icons">forward</i></a></td>
+      </tr>
+      <tr>
+        <td>127</td>
+        <td>Gabriela</td>
+        <td>Flores</td>
+        <td>5412558</td>
+        <td>62158745</td>
+        <td>Lider</td>
+        <td><a href="#"><i class="material-icons">forward</i></a></td>
+      </tr>
+    </tbody>
 </table>
 </div>
 
