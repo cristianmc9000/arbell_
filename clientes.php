@@ -1,4 +1,5 @@
 <?php
+//Comentario para ver en git
 require('recursos/conexion.php');
 
 $_SESSION['filas'] = array(); 
