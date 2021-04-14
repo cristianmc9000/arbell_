@@ -10,13 +10,21 @@
   <body>
   
     <div class="login-box">
-        <img src="img/fondo2.jpgl" alt="Logo Arbell">
+        <img class="avatar" src="img/logo.png" alt="Logo Arbell">
         <h1>Login</h1>
         <form>
             <!-- Usuario -->
             <label for="username">Usuario</label>
-            <input type="text" placeholder="">
-            <!--  -->
+            <input type="text" placeholder="Enter Username">
+            
+            <!-- Contrasseña -->
+            <label for="password">Password</label>
+            <input type="password" placeholder="Enter Password">
+
+            <input type="submit"> value="Long In"
+
+
+
         </form>
 
 
