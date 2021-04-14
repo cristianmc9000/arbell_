@@ -40,7 +40,7 @@ while($arr = $Busq->fetch_array())
   <script src="js/datatable.js"></script>
 
 
-<title> UMBRAL, Número de teléfono(s): 6637037, E-mail: alimentostarija@hotmail.com</title>
+<title> Arbell, Número de teléfono(s): 6637037, E-mail: alimentostarija@hotmail.com</title>
 <style>
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
