@@ -7,7 +7,7 @@ $Sql = "SELECT * FROM clientes WHERE estado=1";
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('ca'=>$arr['CA'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'], 'lugar'=>$arr['lugar'], 'correo'=>$arr['correo'], 'nivel'=>$arr['nivel']); 
+        $fila[] = array('ca'=>$arr['CA'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'], 'lugar'=>$arr['lugar'], 'correo'=>$arr['correo'], 'fecha_alta'=>$arr['fecha_alta'], 'nivel'=>$arr['nivel']); 
     } 
 ?>
 
@@ -63,6 +63,7 @@ while($arr = $Busq->fetch_array())
               <th>Teléfono</th>
               <th>Lugar</th>
               <th>Correo</th>
+              <th>Fecha alta</th>
               <th>Nivel</th>
               <th>Modificar</th>
               <th>Borrar</th>
@@ -83,6 +84,7 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["telefono"] ?></td>
             <td><?php echo $valor["lugar"] ?></td>
             <td><?php echo $valor["correo"] ?></td>
+            <td><?php echo $valor["fecha_alta"] ?></td>
             <td><?php echo $valor["nivel"] ?></td>
 
             <td><a href="#!" onclick="mod_cliente('<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['tipo'] ?>');"><i class="material-icons">build</i></a></td>
