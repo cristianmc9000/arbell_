@@ -1,6 +1,6 @@
 <?php
 //Comentario para ver en git
-require('recursos/conexion.php');
+require('../../recursos/conexion.php');
 
 $_SESSION['filas'] = array(); 
 $Sql = "SELECT * FROM clientes WHERE estado=1"; 
@@ -8,7 +8,6 @@ $Busq = $conexion->query($Sql);
 while($arr = $Busq->fetch_array()) 
     { 
         $fila[] = array('id'=>$arr['id'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono']); 
-        array_push($_SESSION['filas'],$fila); 
     } 
 ?>
 

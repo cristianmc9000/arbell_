@@ -115,12 +115,12 @@ table.highlight > tbody > tr:hover {
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <!--<li style="background-color: black;">-->
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
-        <li><a href="#!" onclick="cargar('usuarios');">USUARIOS</a></li>
-        <li><a href="#!" onclick="cargar('productos');">VENTAS</a></li>
-        <li><a href="#!" onclick="cargar('compras');">COMPRAS</a></li>
-        <li><a href="#!" onclick="cargar('periodos');">PRODUCTOS</a></li>
-        <!--<li><a href="#!" onclick="cargar('usuarios');">Usuarios</a></li>-->
-        <li><a href="#!" onclick="cargar('clientes');">LIDER/EXPERTA</a></li>
+        <li><a href="#!" onclick="cargar('templates/usuarios/a_usuarios');">USUARIOS</a></li>
+        <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li>
+        <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
+        <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
+        <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
+        
         <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
         <!--<li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>-->
         <!--<li><a href="#!" onclick="cargar('reportes');">Reportes</a></li>-->

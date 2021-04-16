@@ -45,7 +45,7 @@
   <a href="#" onclick="enviarfecha('1');" >
   <div class="card z-depth-5" >
     <div class="card-image center">
-      <img src="img/meses/1.png" >
+      <img src="img/periodos/1.png" >
     </div>
   </div>
   </a>
@@ -55,7 +55,7 @@
   <a href="#" onclick="enviarfecha('2');" >
   <div class="card z-depth-5">
     <div class="card-image center" >
-      <img src="img/meses/2.png" >
+      <img src="img/periodos/2.png" >
     </div>
   </div>
   </a>
@@ -66,7 +66,7 @@
   <a href="#" onclick="enviarfecha('3');" >
   <div class="card z-depth-5">
     <div class="card-image center">
-      <img src="img/meses/3.png" >
+      <img src="img/periodos/3.png" >
     </div>
   </div>
   </a>
@@ -76,7 +76,7 @@
   <a href="#" onclick="enviarfecha('4');" >
   <div class="card z-depth-5">
     <div class="card-image center">
-      <img src="img/meses/4.png" >
+      <img src="img/periodos/4.png" >
     </div>
   </div>
   </a>
@@ -86,7 +86,7 @@
   <a href="#" onclick="enviarfecha('5');" >
   <div class="card z-depth-5">
     <div class="card-image center">
-      <img src="img/meses/5.png">
+      <img src="img/periodos/5.png">
     </div>
   </div>
   </a>
@@ -96,7 +96,7 @@
   <a href="#" onclick="enviarfecha('6');" >
   <div class="card z-depth-5">
     <div class="card-image center">
-      <img src="img/meses/6.png" >
+      <img src="img/periodos/6.png" >
     </div>
   </div>
   </a>
@@ -139,7 +139,7 @@ function enviarfecha(mes_recibido) {
    document.getElementById('mes').value = mes_recibido;
    mes = mes_recibido;
    
-   $("#cuerpo").load("ventas.php?anio="+anio+"&mes="+mes);
+   $("#cuerpo").load("templates/productos/ventas.php?anio="+anio+"&mes="+mes);
 
    
 }

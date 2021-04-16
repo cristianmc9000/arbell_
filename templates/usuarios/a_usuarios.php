@@ -1,5 +1,5 @@
 <?php
-require('recursos/conexion.php');
+require('../../recursos/conexion.php');
 
 $_SESSION['filas'] = array(); 
 $Sql = "SELECT * FROM usuarios"; 

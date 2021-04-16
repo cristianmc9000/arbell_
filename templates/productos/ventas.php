@@ -1,7 +1,7 @@
 
 
 <?php
-require('recursos/conexion.php');
+require('../../recursos/conexion.php');
 
 
 // SELECT b.modelo, b.precio_ref, c.cantidad FROM venta a, productos b, detalle c WHERE a.id = c.id_venta and c.idpro = b.id

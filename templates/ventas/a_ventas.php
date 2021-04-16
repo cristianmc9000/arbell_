@@ -1,6 +1,6 @@
 <?php
 
-require('recursos/conexion.php');
+require('../../recursos/conexion.php');
 session_start();
 $suc = $_SESSION['sucursal'];
 
@@ -180,7 +180,7 @@ $(document).ready(function() {
     $('select').material_select();
 });
 function ventas (){
-  $("#cuerpo").load("realizar_venta.php");
+  $("#cuerpo").load("templates/ventas/realizar_venta.php");
 }
 
 
