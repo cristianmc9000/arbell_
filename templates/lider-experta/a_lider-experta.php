@@ -7,7 +7,7 @@ $Sql = "SELECT * FROM clientes WHERE estado=1";
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('id'=>$arr['id'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono']); 
+        $fila[] = array('ca'=>$arr['CA'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'], 'lugar'=>$arr['lugar'], 'correo'=>$arr['correo'], 'nivel'=>$arr['nivel']); 
     } 
 ?>
 
@@ -56,66 +56,40 @@ while($arr = $Busq->fetch_array())
         <thead>
 
           <tr>
-          <th data-field="id">Codigo arbell</th>
-              <th data-field="name">Nombre</th>
-              <th data-field="apellidos">Apellidos</th>
-              <th data-field="telefono">Teléfono</th>
-              <th data-field="id">CI</th>
-              <th data-field="id">Lugar</th>
-              <th data-field="id">Direccion</th>
-              <th data-field="id">Correo</th>
-              <th data-field="id">Nivel</th>
-              <th data-field="price">Modificar</th>
-              <th data-field="price">Borrar</th>
+              <th>Codigo arbell</th>
+              <th>CI</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Teléfono</th>
+              <th>Lugar</th>
+              <th>Correo</th>
+              <th>Nivel</th>
+              <th>Modificar</th>
+              <th>Borrar</th>
+              <th>Ver</th>
               <!--<th data-field="price">Ver Cliente</th>-->
           </tr>
         </thead>
 
         <tbody>
-        <!-- fila 1 -->
+
+
+        <?php foreach($fila as $a  => $valor){ ?>
           <tr>
-          <td>0078</td>
-          <td>Rocio</td>
-          <td>Torrejon</td>
-          <td>77894488</td>
-          <td>7210040</td>
-          <td>Villamontes</td>
-          <td>Calle Ingavi #23</td>
-          <td>rociotorrejon123@gmail.com</td>
-          <td>Experta</td>
-          <td><a href="#"><i class="material-icons">build</i></a></td>
-          <td><a href="#"><i class="material-icons">delete</i></a></td>
-          </tr>
-        <!-- fila 2 -->
-        <tr>
-          <td>0079</td>
-          <td>Juana</td>
-          <td>Vidal</td>
-          <td>77978945</td>
-          <td>7289566</td>
-          <td>Yacuiba</td>
-          <td>Prolongacion San Pedro #23</td>
-          <td>vidaljuana@gmail.com</td>
-          <td>Lider</td>
-          <td><a href="#"><i class="material-icons">build</i></a></td>
-          <td><a href="#"><i class="material-icons">delete</i></a></td>
-          </tr>
-
-
-
-
-        <!-- <?php foreach($fila as $a  => $valor){ ?>
-          <tr>
-            
+            <td><?php echo $valor["ca"] ?></td>
             <td><?php echo $valor["ci"] ?></td>
             <td><?php echo $valor["nombre"] ?></td>
             <td><?php echo $valor["apellidos"] ?></td>
             <td><?php echo $valor["telefono"] ?></td>
-            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['id'] ?>');"><i class="material-icons">build</i></a></td>
-            <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a></td>
+            <td><?php echo $valor["lugar"] ?></td>
+            <td><?php echo $valor["correo"] ?></td>
+            <td><?php echo $valor["nivel"] ?></td>
+
+            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['tipo'] ?>');"><i class="material-icons">build</i></a></td>
+            <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['ca'] ?>');"><i class="material-icons">delete</i></a></td>
             <td><a href="#"><i class="material-icons">search</i></a></td>
           </tr>
-    <?php } ?>   -->
+        <?php } ?> 
 
 
 
@@ -131,43 +105,47 @@ while($arr = $Busq->fetch_array())
       <form class="col s12" id="agregar_cliente">
           <div class="row">
             <div class="input-field col s6">
-              <input name="ci" type="number" class="validate">
-              <label for="ci">Codigo arbell</label>
+              <input name="ca" type="number" class="validate" required>
+              <label for="ca">Codigo arbell</label>
             </div>
             <div class="input-field col s6">
-              <input name="ci" type="number" class="validate">
-              <label for="ci">Nombre:</label>
+              <input name="nombre" type="text" class="validate" required>
+              <label for="nombre">Nombre:</label>
             </div>
           </div>
           <div class="row">  
             <div class="input-field col s6">
-              <input name="nombre" type="text" class="validate" required>
-              <label for="nombre">Apellidos:</label>
+              <input name="apellidos" type="text" class="validate" required>
+              <label for="apellidos">Apellidos:</label>
             </div>
             <div class="input-field col s6">
-              <input name="apellidos" type="text" class="validate" required>
-              <label for="apellidos">CI:</label>
+              <input name="ci" type="number" class="validate" required>
+              <label for="ci">CI:</label>
             </div>
           </div>
           <div class="row">
           <div class="input-field col s6">
-            <input name="telefono" type="number">
+            <input name="telefono" type="number" required>
             <label for="telefono">Teléfono: </label>
           </div>
           <div class="input-field col s6">
-              <input name="apellidos" type="text" class="validate" required>
-              <label for="apellidos">Lugar:</label>
+              <input name="lugar" type="text" class="validate" required>
+              <label for="lugar">Lugar:</label>
             </div>
           </div>
           <div class="row">  
             <div class="input-field col s6">
-              <input name="nombre" type="text" class="validate" required>
-              <label for="nombre">Correo: </label>
+              <input name="correo" type="email" class="validate" required>
+              <label for="correo">Correo: </label>
             </div>
             <div class="input-field col s6">
-              <input name="apellidos" type="text" class="validate" required>
-              <label for="apellidos">Nivel:</label>
+                <select name="nivel">
+                  <option value="1" selected>Experta</option>
+                  <option value="2">Lider</option>
+                </select>
+                <label>Nivel</label>
             </div>
+            
           </div>
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
@@ -186,6 +164,7 @@ while($arr = $Busq->fetch_array())
     <h4>Modificar cliente</h4>  
     <div class="row">
       <form class="col s12" id="modificar_cliente">
+          
           <div class="row">
             <div class="input-field col s6" id="ci">
               <input name="ci"  type="number" class="validate">
@@ -246,17 +225,8 @@ while($arr = $Busq->fetch_array())
 </div>
 </div>
 
-<!--MODAL PARA RECIBIR MENSAJES DESDE PHP-->  
-<div class="row">
-  <div id="modal2" class="modal col s4 offset-s4">
-    <div id="mensaje" class="modal-content">
-
-    </div>
-    <div class="modal-footer row">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-    </div>
-  </div>
-</div>
+<!--PARA RECIBIR MENSAJES DESDE PHP-->  
+    <div id="mensaje"></div>
 
 <script>
 $(document).ready(function() {
@@ -266,11 +236,17 @@ $(document).ready(function() {
 var mensaje = $("#mensaje");
 mensaje.hide();
 
-function mod_cliente(ci, nombre, apellidos, telefono, id){
-  document.getElementById("ci").innerHTML ='<input name="ci" type="number" class="validate" value="'+ci+'"><label for="ci" class="active">CI: (OPCIONAL)</label>';
+function mod_cliente(ca, ci, nombre, apellidos, telefono, lugar, correo, tipo){
+  document.getElementById("ca").innerHTML ='<input name="ci" type="number" class="validate" value="'+ci+'"><label for="ci" class="active">Código Arbell:</label>';
+  document.getElementById("ci").innerHTML ='<input name="ci" type="number" class="validate" value="'+ci+'"><label for="ci" class="active">CI:</label>';
   document.getElementById("nombre").innerHTML ='<input name="nombre" type="text" class="validate" value="'+nombre+'"><label for="nombre" class="active">Nombres: </label>';
   document.getElementById("apellidos").innerHTML ='<input name="apellidos" type="text" class="validate" value="'+apellidos+'"><label for="apellidos" class="active">Apellidos: </label>';
   document.getElementById("telefono").innerHTML ='<input name="telefono" type="number" class="validate" value="'+telefono+'"><label for="telefono" class="active">Teléfono: </label>';
+  document.getElementById("lugar").innerHTML ='<input name="lugar" type="text" class="validate" value="'+lugar+'"><label for="lugar" class="active">Lugar: </label>';
+  document.getElementById("correo").innerHTML ='<input name="correo" type="number" class="validate" value="'+correo+'"><label for="correo" class="active">Correo: </label>';
+  document.getElementById("tipo").innerHTML ='<input name="tipo" type="number" class="validate" value="'+tipo+'"><label for="tipo" class="active">Tipo: </label>';
+
+
   document.getElementById("datos_anteriores").innerHTML ='<input name="nombre_ant" type="text" class="validate" value="'+nombre+'" hidden><input name="apellidos_ant" type="text" class="validate" value="'+apellidos+'" hidden><input type="text" name="id" value="'+id+'" hidden/><input type="text" name="ci_ant" value="'+ci+'" hidden/>';
   $('#modal3').openModal();
 }
@@ -318,9 +294,10 @@ $("#borrar_cliente").on("submit", function(e){
 
 $("#agregar_cliente").on("submit", function(e){
     e.preventDefault();
+
     var val = new FormData(document.getElementById("agregar_cliente"));
     $.ajax({
-      url: "recursos/clientes.php",
+      url: "recursos/lider-experta/clientes.php",
       type: "POST",
       dataType: "HTML",
       data: val,
@@ -334,6 +311,10 @@ $("#agregar_cliente").on("submit", function(e){
       }
     });
 });
+
+  $(document).ready(function() {
+    $('select').material_select();
+  });
 </script>
 
 </div>
