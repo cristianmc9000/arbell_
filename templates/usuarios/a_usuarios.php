@@ -63,13 +63,11 @@ while($arr = $Busq->fetch_array())
       <tr>
           <th>CI</th>
           <th>Nombres y apellidos</th>
-
           <th>Telefono</th>
           <th>Dirección</th>
           <th>Rol</th>
           <th>Modificar</th>
           <th>Borrar</th>
-          <th>Ver Usuario</th>
       </tr>
     </thead>
 
@@ -82,81 +80,148 @@ while($arr = $Busq->fetch_array())
         <td>B\ Las Panosas\...</td>
         <td>Administrador</td>
         <td><a href="#"><i class="material-icons">build</i></a></td>
-        <td><a href="#"><i class="material-icons">delete</i></a></td>
-        <td><a href="#"><i class="material-icons">search</i></a></td>
+        <td><a href="#"><i class="material-icons">delete</i></a></td>        
       </tr>
     <?php } ?>	
     </tbody>
   </table>
 
 
+
+<!-- MODAL DATOS -->
 <div class="row">
-<div id="modal1" class="modal col s4 offset-s4">
-  <div class="modal-content">
-    <h4>Agregar usuario</h4>  
-    <div class="row">
-      <form class="col s12">
+  <div id="modal1" class="modal col s4 offset-s4">
+    <div class="modal-content">
+      <h4>Agregar usuario</h4>
         <div class="row">
-          <div class="input-field col s6">
-            <input id="ci" type="text" class="validate">
-            <label for="ci">Cédula de Identidad:</label>
-          </div>
+          <form id="agregar_usuario" class="col s12">
+            <div class="row">
+              <div class="input-field col s6">
+              <input name="ci" type="text" class="validate">
+              <label for="ci">Cédula de Identidad:</label>
+              </div>
+            </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input name="nombre" type="text" class="validate">
+                  <label for="nombre">Nombre:</label>
+              </div>
+              
+              <div class="input-field col s6">
+                  <input name="apellidos" type="text" class="validate">
+                  <label for="apellidos">Apellidos:</label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s6">
+                  <input name="telefono" type="tel" class="validate">
+                  <label for="telefono">Teléfono:</label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s6">
+                  <input name="password" class="validate" type="password">
+                  <label for="password">Contraseña:</label>
+              </div>
+              
+              <div class="input-field col s6">
+                  <input name="password1" class="validate" type="password">
+                  <label for="password1">Repita la contraseña:</label>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+            <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+              </div>
+
+          </form>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="nombre" type="text" class="validate">
-            <label for="nombre">Nombre:</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="apellidos" type="text" class="validate">
-            <label for="apellidos">Apellidos:</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="telefono" type="number" class="validate">
-            <label for="telefono">Teléfono:</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="password" class="validate" type="password">
-            <label for="password">Contraseña:</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="password1" class="validate" type="password">
-            <label for="password1">Repita la contraseña:</label>
-          </div>
-        </div>
-      </form>
     </div>
-  </div>
-  <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+              
   </div>
 </div>
-</div>
 
-<!--
-<div class="fijo" id="imprimir" >
-  <a href="#" style="color: red;">
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover3.playclip();">
-      <img src="img/print.png" >
-    </div>
-    <div class="card-action">
-      IMPRIMIR TABLA
-    </div>
-  </div>
-  </a>
-</div>-->
 
+<div id="mensaje"></div>
+
+
+<!-- -----------------CRUD DE USUARIOS------------------------ -->
 <script>
 $(document).ready(function() {
     $('#tabla1').dataTable();
     $('#modal').leanModal();
 });
+var mensaje = $("#mensaje");
+mensaje.hide();
+
+
+/* agregar usuario */
+$("#agregar_usuario").on("submit", function(e){
+    e.preventDefault();
+    var val = new FormData(document.getElementById("agregar_usuario"));
+    $.ajax({
+      url: "recursos/usuarios/agregar_usuario.php",
+      type: "POST",
+      dataType: "HTML",
+      data: val,
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(echo){
+      if (echo !== "") {
+        mensaje.html(echo);
+        mensaje.show();
+      }
+    });
+});
+
+/* modificar usuario */
+$("#modificar_cliente").on("submit", function(e){
+    e.preventDefault();
+    var val = new FormData(document.getElementById("modificar_cliente"));
+    $.ajax({
+      url: "recursos/modcliente.php",
+      type: "POST",
+      dataType: "HTML",
+      data: val,
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(echo){
+      if (echo !== "") {
+        mensaje.html(echo);
+        $("#cuerpo").load("clientes.php");
+      }
+    });
+});
+
+/* borrar usuario */
+function borrar_cliente(id){
+
+  document.getElementById("datos_borrar").innerHTML ='<input type="text" name="id" value="'+id+'" hidden/>';
+  $('#modal4').openModal();
+}
+$("#borrar_cliente").on("submit", function(e){
+    e.preventDefault();
+    var val = new FormData(document.getElementById("borrar_cliente"));
+    $.ajax({
+      url: "recursos/borrarcliente.php",
+      type: "POST",
+      dataType: "HTML",
+      data: val,
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(echo){
+      if (echo !== "") {
+        mensaje.html(echo);
+        $("#cuerpo").load("clientes.php");      }
+    });
+});
+
 
 </script>
 

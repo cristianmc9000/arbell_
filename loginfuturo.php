@@ -1,54 +1,45 @@
-<?php
-//Iniciamos la sesión
-session_start();
+<!DOCTYPE html>
+  <head>
+    <title>login</title>
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/master.css">
+  </head>
 
-//Pedimos el archivo que controla la duración de las sesiones
-require('recursos/sesiones.php');
+  <body>
+  
+    <div class="login-box">
+        <img class="avatar" src="img/logo.png" alt="Logo Arbell">
+        <h1>Ingresar al Sistema</h1>
+        <form>
+            <!-- Usuario -->
+            <label for="username">Usuario</label>
+            <input type="text" placeholder="Ingresar Usuario">
+            
+            <!-- Contrasseña -->
+            <label for="password">Password</label>
+            <input type="password" placeholder="Ingresar Password">
 
-
-?>
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="css/index.css">
-<link rel="stylesheet" href="css/materialize.css">
-<script src="js/jquery-3.0.0.min.js"></script>
-<script src="js/materialize.js"></script>
-<title>Acceso o registro</title>
-</head>
-<body style="background-image:url('img/fondo4.jpg');" >
-
-
-<!-- imagen -->
-
-
-
-
-<style>
-
-	.fuente{
-		font-family: Segoe UI Light;
-	}
-
-</style>
+            <input type="submit" value="Ingresar"> 
 
 
-<!-- Modal Structure -->
-<div class="row">
-<div id="modal1" class="modal col s4 offset-s4">
-    <div id="mensaje" class="modal-content">
-		<!-- AQUI VA EL CONTENIDO DEL MODAL, OBTENIDO POR PHP DESDE registro.php-->
+
+        </form>
+
+
+
     </div>
     <div class="modal-footer row">
-    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+     	<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
     </div>
-</div>
+  </div>
 </div>
 
 
 <div class="row">
 	<div class="col s4 offset-s1">
+	
 		<h4 class="fuente">Accede a tu cuenta</h4>
 	</div>
 </div>
@@ -71,16 +62,18 @@ require('recursos/sesiones.php');
 	</div>
 	<div class="row">
 		<div class="input-field col s3 offset-s1">
-			<button class="btn waves-effect waves-light" type="submit" name="acceso">Ingresar dddddd
-<i class="material-icons right">send</i></button>
+			<button class="btn waves-effect waves-light" type="submit" name="acceso">Ingresar
+			<i class="material-icons right">send</i></button>
     </div>
 </div>
 	
 </form>
 </div>
 
-<hr>
+
+
 <script>
+
 //Guardamos el controlador del div con ID mensaje en una variable
 var mensaje = $("#mensaje");
 //Ocultamos el contenedor
