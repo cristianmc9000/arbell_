@@ -64,7 +64,6 @@ while($arr = $Busq->fetch_array())
           <th>CI</th>
           <th>Nombres y apellidos</th>
           <th>Telefono</th>
-          <th>Dirección</th>
           <th>Rol</th>
           <th>Modificar</th>
           <th>Borrar</th>
@@ -77,7 +76,6 @@ while($arr = $Busq->fetch_array())
         <td><?php echo $valor["ci"] ?></td>
         <td><?php echo $valor["nombre"]." ".$valor["apellidos"] ?></td>
         <td><?php echo $valor["telefono"] ?></td>
-        <td>B\ Las Panosas\...</td>
         <td>Administrador</td>
         <td><a href="#"><i class="material-icons">build</i></a></td>
         <td><a href="#"><i class="material-icons">delete</i></a></td>        
@@ -174,6 +172,9 @@ $("#agregar_usuario").on("submit", function(e){
       if (echo !== "") {
         mensaje.html(echo);
         mensaje.show();
+
+        $("#cuerpo").load("templates/usuarios/a_usuarios.php");
+
       }
     });
 });
