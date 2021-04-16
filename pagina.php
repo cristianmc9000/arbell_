@@ -1,5 +1,6 @@
 <?php
 //Reanudamos la sesión
+//probando push
 session_start();
 
 //Comprobamos si el usario está logueado
@@ -39,7 +40,7 @@ while($arr = $Busq->fetch_array())
   <script src="js/datatable.js"></script>
 
 
-<title> UMBRAL, Número de teléfono(s): 6637037, E-mail: alimentostarija@hotmail.com</title>
+<title> Arbell, Número de teléfono(s): 6637037, E-mail: alimentostarija@hotmail.com</title>
 <style>
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
@@ -84,6 +85,13 @@ nav ul a:hover {
 table.highlight > tbody > tr:hover {
   background-color: #a0aaf0 !important;
 }
+
+.color-amarillo{
+  background-color:  #FFFF01 !important;
+}
+.color-rojo{
+  background-color: #FFBBBB !important;
+}
 </style>
 </head>
 
@@ -99,19 +107,22 @@ table.highlight > tbody > tr:hover {
 
 
   <nav>
-    <div class="nav-wrapper" style='background-color: #E30049;'>
+    <div class="nav-wrapper" >
       <ul class="right hide-on-med-and-down">
         <li><?php echo $estado; ?></li>
         <li><?php echo $salir; ?></li>
       </ul>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li style="background-color: black;"><a href="#!" onclick="location.reload();">INICIO</a></li>
-        <li><a href="#!" onclick="cargar('productos');">Ventas / PD</a></li>
-        <li><a href="#!" onclick="cargar('inventario');">Productos</a></li>
-        <!--<li><a href="#!" onclick="cargar('usuarios');">Usuarios</a></li>-->
-        <li><a href="#!" onclick="cargar('clientes');">Clientes</a></li>
-        <li><a href="#!" onclick="cargar('sel_fecha');">Registro de ventas</a></li>
-        <li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>
+        <!--<li style="background-color: black;">-->
+        <li><a href="#!" onclick="location.reload();">INICIO</a></li>
+        <li><a href="#!" onclick="cargar('templates/usuarios/a_usuarios');">USUARIOS</a></li>
+        <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li>
+        <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
+        <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
+        <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
+        
+        <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
+        <!--<li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>-->
         <!--<li><a href="#!" onclick="cargar('reportes');">Reportes</a></li>-->
         <!-- <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Eliminados<i class="material-icons right">arrow_drop_down</i></a></li> -->
         <li class="brand-logo"></li>        
@@ -119,7 +130,8 @@ table.highlight > tbody > tr:hover {
 
       <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-      <ul class="side-nav" id="mobile-demo"  style="color: black;">
+      <!--<ul class="side-nav" id="mobile-demo"  style="color: black;">-->
+      <ul class="side-nav" id="mobile-demo">
         <li><?php echo $estado, $ciUSER; ?></li>
     <li><a href="#!" onclick="location.reload();">INICIO</a></li>
     <li><a href="#!" onclick="cargar('productos');">Ventas</a></li>
@@ -148,13 +160,16 @@ table.highlight > tbody > tr:hover {
         <table id="tabla1" class="highlight">
           <thead>
             <tr>
-                <th>Código</th>
-                <th>Modelo</th>
+                <th>Código <br> (Producto)</th>
+                <th>Linea</th>
+                <th>Descripción</th>
                 <th>Cantidad</th>
+                <th>Fecha de <br>vencimiento</th> 
+
             </tr>
           </thead>
 
-          <tbody>
+         <!-- <tbody>
             <?php foreach($fila as $a  => $valor){ ?>
             <tr style="background-color: #F78181">
               <td><?php echo $valor["cod"] ?></td>
@@ -162,6 +177,37 @@ table.highlight > tbody > tr:hover {
               <td><?php echo $valor["cantidad"] ?></td>
             </tr>
             <?php }?>
+          </tbody>-->
+
+          <tbody>
+            <tr class="color-rojo">
+              <td>1205</td>
+              <td>Origenes</td>
+              <td>Crema corporal enebro 100g</td>
+              <td>29</td>
+              <td>20/12/2022</td>
+            </tr>
+            <tr class="color-amarillo">
+              <td>F200</td>
+              <td>Inspiraciones</td>
+              <td>Fragancia femenina simil ch 212 carola 50ml</td>
+              <td>120</td>
+              <td>10/05/2021</td>
+            </tr>
+            <tr class="color-rojo">
+              <td>1212</td>
+              <td>Origenes</td>
+              <td>Lavanda bruma para almohada 75ml</td>
+              <td>20</td>
+              <td>18/11/2022</td>
+            </tr>
+            <tr class="color-amarillo">
+              <td>F201</td>
+              <td>Inspiraciones</td>
+              <td>Fragancia femenina simil ch carola 50ml</td>
+              <td>200</td>
+              <td>20/04/2021</td>
+            </tr>
           </tbody>
         </table>
 

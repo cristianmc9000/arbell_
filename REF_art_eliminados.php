@@ -1,4 +1,9 @@
 <?php
+//Comentario para ver en git
+//aplicando cambios desde sublime
+
+//PUEDES VER ESTO DOLZ
+//SI VEO CHINO .... 
 
 require('recursos/conexion.php');
 
@@ -14,7 +19,6 @@ while($arr = $Busq->fetch_array())
 
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>VENDER PRODUCTOS</title>
