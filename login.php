@@ -30,10 +30,6 @@
 
 
     </div>
-<<<<<<< HEAD
-  
-  </body>
-=======
     <div class="modal-footer row">
      	<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
     </div>
@@ -67,9 +63,9 @@
 	<div class="row">
 		<div class="input-field col s3 offset-s1">
 			<button class="btn waves-effect waves-light" type="submit" name="acceso">Ingresar
-	    	<i class="material-icons right">send</i></button>
-    	</div>
-  	</div>
+			<i class="material-icons right">send</i></button>
+    </div>
+</div>
 	
 </form>
 </div>
@@ -158,5 +154,4 @@ $("#registro").on("submit", function(e){
 </script>
 
 </body>
->>>>>>> ab886e1f440ee2c05e8e559ab46709ee6038074d
 </html>
