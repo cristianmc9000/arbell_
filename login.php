@@ -11,17 +11,17 @@
   
     <div class="login-box">
         <img class="avatar" src="img/logo.png" alt="Logo Arbell">
-        <h1>Login</h1>
+        <h1>Ingresar al Sistema</h1>
         <form>
             <!-- Usuario -->
             <label for="username">Usuario</label>
-            <input type="text" placeholder="Enter Username">
+            <input type="text" placeholder="Ingresar Usuario">
             
             <!-- Contrasseña -->
             <label for="password">Password</label>
-            <input type="password" placeholder="Enter Password">
+            <input type="password" placeholder="Ingresar Password">
 
-            <input type="submit"> value="Long In">
+            <input type="submit" value="Ingresar"> 
 
 
 
