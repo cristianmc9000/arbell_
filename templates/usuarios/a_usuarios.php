@@ -95,45 +95,39 @@ while($arr = $Busq->fetch_array())
           <form id="agregar_usuario" class="col s12">
             <div class="row">
               <div class="input-field col s6">
-              <input name="ci" type="text" class="validate">
-              <label for="ci">Cédula de Identidad:</label>
+                <input name="ci" type="text" class="validate">
+                <label for="ci">Cédula de Identidad:</label>
+              </div>
+              <div class="input-field col s6">
+                <input name="telefono" type="number" class="validate">
+                <label for="telefono">Teléfono:</label>
               </div>
             </div>
-              <div class="row">
-                <div class="input-field col s6">
-                  <input name="nombre" type="text" class="validate">
-                  <label for="nombre">Nombre:</label>
-              </div>
-              
+            <div class="row">
               <div class="input-field col s6">
-                  <input name="apellidos" type="text" class="validate">
-                  <label for="apellidos">Apellidos:</label>
-                </div>
+                <input name="nombre" type="text" class="validate">
+                <label for="nombre">Nombre:</label>
               </div>
-              
-              <div class="row">
-                <div class="input-field col s6">
-                  <input name="telefono" type="tel" class="validate">
-                  <label for="telefono">Teléfono:</label>
-                </div>
-              </div>
-              
-              <div class="row">
-                <div class="input-field col s6">
-                  <input name="password" class="validate" type="password">
-                  <label for="password">Contraseña:</label>
-              </div>
-              
               <div class="input-field col s6">
-                  <input name="password1" class="validate" type="password">
+                <input name="apellidos" type="text" value="">
+                <label for="apellidos">Apellidos:</label>
+              </div>
+            </div>             
+            <div class="row">
+              <div class="input-field col s6">
+                <input name="password" type="password" value="">
+                <label for="password">Contraseña:</label>
+              </div>
+              <div class="input-field col s6">
+                  <input name="password1" type="password">
                   <label for="password1">Repita la contraseña:</label>
               </div>
             </div>
 
             <div class="modal-footer">
-            <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-              </div>
+              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+              <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+            </div>
 
           </form>
         </div>
