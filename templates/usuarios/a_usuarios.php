@@ -94,37 +94,32 @@ while($arr = $Busq->fetch_array())
         <div class="row">
           <form id="agregar_usuario" class="col s12">
             <div class="row">
-            
               <div class="input-field col s6">
-              <i class="material-icons prefix">fingerprint</i>
-              <input name="ci" type="text" class="validate" required="" pattern="[0-9]+">
-              <label for="ci">CI:</label>
+              <input name="ci" type="text" class="validate">
+              <label for="ci">Cédula de Identidad:</label>
               </div>
             </div>
               <div class="row">
                 <div class="input-field col s6">
-                <i class="material-icons prefix">person</i>
-                  <input name="nombre" type="text" class="validate" required="" pattern="[a-zA-Z]+">
+                  <input name="nombre" type="text" class="validate">
                   <label for="nombre">Nombre:</label>
               </div>
               
               <div class="input-field col s6">
-                  <input name="apellidos" type="text" class="validate" required="" pattern="[a-zA-Z]+">
+                  <input name="apellidos" type="text" class="validate">
                   <label for="apellidos">Apellidos:</label>
                 </div>
               </div>
               
               <div class="row">
                 <div class="input-field col s6">
-                <i class="material-icons prefix">call</i>
-                  <input name="telefono" type="tel" class="validate" required="" pattern="[0-9]+">
+                  <input name="telefono" type="tel" class="validate">
                   <label for="telefono">Teléfono:</label>
                 </div>
               </div>
               
               <div class="row">
                 <div class="input-field col s6">
-                <i class="material-icons prefix">lock</i>
                   <input name="password" class="validate" type="password">
                   <label for="password">Contraseña:</label>
               </div>

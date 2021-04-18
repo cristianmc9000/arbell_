@@ -88,13 +88,8 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["correo"] ?></td>
             <td><?php echo $valor["fecha_alta"] ?></td>
             <td><?php echo $valor["nivel"] ?></td>
-<<<<<<< HEAD
-            <!--ESTO NO ESTA FUNCIONANDO?-->
-            <td><a href="#!" onclick="">
-=======
        
             <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>');">
->>>>>>> 21b03d67174001b70512487bb29184c31c8bb1c0
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
             <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['ca'] ?>');"><i class="material-icons">delete</i></a></td>
