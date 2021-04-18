@@ -19,9 +19,12 @@ $nivelPOST = $_POST["nivel"];
 	$consultaBuscarCa = "SELECT * FROM clientes WHERE CA = ".$caPOST;
 	$resultadoConsultaBCA = mysqli_query($conexion, $consultaBuscarCa) or die(mysql_error());
 	$datosConsultaBCA = mysqli_fetch_array($resultadoConsultaBCA);
-	if($datosConsultaBCA['CA'] != ""){
+
+/* die('<script>Materialize.toast('.$datosConsultaBCA["CA"].')</script>');
+ */
+	if(isset($datosConsultaBCA['CA']) ){
 		die('<script>Materialize.toast("Ya existe un cliente con el Código Arbell: '.$caPOST.'" ,5000)</script>');
-	}
+	} 
 
 	
 if ($nivelPOST == 1) {
