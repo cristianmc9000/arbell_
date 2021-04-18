@@ -7,7 +7,7 @@ $Sql = "SELECT * FROM clientes WHERE estado=1";
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('ca'=>$arr['CA'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'], 'lugar'=>$arr['lugar'], 'correo'=>$arr['correo'], 'fecha_alta'=>$arr['fecha_alta'], 'nivel'=>$arr['nivel']); 
+        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['CA'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'], 'lugar'=>$arr['lugar'], 'correo'=>$arr['correo'], 'fecha_alta'=>$arr['fecha_alta'], 'nivel'=>$arr['nivel']); 
     } 
 ?>
 
@@ -88,8 +88,8 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["correo"] ?></td>
             <td><?php echo $valor["fecha_alta"] ?></td>
             <td><?php echo $valor["nivel"] ?></td>
-            <!--ESTO NO ESTA FUNCIONANDO?-->
-            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>');">
+       
+            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>');">
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
             <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['ca'] ?>');"><i class="material-icons">delete</i></a></td>
@@ -171,35 +171,26 @@ while($arr = $Busq->fetch_array())
   <div class="modal-content">
     <h4>Modificar cliente</h4>  
     <div class="row">
-      <form class="col s12" id="modificar_cliente">
+      <form id="modificar_cliente" class="col s12" >
 
           <div class="row">
-            <div id="ca" class="input-field col s6">
-            </div>
-            <div id="nombre" class="input-field col s6">
-            </div>
+            <div id="ca" class="input-field col s6"></div>
+            <div id="nombre" class="input-field col s6"></div>
           </div>
           <div class="row">  
-            <div id="apellidos" class="input-field col s6">
-            </div>
-            <div id="ci" class="input-field col s6">
-            </div>
+            <div id="apellidos" class="input-field col s6"></div>
+            <div id="ci" class="input-field col s6"></div>
           </div>
           <div class="row">
-          <div id="telefono" class="input-field col s6">
-            qweqwe
-          </div>
-            <div id="lugar" class="input-field col s6">
-            </div>
+            <div id="telefono" class="input-field col s6"></div>
+            <div id="lugar" class="input-field col s6"></div>
           </div>
           <div class="row">  
-            <div id="correo" class="input-field col s6">
-            </div>
-            <div id="tipo" class="input-field col s6">
-              qweqweq qqqqqqqqqqq
-            </div>
-            <!-- <div class="input-field col s6" id="datos_anteriores"> -->
-          </div>
+            <div id="correo" class="input-field col s6"></div>
+            <div id="tipo" class="input-field col s6"></div>
+            <!-- DATOS ANTERIORES -->
+            <div class="input-field col s6" id="datos_anteriores"></div>
+            <!-- FIN DATOS ANTERIORES -->
           </div>
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
@@ -246,12 +237,7 @@ $(document).ready(function() {
 var mensaje = $("#mensaje");
 mensaje.hide();
 
-function mod_cliente(ca, ci, nombre, apellidos, telefono, lugar, correo, tipo){
-
-
-
-console.log(ca+"---"+ci+"---"+nombre+"---"+apellidos+"---"+telefono+"---"+lugar+"---"+correo+"---"+tipo)
-
+function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo){
 
   document.getElementById("ca").innerHTML ='<input name="ca" type="number" class="validate" value="'+ca+'"><label for="ca" class="active">Código Arbell:</label>';
   document.getElementById("ci").innerHTML ='<input name="ci" type="number" class="validate" value="'+ci+'"><label for="ci" class="active">CI:</label>';
@@ -272,11 +258,14 @@ sel2 = ''
 
   $("#tipo").html('<select class="browser-default" name="nivel"><option value="1" '+sel1+'>Experta</option><option value="2" '+sel2+'>Lider</option></select>');
 
-  // document.getElementById("datos_anteriores").innerHTML ='<input name="nombre_ant" type="text" class="validate" value="'+nombre+'" hidden><input name="apellidos_ant" type="text" class="validate" value="'+apellidos+'" hidden><input type="text" name="id" value="'+id+'" hidden/><input type="text" name="ci_ant" value="'+ci+'" hidden/>';
+
+$("#datos_anteriores").html('<input name="ca_ant" type="text" value="'+ca+'" hidden><input name="ci_ant" type="text" value="'+ci+'" hidden><input name="id" type="text" value="'+id+'" hidden>');
+
   $('#modal3').openModal();
 }
 $("#modificar_cliente").on("submit", function(e){
     e.preventDefault();
+
     var val = new FormData(document.getElementById("modificar_cliente"));
     $.ajax({
       url: "recursos/lider-experta/modcliente.php",
@@ -289,7 +278,7 @@ $("#modificar_cliente").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        $("#cuerpo").load("clientes.php");
+        $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");
       }
     });
 });
@@ -313,7 +302,8 @@ $("#borrar_cliente").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        $("#cuerpo").load("clientes.php");      }
+        $("#cuerpo").load("clientes.php");      
+      }
     });
 });
 
@@ -333,6 +323,7 @@ $("#agregar_cliente").on("submit", function(e){
       if (echo !== "") {
         mensaje.html(echo);
         mensaje.show();
+        $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");   
       }
     });
 });
