@@ -226,6 +226,7 @@ while($arr = $Busq->fetch_array())
 </div>
 </div>
 
+
 <!--PARA RECIBIR MENSAJES DESDE PHP-->  
     <div id="mensaje"></div>
 
