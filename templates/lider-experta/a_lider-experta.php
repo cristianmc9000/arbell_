@@ -92,7 +92,7 @@ while($arr = $Busq->fetch_array())
             <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>');">
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
-            <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['ca'] ?>');"><i class="material-icons">delete</i></a></td>
+            <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a></td>
             <td><a href="#"><i class="material-icons">search</i></a></td>
           </tr>
         <?php } ?> 
@@ -206,8 +206,8 @@ while($arr = $Busq->fetch_array())
 <div class="row">
 <div id="modal4" class="modal col s4 offset-s4">
   <div class="modal-content">
-    <h4><b>Borrar cliente</b></h4>  
-    <p>¿Esta seguro que desea eliminar a este cliente?</p>
+    <h4><b>Borrar Lider/Experta</b></h4>  
+    <p>¿Esta seguro que desea eliminar a esta lider/experta?</p>
     <div class="row">
       <form class="col s12" id="borrar_cliente">
           <div class="row">
@@ -293,7 +293,7 @@ $("#borrar_cliente").on("submit", function(e){
     e.preventDefault();
     var val = new FormData(document.getElementById("borrar_cliente"));
     $.ajax({
-      url: "recursos/borrarcliente.php",
+      url: "recursos/lider-experta/borrarcliente.php",
       type: "POST",
       dataType: "HTML",
       data: val,
@@ -303,7 +303,7 @@ $("#borrar_cliente").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        $("#cuerpo").load("clientes.php");      
+        $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");      
       }
     });
 });
