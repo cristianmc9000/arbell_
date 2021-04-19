@@ -16,19 +16,21 @@ if(!isset($_SESSION['usuario']) and $_SESSION['estado'] != 'Autenticado') {
 require('recursos/sesiones.php');
 };
 require('recursos/conexion.php');
-$Sql = "SELECT codigo, modelo, cantidad FROM productos WHERE cantidad < 71 and estado=1"; 
+$Sql = "SELECT id, descripcion, cantidad FROM productos WHERE cantidad < 71 and estado=1"; 
 $Busq = $conexion->query($Sql); 
 
 if((mysqli_num_rows($Busq))>0){
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('cod'=>$arr['codigo'], 'modelo'=>$arr['modelo'], 'cantidad'=>$arr['cantidad']); 
+        $fila[] = array('id'=>$arr['id'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad']); 
     }}else{
-  $fila[] = array('cod'=>'--','modelo'=>'--','cantidad'=>'--');
+  $fila[] = array('id'=>'--','descripcion'=>'--','cantidad'=>'--');
 }
 ?>
-<!doctype html>
-<html>
+
+<!DOCTYPE html>
+<html lang="ES">
+
 <head>
 <meta charset="utf-8">
 
@@ -40,7 +42,7 @@ while($arr = $Busq->fetch_array())
   <script src="js/datatable.js"></script>
 
 
-<title> Arbell, Número de teléfono(s): 6637037, E-mail: alimentostarija@hotmail.com</title>
+<title> Arbell, Número de teléfono(s): 6637037, E-mail: arbellcarmina@gmail.com</title>
 <style>
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
@@ -108,7 +110,9 @@ table.highlight > tbody > tr:hover {
 
   <nav>
     <div class="nav-wrapper" >
+
       <ul class="right hide-on-med-and-down">
+        <li><div class="col s2"><input placeholder="valor del peso en Bs." id="valor" value="0.07" type="text"></div></li>
         <li><?php echo $estado; ?></li>
         <li><?php echo $salir; ?></li>
       </ul>
@@ -122,6 +126,10 @@ table.highlight > tbody > tr:hover {
         <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
         
         <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
+
+
+
+
         <!--<li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>-->
         <!--<li><a href="#!" onclick="cargar('reportes');">Reportes</a></li>-->
         <!-- <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Eliminados<i class="material-icons right">arrow_drop_down</i></a></li> -->
@@ -131,8 +139,8 @@ table.highlight > tbody > tr:hover {
       <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
       <!--<ul class="side-nav" id="mobile-demo"  style="color: black;">-->
-      <ul class="side-nav" id="mobile-demo">
-        <li><?php echo $estado, $ciUSER; ?></li>
+    <ul class="side-nav" id="mobile-demo">
+    <li><?php echo $estado, $ciUSER; ?></li>
     <li><a href="#!" onclick="location.reload();">INICIO</a></li>
     <li><a href="#!" onclick="cargar('productos');">Ventas</a></li>
     <li><a href="#!" onclick="cargar('inventario');">Productos</a></li>
@@ -172,8 +180,8 @@ table.highlight > tbody > tr:hover {
          <!-- <tbody>
             <?php foreach($fila as $a  => $valor){ ?>
             <tr style="background-color: #F78181">
-              <td><?php echo $valor["cod"] ?></td>
-              <td><?php echo $valor["modelo"] ?></td>
+              <td><?php echo $valor["id"] ?></td>
+              <td><?php echo $valor["descripcion"] ?></td>
               <td><?php echo $valor["cantidad"] ?></td>
             </tr>
             <?php }?>

@@ -33,8 +33,6 @@ if ($nivelPOST == 1) {
 	$consultaAC ="INSERT INTO `clientes`(`CA`,`CI`, `nombre`, `apellidos`, `telefono`, `lugar`, `correo`, `nivel`) VALUES ('".$caPOST."','".$ciPOST."','".$nombrePOST."','".$apellidosPOST."','".$telefonoPOST."','".$lugarPOST."','".$correoPOST."','".$nivelPOST."')";
 	if(mysqli_query($conexion, $consultaAC) or die(mysql_error())){
 		die('<script>Materialize.toast("<b>'.$nivelPOST.' agregado a la base de datos.</b>",5000);$("#modal1").closeModal();</script> ');
-	}else{
-		die('<script>$("#modal2").openModal();</script> ERROR #103');
 	}
 
 

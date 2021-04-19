@@ -1,8 +1,4 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Registro de ventas</title>
 <style>
 
   .fuente{
@@ -19,18 +15,18 @@
 }
 
   </style>
-</head>
-<body>
+
+
 
 <span class="fuente"><h3>Seleccione la fecha</h3></span>
 
 <form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
     <div class="input-field col s3">
         <select name = "anio" id="anio">
-          <option value="2017" selected><b>2021</b></option>
-          <option value="2018"><b>2022</b></option>
-          <option value="2019"><b>2023</b></option>
-          <option value="2020"><b>2024</b></option>
+          <option value="2021" selected><b>2021</b></option>
+          <option value="2022"><b>2022</b></option>
+          <option value="2023"><b>2023</b></option>
+          <option value="2024"><b>2024</b></option>
         </select>
         <label><b>SELECCIONE EL AÑO</b></label>
     </div>
@@ -145,5 +141,8 @@ function enviarfecha(mes_recibido) {
 }
 
 </script>
-</body>
-</html>
+
+
+
+
+
