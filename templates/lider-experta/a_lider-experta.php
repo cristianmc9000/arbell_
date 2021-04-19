@@ -107,7 +107,7 @@ while($arr = $Busq->fetch_array())
 <div class="row">
 <div id="modal1" class="modal col s4 offset-s4">
   <div class="modal-content">
-    <h4>Agregar cliente</h4>  
+    <h4>Agregar Lider/Experta</h4>  
     <div class="row">
       <form class="col s12" id="agregar_cliente">
           <div class="row">

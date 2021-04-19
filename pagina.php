@@ -11,12 +11,12 @@ if(!isset($_SESSION['usuario']) and $_SESSION['estado'] != 'Autenticado') {
 } else {
 	$estado = $_SESSION['usuario'];
   $ciactual = $_SESSION['userCI']; 
-  $suc = $_SESSION['sucursal'];
+  //$suc = $_SESSION['sucursal'];
 	$salir = '<a href="recursos/salir.php" class="right" target="_self">Cerrar sesión</a>';
 require('recursos/sesiones.php');
 };
 require('recursos/conexion.php');
-$Sql = "SELECT codigo, modelo, cantidad FROM productos WHERE cantidad < 71 and estado=1 and sucursal=".$suc.""; 
+$Sql = "SELECT codigo, modelo, cantidad FROM productos WHERE cantidad < 71 and estado=1"; 
 $Busq = $conexion->query($Sql); 
 
 if((mysqli_num_rows($Busq))>0){

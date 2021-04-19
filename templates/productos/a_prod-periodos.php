@@ -139,7 +139,7 @@ function enviarfecha(mes_recibido) {
    document.getElementById('mes').value = mes_recibido;
    mes = mes_recibido;
    
-   $("#cuerpo").load("templates/productos/ventas.php?anio="+anio+"&mes="+mes);
+   $("#cuerpo").load("templates/productos/productos.php?anio="+anio+"&mes="+mes);
 
    
 }

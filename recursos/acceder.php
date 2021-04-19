@@ -38,7 +38,7 @@ $datos = mysqli_fetch_array($resultado);
 //y de la contraseña de la base de datos
 $userBD = $datos['CI'];
 $passwordBD = $datos['password'];
-$sucursal = $datos['sucursal'];
+//$sucursal = $datos['sucursal'];
 
 
 //Comprobamos si los datos son correctos
@@ -50,7 +50,7 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 	$_SESSION['usuario'] = $datos['nombre'];
 	$_SESSION['apellidos'] = $datos['apellidos'];
 	$_SESSION['estado'] = 'Autenticado';
-	$_SESSION['sucursal'] = $sucursal;
+	//$_SESSION['sucursal'] = $sucursal;
 	$_SESSION['userCI'] = $userBD;
 
 

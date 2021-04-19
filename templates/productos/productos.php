@@ -6,13 +6,13 @@ require('../../recursos/conexion.php');
 
 // SELECT b.modelo, b.precio_ref, c.cantidad FROM venta a, productos b, detalle c WHERE a.id = c.id_venta and c.idpro = b.id
 session_start();
-$suc = $_SESSION['sucursal'];
+//$suc = $_SESSION['sucursal'];
 
 
 $mes = $_GET["mes"];
 $anio = $_GET["anio"];
 
-$Sql = "SELECT a.id, b.CI, b.nombre as nc, b.apellidos as ac, a.total, a.fecha FROM `venta` a, `clientes` b WHERE b.id = a.id_cli and a.sucursal = ".$suc." and a.estado=1 and a.fecha LIKE '".$anio."-".$mes."-%'"; 
+$Sql = "SELECT a.id, b.CI, b.nombre as nc, b.apellidos as ac, a.total, a.fecha FROM `venta` a, `clientes` b WHERE b.id = a.id_cli and a.estado=1 and a.fecha LIKE '".$anio."-".$mes."-%'"; 
 $Busq = $conexion->query($Sql); 
 
 
@@ -369,7 +369,7 @@ $(document).ready(function() {
     $('#tabla1').dataTable( {
         "order": [[ 0, "desc" ]]
     } );
-    $('.modal').modal();
+   // $('.modal').modal();
 
 });
 
