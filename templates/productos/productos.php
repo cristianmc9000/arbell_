@@ -102,7 +102,7 @@ if((mysqli_num_rows($Busq2))>0){
         <!-- <a href="#!"><i class="material-icons">build</i></a> -->
       </td>
       <td>
-        <a href="#!" onclick="borrar_registro(<?php echo $valor['id'] ?>);"><i class="material-icons">delete</i></a>
+        <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
       </td>
 
     </tr>
@@ -250,6 +250,32 @@ if((mysqli_num_rows($Busq2))>0){
 </div>
 
 
+
+<!--MODAL BORRAR CLIENTE-->
+<div class="row">
+<div id="modal3" class="modal col s4 offset-s4">
+  <div class="modal-content">
+    <h4><b>Borrar Producto</b></h4>  
+    <p>¿Esta seguro que desea eliminar este producto?</p>
+    <div class="row">
+      <form class="col s12" id="eliminar_producto">
+          <div class="row">
+            <div class="input-field col s6" >
+              <input id="datos_borrar" name="id" type="text" hidden>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
     <div id="mensaje" class="modal-content">
 
@@ -338,6 +364,39 @@ $("#modificar_producto").on("submit", function(e){
       }
     });
 });
+
+function borrar_producto(id){
+
+  $("#datos_borrar").val(id)
+  $('#modal3').openModal()
+}
+$("#eliminar_producto").on("submit", function(e){
+    e.preventDefault();
+    var val = new FormData(document.getElementById("eliminar_producto"));
+    $.ajax({
+      url: "recursos/productos/borrarproducto.php",
+      type: "POST",
+      dataType: "HTML",
+      data: val,
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(echo){
+      if (echo !== "") {
+        mensaje.html(echo);
+        mensaje.show();
+        console.log(echo);
+
+        if (echo.includes("?anio")) {
+          $("#modal3").closeModal(); 
+          Materialize.toast("PRODUCTO ELIMINADO." , 4000);
+          $("#cuerpo").load("templates/productos/productos.php"+echo);
+        }
+        
+      }
+    });
+});
+
 
 function convertira() {
 
