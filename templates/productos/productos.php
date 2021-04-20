@@ -88,7 +88,7 @@ if((mysqli_num_rows($Busq2))>0){
     <tr>
 
       
-      <td><img src="<?php echo $valor["foto"]?>" alt=""></td>
+      <td><img src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
       <td><?php echo $valor["id"] ?></td>
       <td><?php echo $valor["linea"]?></td>
       <td><?php echo $valor["descripcion"]?></td>
@@ -122,12 +122,12 @@ if((mysqli_num_rows($Busq2))>0){
             <div class="input-field file-field col s6">
               <div class="btn">
                 <span>Foto</span>
-                <input type="file">
+                <input type="file" name="imagen">
               </div>
               <div class="file-path-wrapper">
                 <input id="foto" class="file-path validate" type="text">
               </div>
-              <input id="pic" name="fotoz" type="text" value="" hidden>
+              
             </div>
             <div class="input-field col s6">
               <input name="codigo" type="text" required>
@@ -191,12 +191,11 @@ if((mysqli_num_rows($Busq2))>0){
             <div class="input-field file-field col s6">
               <div class="btn">
                 <span>Foto</span>
-                <input type="file">
+                <input type="file" name="imagen">
               </div>
               <div class="file-path-wrapper">
                 <input id="imagen" class="file-path validate" type="text">
               </div>
-              <!-- <input id="pic" name="fotoz" type="text" value="" hidden> -->
             </div>
             <div class="input-field col s6">
               <input id="codigo" name="codigo" type="text" required>
@@ -292,7 +291,7 @@ $(document).ready(function() {
 
 $("#agregar_producto").on("submit", function(e){
     e.preventDefault();
-    $("#pic").val($("#foto").val());
+    
     var val = new FormData(document.getElementById("agregar_producto"));
     $.ajax({
       url: "recursos/productos/agregar_producto.php",
@@ -306,7 +305,6 @@ $("#agregar_producto").on("submit", function(e){
       if (echo !== "") {
         mensaje.html(echo);
         mensaje.show();
-        console.log(echo);
         
         if (echo.includes("?anio")) {
           $("#modal1").closeModal(); 
@@ -319,7 +317,6 @@ $("#agregar_producto").on("submit", function(e){
 });
 
 function mod_producto(foto, id, linea, codli, descripcion, pup, pub, cantidad, fechav) {
-//console.log(id+"--"+linea+"--"+codli+"--"+descripcion+"--"+pup+"--"+pub+"--"+cantidad+"--"+fechav)
   
   $("#imagen").val(foto)
   $("#codigo").val(id)
@@ -353,8 +350,6 @@ $("#modificar_producto").on("submit", function(e){
       if (echo !== "") {
         mensaje.html(echo);
         mensaje.show();
-        console.log(echo);
-
         if (echo.includes("?anio")) {
           $("#modal2").closeModal(); 
           Materialize.toast("PRODUCTO MODIFICADO." , 4000);

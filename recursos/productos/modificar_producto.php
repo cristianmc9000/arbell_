@@ -3,11 +3,11 @@
 require('../conexion.php');
 require('../sesiones.php');
 session_start();
-
+define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
 $cod = $_POST["codigo"];
 $codant = $_POST["codant"];
-$foto = $_POST["imagen"];
+// $foto = $_POST["imagen"];
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
@@ -18,7 +18,13 @@ $fechav = $_POST["fechav"];
 $periodo = $_SESSION["periodo"];
 $year = $_SESSION['anio'];
 
+$nombreimg = $_FILES['imagen']['name'];
+$archivo = $_FILES['imagen']['tmp_name'];
+
 $maxCaracteres = "250";
+
+
+
 
 
 if(strlen($descripcion) > $maxCaracteres) {
@@ -28,6 +34,14 @@ if(strlen($foto) > $maxCaracteres) {
 	die('<script>Materialize.toast("Ruta de imagen demasiado larga." , 4000);</script>');
 };
 
+if(!empty($archivo)){
+$ruta = "C:/xampp/htdocs/almacen/images/fotos_prod";
+$ruta = $ruta."/".$nombreimg;
+move_uploaded_file($archivo, $ruta);
+$ruta2 = "images/fotos_prod/".$nombreimg;
+}else{
+	$ruta2 = "images/fotos_prod/defecto.png";
+}
 
 if ($cod != $codant) {
 	$consultaBuscarID = "SELECT * FROM productos WHERE id = '".$cod."'";
@@ -41,7 +55,7 @@ if ($cod != $codant) {
 }
 
 
-	$consulta ="UPDATE productos SET id='".$cod."', foto='".$foto."', linea='".$linea."', descripcion='".$descripcion."', pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fechav='".$fechav."' WHERE id= '".$codant."'";
+	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."', pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fechav='".$fechav."' WHERE id= '".$codant."'";
 
 	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
 		die('?anio='.$year.'&mes='.$periodo);
