@@ -9,13 +9,13 @@ session_start();
 $_SESSION['periodo'] = $per;
 $_SESSION['anio'] = $anio;
 
-$Sql = "SELECT id, foto, linea, descripcion, pupesos, pubs, cantidad, fechav FROM productos WHERE estado = 1 and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
+$Sql = "SELECT a.id, a.foto, b.nombre, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 $Busq = $conexion->query($Sql); 
 
 if((mysqli_num_rows($Busq))>0){
   while($arr = $Busq->fetch_array()){ 
 
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['linea'], 'descripcion'=>$arr['descripcion'], 'pupesos'=>$arr['pupesos'], 'pubs'=>$arr['pubs'], 'cantidad'=>$arr['cantidad'], 'fechav'=>$arr['fechav']); 
+        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'descripcion'=>$arr['descripcion'], 'pupesos'=>$arr['pupesos'], 'pubs'=>$arr['pubs'], 'cantidad'=>$arr['cantidad'], 'fechav'=>$arr['fechav']); 
 
   }
 }else{
@@ -87,8 +87,9 @@ if((mysqli_num_rows($Busq2))>0){
   <?php foreach($fila as $a  => $valor){ ?>
     <tr>
 
-      <td><?php echo $valor["id"] ?></td>
+      
       <td><img src="<?php echo $valor["foto"]?>" alt=""></td>
+      <td><?php echo $valor["id"] ?></td>
       <td><?php echo $valor["linea"]?></td>
       <td><?php echo $valor["descripcion"]?></td>
       <td><?php echo $valor["pupesos"]?>$</td>
