@@ -7,7 +7,7 @@ define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
 $cod = $_POST["codigo"];
 $codant = $_POST["codant"];
-// $foto = $_POST["imagen"];
+
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
@@ -30,12 +30,10 @@ $maxCaracteres = "250";
 if(strlen($descripcion) > $maxCaracteres) {
 	die('<script>Materialize.toast("La descripción del producto no puede superar los 30 caracteres." , 4000);</script>');
 };
-if(strlen($foto) > $maxCaracteres) {
-	die('<script>Materialize.toast("Ruta de imagen demasiado larga." , 4000);</script>');
-};
+/*  */
 
 if(!empty($archivo)){
-$ruta = "C:/xampp/htdocs/almacen/images/fotos_prod";
+$ruta = "C:/xampp/htdocs/arbell_/images/fotos_prod";
 $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;

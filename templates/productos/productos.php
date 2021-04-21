@@ -305,7 +305,7 @@ $("#agregar_producto").on("submit", function(e){
       if (echo !== "") {
         mensaje.html(echo);
         mensaje.show();
-        
+        console.log(echo)
         if (echo.includes("?anio")) {
           $("#modal1").closeModal(); 
           Materialize.toast("PRODUCTO AGREGADO." , 4000);
@@ -350,6 +350,7 @@ $("#modificar_producto").on("submit", function(e){
       if (echo !== "") {
         mensaje.html(echo);
         mensaje.show();
+        console.log(echo);
         if (echo.includes("?anio")) {
           $("#modal2").closeModal(); 
           Materialize.toast("PRODUCTO MODIFICADO." , 4000);

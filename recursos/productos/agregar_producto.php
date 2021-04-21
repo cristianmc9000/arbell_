@@ -7,8 +7,6 @@ session_start();
 define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
 $cod = $_POST["codigo"];
-
-//$foto = $_POST["fotoz"];
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
@@ -25,23 +23,20 @@ $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
 
 if(!empty($archivo)){
-$ruta = "C:/xampp/htdocs/almacen/images/fotos_prod";
+$ruta = $_SERVER['DOCUMENT_ROOT']."/arbell_/images/fotos_prod";
 $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;
 }else{
 	$ruta2 = "images/fotos_prod/defecto.png";
-}
+} 
+
+/* die ($_SERVER['DOCUMENT_ROOT']); */
 
 
 if(strlen($descripcion) > $maxCaracteres) {
 	die('<script>Materialize.toast("La descripción del producto no puede superar los 30 caracteres." , 4000);</script>');
 };
-if(strlen($foto) > $maxCaracteres) {
-	die('<script>Materialize.toast("Ruta de imagen demasiado larga." , 4000);</script>');
-};
-
-
 
 
 	$consultaBuscarID = "SELECT * FROM productos WHERE id = '".$cod."'";
