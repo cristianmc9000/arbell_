@@ -94,6 +94,11 @@ table.highlight > tbody > tr:hover {
 .color-rojo{
   background-color: #FFBBBB !important;
 }
+.divisas{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
 </style>
 </head>
 
@@ -112,7 +117,8 @@ table.highlight > tbody > tr:hover {
     <div class="nav-wrapper" >
 
       <ul class="right hide-on-med-and-down">
-        <li><div class="col s2"><input placeholder="valor del peso en Bs." id="valor" value="0.07" type="text"></div></li>
+        <li><img align="center" width="40px" src="img/divisas2.png" alt=""></li>
+        <li><input placeholder="valor del peso en Bs." id="valor" value="0.07" type="text"></li>
         <li><?php echo $estado; ?></li>
         <li><?php echo $salir; ?></li>
       </ul>
