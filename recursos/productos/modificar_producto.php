@@ -28,7 +28,7 @@ $maxCaracteres = "250";
 
 
 if(strlen($descripcion) > $maxCaracteres) {
-	die('<script>Materialize.toast("La descripción del producto no puede superar los 30 caracteres." , 4000);</script>');
+	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
 };
 /*  */
 
