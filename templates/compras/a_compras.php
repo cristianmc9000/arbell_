@@ -32,8 +32,7 @@ $(document).ready(function(){
       select: function(event, ui)
       {
         $("#id_").val(ui.item.id)
-        $('#search_data').val(ui.item.value);
-        
+        $('#search_data').val(ui.item.value);  
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
@@ -42,11 +41,7 @@ $(document).ready(function(){
         .append(item.label)
         .appendTo(ul);
     };
-
-
 });
 
-function function_name(argument) {
-  $("#id_").val()
-}
+
 </script>
