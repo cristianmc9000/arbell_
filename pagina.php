@@ -126,6 +126,7 @@ table.highlight > tbody > tr:hover {
         <!--<li style="background-color: black;">-->
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
         <li><a href="#!" onclick="cargar('templates/usuarios/a_usuarios');">USUARIOS</a></li>
+        <li><a href="#!" onclick="cargar('templates/roles/a_roles');">ROLES</a></li>
         <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li>
         <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
         <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>

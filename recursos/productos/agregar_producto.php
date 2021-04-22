@@ -13,13 +13,10 @@ $pupesos = $_POST["pupesos"];
 $pubs = $_POST["pubs"];
 $cantidad = $_POST["cantidad"];
 $fechav = $_POST["fechav"];
-
 $periodo = $_SESSION["periodo"];
 $year = $_SESSION['anio'];
-
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
-
 $maxCaracteres = "250";
 
 if(!empty($archivo)){
@@ -35,7 +32,7 @@ $ruta2 = "images/fotos_prod/".$nombreimg;
 
 
 if(strlen($descripcion) > $maxCaracteres) {
-	die('<script>Materialize.toast("La descripción del producto no puede superar los 30 caracteres." , 4000);</script>');
+	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
 };
 
 

@@ -6,14 +6,9 @@
     color: red;
   }
 
-
-
 .fijo{
-
   max-width: 250px;
-
 }
-
   </style>
 
 
@@ -100,7 +95,6 @@
 
 
 </div>
-
 
 
 
