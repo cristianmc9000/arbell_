@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="container" style="padding:120px;">
-      <h3 align="center">AutoComplete Textbox with Image using jQuery Ajax PHP Mysql and JqueryUI</h3>
+      <h3 align="center">Buscar producto</h3>
       <div class="row">
         <div id="ant" class="input-field col s12">
           <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="validate" />
@@ -43,7 +43,7 @@ $(document).ready(function(){
         .appendTo(ul);
     };
 
-    
+
 });
 
 function function_name(argument) {
