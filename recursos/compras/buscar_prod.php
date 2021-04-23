@@ -7,7 +7,7 @@ include('../conexion.php');
 
 if(isset($_GET["term"]))
 {
-    $result = $conexion->query("SELECT * FROM productos WHERE descripcion LIKE '%".$_GET["term"]."%' ORDER BY id ASC");
+    $result = $conexion->query("SELECT * FROM productos WHERE id LIKE '%".$_GET["term"]."%' ORDER BY id ASC");
     $total_row = mysqli_num_rows($result); 
     $output = array();
     if($total_row > 0){
@@ -15,9 +15,12 @@ if(isset($_GET["term"]))
       {
        $temp_array = array();
        $temp_array['id'] = $row['id'];
+       $temp_array['linea'] = $row['linea'];
        $temp_array['value'] = $row['descripcion'];
-       $temp_array['label'] = '<img src="'.$row['foto'].'" width="70" />   '.$row['descripcion'].'';
-       $temp_array['name'] = $row['descripcion'];
+       $temp_array['label'] = '<img src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
+       $temp_array['pupesos'] = $row['pupesos'];
+       $temp_array['pubs'] = $row['pubs'];
+       
        $output[] = $temp_array;
       }
     }else{
