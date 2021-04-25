@@ -182,16 +182,19 @@ document.getElementById("insert_row").addEventListener("submit", function (event
 
   newRow = newTableRow.insertCell(6)
   newRow.textContent = pupesos
-  array_['pcd'] = pupesos
+  array_['pup_desc'] = pupesos
 
   newRow = newTableRow.insertCell(7)
   newRow.textContent = pubs_desc
+  array_['pubs_desc'] = pubs_desc
 
   newRow = newTableRow.insertCell(8)
   newRow.textContent = precio_sd
+  array_['precio_sd'] = precio_sd
 
   newRow = newTableRow.insertCell(9)
   newRow.textContent = precio_cd
+  array_['precio_cd'] = precio_cd
 
   newRow = newTableRow.insertCell(10)
   newRow.innerHTML = '<a href="#" class="btn-floating red"><i class="material-icons">delete</i></a>'
