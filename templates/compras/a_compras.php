@@ -199,7 +199,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_precio_cd"
 
   newRow = newTableRow.insertCell(10)
-  newRow.innerHTML = '<a href="#" class="btn-floating red"><i class="material-icons">delete</i></a>'
+  newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
 
   $("#search_data").val("")
@@ -420,6 +420,10 @@ ventana.close();
 
 return true;
 });
+}
+
+function delete_row(e) {
+  console.log(e.target.parentNode.parentNode.parentNode.remove())
 }
 
 </script>
