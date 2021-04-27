@@ -254,8 +254,39 @@ function crear_html() {
 
 var date = new Date();
 var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+date = date.toLocaleDateString("es-ES", options)
 
-console.log(date.toLocaleDateString("es-ES", options))
+array_ = "";
+let items = 0
+var pubs__ = 0
+var pubs__desc = 0
+let gan_exp_u = 0
+let gan_exp = 0 
+var total = 0
+document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
+  
+  let fila = `<tr>
+                <td>${e.querySelector('._id').innerText}</td>
+                <td>${e.querySelector('._linea').innerText}</td>
+                <td>${e.querySelector('._descripcion').innerText}</td>
+                <td>${e.querySelector('._cantidad').innerText}</td>
+                <td>${e.querySelector('._pupesos').innerText}</td>
+                <td>${e.querySelector('._pubs').innerText}</td>
+                <td>${e.querySelector('._pupesos_desc').innerText}</td>
+                <td>${e.querySelector('._pubs_desc').innerText}</td>
+                <td>${e.querySelector('._precio_cd').innerText}</td>
+              </tr>`;
+  
+  array_ = array_ + fila;
+  total = total + parseFloat(e.querySelector('._precio_cd').innerText)
+  pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText)
+  pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText)
+  items = items + parseInt(e.querySelector('._cantidad').innerText)
+});
+
+gan_exp_u = pubs__ - pubs__desc
+gan_exp = (pubs__ * items) - total
+
 
 var miHtml = `<!DOCTYPE html>
 <html lang="es">
@@ -303,7 +334,7 @@ var miHtml = `<!DOCTYPE html>
   <br>
   
    <h2>Items del comprobante</h2>
-   <table class="detalle">
+   <table width="100%" class="detalle">
     <thead>
       <tr >
         <th >Código<br>(producto)</th>
@@ -318,17 +349,7 @@ var miHtml = `<!DOCTYPE html>
       </tr>
     </thead>
     <tbody>
-      <tr >
-        <td>7008</td>
-        <td>ESPECIAL NAVIDAD</td>
-        <td>Fragancia femenina diva deo 150 ml</td>
-        <td>10</td>
-        <td>1000</td>
-        <td>75</td>
-        <td>400</td>
-        <td>30</td>
-        <td>300</td>
-      </tr>
+      ${array_}
     </tbody>
    </table>
    <br>
@@ -340,19 +361,19 @@ var miHtml = `<!DOCTYPE html>
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td><b>10 u. (Incluye 0 aux):</b></td>
+        <td><b>${items} u. (Incluye 0 aux):</b></td>
       </tr>
       <tr>
         <td><b>Ganancias experta U.:</b></td>
-        <td>45 bs.</td>
+        <td>${gan_exp_u}</td>
       </tr>
       <tr>
         <td><b>Ganancias experta:</b></td>
-        <td>450 bs.</td>
+        <td>${gan_exp}</td>
       </tr>
       <tr>
         <td><b>Total a pagar:</b></td>
-        <td>300 bs.</td>
+        <td>${total}</td>
       </tr>
      </table>
    </div>
@@ -384,7 +405,7 @@ margins = {
 
   function (dispose) {
 
-      pdf.save("fac_"+numfac+'.pdf');
+      pdf.save('fac_2.pdf');
   }, margins
 );
 
