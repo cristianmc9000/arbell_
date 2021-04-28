@@ -209,7 +209,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
 
 
 
-function recibo() {
+function detalle_compra() {
 
   let array_ = [];
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
@@ -227,30 +227,10 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   };
   array_.push(fila)
 });
-//-------------HACER UN TEXTO CON LAS FILAS DE LA TABLA Y AGREGAR COMO TEXTO EN LA FUNCION CREAR_HTML
 
-// console.log(array_)
-
-
-// const xhr = new XMLHttpRequest();
-// xhr.open('GET', 'templates/compras/recibo_compra.php?array=' + JSON.stringify(array_), true);
-// xhr.onload = function() {
-//     if (this.status === 200) {
-//         console.log(xhr.responseText);
-//     } else {
-//         console.log('errooooor')
-//     }
-// }
-// xhr.send();
-
-// window.open("templates/compras/recibo_compra.php?array="+JSON.stringify(array_),"_blank");
-
-// $("#cuerpo").load('templates/compras/recibo_compra.php?array='+JSON.stringify(array_));
 }
 
 function crear_html() {
-
-
 
 var date = new Date();
 var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -277,7 +257,13 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
                 <td>${e.querySelector('._precio_cd').innerText}</td>
               </tr>`;
   
+
+// ESTA MAL LAS GANANCIAS EXPERTA-....
+
   array_ = array_ + fila;
+  gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
+
+
   total = total + parseFloat(e.querySelector('._precio_cd').innerText)
   pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText)
   pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText)
@@ -285,15 +271,16 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
 });
 
 gan_exp_u = pubs__ - pubs__desc
-gan_exp = (pubs__ * items) - total
+gan_exp = gan_exp - total
 
 
 var miHtml = `<!DOCTYPE html>
+
 <html lang="es">
 
   <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title>RECIBO DE COMPRA</title>
 
   </head>
   <style>
@@ -307,7 +294,7 @@ var miHtml = `<!DOCTYPE html>
  
   </style>
   <body>
-    
+  
     <span style="float:right">${date}</span>
     <br><br>
 
@@ -409,8 +396,8 @@ margins = {
   }, margins
 );
 
-
-var ventana = window.open("about:blank","_blank");
+// var ventana = window.open ("about:blank", "_blank")
+var ventana = window.open();
 ventana.document.write(miHtml);
 // ventana.document.close();
 // ventana.focus();
