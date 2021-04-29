@@ -282,9 +282,12 @@ console.log(data)
 var json_data = JSON.stringify(data)
 console.log("--------------------------")
 
-var numfac = insertar_compra_y_detalle(json_data)
+// icd(json_data).then(res =>{
+//   console.log(res)
+// })
 
-console.log(numfac+"........respuesta de funcion")
+insertar_compra_detalle(json_data).then(respuesta => {
+  console.log(respuesta+"........respuesta de funcion")
 
 var miHtml = `<!DOCTYPE html>
 
@@ -378,11 +381,10 @@ var miHtml = `<!DOCTYPE html>
    </div>
   </body>
 </html>`;
-console.log(numfac+" antes de mandar a imprimir")
-imprimir(miHtml, numfac);
-
+console.log(respuesta)
+imprimir(miHtml, respuesta);
+})
 }
-
 
 function imprimir(miHtml,numfac) {
 console.log(numfac)
@@ -431,22 +433,28 @@ return true;
 });
 
 }
-function insertar_compra_y_detalle(json_data) {
+
+function insertar_compra_detalle (json_data) {
   
-  $.ajax({
-url: "recursos/compras/registrar_compra.php",
-data: {"json": json_data },
-method: "post",
-success: function(response){
-  console.log(response+"...respuesta directo de ajax")
-  return response;
-},
-error: function(error){
-  console.log(error)
-  return error;
+  return new Promise((resolve, rechazar) => {
+    $.ajax({
+      url: "recursos/compras/registrar_compra.php",
+      data: {
+        "json": json_data
+      },
+      method: "post",
+      success: function(response) {
+        console.log(response + "...respuesta directo de ajax")
+        resolve(response)
+      },
+      error: function(error) {
+        console.log(error)
+        rachazar(error)
+      }
+    });
+})
 }
-});
-}
+
 
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())
