@@ -75,11 +75,11 @@ while($arr = $Busq->fetch_array())
         <td><?php echo $valor["rol"] ?></td>
         <td><?php echo $valor["descripcion"]?></td>
         <td>
-        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id_rol']?>','<?php echo $valor['rol'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>','<?php echo $valor['fechav']?>')"><i class="material-icons">build</i></a>
+        <!-- <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id_rol']?>','<?php echo $valor['rol'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>','<?php echo $valor['fechav']?>')"><i class="material-icons">build</i></a> -->
         <!-- <a href="#!"><i class="material-icons">build</i></a> -->
       </td>
       <td>
-        <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
+        <!-- <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a> -->
       </td>
 
 
