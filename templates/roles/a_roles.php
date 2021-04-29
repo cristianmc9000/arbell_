@@ -59,9 +59,11 @@ while($arr = $Busq->fetch_array())
   <table id="tabla1" class="highlight">
     <thead>
       <tr>
-          <th>ID_ROL</th>
-          <th>ROL</th>
-          <th>DESCRIPCION</th>
+          <th>ID_Rol</th>
+          <th>Rol</th>
+          <th>Descripcion</th>
+          <th>Modificar</th>
+          <th>Borrar</th>
 
       </tr>
     </thead>
@@ -72,11 +74,20 @@ while($arr = $Busq->fetch_array())
         <td><?php echo $valor["id_rol"] ?></td>
         <td><?php echo $valor["rol"] ?></td>
         <td><?php echo $valor["descripcion"]?></td>
+        <td>
+        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id_rol']?>','<?php echo $valor['rol'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>','<?php echo $valor['fechav']?>')"><i class="material-icons">build</i></a>
+        <!-- <a href="#!"><i class="material-icons">build</i></a> -->
+      </td>
+      <td>
+        <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
+      </td>
+
+
+
       </tr>
     <?php } ?>	
     </tbody>
   </table>
-
 
 
 <!-- MODAL DATOS -->
