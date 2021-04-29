@@ -2,10 +2,10 @@
 
 require('../../recursos/conexion.php');
 session_start();
-$suc = $_SESSION['sucursal'];
 
 
-$Sql = "SELECT id, codigo, modelo, precio_ref, cantidad FROM productos where estado=1 and sucursal=".$suc.""; 
+
+$Sql = "SELECT id, codigo, modelo, precio_ref, cantidad FROM productos where estado=1 and sucursal=".$suc."";
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 

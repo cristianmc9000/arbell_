@@ -219,8 +219,9 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
     descripcion: e.querySelector('._descripcion').innerText,
     cantidad: e.querySelector('._cantidad').innerText,
     pupesos: e.querySelector('._pupesos').innerText,
-    pubs: e.querySelector('._pubs').innerText,
     pupesos_desc: e.querySelector('._pupesos_desc').innerText,
+    pubs: e.querySelector('._pubs').innerText,
+    
     pubs_desc: e.querySelector('._pubs_desc').innerText,
     precio_sd: e.querySelector('._precio_sd').innerText,
     precio_cd: e.querySelector('._precio_cd').innerText
@@ -273,7 +274,6 @@ var miHtml = `<!DOCTYPE html>
       border: 1px solid black;
       border-collapse: collapse;
     }
- 
   </style>
   <body>
     
@@ -384,7 +384,7 @@ margins = {
 
   function (dispose) {
 
-      pdf.save("fac_"+numfac+'.pdf');
+      pdf.save('factura2.pdf');
   }, margins
 );
 
