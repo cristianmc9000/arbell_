@@ -432,11 +432,14 @@ $(ventana.document).ready(function (){
 ventana.print();
 ventana.close();
 
+
+
+//FALTA CAMBIAR EL TAMAÑO DE LA HOJA DEL RECIBO
 margins = {
     top: 80,
     bottom: 60,
     left: 40,
-    width: 522
+    width: 100
 };  
  pdf.fromHTML(
   miHtml, 
@@ -493,3 +496,11 @@ function delete_row(e) {
 
 </script>
 <script src="js/jsPDF.min.js"></script>
+
+
+
+<!-- RECORDATORIO
+  USAR EL CAMBIO DE PESOS A BOLIVIANOS EN EL REGISTRO DE COMPRAS
+  
+  
+ -->
