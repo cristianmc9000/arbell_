@@ -227,7 +227,7 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   };
   array_.push(fila)
 });
-
+return (array_)
 }
 
 function crear_html() {
@@ -243,6 +243,7 @@ var pubs__desc = 0
 let gan_exp_u = 0
 let gan_exp = 0 
 var total = 0
+
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   
   let fila = `<tr>
@@ -257,9 +258,6 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
                 <td>${e.querySelector('._precio_cd').innerText}</td>
               </tr>`;
   
-
-// ESTA MAL LAS GANANCIAS EXPERTA-....
-
   array_ = array_ + fila;
   gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
 
@@ -271,8 +269,22 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
 });
 
 gan_exp_u = pubs__ - pubs__desc
+gan_exp_u = gan_exp_u.toFixed(1)
 gan_exp = gan_exp - total
 
+
+
+
+var data = detalle_compra()
+data.push({_total: total})
+console.log(data)
+
+var json_data = JSON.stringify(data)
+console.log("--------------------------")
+
+var numfac = insertar_compra_y_detalle(json_data)
+
+console.log(numfac+"........respuesta de funcion")
 
 var miHtml = `<!DOCTYPE html>
 
@@ -366,6 +378,14 @@ var miHtml = `<!DOCTYPE html>
    </div>
   </body>
 </html>`;
+console.log(numfac+" antes de mandar a imprimir")
+imprimir(miHtml, numfac);
+
+}
+
+
+function imprimir(miHtml,numfac) {
+console.log(numfac)
 
 var pdf = new jsPDF('p', 'pt', 'letter');
 specialElementHandlers = {
@@ -375,6 +395,17 @@ specialElementHandlers = {
         return false
     }
 };
+
+
+
+// var ventana = window.open ("about:blank", "_blank")
+var ventana = window.open();
+ventana.document.write(miHtml);
+// ventana.document.close();
+// ventana.focus();
+$(ventana.document).ready(function (){
+ventana.print();
+ventana.close();
 
 margins = {
     top: 80,
@@ -391,21 +422,29 @@ margins = {
   },
 
   function (dispose) {
-
-      pdf.save('fac_2.pdf');
+    console.log(numfac+"......33333.......");
+      pdf.save('recibo_'+numfac+'.pdf');
   }, margins
 );
 
-// var ventana = window.open ("about:blank", "_blank")
-var ventana = window.open();
-ventana.document.write(miHtml);
-// ventana.document.close();
-// ventana.focus();
-$(ventana.document).ready(function (){
-ventana.print();
-ventana.close();
-
 return true;
+});
+
+}
+function insertar_compra_y_detalle(json_data) {
+  
+  $.ajax({
+url: "recursos/compras/registrar_compra.php",
+data: {"json": json_data },
+method: "post",
+success: function(response){
+  console.log(response+"...respuesta directo de ajax")
+  return response;
+},
+error: function(error){
+  console.log(error)
+  return error;
+}
 });
 }
 
