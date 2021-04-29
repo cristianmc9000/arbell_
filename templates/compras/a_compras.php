@@ -29,7 +29,7 @@
             </div>
 
             <div class="col s3">
-              <input type="number" id="cantidad_" placeholder="Cantidad" required>
+              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" required>
             </div>
 
             <div class="col s3">
@@ -89,10 +89,24 @@
   </table>
   </div>
 
-  <div class="col s3 offset-s1">
-    <a onclick="crear_html()" class="waves-effect waves-light btn-large"><i class="material-icons right">receipt</i>Registrar compra</a>
+<div class="col s3 offset-s1">
+    <a class="waves-effect waves-light btn-large " id="modal" href="#modal1"><i class="material-icons right">receipt</i>Registrar compra</a>
   </div>
 </div>
+
+<!--MODAL AGREGAR PRODUCTO-->
+<div class="row">
+<div id="modal1" class="modal col s4 offset-s4">
+  <div class="modal-content">
+    <h5 class="fuente"><b>Se registrará la compra y se imprimirá un recibo.</b></h5> <br><br> 
+  </div>
+  <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
+      <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR COMPRA</a>
+  </div>
+</div>
+</div>
+
 
 <script>
 
@@ -100,7 +114,7 @@
 //Crear un array con indices y guardar luego los datos de cantidad y pesos ahi... mediante el indice
 
 $(document).ready(function(){
-    
+    $('#modal').leanModal();
     $('#search_data').autocomplete({
       source: "recursos/compras/buscar_prod.php",
       minLength: 1,
@@ -232,6 +246,14 @@ return (array_)
 
 function crear_html() {
 
+
+let filas = $("#tabla_compras").find('tbody tr').length;
+  
+  if(filas < 1) {
+    Materialize.toast("Debe ingresar al menos un registro.", 5000);
+    return false;
+  }
+
 var date = new Date();
 var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 date = date.toLocaleDateString("es-ES", options)
@@ -277,17 +299,16 @@ gan_exp = gan_exp - total
 
 var data = detalle_compra()
 data.push({_total: total})
-console.log(data)
+// console.log(data)
 
 var json_data = JSON.stringify(data)
-console.log("--------------------------")
 
 // icd(json_data).then(res =>{
 //   console.log(res)
 // })
 
 insertar_compra_detalle(json_data).then(respuesta => {
-  console.log(respuesta+"........respuesta de funcion")
+  console.log(respuesta+" respuesta de funcion promise")
 
 var miHtml = `<!DOCTYPE html>
 
@@ -381,13 +402,15 @@ var miHtml = `<!DOCTYPE html>
    </div>
   </body>
 </html>`;
-console.log(respuesta)
 imprimir(miHtml, respuesta);
+$("#modal1").closeModal();
+$("#tabla_c tr").remove(); 
 })
 }
 
+
 function imprimir(miHtml,numfac) {
-console.log(numfac)
+
 
 var pdf = new jsPDF('p', 'pt', 'letter');
 specialElementHandlers = {
@@ -424,7 +447,6 @@ margins = {
   },
 
   function (dispose) {
-    console.log(numfac+"......33333.......");
       pdf.save('recibo_'+numfac+'.pdf');
   }, margins
 );
@@ -444,7 +466,6 @@ function insertar_compra_detalle (json_data) {
       },
       method: "post",
       success: function(response) {
-        console.log(response + "...respuesta directo de ajax")
         resolve(response)
       },
       error: function(error) {
@@ -454,6 +475,16 @@ function insertar_compra_detalle (json_data) {
     });
 })
 }
+
+// async function icd ( json_data) {
+//   // Opciones por defecto estan marcadas con un *
+//   const response = await fetch("recursos/compras/registrar_compra.php", {
+//     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+//     body: {"jsonx": json_data} // body data type must match "Content-Type" header
+//   });
+//   console.log(response+"promesa fetch")
+//   return response; // parses JSON response into native JavaScript objects
+// }
 
 
 function delete_row(e) {
