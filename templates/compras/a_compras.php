@@ -199,7 +199,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_precio_cd"
 
   newRow = newTableRow.insertCell(10)
-  newRow.innerHTML = '<a href="#" class="btn-floating red"><i class="material-icons">delete</i></a>'
+  newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
 
   $("#search_data").val("")
@@ -209,7 +209,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
 
 
 
-function recibo() {
+function detalle_compra() {
 
   let array_ = [];
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
@@ -228,42 +228,75 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   };
   array_.push(fila)
 });
-//-------------HACER UN TEXTO CON LAS FILAS DE LA TABLA Y AGREGAR COMO TEXTO EN LA FUNCION CREAR_HTML
-
-// console.log(array_)
-
-
-// const xhr = new XMLHttpRequest();
-// xhr.open('GET', 'templates/compras/recibo_compra.php?array=' + JSON.stringify(array_), true);
-// xhr.onload = function() {
-//     if (this.status === 200) {
-//         console.log(xhr.responseText);
-//     } else {
-//         console.log('errooooor')
-//     }
-// }
-// xhr.send();
-
-// window.open("templates/compras/recibo_compra.php?array="+JSON.stringify(array_),"_blank");
-
-// $("#cuerpo").load('templates/compras/recibo_compra.php?array='+JSON.stringify(array_));
+return (array_)
 }
 
 function crear_html() {
 
-
-
 var date = new Date();
 var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+date = date.toLocaleDateString("es-ES", options)
 
-console.log(date.toLocaleDateString("es-ES", options))
+array_ = "";
+let items = 0
+var pubs__ = 0
+var pubs__desc = 0
+let gan_exp_u = 0
+let gan_exp = 0 
+var total = 0
+
+document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
+  
+  let fila = `<tr>
+                <td>${e.querySelector('._id').innerText}</td>
+                <td>${e.querySelector('._linea').innerText}</td>
+                <td>${e.querySelector('._descripcion').innerText}</td>
+                <td>${e.querySelector('._cantidad').innerText}</td>
+                <td>${e.querySelector('._pupesos').innerText}</td>
+                <td>${e.querySelector('._pubs').innerText}</td>
+                <td>${e.querySelector('._pupesos_desc').innerText}</td>
+                <td>${e.querySelector('._pubs_desc').innerText}</td>
+                <td>${e.querySelector('._precio_cd').innerText}</td>
+              </tr>`;
+  
+  array_ = array_ + fila;
+  gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
+
+
+  total = total + parseFloat(e.querySelector('._precio_cd').innerText)
+  pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText)
+  pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText)
+  items = items + parseInt(e.querySelector('._cantidad').innerText)
+});
+
+gan_exp_u = pubs__ - pubs__desc
+gan_exp_u = gan_exp_u.toFixed(1)
+gan_exp = gan_exp - total
+
+
+
+
+var data = detalle_compra()
+data.push({_total: total})
+console.log(data)
+
+var json_data = JSON.stringify(data)
+console.log("--------------------------")
+
+// icd(json_data).then(res =>{
+//   console.log(res)
+// })
+
+insertar_compra_detalle(json_data).then(respuesta => {
+  console.log(respuesta+"........respuesta de funcion")
 
 var miHtml = `<!DOCTYPE html>
+
 <html lang="es">
 
   <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title>RECIBO DE COMPRA</title>
 
   </head>
   <style>
@@ -276,7 +309,7 @@ var miHtml = `<!DOCTYPE html>
     }
   </style>
   <body>
-    
+  
     <span style="float:right">${date}</span>
     <br><br>
 
@@ -303,7 +336,7 @@ var miHtml = `<!DOCTYPE html>
   <br>
   
    <h2>Items del comprobante</h2>
-   <table class="detalle">
+   <table width="100%" class="detalle">
     <thead>
       <tr >
         <th >Código<br>(producto)</th>
@@ -318,17 +351,7 @@ var miHtml = `<!DOCTYPE html>
       </tr>
     </thead>
     <tbody>
-      <tr >
-        <td>7008</td>
-        <td>ESPECIAL NAVIDAD</td>
-        <td>Fragancia femenina diva deo 150 ml</td>
-        <td>10</td>
-        <td>1000</td>
-        <td>75</td>
-        <td>400</td>
-        <td>30</td>
-        <td>300</td>
-      </tr>
+      ${array_}
     </tbody>
    </table>
    <br>
@@ -340,24 +363,31 @@ var miHtml = `<!DOCTYPE html>
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td><b>10 u. (Incluye 0 aux):</b></td>
+        <td><b>${items} u. (Incluye 0 aux):</b></td>
       </tr>
       <tr>
         <td><b>Ganancias experta U.:</b></td>
-        <td>45 bs.</td>
+        <td>${gan_exp_u}</td>
       </tr>
       <tr>
         <td><b>Ganancias experta:</b></td>
-        <td>450 bs.</td>
+        <td>${gan_exp}</td>
       </tr>
       <tr>
         <td><b>Total a pagar:</b></td>
-        <td>300 bs.</td>
+        <td>${total}</td>
       </tr>
      </table>
    </div>
   </body>
 </html>`;
+console.log(respuesta)
+imprimir(miHtml, respuesta);
+})
+}
+
+function imprimir(miHtml,numfac) {
+console.log(numfac)
 
 var pdf = new jsPDF('p', 'pt', 'letter');
 specialElementHandlers = {
@@ -367,6 +397,17 @@ specialElementHandlers = {
         return false
     }
 };
+
+
+
+// var ventana = window.open ("about:blank", "_blank")
+var ventana = window.open();
+ventana.document.write(miHtml);
+// ventana.document.close();
+// ventana.focus();
+$(ventana.document).ready(function (){
+ventana.print();
+ventana.close();
 
 margins = {
     top: 80,
@@ -383,22 +424,45 @@ margins = {
   },
 
   function (dispose) {
+<<<<<<< HEAD
 
       pdf.save('factura2.pdf');
+=======
+    console.log(numfac+"......33333.......");
+      pdf.save('recibo_'+numfac+'.pdf');
+>>>>>>> aa5e5bc92fd9ceb477817802991eb38f3bac3faa
   }, margins
 );
 
-
-var ventana = window.open("about:blank","_blank");
-ventana.document.write(miHtml);
-// ventana.document.close();
-// ventana.focus();
-$(ventana.document).ready(function (){
-ventana.print();
-ventana.close();
-
 return true;
 });
+
+}
+
+function insertar_compra_detalle (json_data) {
+  
+  return new Promise((resolve, rechazar) => {
+    $.ajax({
+      url: "recursos/compras/registrar_compra.php",
+      data: {
+        "json": json_data
+      },
+      method: "post",
+      success: function(response) {
+        console.log(response + "...respuesta directo de ajax")
+        resolve(response)
+      },
+      error: function(error) {
+        console.log(error)
+        rachazar(error)
+      }
+    });
+})
+}
+
+
+function delete_row(e) {
+  console.log(e.target.parentNode.parentNode.parentNode.remove())
 }
 
 </script>
