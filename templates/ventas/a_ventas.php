@@ -1,189 +1,97 @@
-<?php
-
-require('../../recursos/conexion.php');
-session_start();
-
-
-
-$Sql = "SELECT id, codigo, modelo, precio_ref, cantidad FROM productos where estado=1 and sucursal=".$suc."";
-$Busq = $conexion->query($Sql); 
-while($arr = $Busq->fetch_array()) 
-    { 
-        $fila[] = array('id'=>$arr['id'], 'modelo'=>$arr['modelo'], 'codigo'=>$arr['codigo'], 'precio_ref'=>$arr['precio_ref'], 'cantidad'=>$arr['cantidad']); 
-
-    } 
-
+<style type="text/css">
+    .ui-autocomplete-row
+    {
+      padding:8px;
+      background-color: #f4f4f4;
+      border-bottom:1px solid #ccc;
+      font-weight:bold;
+    }
+    .ui-autocomplete-row:hover
+    {
+      background-color: #ddd;
+    }
+    .zoom {
+    transition: transform .2s; 
+    }
  
-$Sql2 = "SELECT * FROM clientes where estado=1"; 
-$Busq2 = $conexion->query($Sql2); 
-while($arr = $Busq2->fetch_array()) 
-    { 
-        $fila2[] = array('id'=>$arr['id'], 'ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos']); 
-
-    } 
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-  <title>VENDER PRODUCTOS</title>
-
-<style>
-.fuente{
-  font-family: 'Segoe UI light';
-  color: red;
-}
-
-@media only screen and (max-width: 767px) {
-
-/* NO MOSTRAR ELEMENTOS MENORES A ESTA RESOLUCION*/
-
-}
-
-table.highlight > tbody > tr:hover {
-  background-color: #a0aaf0 !important;
-}
-#modal1{
-  font-size: 13px;
-}
-#tabla1{
-  border-collapse: separate;
-  border-radius: 5px;
-  border-spacing: 1px;
-  border: solid;
-  border-color: #1f1f1f;
-}
-
-
+    .zoom:hover {
+    transform: scale(1.8); 
+    }
 </style>
 
-</head>
-<body>
+    <div class="fuente" style="">
+      <h3 align="">Buscar producto</h3>
+      <div class="row">
+        <form id="insert_row" >
+          <div class="input-field col s6">
+              <div class="col s6">
+              <input type="text" id="search_data" placeholder="Buscar Lider/Experta" autocomplete="off" class="validate" required />
+              </div>
+              <!-- codigo -->
+              <div class="col s3">
+              <input type="number" id="ca" placeholder="código" autocomplete="off" required>
+              </div>
 
-<span class="fuente"><h3>Ventas</h3></span>
+              <div class="col s2">
+              <input id="descuento_" type="number" min="0" max="100" value="" class="validate" placeholder="% Descuento">
+            </div>
+
+          </div>
+              <!-- boton insertar -->
+              <!-- <div class="col s2">
+              <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
+              </div> -->
 
 
-<!-- TABLA -->
-<div class="col s10">
-<table id="tabla1" name="tabla1" class="highlight">
-  <thead>
-    <tr>
-        
-        <th data-field="id">Código</th>
-        <th data-field="id">Nombre</th>
-        <th data-field="name">Apellidos</th>
-        <th data-field="C.I.">C.I.</th>
-        <th data-field="telefono">Teléfono</th>
-        <th data-field="rango">Rango</th>
-        <th>Seleccionar</th>
-
-    </tr>
-  </thead>
-
- <!-- <tbody>
-    <?php foreach($fila as $a  => $valor){ ?>
-      <tr <?php if(($valor['cantidad']) =='0') echo 'style="background-color: #FA5858"'; if(($valor['cantidad'])<71){ echo 'style="background-color: #F4FA58"';}?>>
-        
-        <td><?php echo $valor["codigo"] ?></td>
-        <td><?php echo $valor["modelo"] ?></td>
-        <td><?php echo $valor["cantidad"] ?></td> 
-        <td><?php echo $valor["precio_ref"]." Bs." ?></td>
+        </form>
         
 
-        <td><center><input type="checkbox" id="<?php echo $valor['codigo'] ?>" onclick="contarSeleccionados('<?php echo $valor['id']?>')" ><label for="<?php echo $valor['codigo']?>"/></center></td>
-        
-      </tr>
-    <?php } ?>  
 
-    
-
-  </tbody>-->
-
-    <tbody>
-      <tr>
-        <td>123</td>
-        <td>Rocio</td>
-        <td>Torrejon</td>
-        <td>7210040</td>
-        <td>77198751</td>
-        <td>Experta</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
-
-      <tr>
-        <td>124</td>
-        <td>Carmen</td>
-        <td>Guzman</td>
-        <td>7210992</td>
-        <td>76158245</td>
-        <td>Lider</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
-      <tr>
-        <td>125</td>
-        <td>Alejandra</td>
-        <td>Santos</td>
-        <td>4458875</td>
-        <td>77174288</td>
-        <td>Experta</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
-      <tr>
-        <td>127</td>
-        <td>Gabriela</td>
-        <td>Flores</td>
-        <td>5412558</td>
-        <td>62158745</td>
-        <td>Lider</td>
-        <td><a href="#!" onclick="ventas()"><i class="material-icons">forward</i></a></td>
-      </tr>
-    </tbody>
-</table>
-</div>
+      </div>
+    </div>
 
 
 
-
-
-
-
-<!--MODAL PARA RECIBIR MENSAJES DESDE PHP-->  
+<!--MODAL AGREGAR PRODUCTO-->
 <div class="row">
-  <div id="modal2" class="modal col s4 offset-s4">
-    <div id="mensaje" class="modal-content">
-
-    </div>
-    <div class="modal-footer row">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
-    </div>
+<div id="modal1" class="modal col s4 offset-s4">
+  <div class="modal-content">
+    <h5 class="fuente"><b>Se registrará la compra y se imprimirá un recibo.</b></h5> <br><br> 
+  </div>
+  <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
+      <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR COMPRA</a>
   </div>
 </div>
-
-
+</div>
 
 
 <script>
-var mensaje = $("#mensaje");
-mensaje.hide();
 
-$(document).ready(function() {
+//recuperar por formdata y enviar por json al lado servidor mediante ajax
+//Crear un array con indices y guardar luego los datos de cantidad y pesos ahi... mediante el indice
 
-    $('#tabla1').dataTable();
-    $('#tabla2').dataTable( {
-      bInfo: false,
-      "lengthMenu": [[5, 10], [5, 10]]
-    });
+$(document).ready(function(){
+    $('#modal').leanModal();
+    $('#search_data').autocomplete({
+      source: "recursos/compras/buscar_prod.php",
+      minLength: 1,
+      select: function(event, ui)
+      {
+        $("#id_").val(ui.item.id)
+        $("#linea_").val(ui.item.linea)
+        $("#pupesos_").val(ui.item.pupesos)
+        $("#pubs_").val(ui.item.pubs)
 
-    $('#modal_trigger_1').leanModal();
-    $('select').material_select();
+        $('#search_data').val(ui.item.value);  
+      }
+    }).data('ui-autocomplete')._renderItem = function(ul, item){
+        // console.log(item)
+        return $("<li class='ui-autocomplete-row'></li>")
+        .data("item.autocomplete", item)
+        .append(item.label)
+        .appendTo(ul);
+    };
 });
-function ventas (){
-  $("#cuerpo").load("templates/ventas/realizar_venta.php");
-}
-
-
 </script>
-</body>
-</html>
+
