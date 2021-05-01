@@ -8,13 +8,16 @@ session_start();
 //Si lo está, definimos el botón de cerrar sesión y la duración de la sesión
 if(!isset($_SESSION['usuario']) and $_SESSION['estado'] != 'Autenticado') {
 	header('Location: index.php');
+
 } else {
+
 	$estado = $_SESSION['usuario'];
   $ciactual = $_SESSION['userCI']; 
-  //$suc = $_SESSION['sucursal'];
 	$salir = '<a href="recursos/salir.php" class="right" target="_self">Cerrar sesión</a>';
+
 require('recursos/sesiones.php');
 };
+
 require('recursos/conexion.php');
 $Sql = "SELECT id, descripcion, cantidad FROM productos WHERE cantidad < 71 and estado=1"; 
 $Busq = $conexion->query($Sql); 
@@ -36,13 +39,8 @@ while($arr = $Busq->fetch_array())
 
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script> -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" /> -->
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link rel="stylesheet" type="text/css" href="css/datatable.css">
   <link rel="stylesheet" type="text/css" href="css/materialize.css">
@@ -144,23 +142,17 @@ table.highlight > tbody > tr:hover {
         <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
 
 
-
-
-        <!--<li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>-->
-        <!--<li><a href="#!" onclick="cargar('reportes');">Reportes</a></li>-->
-        <!-- <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Eliminados<i class="material-icons right">arrow_drop_down</i></a></li> -->
         <li class="brand-logo"></li>        
       </ul>
 
       <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-      <!--<ul class="side-nav" id="mobile-demo"  style="color: black;">-->
+
     <ul class="side-nav" id="mobile-demo">
     <li><?php echo $estado, $ciUSER; ?></li>
     <li><a href="#!" onclick="location.reload();">INICIO</a></li>
     <li><a href="#!" onclick="cargar('productos');">Ventas</a></li>
     <li><a href="#!" onclick="cargar('inventario');">Productos</a></li>
-    <!--<li><a href="#!" onclick="cargar('usuarios');">Usuarios</a></li>-->
     <li><a href="#!" onclick="cargar('clientes');">Clientes</a></li>
     <li><a href="#!" onclick="cargar('sel_fecha');">Registro de ventas</a></li>
     <li><a href="#!" onclick="cargar('Prod_vendidos');">Prod. Vendidos</a></li>
@@ -193,7 +185,7 @@ table.highlight > tbody > tr:hover {
             </tr>
           </thead>
 
-         <!-- <tbody>
+        <!-- <tbody>
             <?php foreach($fila as $a  => $valor){ ?>
             <tr style="background-color: #F78181">
               <td><?php echo $valor["id"] ?></td>
@@ -234,7 +226,6 @@ table.highlight > tbody > tr:hover {
             </tr>
           </tbody>
         </table>
-
       </div>
     </div>
 </div>
@@ -248,42 +239,10 @@ $(document).ready(function() {
   $('#tabla1').dataTable();
 });
 
-
-
   function cargar(x){
     var y=".php";
           $("#cuerpo").load(x+y);
   }
-
-  var html5_audiotypes={ 
-    "wav": "audio/wav"
-  }
-  function createsoundbite(sound){
-var html5audio=document.createElement('audio')
-if (html5audio.canPlayType){ //Comprobar soporte para audio HTML5
-for (var i=0; i<arguments.length; i++){
-var sourceel=document.createElement('source')
-sourceel.setAttribute('src', arguments[i])
-if (arguments[i].match(/.(w+)$/i))
-sourceel.setAttribute('type', html5_audiotypes[RegExp.$1])
-html5audio.appendChild(sourceel)
-}
-html5audio.load()
-html5audio.playclip=function(){
-html5audio.pause()
-html5audio.currentTime=0
-html5audio.play()
-
-}
-return html5audio
-}
-else{
-return {playclip:function(){throw new Error('Su navegador no soporta audio HTML5')}}
-}
-}
-var hover2 = createsoundbite('audio/botones/6.wav');
-var hover3 = createsoundbite('audio/botones/3.wav');
-var hover4 = createsoundbite('audio/botones/Efecto De Sonido Caja registradora.mp3');
 
 </script>
         
