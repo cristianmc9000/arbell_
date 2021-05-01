@@ -8,9 +8,6 @@ $userci = $_SESSION['userCI'];
 $array = json_decode($_POST["json"]);
 $total = array_pop($array);
 
-die($userci);
-
-
 //insertar un nuevo registro de compra en tabla: compras
 $insertarCompra = "INSERT INTO `compras`(`ci_usu`,`total`) VALUES ('".$userci."', ".$total->{'_total'}." )";
 mysqli_query($conexion, $insertarCompra);

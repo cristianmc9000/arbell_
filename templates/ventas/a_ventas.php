@@ -97,24 +97,24 @@ $(document).ready(function(){
     };
 
     /* buscar producto */
-    $('#search_data').autocomplete({
-      source: "recursos/ventas/buscar_producto.php",
-      minLength: 1,
-      select: function(event, ui)
-      {
-        $("#ca").val(ui.item.ca)
-        if(ui.item.nivel == "experta"){
-          $("#descuento_").val('30')
-        }
-        $('#search_data').val(ui.item.value);  
-      }
-    }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
-        return $("<li class='ui-autocomplete-row'></li>")
-        .data("item.autocomplete", item)
-        .append(item.label)
-        .appendTo(ul);
-    };
+    // $('#search_prod').autocomplete({
+    //   source: "recursos/ventas/buscar_producto.php",
+    //   minLength: 1,
+    //   select: function(event, ui)
+    //   {
+    //     $("#ca").val(ui.item.ca)
+    //     if(ui.item.nivel == "experta"){
+    //       $("#descuento_").val('30')
+    //     }
+    //     $('#search_data').val(ui.item.value);  
+    //   }
+    // }).data('ui-autocomplete')._renderItem = function(ul, item){
+    //     // console.log(item)
+    //     return $("<li class='ui-autocomplete-row'></li>")
+    //     .data("item.autocomplete", item)
+    //     .append(item.label)
+    //     .appendTo(ul);
+    // };
 });
 </script>
 
