@@ -20,7 +20,7 @@
 </style>
 
     <div class="fuente" style="">
-      <h3 align="">Buscar producto</h3>
+      <h3 align="">Buscar Lider/Experta</h3>
       <div class="row">
         <form id="insert_row" >
           <div class="input-field col s6">
@@ -42,14 +42,18 @@
               <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
               </div> -->
 
-
         </form>
         
-
-
       </div>
     </div>
 
+<!-- anadir buscar -->
+
+    <div class="row">
+    
+
+    
+    </div>
 
 
 <!--MODAL AGREGAR PRODUCTO-->
@@ -74,15 +78,34 @@
 $(document).ready(function(){
     $('#modal').leanModal();
     $('#search_data').autocomplete({
-      source: "recursos/compras/buscar_prod.php",
+      source: "recursos/ventas/buscar_le.php",
       minLength: 1,
       select: function(event, ui)
       {
-        $("#id_").val(ui.item.id)
-        $("#linea_").val(ui.item.linea)
-        $("#pupesos_").val(ui.item.pupesos)
-        $("#pubs_").val(ui.item.pubs)
+        $("#ca").val(ui.item.ca)
+        if(ui.item.nivel == "experta"){
+          $("#descuento_").val('30')
+        }
+        $('#search_data').val(ui.item.value);  
+      }
+    }).data('ui-autocomplete')._renderItem = function(ul, item){
+        // console.log(item)
+        return $("<li class='ui-autocomplete-row'></li>")
+        .data("item.autocomplete", item)
+        .append(item.label)
+        .appendTo(ul);
+    };
 
+    /* buscar producto */
+    $('#search_data').autocomplete({
+      source: "recursos/ventas/buscar_producto.php",
+      minLength: 1,
+      select: function(event, ui)
+      {
+        $("#ca").val(ui.item.ca)
+        if(ui.item.nivel == "experta"){
+          $("#descuento_").val('30')
+        }
         $('#search_data').val(ui.item.value);  
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
