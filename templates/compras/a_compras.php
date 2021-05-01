@@ -78,8 +78,8 @@
           <th>P.U.<br>(Bs.)</th>
           <th>P.U. con <br>descuento (Pesos)</th>
           <th>P.U. con <br>descuento (Bs.)</th>
-          <th>Valor de compra <br>S.D.</th>
-          <th>Valor de compra <br>C.D.</th>
+          <th>Valor de compra <br>S.D. (Bs.)</th>
+          <th>Valor de compra <br>C.D. (Bs.)</th>
           <th>Borrar</th>
       </tr>
     </thead>
@@ -140,9 +140,9 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   event.preventDefault();
 
 //Convertir precio en pesos a precio en Bs.
-  var pubs_ = parseFloat($("#pupesos_").val()) * 0.07
+  var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   pubs_ = pubs_.toFixed(1)
-
+  console.log($("#valor").val())
 // PRECIO CON DESCUENTO EN PESOS
   var desc_ = $("#descuento_").val()
   desc_ = parseFloat(desc_) * 0.01;
