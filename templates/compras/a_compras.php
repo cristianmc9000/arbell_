@@ -140,7 +140,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   event.preventDefault();
 
 //Convertir precio en pesos a precio en Bs.
-  var pubs_ = parseFloat($("#pupesos_").val()) * 0.07
+  var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   pubs_ = pubs_.toFixed(1)
 
 // PRECIO CON DESCUENTO EN PESOS
@@ -296,13 +296,17 @@ gan_exp_u = pubs__ - pubs__desc
 gan_exp_u = gan_exp_u.toFixed(1)
 gan_exp = gan_exp - totalcd
 _descuento = $("#descuento_").val();
+_valor = $("#valor").val();
 
 
 
 var data = detalle_compra()
 data.push({_totalcd: totalcd})
+data.push({_totalsd: totalsd})
+data.push({_descuento: _descuento})
+data.push({_valor: _valor})
 
-// console.log(data)
+//console.log(data)
 
 var json_data = JSON.stringify(data)
 
@@ -399,7 +403,7 @@ var miHtml = `<!DOCTYPE html>
       </tr>
       <tr>
         <td><b>Total a pagar:</b></td>
-        <td>${total}</td>
+        <td>${totalcd}</td>
       </tr>
      </table>
    </div>
