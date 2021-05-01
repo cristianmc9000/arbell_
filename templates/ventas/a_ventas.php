@@ -139,6 +139,7 @@ $(document).ready(function(){
         .appendTo(ul);
     };
 
+<<<<<<< HEAD
     //buscar producto 
     $('#search_producto').autocomplete({
       source: "recursos/ventas/buscar_producto.php",
@@ -160,6 +161,27 @@ $(document).ready(function(){
     }; 
 
 
+=======
+    /* buscar producto */
+    // $('#search_prod').autocomplete({
+    //   source: "recursos/ventas/buscar_producto.php",
+    //   minLength: 1,
+    //   select: function(event, ui)
+    //   {
+    //     $("#ca").val(ui.item.ca)
+    //     if(ui.item.nivel == "experta"){
+    //       $("#descuento_").val('30')
+    //     }
+    //     $('#search_data').val(ui.item.value);  
+    //   }
+    // }).data('ui-autocomplete')._renderItem = function(ul, item){
+    //     // console.log(item)
+    //     return $("<li class='ui-autocomplete-row'></li>")
+    //     .data("item.autocomplete", item)
+    //     .append(item.label)
+    //     .appendTo(ul);
+    // };
+>>>>>>> 55bff938e663f63986ab1079615c796f2fcb2aa1
 });
 </script>
 

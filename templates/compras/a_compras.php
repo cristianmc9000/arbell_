@@ -142,7 +142,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
 //Convertir precio en pesos a precio en Bs.
   var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   pubs_ = pubs_.toFixed(1)
-
+  console.log($("#valor").val())
 // PRECIO CON DESCUENTO EN PESOS
   var desc_ = $("#descuento_").val()
   desc_ = parseFloat(desc_) * 0.01;
