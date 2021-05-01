@@ -6,16 +6,12 @@ require("../sesiones.php");
 session_start();
 $userci = $_SESSION['userCI'];
 $array = json_decode($_POST["json"]);
-<<<<<<< HEAD
 
 //atributos de la compra
 $valor = array_pop($array);
 $descuento = array_pop($array);
 $total_sd = array_pop($array);
 $total_cd = array_pop($array);
-=======
-$total = array_pop($array);
->>>>>>> 55bff938e663f63986ab1079615c796f2fcb2aa1
 
 //insertar un nuevo registro de compra en tabla: compras
 $insertarCompra = "INSERT INTO `compras`(`ci_usu`,`totalsd`, `totalcd`,`descuento`,`valor_pesos`) VALUES ('".$userci."', ".$total_sd->{'_totalsd'}.", ".$total_cd->{'_totalcd'}.", ".$descuento->{'_descuento'}.", ".$valor->{'_valor'}." )";
