@@ -78,8 +78,8 @@
           <th>P.U.<br>(Bs.)</th>
           <th>P.U. con <br>descuento (Pesos)</th>
           <th>P.U. con <br>descuento (Bs.)</th>
-          <th>Valor de compra <br>S.D.</th>
-          <th>Valor de compra <br>C.D.</th>
+          <th>Valor de compra <br>S.D. (Bs.)</th>
+          <th>Valor de compra <br>C.D. (Bs.)</th>
           <th>Borrar</th>
       </tr>
     </thead>
@@ -264,7 +264,9 @@ var pubs__ = 0
 var pubs__desc = 0
 let gan_exp_u = 0
 let gan_exp = 0 
-var total = 0
+var totalsd = 0
+var totalcd = 0
+var descuento = 0
 
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   
@@ -283,22 +285,23 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   array_ = array_ + fila;
   gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
 
-
-  total = total + parseFloat(e.querySelector('._precio_cd').innerText)
-  pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText)
-  pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText)
-  items = items + parseInt(e.querySelector('._cantidad').innerText)
+  totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
+  totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
+  pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
+  pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
+  items = items + parseInt(e.querySelector('._cantidad').innerText);
 });
 
 gan_exp_u = pubs__ - pubs__desc
 gan_exp_u = gan_exp_u.toFixed(1)
-gan_exp = gan_exp - total
-
+gan_exp = gan_exp - totalcd
+_descuento = $("#descuento_").val();
 
 
 
 var data = detalle_compra()
-data.push({_total: total})
+data.push({_totalcd: totalcd})
+
 // console.log(data)
 
 var json_data = JSON.stringify(data)

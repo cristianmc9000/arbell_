@@ -13,7 +13,7 @@
     .zoom {
     transition: transform .2s; 
     }
- 
+
     .zoom:hover {
     transform: scale(1.8); 
     }
@@ -41,7 +41,6 @@
               <!-- <div class="col s2">
               <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
               </div> -->
-
         </form>
         
       </div>
@@ -49,10 +48,55 @@
 
 <!-- anadir buscar -->
 
-    <div class="row">
-    
 
-    
+
+    <div class="row">
+
+    <div class="fuente" style="">
+      <h3 align="">Buscar producto</h3>
+      <div class="row">
+        <form id="insert_row" >
+          <div class="input-field col s4">
+            <div class="col s6">
+              <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+            </div>
+
+            <div class="col s3">
+              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" required>
+            </div>
+
+            <div class="col s3">
+              <input type="text" id="pubs_" placeholder="Precio en bs." required>
+            </div>
+
+            
+            <input type="text" id="id_" value="" hidden>
+            <input type="text" id="linea_" value="" hidden>
+            <input type="text" id="pupesos_" value="" hidden>
+            <input type="text" id="pubs_" value="" hidden>
+          </div>
+
+          <div class="col s2">
+            <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
+          </div>
+        </form>
+        
+
+        <div class="input-field col s1">
+           % Descuento: 
+          <div class="input-field inline">
+            <input id="descuento_" type="number" min="0" max="100" value="0" class="validate">
+          </div>
+            
+
+            
+
+          <!-- </div> -->
+        </div>
+
+      </div>
+    </div>
+
     </div>
 
 
@@ -68,7 +112,6 @@
   </div>
 </div>
 </div>
-
 
 <script>
 
@@ -96,8 +139,8 @@ $(document).ready(function(){
         .appendTo(ul);
     };
 
-    /* buscar producto */
-    $('#search_data').autocomplete({
+    //buscar producto 
+    $('#search_producto').autocomplete({
       source: "recursos/ventas/buscar_producto.php",
       minLength: 1,
       select: function(event, ui)
@@ -114,7 +157,9 @@ $(document).ready(function(){
         .data("item.autocomplete", item)
         .append(item.label)
         .appendTo(ul);
-    };
+    }; 
+
+
 });
 </script>
 
