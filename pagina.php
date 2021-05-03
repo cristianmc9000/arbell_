@@ -18,7 +18,7 @@ require('recursos/sesiones.php');
 };
 
 require('recursos/conexion.php');
-$Sql = "SELECT id, descripcion, cantidad FROM productos WHERE cantidad < 71 and estado=1"; 
+/* $Sql = "SELECT id, descripcion, cantidad FROM productos WHERE cantidad < 71 and estado=1"; 
 $Busq = $conexion->query($Sql); 
 
 if((mysqli_num_rows($Busq))>0){
@@ -27,7 +27,7 @@ while($arr = $Busq->fetch_array())
         $fila[] = array('id'=>$arr['id'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad']); 
     }}else{
   $fila[] = array('id'=>'--','descripcion'=>'--','cantidad'=>'--');
-}
+} */
 ?>
 
 <!DOCTYPE html>
