@@ -12,8 +12,6 @@ $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
 $pubs = $_POST["pubs"];
-$cantidad = $_POST["cantidad"];
-$fechav = $_POST["fechav"];
 
 $periodo = $_SESSION["periodo"];
 $year = $_SESSION['anio'];
@@ -53,7 +51,7 @@ if ($cod != $codant) {
 }
 
 
-	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."', pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fechav='".$fechav."' WHERE id= '".$codant."'";
+	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."', pupesos='".$pupesos."', pubs='".$pubs."' WHERE id= '".$codant."'";
 
 	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
 		die('?anio='.$year.'&mes='.$periodo);

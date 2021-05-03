@@ -295,6 +295,7 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
 gan_exp_u = pubs__ - pubs__desc
 gan_exp_u = gan_exp_u.toFixed(1)
 gan_exp = gan_exp - totalcd
+gan_exp = gan_exp.toFixed(1)
 _descuento = $("#descuento_").val();
 _valor = $("#valor").val();
 

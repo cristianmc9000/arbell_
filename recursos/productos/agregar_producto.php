@@ -11,8 +11,8 @@ $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
 $pubs = $_POST["pubs"];
-$cantidad = $_POST["cantidad"];
-$fechav = $_POST["fechav"];
+// $cantidad = $_POST["cantidad"];
+// $fechav = $_POST["fechav"];
 $periodo = $_SESSION["periodo"];
 $year = $_SESSION['anio'];
 $nombreimg = $_FILES['imagen']['name'];
@@ -45,11 +45,15 @@ if(strlen($descripcion) > $maxCaracteres) {
 
 	}
 
+	//Consulta para agregar el nuevo producto 
+	$consulta = "INSERT INTO productos (id, foto, linea, descripcion, pupesos, pubs, periodo) VALUES ('".$cod."','".$ruta2."','".$linea."','".$descripcion."','".$pupesos."','".$pubs."','".$periodo."')";
+	mysqli_query($conexion, $consulta) or die(mysql_error());
 
-	$consulta = "INSERT INTO productos (id, foto, linea, descripcion, pupesos, pubs, cantidad, fechav, periodo) VALUES ('".$cod."','".$ruta2."','".$linea."','".$descripcion."','".$pupesos."','".$pubs."','".$cantidad."','".$fechav."','".$periodo."')";
-	
-	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
+	//Consulta para agregar la cantidad del nuevo producto
+	$consultaAC = "INSERT INTO invcant (codp) VALUES('".$cod."')";
+	if(mysqli_query($conexion, $consultaAC) or die(mysql_error())) {
 		die('?anio='.$year.'&mes='.$periodo);
 	}
+
 
 ?>

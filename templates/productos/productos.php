@@ -11,18 +11,18 @@ $_SESSION['anio'] = $anio;
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and periodo = ".$per; 
+$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and periodo = ".$per; 
 
 $Busq = $conexion->query($Sql); 
 
 if((mysqli_num_rows($Busq))>0){
   while($arr = $Busq->fetch_array()){ 
 
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'pupesos'=>$arr['pupesos'], 'pubs'=>$arr['pubs'], 'cantidad'=>$arr['cantidad'], 'fechav'=>$arr['fechav']); 
+        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'pupesos'=>$arr['pupesos'], 'pubs'=>$arr['pubs'], 'cantidad'=>$arr['cantidad']); 
 
   }
 }else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','fechav'=>'--');
+        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
 }
   
 $Sql2 = "SELECT codli, nombre FROM lineas WHERE estado = 1";
@@ -76,10 +76,10 @@ if((mysqli_num_rows($Busq2))>0){
         <th>Código<br>(Producto)</th>
         <th>Linea</th>
         <th>Descripción</th>
-        <th>P.U.<br>(pesos arg.)</th>
-        <th>P.U.<br>(Bs.)</th>
+        <th>P.U. Referencial<br>(pesos arg.)</th>
+        <th>P.U. Referencial<br>(Bs.)</th>
         <th>Cantidad</th>
-        <th>Fecha de venc.</th>
+        <!-- <th>Fecha de venc.</th> -->
 
         <th>Modificar</th>
         <th>Borrar</th>
@@ -98,10 +98,10 @@ if((mysqli_num_rows($Busq2))>0){
       <td><?php echo $valor["pupesos"]?>$</td>
       <td><?php echo $valor["pubs"] ?>Bs.</td>
       <td><?php echo $valor["cantidad"] ?></td>
-      <td><?php echo $valor["fechav"] ?></td>
+      <!-- <td><?php echo $valor["fechav"] ?></td> -->
 
       <td>
-        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>','<?php echo $valor['fechav']?>')"><i class="material-icons">build</i></a>
+        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
         <!-- <a href="#!"><i class="material-icons">build</i></a> -->
       </td>
       <td>
@@ -154,14 +154,14 @@ if((mysqli_num_rows($Busq2))>0){
           <div class="row">
             <div  class="input-field col s6">
               <input name="pupesos" id="pupesos" type="text" onkeypress="convertira()" required>
-              <label for="pupesos">P.U. (pesos arg.):</label>
+              <label for="pupesos">P.U. Referencial (pesos arg.):</label>
             </div>
             <div class="input-field col s6">
               <input name="pubs" id="pubs" type="text" required>
-              <label class="active" for="pubs">P.U. (Bs.):</label>
+              <label class="active" for="pubs">P.U. Referencial (Bs.):</label>
             </div>
           </div>
-          <div class="row">  
+          <!-- <div class="row">  
             <div class="input-field col s6">
               <input name="cantidad" type="number" required>
               <label for="cantidad">Cantidad: </label>
@@ -171,7 +171,7 @@ if((mysqli_num_rows($Busq2))>0){
                 <label class="active" for="first_name">Fecha de vencimiento</label>
             </div>
             
-          </div>
+          </div> -->
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
               <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
@@ -230,7 +230,8 @@ if((mysqli_num_rows($Busq2))>0){
               <label class="active" for="pubs">P.U. (Bs.):</label>
             </div>
           </div>
-          <div class="row">  
+          
+        <!--   <div class="row">  
             <div class="input-field col s6">
               <input id="cantidad" name="cantidad" type="number" required>
               <label class="active" for="cantidad">Cantidad: </label>
@@ -239,8 +240,8 @@ if((mysqli_num_rows($Busq2))>0){
                 <input id="fechav" name = "fechav" type="date">
                 <label class="active" for="first_name">Fecha de vencimiento</label>
             </div>
-            
-          </div>
+          </div> -->
+
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
               <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
@@ -319,7 +320,7 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion, pup, pub, cantidad, fechav) {
+function mod_producto(foto, id, linea, codli, descripcion, pup, pub, cantidad) {
   
   $("#imagen").val(foto)
   $("#codigo").val(id)
@@ -333,7 +334,7 @@ function mod_producto(foto, id, linea, codli, descripcion, pup, pub, cantidad, f
   $("#pup").val(pup)
   $("#pub").val(pub)
   $("#cantidad").val(cantidad)
-  $("#fechav").val(fechav)
+  // $("#fechav").val(fechav)
   $("#modal2").openModal()
 }
 
@@ -402,13 +403,13 @@ function convertira() {
   pesos = $("#pupesos").val()
   bs = pesos * parseFloat($("#valor").val());
  
-  $("#pubs").val(bs.toFixed(2));
+  $("#pubs").val(bs.toFixed(1));
 }
 
 $("#pupesos").on("keydown input", function(){
   pesos = $("#pupesos").val()
   bs = pesos * parseFloat($("#valor").val());
-  $("#pubs").val(bs.toFixed(2));
+  $("#pubs").val(bs.toFixed(1));
 })
 
 function convertirm() {
@@ -416,13 +417,13 @@ function convertirm() {
   pesos = $("#pup").val()
   bs = pesos * parseFloat($("#valor").val());
  
-  $("#pub").val(bs.toFixed(2));
+  $("#pub").val(bs.toFixed(1));
 }
 
 $("#pup").on("keydown input", function(){
   pesos = $("#pup").val()
   bs = pesos * parseFloat($("#valor").val());
-  $("#pub").val(bs.toFixed(2));
+  $("#pub").val(bs.toFixed(1));
 })
 </script>
 
