@@ -7,23 +7,15 @@ define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
 $cod = $_POST["codigo"];
 $codant = $_POST["codant"];
-
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
 $pubs = $_POST["pubs"];
-
 $periodo = $_SESSION["periodo"];
 $year = $_SESSION['anio'];
-
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
-
 $maxCaracteres = "250";
-
-
-
-
 
 if(strlen($descripcion) > $maxCaracteres) {
 	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');

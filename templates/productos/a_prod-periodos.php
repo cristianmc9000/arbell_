@@ -13,20 +13,10 @@
 
 
 
-<span class="fuente"><h3>Seleccione la fecha</h3></span>
+<span class="fuente"><h3>Seleccionar Periodo</h3></span>
 
 <form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
-    <div class="input-field col s3">
-        <select name = "anio" id="anio">
-          <option value="2021" selected><b>2021</b></option>
-          <option value="2022"><b>2022</b></option>
-          <option value="2023"><b>2023</b></option>
-          <option value="2024"><b>2024</b></option>
-        </select>
-        <label><b>SELECCIONE EL AÑO</b></label>
-    </div>
     <input type="text" name="mes" id="mes" value="" hidden>
-
   <br><br>
 <!-- <button class="btn waves-effect waves-light" type="submit">Aceptar</button> -->
 </form>
@@ -125,11 +115,11 @@ mensaje.hide();
 
 function enviarfecha(mes_recibido) {
    
-   anio = document.getElementById('anio').value;
+  /*  anio = document.getElementById('anio').value; */
    document.getElementById('mes').value = mes_recibido;
    mes = mes_recibido;
    
-   $("#cuerpo").load("templates/productos/productos.php?anio="+anio+"&mes="+mes);
+   $("#cuerpo").load("templates/productos/productos.php?mes="+mes);
 
    
 }

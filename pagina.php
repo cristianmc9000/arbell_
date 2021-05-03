@@ -28,6 +28,7 @@ while($arr = $Busq->fetch_array())
     }}else{
   $fila[] = array('id'=>'--','descripcion'=>'--','cantidad'=>'--');
 } */
+
 ?>
 
 <!DOCTYPE html>
@@ -136,8 +137,8 @@ table.highlight > tbody > tr:hover {
         <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li>
         <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
         <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
+        <li><a href="#!" onclick="cargar('templates/inventarios/a_inventarios.php?anio=<?php echo date('Y')?>&mes=1');">INVENTARIO</a></li>
         <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
-        
         <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
 
 
@@ -239,8 +240,12 @@ $(document).ready(function() {
 });
 
   function cargar(x){
+    if(x.includes("templates/inventarios")){
+      $("#cuerpo").load(x);
+    }else{
     var y=".php";
           $("#cuerpo").load(x+y);
+        }
   }
 
 </script>

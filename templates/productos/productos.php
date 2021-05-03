@@ -3,11 +3,11 @@ require('../../recursos/conexion.php');
 require('../../recursos/sesiones.php');
 
 $per = $_GET["mes"];
-$anio = $_GET["anio"];
+/* $anio = $_GET["anio"]; */
 
 session_start();
 $_SESSION['periodo'] = $per;
-$_SESSION['anio'] = $anio;
+/* $_SESSION['anio'] = $anio; */
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
@@ -38,10 +38,6 @@ if((mysqli_num_rows($Busq2))>0){
 
 ?>
 
-
-<html>
-<head>
-  <title>Registro de ventas</title>
 <style>
 
   .fuente{
@@ -53,8 +49,7 @@ if((mysqli_num_rows($Busq2))>0){
   }
 
   </style>
-</head>
-<body>
+
 <div class="row">
 <div class="col s11">
 
@@ -66,7 +61,9 @@ if((mysqli_num_rows($Busq2))>0){
       <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
     </h3>
   </span>
+
 </div>
+
 
 <!-- TABLA -->
 <table id="tabla1" class="highlight">
@@ -133,7 +130,7 @@ if((mysqli_num_rows($Busq2))>0){
               
             </div>
             <div class="input-field col s6">
-              <input name="codigo" type="text" required>
+              <input name="codigo" type="text" autocomplete="off" required>
               <label for="codigo">Código:</label>
             </div>
           </div>
@@ -147,31 +144,20 @@ if((mysqli_num_rows($Busq2))>0){
               </select>
             </div>
             <div class="input-field col s6">
-              <input name="descripcion" type="text" required>
+              <input name="descripcion" type="text" autocomplete="off" required>
               <label for="descripcion">Descripción:</label>
             </div>
           </div>
           <div class="row">
             <div  class="input-field col s6">
-              <input name="pupesos" id="pupesos" type="text" onkeypress="convertira()" required>
-              <label for="pupesos">P.U. Referencial (pesos arg.):</label>
+              <input name="pupesos" id="pupesos" type="text" onkeypress="convertira()" autocomplete="off" required>
+              <label for="pupesos">P.U. Ref. (pesos arg.):</label>
             </div>
             <div class="input-field col s6">
-              <input name="pubs" id="pubs" type="text" required>
-              <label class="active" for="pubs">P.U. Referencial (Bs.):</label>
+              <input name="pubs" id="pubs" type="text" autocomplete="off" required>
+              <label class="active" for="pubs">P.U. Ref. (Bs.):</label>
             </div>
           </div>
-          <!-- <div class="row">  
-            <div class="input-field col s6">
-              <input name="cantidad" type="number" required>
-              <label for="cantidad">Cantidad: </label>
-            </div>
-            <div class="input-field col s6">
-                <input name = "fechav" type="date">
-                <label class="active" for="first_name">Fecha de vencimiento</label>
-            </div>
-            
-          </div> -->
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
               <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
@@ -294,8 +280,7 @@ $(document).ready(function() {
 });
 
 $("#agregar_producto").on("submit", function(e){
-    e.preventDefault();
-    
+    e.preventDefault(); 
     var val = new FormData(document.getElementById("agregar_producto"));
     $.ajax({
       url: "recursos/productos/agregar_producto.php",
@@ -314,7 +299,7 @@ $("#agregar_producto").on("submit", function(e){
           $("#modal1").closeModal(); 
           Materialize.toast("PRODUCTO AGREGADO." , 4000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);
-        }
+        } 
 
       }
     });
@@ -425,9 +410,8 @@ $("#pup").on("keydown input", function(){
   bs = pesos * parseFloat($("#valor").val());
   $("#pub").val(bs.toFixed(1));
 })
+
 </script>
 
 </div>
 </div>
-</body>
-</html>
