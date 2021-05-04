@@ -20,7 +20,7 @@
 </style>
 
     <div class="fuente" style="">
-      <h5 align="">Buscar Lider/Experta</h5>
+      <h5 align="" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87">Buscar Lider/Experta</h5>
       <div class="row">
         <form id="insert_row" >
           <div class="input-field col s6">
@@ -47,18 +47,17 @@
 <!-- anadir buscar -->
     <div class="row">
     <div class="fuente" style="">
-      <h5 align="">Buscar producto</h5>
+      <h5 align="" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87">Buscar producto</h5>
       <div class="row">
         <form id="insert_row_producto" >
           <div class="input-field col s5">
             <div class="col s5">
               <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
             </div>
-            <div class="col s1">
-              <b id="stock"></b>
-            </div>
+            
             <div class="col s3">
-              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" required>
+              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
+              <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
             </div>
             <div class="col s3">
               <input type="text" id="pubs_" placeholder="Precio en bs." required>
@@ -148,7 +147,7 @@ $(document).ready(function(){
       select: function(event, ui)
       {
         $("#pubs_").val(ui.item.pubs)
-        $("#stock").html(ui.item.stock)
+        $("#stock").html("Cantidad stock: "+ui.item.stock)
         $('#search_producto').val(ui.item.value);  
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
