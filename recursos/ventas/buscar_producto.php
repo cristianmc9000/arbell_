@@ -6,9 +6,8 @@ include('../conexion.php');
 if(isset($_GET["term"]))
 {
     //modificar consulta para que salga nombre de la linea ...
-  //llamar al ultimo precio de inventarios al maximo si es posible.......
-  
-   /*  $result = $conexion->query("SELECT a.id, (SELECT max(d.pubs) FROM inventario d WHERE d.codp = a.id AND codp LIKE '%".$_GET["term"]."%') AS maxpubs,c.cantidad AS stock, a.linea, a.descripcion, a.foto, a.pupesos, a.pubs, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.linea = b.codli AND id LIKE '%".$_GET["term"]."%' ORDER BY id ASC"); */
+ 
+
     $result = $conexion->query("SELECT a.id, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.codp = a.id AND codp LIKE '%".$_GET["term"]."%') AS maxpupesos,c.cantidad AS stock, a.linea, a.descripcion, a.foto, a.pupesos, a.pubs, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.linea = b.codli AND id LIKE '%".$_GET["term"]."%' ORDER BY id ASC");
     $total_row = mysqli_num_rows($result); 
     $output = array();
@@ -33,5 +32,4 @@ if(isset($_GET["term"]))
 
  echo json_encode($output);
 }
-
 ?>

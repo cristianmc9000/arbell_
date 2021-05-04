@@ -33,7 +33,7 @@
               </div>
 
               <div class="col s2">
-              <input id="descuento_" type="number" min="0" max="100" value="" class="validate" placeholder="% Descuento">
+              <input id="descuento_" type="number" min="0" max="100" value="0" class="validate" placeholder="% Descuento">
             </div>
           </div>
               <!-- boton insertar -->
@@ -58,6 +58,7 @@
             <div class="col s3">
               <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
               <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
+              <input type="text" id="stock_" hidden>
             </div>
             <div class="col s3">
               <input type="text" id="pupesos_" placeholder="Precio en Pesos" required>
@@ -65,7 +66,7 @@
             <input type="text" id="id_" value="" hidden>
             <input type="text" id="linea_" value="" hidden>
             <input type="text" id="pubs_" value="" hidden>
-          <!--   <input type="text" id="pubs_" value="" hidden> -->
+            <input type="text" id="subtotal_" value="" hidden>
           </div>
           <div class="col s2">
             <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
@@ -91,7 +92,6 @@
           <th>Cantidad</th>
           <!-- <th>Precio U. <br>Pesos</th> -->
           <th>Precio U. Bs.</th>
-          <th>Precio con <br>Descuento</th>
           <th>Subtotal</th>
           <th>Borrar</th>
       </tr>
@@ -148,6 +148,7 @@ $(document).ready(function(){
       {
         $("#pupesos_").val(ui.item.pupesos)
         $("#stock").html("Cantidad stock: "+ui.item.stock)
+        $("#stock_").val(ui.item.stock)
         $('#search_producto').val(ui.item.value);  
         $('#id_').val(ui.item.id);  
         $('#linea_').val(ui.item.linea);
@@ -193,6 +194,8 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   //Subtotal con descuento
   precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
   precio_cd = precio_cd.toFixed(1)
+  $("#subtotal_").val(precio_cd)
+
 
   let table = document.getElementById("tabla_c")
   let newTableRow = table.insertRow(-1)
@@ -210,34 +213,22 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   newRow.className = "_descripcion"
 
   newRow = newTableRow.insertCell(3)
+  newRow.textContent = $("#stock_").val()
+  newRow.className = "_stock"
+
+  newRow = newTableRow.insertCell(4)
   newRow.textContent = $("#cantidad_").val()
   newRow.className = "_cantidad"
 
-  newRow = newTableRow.insertCell(4)
-  newRow.textContent = $("#pupesos_").val()
-  newRow.className = "_pupesos"
-
   newRow = newTableRow.insertCell(5)
-  newRow.textContent = pubs_
+  newRow.textContent = pubs_desc
   newRow.className = "_pubs"
 
   newRow = newTableRow.insertCell(6)
-  newRow.textContent = pupesos
-  newRow.className = "_pupesos_desc"
+  newRow.textContent = precio_cd
+  newRow.className = "_subtotal"
 
   newRow = newTableRow.insertCell(7)
-  newRow.textContent = pubs_desc
-  newRow.className = "_pubs_desc"
-
-  newRow = newTableRow.insertCell(8)
-  newRow.textContent = precio_sd
-  newRow.className = "_precio_sd"
-
-  newRow = newTableRow.insertCell(9)
-  newRow.textContent = precio_cd
-  newRow.className = "_precio_cd"
-
-  newRow = newTableRow.insertCell(10)
   newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
 
