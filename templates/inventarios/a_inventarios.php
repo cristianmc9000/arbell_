@@ -118,6 +118,7 @@ if((mysqli_num_rows($Busq))>0){
                 <div class="input-field col s6">
                 <input id="cantidad" name="cantidad" type="number" required>
                 <label class="active" for="cantidad">Cantidad: </label>
+                <input type="text" id="cant_ant" hidden>
             </div>
             <div class="input-field col s6">
                 <input id="fechav" name = "fechav" type="date">
@@ -181,6 +182,7 @@ function mod_inventario(id, pup, pub, cantidad, fecha_v) {
     $("#pup").val(pup)
     $("#pub").val(pub)
     $("#cantidad").val(cantidad)
+    $("#cant_ant").val(cantidad)
     $("#fechav").val(fecha_v)
     $("#modal2").openModal()
 }
@@ -202,7 +204,7 @@ $("#modificar_inventario").on("submit", function(e){
         mensaje.html(echo);
         mensaje.show();
         console.log(echo);
-        if (echo.includes("?anio")) {
+        if (echo.includes("?mes")) {
           $("#modal2").closeModal(); 
           Materialize.toast("PRODUCTO MODIFICADO." , 4000);
           $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);
@@ -234,7 +236,7 @@ $("#eliminar_inventario").on("submit", function(e){
         mensaje.show();
         console.log(echo);
 
-        if (echo.includes("?anio")) {
+        if (echo.includes("?mes")) {
           $("#modal3").closeModal(); 
           Materialize.toast("PRODUCTO ELIMINADO." , 4000);
           $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);

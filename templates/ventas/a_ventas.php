@@ -89,7 +89,7 @@
           <th>Descripción</th>
           <th>Stock</th>
           <th>Cantidad</th>
-          <th>Precio U. <br>Pesos</th>
+          <!-- <th>Precio U. <br>Pesos</th> -->
           <th>Precio U. Bs.</th>
           <th>Precio con <br>Descuento</th>
           <th>Subtotal</th>
@@ -149,6 +149,9 @@ $(document).ready(function(){
         $("#pubs_").val(ui.item.pubs)
         $("#stock").html("Cantidad stock: "+ui.item.stock)
         $('#search_producto').val(ui.item.value);  
+        $('#id_').val(ui.item.id);  
+        $('#linea_').val(ui.item.linea);
+        $('#pupesos_').val(ui.item.pupesos);    
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
