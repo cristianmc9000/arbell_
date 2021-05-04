@@ -60,11 +60,11 @@
               <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
             </div>
             <div class="col s3">
-              <input type="text" id="pubs_" placeholder="Precio en bs." required>
+              <input type="text" id="pupesos_" placeholder="Precio en Pesos" required>
             </div>
             <input type="text" id="id_" value="" hidden>
             <input type="text" id="linea_" value="" hidden>
-            <input type="text" id="pupesos_" value="" hidden>
+            <input type="text" id="pubs_" value="" hidden>
           <!--   <input type="text" id="pubs_" value="" hidden> -->
           </div>
           <div class="col s2">
@@ -146,12 +146,12 @@ $(document).ready(function(){
       minLength: 1,
       select: function(event, ui)
       {
-        $("#pubs_").val(ui.item.pubs)
+        $("#pupesos_").val(ui.item.pupesos)
         $("#stock").html("Cantidad stock: "+ui.item.stock)
         $('#search_producto').val(ui.item.value);  
         $('#id_').val(ui.item.id);  
         $('#linea_').val(ui.item.linea);
-        $('#pupesos_').val(ui.item.pupesos);    
+        $('#pubs_').val(ui.item.pubs);    
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
