@@ -22,15 +22,14 @@ if(isset($_GET["term"]))
         $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
         $temp_array['pupesos'] = $row['pupesos'];
         $temp_array['pubs'] = $row['pubs'];
-       
-       $output[] = $temp_array;
+        $output[] = $temp_array;
       }
     }else{
       $output['value'] = '';
       $output['label'] = 'No se encontraron coincidencias';
     }
 
- echo json_encode($output);
+    echo json_encode($output);
 }
 
 ?>
