@@ -20,6 +20,8 @@ $cant = $cantidad - $cant_ant;
 $periodo = $_SESSION["periodo"];
 	
 
+
+
 	//consulta modificar inventario
 	$consulta ="UPDATE inventario SET pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fecha_venc='".$fecha_v."' WHERE id= '".$id."' ";
 	mysqli_query($conexion, $consulta) or die(mysql_error()); 
@@ -31,9 +33,16 @@ $periodo = $_SESSION["periodo"];
 		}else{
 			die(mysql_error());
 		}
-		
+
+//PARA ACTUALIZAR A LAS CANTIDADES CORRECTAS SUMANDO CANTIDADES DESDE INVENTARIO
+// $consulta = "SELECT id FROM productos WHERE estado = 1";
+// $busq = $conexion->query($consulta);
+
+// while ($arr = $busq->fetch_array()) {
+// 	$sql = "UPDATE `invcant` SET cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.codp = '".$arr['id']."') WHERE codp = '".$arr['id']."'";
+// 	$res = $conexion->query($sql);
+
+// }
 ?>
 
-<!-- LA TABLA INVENTARIO NO DEBERIA TENER CANTIDADES INDIVIDUALES, PORQUE AL MOMENTO DE LA VENTA NO SE PUEDE ESCOGER CUAL VENDER POR LO TANTO NO SE SABE CUAL REDUCIR.... 
-ENTONCES LA UNICA CANTIDAD QUE DEBE MANEJARSE ES LA DE LA TABLA 'invcant' 
-SI QUEREMOS MANTENER LA CANTIDAD EN LA TABLA 'inventario' SERIA COMO CANTIDAD INICIAL ADQUIRIDA...-->
+

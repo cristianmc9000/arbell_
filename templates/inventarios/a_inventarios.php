@@ -171,7 +171,7 @@ if((mysqli_num_rows($Busq))>0){
 var mensaje = $("#mensaje");
 $(document).ready(function() {
     $('#tabla1').dataTable( {
-        "order": [[ 0, "desc" ]]
+        "order": [[ 0, "asc" ]]
     } );
     $('#modal').leanModal();
 
