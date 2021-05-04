@@ -118,7 +118,7 @@ if((mysqli_num_rows($Busq))>0){
                 <div class="input-field col s6">
                 <input id="cantidad" name="cantidad" type="number" required>
                 <label class="active" for="cantidad">Cantidad: </label>
-                <input type="text" id="cant_ant" hidden>
+                <input type="text" id="cant_ant" name="cant_ant" hidden>
             </div>
             <div class="input-field col s6">
                 <input id="fechav" name = "fechav" type="date">

@@ -9,10 +9,12 @@ $pupesos = $_POST["pupesos"];
 $pubs = $_POST["pubs"];
 $cantidad = $_POST["cantidad"];
 $fecha_v = $_POST["fechav"];
-
+$cant_ant = $_POST["cant_ant"];
 if($fecha_v == ""){
 	$fecha_v = '0000-00-00';
 }
+
+$cant = $cantidad - $cant_ant;
 
 $year = $_SESSION['anio'];
 $periodo = $_SESSION["periodo"];
@@ -23,7 +25,7 @@ $periodo = $_SESSION["periodo"];
 	mysqli_query($conexion, $consulta) or die(mysql_error()); 
 		
 	//consulta actualizar cantidad de inventario
-	$sql = "UPDATE `invcant` SET cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.codp = (SELECT codp FROM inventario WHERE id = '".$id."')) WHERE codp = (SELECT codp FROM inventario WHERE id = '".$id."')";
+	$sql = "UPDATE `invcant` SET cantidad = cantidad + (".$cant.") WHERE codp = (SELECT codp FROM inventario WHERE id = ".$id.") ";
 		if (mysqli_query($conexion, $sql) or die(mysql_error())) {
 			die('?mes='.$periodo);
 		}else{
