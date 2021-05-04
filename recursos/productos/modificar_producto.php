@@ -12,7 +12,7 @@ $descripcion = $_POST["descripcion"];
 $pupesos = $_POST["pupesos"];
 $pubs = $_POST["pubs"];
 $periodo = $_SESSION["periodo"];
-$year = $_SESSION['anio'];
+// $year = $_SESSION['anio'];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
@@ -46,7 +46,7 @@ if ($cod != $codant) {
 	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."', pupesos='".$pupesos."', pubs='".$pubs."' WHERE id= '".$codant."'";
 
 	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
-		die('?anio='.$year.'&mes='.$periodo);
+		die('?mes='.$periodo);
 	}
 
 ?>

@@ -14,7 +14,7 @@ $pubs = $_POST["pubs"];
 // $cantidad = $_POST["cantidad"];
 // $fechav = $_POST["fechav"];
 $periodo = $_SESSION["periodo"];
-$year = $_SESSION['anio'];
+// $year = $_SESSION['anio'];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
@@ -52,7 +52,7 @@ if(strlen($descripcion) > $maxCaracteres) {
 	//Consulta para agregar la cantidad del nuevo producto
 	$consultaAC = "INSERT INTO invcant (codp) VALUES('".$cod."')";
 	if(mysqli_query($conexion, $consultaAC) or die(mysql_error())) {
-		die('?anio='.$year.'&mes='.$periodo);
+		die('?mes='.$periodo);
 	}
 
 

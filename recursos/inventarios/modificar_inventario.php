@@ -16,7 +16,7 @@ if($fecha_v == ""){
 
 $cant = $cantidad - $cant_ant;
 
-$year = $_SESSION['anio'];
+// $year = $_SESSION['anio'];
 $periodo = $_SESSION["periodo"];
 	
 

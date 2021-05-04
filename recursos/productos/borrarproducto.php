@@ -10,7 +10,7 @@ $year = $_SESSION['anio'];
 
 	$consultaBorrar = "UPDATE productos SET estado=0 WHERE id= '".$idPOST."'";
 	if(mysqli_query($conexion, $consultaBorrar) or die(mysql_error())){
-		die('?anio='.$year.'&mes='.$periodo);
+		die('?mes='.$periodo);
 	}
 
 ?>

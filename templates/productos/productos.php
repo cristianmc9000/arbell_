@@ -266,7 +266,7 @@ if((mysqli_num_rows($Busq2))>0){
 
 
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
-    <div id="mensaje" class="modal-content">
+    <div id="mensaje" class="modal-content" hidden>
 
 <script>
 
@@ -293,9 +293,9 @@ $("#agregar_producto").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        mensaje.show();
+        // mensaje.show();
         console.log(echo)
-        if (echo.includes("?anio")) {
+        if (echo.includes("?mes")) {
           $("#modal1").closeModal(); 
           Materialize.toast("PRODUCTO AGREGADO." , 4000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);
@@ -338,9 +338,9 @@ $("#modificar_producto").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        mensaje.show();
+        // mensaje.show();
         console.log(echo);
-        if (echo.includes("?anio")) {
+        if (echo.includes("?mes")) {
           $("#modal2").closeModal(); 
           Materialize.toast("PRODUCTO MODIFICADO." , 4000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);
@@ -369,10 +369,10 @@ $("#eliminar_producto").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        mensaje.show();
+        // mensaje.show();
         console.log(echo);
 
-        if (echo.includes("?anio")) {
+        if (echo.includes("?mes")) {
           $("#modal3").closeModal(); 
           Materialize.toast("PRODUCTO ELIMINADO." , 4000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);

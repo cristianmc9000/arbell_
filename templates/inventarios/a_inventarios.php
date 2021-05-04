@@ -164,7 +164,7 @@ if((mysqli_num_rows($Busq))>0){
 
 
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
-    <div id="mensaje" class="modal-content">
+    <div id="mensaje" class="modal-content" hidden>
 
 <script>
 
@@ -202,7 +202,7 @@ $("#modificar_inventario").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        mensaje.show();
+        // mensaje.show();
         console.log(echo);
         if (echo.includes("?mes")) {
           $("#modal2").closeModal(); 
@@ -233,7 +233,7 @@ $("#eliminar_inventario").on("submit", function(e){
     }).done(function(echo){
       if (echo !== "") {
         mensaje.html(echo);
-        mensaje.show();
+        // mensaje.show();
         console.log(echo);
 
         if (echo.includes("?mes")) {
