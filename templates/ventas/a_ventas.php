@@ -20,7 +20,7 @@
 </style>
 
     <div class="fuente" style="">
-      <h5 align="" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87">Buscar Lider/Experta</h5>
+      <h5 align="" style="color: red;">Buscar Lider/Experta</h5>
       <div class="row">
         <form id="insert_row" >
           <div class="input-field col s6">
@@ -47,7 +47,7 @@
 <!-- anadir buscar -->
     <div class="row">
     <div class="fuente" style="">
-      <h5 align="" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87">Buscar producto</h5>
+      <h5 align="" style="color: red;">Buscar producto</h5>
       <div class="row">
         <form id="insert_row_producto" >
           <div class="input-field col s5">
