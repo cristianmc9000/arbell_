@@ -112,54 +112,19 @@ if((mysqli_num_rows($Busq2))>0){
 
 <!--MODAL AGREGAR LINEA-->
 <div class="row">
-<div id="modal1" class="modal col s4 offset-s4">
+<div id="modal_lin" class="modal">
   <div class="modal-content">
-    <h4>Nuevo producto</h4>  
+    <h4>Nueva Linea</h4>  
     <div class="row">
-      <form class="col s12" id="agregar_producto">
-          <div class="row">
-            <div class="input-field file-field col s6">
-              <div class="btn">
-                <span>Foto</span>
-                <input type="file" name="imagen">
-              </div>
-              <div class="file-path-wrapper">
-                <input id="foto" class="file-path validate" type="text">
-              </div>
-              
-            </div>
-            <div class="input-field col s6">
-              <input name="codigo" type="text" autocomplete="off" required>
-              <label for="codigo">Código:</label>
-            </div>
+      <form class="col s12" id="agregar_linea">
+          <div class="input-field col s12">
+            <input name="linea_" id="linea_" type="text" class="validate">
+            <label for="linea_">Nombre de la Linea</label>
           </div>
-          <div class="row">  
-            <div class="input-field col s6">
-              <select id = "linea" name = "linea" class="browser-default">
-                <option value="" disabled selected>Seleccionar linea</option>
-                <?php foreach($fila2 as $a  => $valor){ ?>
-                  <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="input-field col s6">
-              <input name="descripcion" type="text" autocomplete="off" required>
-              <label for="descripcion">Descripción:</label>
-            </div>
-          </div>
-          <div class="row">
-            <div  class="input-field col s6">
-              <input name="pupesos" id="pupesos" type="text" onkeypress="convertira()" autocomplete="off" required>
-              <label for="pupesos">P.U. Ref. (pesos arg.):</label>
-            </div>
-            <div class="input-field col s6">
-              <input name="pubs" id="pubs" type="text" autocomplete="off" required>
-              <label class="active" for="pubs">P.U. Ref. (Bs.):</label>
-            </div>
-          </div>
+          <br>
           <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+            <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+            <a href="#!" class=" modal-action modal-close waves-effect waves-light left btn red">Cancelar</a>
           </div>
       </form>
     </div>
@@ -331,7 +296,7 @@ $(document).ready(function() {
         "order": [[ 0, "desc" ]]
     } );
     $('#modal').leanModal();
-
+    $('#modal_linea').leanModal();
 });
 
 $("#agregar_producto").on("submit", function(e){
@@ -406,10 +371,10 @@ $("#modificar_producto").on("submit", function(e){
 });
 
 function borrar_producto(id){
-
   $("#datos_borrar").val(id)
   $('#modal3').openModal()
 }
+
 $("#eliminar_producto").on("submit", function(e){
     e.preventDefault();
     var val = new FormData(document.getElementById("eliminar_producto"));
@@ -437,15 +402,33 @@ $("#eliminar_producto").on("submit", function(e){
     });
 });
 
+$("#agregar_linea").on("submit", function(e){
+    e.preventDefault();
+    var val = new FormData(document.getElementById("agregar_linea"));
+    $.ajax({
+      url: "recursos/productos/agregar_linea.php",
+      type: "POST",
+      dataType: "HTML",
+      data: val,
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(echo){
+        mensaje.html(echo);
+        console.log(echo);
+        if (echo.includes("?mes")) {
+          $("#modal_lin").closeModal(); 
+          Materialize.toast("LINEA AGREGADA." , 4000);
+          $("#cuerpo").load("templates/productos/productos.php"+echo);
+        }
+      })
+    });
 
 function convertira() {
-
   pesos = $("#pupesos").val()
   bs = pesos * parseFloat($("#valor").val());
- 
   $("#pubs").val(bs.toFixed(1));
 }
-
 $("#pupesos").on("keydown input", function(){
   pesos = $("#pupesos").val()
   bs = pesos * parseFloat($("#valor").val());
@@ -453,19 +436,15 @@ $("#pupesos").on("keydown input", function(){
 })
 
 function convertirm() {
-
   pesos = $("#pup").val()
   bs = pesos * parseFloat($("#valor").val());
- 
   $("#pub").val(bs.toFixed(1));
 }
-
 $("#pup").on("keydown input", function(){
   pesos = $("#pup").val()
   bs = pesos * parseFloat($("#valor").val());
   $("#pub").val(bs.toFixed(1));
 })
-
 </script>
 
 </div>

@@ -1,11 +1,8 @@
 <?php
-
 require('../conexion.php');
 require('../sesiones.php');
 session_start();
-
 define ('SITE_ROOT', realpath(dirname(__FILE__)));
-
 $cod = $_POST["codigo"];
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
@@ -42,7 +39,6 @@ if(strlen($descripcion) > $maxCaracteres) {
 
 	if(isset($datosConsultaBID['id'])){
 		die('<script>Materialize.toast("Ya existe un producto con el código: '.$cod.'" ,5000)</script>');
-
 	}
 
 	//Consulta para agregar el nuevo producto 
