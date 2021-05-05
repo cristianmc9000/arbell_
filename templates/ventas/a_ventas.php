@@ -187,7 +187,6 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   pubs_desc = parseFloat(pubs_) - pubs_desc
   pubs_desc = pubs_desc.toFixed(1)
   // console.log(pubs_desc+"pcd bs")
-
   /* //Subtotal sin descuento
   precio_sd = parseFloat($("#cantidad_").val()) * pubs_
   precio_sd = precio_sd.toFixed(1) */
