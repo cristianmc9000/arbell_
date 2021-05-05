@@ -497,7 +497,7 @@ function insertar_compra_detalle (json_data) {
 //   return response; // parses JSON response into native JavaScript objects
 // }
 
-
+//borrar elemento de un tabla
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())
 }

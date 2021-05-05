@@ -29,7 +29,7 @@
               </div>
               <!-- codigo -->
               <div class="col s3">
-              <input type="text" id="ca" placeholder="código" autocomplete="off" required>
+              <input style="color: black;" type="text" id="ca" placeholder="código" autocomplete="off" disabled required>
               </div>
 
               <div class="col s2">
@@ -45,52 +45,49 @@
     </div>
 
 <!-- anadir buscar -->
-    <div class="row">
-    <div class="fuente" style="">
-      <h5 align="" style="color: red;">Buscar producto</h5>
-      <div class="row">
-        <form id="insert_row_producto" >
-          <div class="input-field col s5">
-            <div class="col s5">
-              <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+    <div id="form_productos" class="row" hidden >
+      <div class="fuente" style="">
+        <h5 align="" style="color: red;">Buscar producto</h5>
+        <div class="row">
+          <form id="insert_row_producto" >
+            <div class="input-field col s5">
+              <div class="col s5">
+                <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+              </div>
+              
+              <div class="col s3">
+                <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
+                <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
+                <input type="text" id="stock_" hidden>
+              </div>
+              <div class="col s3">
+                <input type="text" id="pupesos_" placeholder="Precio en Pesos" required>
+              </div>
+              <input type="text" id="id_" value="" hidden>
+              <input type="text" id="linea_" value="" hidden>
+              <input type="text" id="pubs_" value="" hidden>
+              <input type="text" id="subtotal_" value="" hidden>
             </div>
-            
-            <div class="col s3">
-              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
-              <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
-              <input type="text" id="stock_" hidden>
+            <div class="col s2">
+              <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
             </div>
-            <div class="col s3">
-              <input type="text" id="pupesos_" placeholder="Precio en Pesos" required>
-            </div>
-            <input type="text" id="id_" value="" hidden>
-            <input type="text" id="linea_" value="" hidden>
-            <input type="text" id="pubs_" value="" hidden>
-            <input type="text" id="subtotal_" value="" hidden>
-          </div>
-          <div class="col s2">
-            <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-
     </div>
 
 
     <!-- tabla de productos pa la venta -->
-    <div class="row">
+    <div id="tabla_ventas" class="row" hidden>
   <div class="col s8">
-  <table id="tabla_compras" class="highlight">
+  <table class="highlight">
     <thead>
       <tr>
-          <!-- <th>Ver</th> -->
           <th>Código<br>(Producto)</th>
           <th>Linea</th>
           <th>Descripción</th>
           <th>Stock</th>
           <th>Cantidad</th>
-          <!-- <th>Precio U. <br>Pesos</th> -->
           <th>Precio U. Bs.</th>
           <th>Subtotal</th>
           <th>Borrar</th>
@@ -121,6 +118,7 @@
 
 $(document).ready(function(){
     $('#modal').leanModal();
+    //----------filtro lider/experta---------------
     $('#search_le').autocomplete({
       source: "recursos/ventas/buscar_le.php",
       minLength: 1,
@@ -131,6 +129,8 @@ $(document).ready(function(){
           $("#descuento_").val('30')
         }
         $('#search_le').val(ui.item.value);  
+        $('#form_productos').attr("hidden", false);
+        $('#tabla_ventas').attr("hidden", false);
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
@@ -165,11 +165,13 @@ $(document).ready(function(){
 /* --------------funcion insertar fila de producto---------------- */
 document.getElementById("insert_row_producto").addEventListener("submit", function (event) {
   event.preventDefault();
-
+  if(parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())){
+    Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>",5000)
+    return false;
+  }
 //Convertir precio en pesos a precio en Bs.
   var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   pubs_ = pubs_.toFixed(1)
-
 // PRECIO CON DESCUENTO EN PESOS
   var desc_ = $("#descuento_").val()
   desc_ = parseFloat(desc_) * 0.01;
@@ -184,7 +186,6 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
   pubs_desc = parseFloat(pubs_) - pubs_desc
   pubs_desc = pubs_desc.toFixed(1)
-
   // console.log(pubs_desc+"pcd bs")
 
   /* //Subtotal sin descuento
@@ -195,7 +196,6 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
   precio_cd = precio_cd.toFixed(1)
   $("#subtotal_").val(precio_cd)
-
 
   let table = document.getElementById("tabla_c")
   let newTableRow = table.insertRow(-1)
@@ -231,12 +231,14 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   newRow = newTableRow.insertCell(7)
   newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
-
+  $('#stock').html("")
   $("#search_producto").val("")
   $("#cantidad_").val("")
   $("#pupesos_").val("")
 });
 
-
+function delete_row(e) {
+  console.log(e.target.parentNode.parentNode.parentNode.remove())
+}
 </script>
 
