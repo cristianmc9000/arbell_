@@ -53,7 +53,7 @@ if((mysqli_num_rows($Busq2))>0){
 <div class="row">
 <div class="col s11">
 
-<div class="col s6">
+<div class="col s4">
   <span class="fuente">
     <h3>
       Productos
@@ -61,10 +61,10 @@ if((mysqli_num_rows($Busq2))>0){
       <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
     </h3>
   </span>
-
 </div>
-
-
+<div class="col s2 offset-s1 input-field">
+  <a class="waves-effect waves-light btn-large orange" id="modal_linea" href="#modal_lin"><i class="material-icons left">add</i> Nueva Linea</a>
+</div>
 <!-- TABLA -->
 <table id="tabla1" class="highlight">
   <thead>
@@ -110,6 +110,62 @@ if((mysqli_num_rows($Busq2))>0){
   </tbody>
 </table>
 
+<!--MODAL AGREGAR LINEA-->
+<div class="row">
+<div id="modal1" class="modal col s4 offset-s4">
+  <div class="modal-content">
+    <h4>Nuevo producto</h4>  
+    <div class="row">
+      <form class="col s12" id="agregar_producto">
+          <div class="row">
+            <div class="input-field file-field col s6">
+              <div class="btn">
+                <span>Foto</span>
+                <input type="file" name="imagen">
+              </div>
+              <div class="file-path-wrapper">
+                <input id="foto" class="file-path validate" type="text">
+              </div>
+              
+            </div>
+            <div class="input-field col s6">
+              <input name="codigo" type="text" autocomplete="off" required>
+              <label for="codigo">Código:</label>
+            </div>
+          </div>
+          <div class="row">  
+            <div class="input-field col s6">
+              <select id = "linea" name = "linea" class="browser-default">
+                <option value="" disabled selected>Seleccionar linea</option>
+                <?php foreach($fila2 as $a  => $valor){ ?>
+                  <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="input-field col s6">
+              <input name="descripcion" type="text" autocomplete="off" required>
+              <label for="descripcion">Descripción:</label>
+            </div>
+          </div>
+          <div class="row">
+            <div  class="input-field col s6">
+              <input name="pupesos" id="pupesos" type="text" onkeypress="convertira()" autocomplete="off" required>
+              <label for="pupesos">P.U. Ref. (pesos arg.):</label>
+            </div>
+            <div class="input-field col s6">
+              <input name="pubs" id="pubs" type="text" autocomplete="off" required>
+              <label class="active" for="pubs">P.U. Ref. (Bs.):</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
 
 <!--MODAL AGREGAR PRODUCTO-->
 <div class="row">
@@ -167,7 +223,6 @@ if((mysqli_num_rows($Busq2))>0){
   </div>
 </div>
 </div>
-
 
 <!--MODAL MODIFICAR PRODUCTO-->
 <div class="row">
