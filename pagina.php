@@ -44,7 +44,6 @@ while($arr = $Busq->fetch_array())
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link rel="stylesheet" type="text/css" href="css/datatable.css">
   <link rel="stylesheet" type="text/css" href="css/materialize.css">
-  
   <script src="js/materialize.js"></script>
   <script src="js/datatable.js"></script>
 

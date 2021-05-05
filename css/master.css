@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background: url(../img/iniciar_sesion.jpg) no-repeat center top;
+    background: url(../img/fondo_login.jpg) no-repeat center top;
     background-size: cover;
     font-family: sans-serif;
     height: 100vh;
@@ -9,8 +9,8 @@ body{
 
 .login-box {
     width: 320px;
-    height: 420px;
-    /* background: #000; */
+    height: 380px;
+    background: #000; 
     color: #fff;
     top: 50%;
     left: 50%;
@@ -30,7 +30,7 @@ body{
 
 }
 
-.logo-box h1 {
+.login-box h1 {
     margin: 0;
     padding: 0 0 20px;
     text-align: center;
@@ -38,7 +38,6 @@ body{
 }
 
 .login-box label {
-    
     margin: 0;
     padding: 0;
     font-weight: bold;
@@ -55,4 +54,19 @@ body{
     border: none;
     border-bottom: 1px solid #fff;
     background: transparent;
+    outline: none;
+    height: 40px;
+    color: black;
+    font-size: 16px;
+}
+
+.login-box input[type="submit"] {
+    margin-top: 25px;
+    border: none;
+    outline: none;
+    height: 40px;
+    background: white;
+    color: black;
+    font-size: 18px;
+    border-radius: 20px;
 }
