@@ -64,7 +64,7 @@ if((mysqli_num_rows($Busq))>0){
             <th>Descripcion</th>
             <th>P.U.<br>(arg.)</th>
             <th>P.U.<br>(Bs.)</th>
-            <th>Cantidad</th>
+            <th>Stock inicial <br>adquirido</th>
             <th>Fecha de <br> Registro </th>
             <th>Fecha de <br> Vencimiento </th>
             <th>Modificar</th>

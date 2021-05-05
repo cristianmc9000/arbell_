@@ -34,7 +34,8 @@
 
               <div class="col s2">
               <input id="descuento_" type="number" min="0" max="100" value="0" class="validate" placeholder="% Descuento">
-            </div>
+              <input type="text" id="lugar" hidden>
+              </div>
           </div>
               <!-- boton insertar -->
               <!-- <div class="col s2">
@@ -78,7 +79,7 @@
 
 
     <!-- tabla de productos pa la venta -->
-    <div id="tabla_ventas" class="row" hidden>
+<div id="tabla_ventas" class="row" hidden>
   <div class="col s8">
   <table class="highlight">
     <thead>
@@ -89,6 +90,7 @@
           <th>Stock</th>
           <th>Cantidad</th>
           <th>Precio U. Bs.</th>
+          <th>Precio U. Bs. <br>con descuento</th>
           <th>Subtotal</th>
           <th>Borrar</th>
       </tr>
@@ -97,6 +99,10 @@
     </tbody>
   </table>
   </div>
+  <div class="col s3 offset-s1">
+    <a class="waves-effect waves-light btn-large " id="modal" href="#modal1"><i class="material-icons right">receipt</i>Registrar venta</a>
+  </div>
+</div>
 
 <!--MODAL AGREGAR PRODUCTO-->
 <div class="row">
@@ -106,7 +112,7 @@
   </div>
   <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
-      <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR COMPRA</a>
+      <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR VENTA</a>
   </div>
 </div>
 </div>
@@ -129,6 +135,7 @@ $(document).ready(function(){
           $("#descuento_").val('30')
         }
         $('#search_le').val(ui.item.value);  
+        $('#lugar').val(ui.item.lugar);
         $('#form_productos').attr("hidden", false);
         $('#tabla_ventas').attr("hidden", false);
       }
@@ -176,9 +183,9 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   var desc_ = $("#descuento_").val()
   desc_ = parseFloat(desc_) * 0.01;
   var pupesos = $("#pupesos_").val()
-  pupesos = parseFloat(pupesos) * parseFloat(desc_);
-  pupesos = parseFloat($("#pupesos_").val()) - pupesos
-  pupesos = pupesos.toFixed(1)
+  pupesos_desc = parseFloat(pupesos) * parseFloat(desc_);
+  pupesos_desc = parseFloat($("#pupesos_").val()) - pupesos
+  pupesos_desc = pupesos_desc.toFixed(1)
   // console.log(pupesos+"pcd pesos")
 
 // PRECIO CON DESCUENTO EN BS.
@@ -220,14 +227,18 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   newRow.className = "_cantidad"
 
   newRow = newTableRow.insertCell(5)
-  newRow.textContent = pubs_desc
+  newRow.textContent = pubs_
   newRow.className = "_pubs"
 
   newRow = newTableRow.insertCell(6)
-  newRow.textContent = precio_cd
-  newRow.className = "_subtotal"
+  newRow.textContent = pubs_desc
+  newRow.className = "_pubs_desc"
 
   newRow = newTableRow.insertCell(7)
+  newRow.textContent = precio_cd
+  newRow.className = "_precio_cd"
+
+  newRow = newTableRow.insertCell(8)
   newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
   $('#stock').html("")
@@ -235,6 +246,223 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   $("#cantidad_").val("")
   $("#pupesos_").val("")
 });
+
+function crear_html() {
+
+  let filas = $("#tabla_ventas").find('tbody tr').length;
+  if (filas < 1) {
+    Materialize.toast("Debe ingresar al menos un registro.", 5000);
+    return false;
+  }
+
+  var date = new Date();
+  var options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric'
+  };
+  date = date.toLocaleDateString("es-ES", options)
+
+  array_ = "";
+  let items = 0
+  var pubs__ = 0
+  var pubs__desc = 0
+  let gan_exp_u = 0
+  let gan_exp = 0
+  var totalsd = 0
+  let totalcd = 0.0
+  var descuento = 0
+
+  document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
+
+    let fila = `<tr>
+                  <td>${e.querySelector('._id').innerText}</td>
+                  <td>${e.querySelector('._linea').innerText}</td>
+                  <td>${e.querySelector('._descripcion').innerText}</td>
+                  <td>${e.querySelector('._cantidad').innerText}</td>
+                  <td>${e.querySelector('._pubs').innerText}</td>
+                  <td>${e.querySelector('._pubs_desc').innerText}</td>
+                  <td>${e.querySelector('._precio_cd').innerText}</td>
+                </tr>`;
+
+    array_ = array_ + fila;
+    gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
+
+    // totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
+    totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
+    pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
+    pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
+    items = items + parseInt(e.querySelector('._cantidad').innerText);
+  });
+
+  gan_exp_u = pubs__ - pubs__desc
+  gan_exp_u = gan_exp_u.toFixed(1)
+  gan_exp = gan_exp - totalcd
+  gan_exp = gan_exp.toFixed(1)
+  _descuento = $("#descuento_").val();
+  _valor = $("#valor").val();
+
+  let _nombre_le = $("#search_le").val()
+  let _ca = $("#ca").val()
+
+  var data = detalle_venta()
+  data.push({
+    total_cd: totalcd+""
+  })
+  data.push({
+    _descuento: _descuento
+  })
+  data.push({
+    _valor: _valor
+  })
+  data.push({
+    _ca: _ca
+  })
+
+
+
+  var json_data = JSON.stringify(data)
+
+  // icd(json_data).then(res =>{
+  //   console.log(res)
+  // })
+
+  insertar_venta_detalle(json_data).then(respuesta => {
+    console.log(respuesta + " respuesta de funcion promise")
+
+    var miHtml = `<!DOCTYPE html>
+
+<html lang="es">
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>RECIBO</title>
+
+  </head>
+  <style>
+    body{
+      font-family: 'Consolas';
+    }
+    .detalle, .detalle th, .detalle td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+ 
+  </style>
+  <body>
+  
+    <span style="float:right">${date}</span>
+    <br><br>
+
+    <table width="100%" border="0">
+      <tr>
+        <td width="33%" align="left">
+          <span>Código Arbell: ${_ca}</span><br>
+          <span>Lider/Experta: ${_nombre_le}</span>
+        </td>
+        <td width="33%" align="center">
+          <span>Punto de venta: Principal</span><br>
+          <span>Forma de pago: Efectivo</span><br>
+          <span>Periodo: PERIODO 2 - 2021</span>
+        </td>
+        <td width="33%" align="right">
+          <span>Distribuidora: CARMIÑA</span>
+        </td>
+      </tr>
+
+    </table>
+
+   
+  <br>
+  
+   <h2>Items del comprobante</h2>
+   <table width="100%" class="detalle">
+    <thead>
+      <tr >
+        <th >Código<br>(producto)</th>
+        <th >Linea</th>
+        <th >Descripción</th>
+        <th >Cantidad</th>
+        <th >P. Unidad (Bs.)</th>
+        <th >P.Unidad C.D. (Bs.)</th>
+        <th >Subtotal (Bs.)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${array_}
+    </tbody>
+   </table>
+   <br>
+   <br>
+
+  <div style="float: right">
+   <h3>TOTALES</h3>
+  
+     <table class="detalle">
+      <tr>
+        <td><b>Items:</b></td>
+        <td><b>${items} u. (Incluye 0 aux):</b></td>
+      </tr>
+      <tr>
+        <td><b>Ganancias experta U.:</b></td>
+        <td>${gan_exp_u}</td>
+      </tr>
+      <tr>
+        <td><b>Ganancias experta:</b></td>
+        <td>${gan_exp}</td>
+      </tr>
+      <tr>
+        <td><b>Total a pagar:</b></td>
+        <td>${totalcd}</td>
+      </tr>
+     </table>
+   </div>
+  </body>
+</html>`;
+    imprimir(miHtml, respuesta);
+    $("#modal1").closeModal();
+    $("#tabla_c tr").remove();
+  })
+}
+
+function detalle_venta() {
+  let array_ = [];
+document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e){
+  let fila = {
+    id: e.querySelector('._id').innerText,
+    linea: e.querySelector('._linea').innerText,
+    descripcion: e.querySelector('._descripcion').innerText,
+    cantidad: e.querySelector('._cantidad').innerText,
+    pubs: e.querySelector('._pubs').innerText,
+    pubs_desc: e.querySelector('._pubs_desc').innerText,
+    precio_cd: e.querySelector('._precio_cd').innerText
+  };
+  array_.push(fila)
+});
+return (array_)
+}
+
+function insertar_venta_detalle (json_data) {
+  
+  return new Promise((resolve, rechazar) => {
+    $.ajax({
+      url: "recursos/ventas/registrar_venta.php",
+      data: {
+        "json": json_data
+      },
+      method: "post",
+      success: function(response) {
+        resolve(response)
+      },
+      error: function(error) {
+        console.log(error)
+        rachazar(error)
+      }
+    });
+})
+}
 
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())

@@ -245,8 +245,7 @@ return (array_)
 }
 
 function crear_html() {
-
-
+  
 let filas = $("#tabla_compras").find('tbody tr').length;
   
   if(filas < 1) {
@@ -420,7 +419,7 @@ $("#tabla_c tr").remove();
 function imprimir(miHtml,numfac) {
 
 
-var pdf = new jsPDF('p', 'pt', 'letter');
+var pdf = new jsPDF('l', 'pt', 'a4');
 specialElementHandlers = {
     // element with id of "bypass" - jQuery style selector
     '#bypassme': function (element, renderer) {
@@ -444,10 +443,10 @@ ventana.close();
 
 //FALTA CAMBIAR EL TAMAÑO DE LA HOJA DEL RECIBO
 margins = {
-    top: 80,
-    bottom: 60,
-    left: 40,
-    width: 100
+    top: 1,
+    bottom: 1,
+    left: 10,
+    width: 10
 };  
  pdf.fromHTML(
   miHtml, 
@@ -458,7 +457,7 @@ margins = {
   },
 
   function (dispose) {
-      pdf.save('recibo_'+numfac+'.pdf');
+      pdf.save('recibo_compra_'+numfac+'.pdf');
   }, margins
 );
 

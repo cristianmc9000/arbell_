@@ -16,6 +16,7 @@ if(isset($_GET["term"]))
       {
        $temp_array = array();
        $temp_array['ca'] = $row['CA'];
+       $temp_array['lugar'] = $row['lugar'];
        /* $temp_array['nombre'] = $row['nombre']; */
        $temp_array['value'] = $row['nombre'].' '.$row['apellidos'];
        $temp_array['label'] = $row['CA'].' '.$row['nombre'].' '.$row['apellidos'];
