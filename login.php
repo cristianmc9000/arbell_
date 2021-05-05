@@ -13,36 +13,32 @@ require('recursos/sesiones.php');
     <link rel="stylesheet" href="css/master.css">
 	<link rel="icon" href="img/iconoarbell.ico"></link>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/index.css">
-  <link rel="stylesheet" type="text/css" href="css/datatable.css">
-  <!-- <link rel="stylesheet" type="text/css" href="css/materialize.css"> -->
- <!--  <script src="js/materialize.js"></script> -->
-  <script src="js/datatable.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/datatable.css">
+	<!-- <link rel="stylesheet" type="text/css" href="css/materialize.css"> -->
+	<!--  <script src="js/materialize.js"></script> -->
+	<script src="js/datatable.js"></script>
 </head>
 
 <body>
     <div class="login-box">
         <img class="avatar" src="img/logoarbell.png" alt="Logo Arbell">
         <h1>Ingresar al Sistema</h1>
-		<div class="formulario-acceso">
-        <form method="POST" id="acceso" action="" accept-charset="utf-8">
-            <!-- Usuario -->
-            <label for="username">Usuario</label>
-            	<input style="color: white" type="text" placeholder="Ingresar Usuario" name="userAcceso" class="acceso validate" id="userAcceso" autocomplete="off" maxlength="20">
-				
-            <!-- Contrasseña -->
-            <label for="password">Password</label>
-            	<input style="color: white" type="password" placeholder="Ingresar Password" name="passAcceso" class="acceso" id="passAcceso"  autocomplete="off" maxlength="20">
-			<!-- boton ingresar -->
-            <input type="submit" name="acceso" value="Ingresar"> 
-        </form>
-		</div>
+			<div class="formulario-acceso">
+				<form method="POST" id="acceso" action="" accept-charset="utf-8">
+					<!-- Usuario -->
+					<label for="username">Usuario</label>
+						<input style="color: white" type="text" placeholder="Ingresar Usuario" name="userAcceso" class="acceso validate" id="userAcceso" autocomplete="off" maxlength="20">
+					<!-- Contrasseña -->
+					<label for="password">Password</label>
+						<input style="color: white" type="password" placeholder="Ingresar Password" name="passAcceso" class="acceso" id="passAcceso"  autocomplete="off" maxlength="20">
+					<!-- boton ingresar -->
+						<input type="submit" name="acceso" value="Ingresar"> 
+				</form>
+			</div>
     </div>
-	
-</div>
-</div>
 <div id="mensaje"></div>
 <script>
 //Guardamos el controlador del div con ID mensaje en una variable
@@ -114,9 +110,6 @@ $("#registro").on("submit", function(e){
 		mensaje.show();
 	});
 });
-
-
 </script>
-
 </body>
 </html>
