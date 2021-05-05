@@ -21,6 +21,11 @@ require('recursos/sesiones.php');
 	<!--  <script src="js/materialize.js"></script> -->
 	<script src="js/datatable.js"></script>
 </head>
+<style>
+	body{
+		font-family: 'Segoe UI Light';
+	}
+</style>
 
 <body>
     <div class="login-box">
