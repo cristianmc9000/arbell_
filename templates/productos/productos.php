@@ -104,7 +104,7 @@ if((mysqli_num_rows($Busq2))>0){
       <td>
         <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
       </td>
-
+    
     </tr>
   <?php } ?>  
   </tbody>
