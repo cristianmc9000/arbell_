@@ -47,7 +47,7 @@ if ($tipoPOST == '1') {
 	$consultaMC ="UPDATE clientes SET CA='".$caPOST."', CI='".$ciPOST."', nombre ='".strtoupper($nombrePOST)."', apellidos= '".strtoupper($apellidosPOST)."', telefono = '".$telefonoPOST."', lugar = '".$lugarPOST."', correo = '".$correoPOST."', nivel = '".$tipoPOST."' WHERE id='".$idPOST."'";
 
 	if(mysqli_query($conexion, $consultaMC) or die(mysql_error())){
-		die('<script>$("#modal3").closeModal(); Materialize.toast("Datos de lider/experta modificados.", 5000);</script>');
+		die('success');
 	}
 
 

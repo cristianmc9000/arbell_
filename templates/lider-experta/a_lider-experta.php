@@ -54,9 +54,7 @@ while($arr = $Busq->fetch_array())
 <!-- TABLA -->
 
   <table id="tabla1" class="highlight">
-
         <thead>
-
           <tr>
               <th>Codigo arbell</th>
               <th>CI</th>
@@ -73,10 +71,7 @@ while($arr = $Busq->fetch_array())
               <!--<th data-field="price">Ver Cliente</th>-->
           </tr>
         </thead>
-
         <tbody>
-
-
         <?php foreach($fila as $a  => $valor){ ?>
           <tr>
             <td><?php echo $valor["ca"] ?></td>
@@ -84,7 +79,7 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["nombre"] ?></td>
             <td><?php echo $valor["apellidos"] ?></td>
             <td><?php echo $valor["telefono"] ?></td>
-            <td><?php echo $valor["lugar"] ?></td>
+            <td width="8%"><?php echo $valor["lugar"] ?></td>
             <td><?php echo $valor["correo"] ?></td>
             <td><?php echo $valor["fecha_alta"] ?></td>
             <td><?php echo $valor["nivel"] ?></td>
@@ -96,10 +91,6 @@ while($arr = $Busq->fetch_array())
             <td><a href="#"><i class="material-icons">search</i></a></td>
           </tr>
         <?php } ?> 
-
-
-
-
         </tbody>
     </table>
 
@@ -277,8 +268,10 @@ $("#modificar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
+    	mensaje.html(echo);
+      if (echo.includes('success')) {
+        $("#modal3").closeModal()
+        Materialize.toast("Datos de lider/experta modificados.", 4000)
         $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");
       }
     });
@@ -321,9 +314,10 @@ $("#agregar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        mensaje.show();
+    	mensaje.html(echo)
+      if (echo.includes('reg')){
+      	Materialize.toast('<b>'+echo+'</b>', 4000)
+      	$("#modal1").closeModal()
         $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");   
       }
     });
