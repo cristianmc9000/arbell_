@@ -39,7 +39,6 @@ require('recursos/sesiones.php');
 				</form>
 			</div>
     </div>
-	
 <div id="mensaje"></div>
 <script>
 //Guardamos el controlador del div con ID mensaje en una variable
