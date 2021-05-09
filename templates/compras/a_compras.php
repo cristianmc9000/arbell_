@@ -317,17 +317,10 @@ var json_data = JSON.stringify(data)
 insertar_compra_detalle(json_data).then(respuesta => {
   console.log(respuesta+" respuesta de funcion promise")
 
-var miHtml = `<!DOCTYPE html>
+var miHtml = `<title>RECIBO DE COMPRA</title>
 
-<html lang="es">
-
-  <head>
-    <meta charset="UTF-8" />
-    <title>RECIBO DE COMPRA</title>
-
-  </head>
   <style>
-    body{
+    .bod{
       font-family: 'Consolas';
     }
     .detalle, .detalle th, .detalle td {
@@ -336,7 +329,7 @@ var miHtml = `<!DOCTYPE html>
     }
  
   </style>
-  <body>
+  <div class="bod">
   
     <span style="float:right">${date}</span>
     <br><br>
@@ -407,8 +400,8 @@ var miHtml = `<!DOCTYPE html>
       </tr>
      </table>
    </div>
-  </body>
-</html>`;
+  </div>`;
+
 imprimir(miHtml, respuesta);
 $("#modal1").closeModal();
 $("#tabla_c tr").remove(); 

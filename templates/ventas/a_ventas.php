@@ -46,7 +46,7 @@
     </div>
 
 <!-- anadir buscar -->
-    <div id="form_productos" class="row" hidden >
+    <div id="form_productos" class="row"  >
       <div class="fuente" style="">
         <h5 align="" style="color: red;">Buscar producto</h5>
         <div class="row">
@@ -108,7 +108,7 @@
 <div class="row">
 <div id="modal1" class="modal col s4 offset-s4">
   <div class="modal-content">
-    <h5 class="fuente"><b>Se registrará la compra y se imprimirá un recibo.</b></h5> <br><br> 
+    <h5 class="fuente"><b>Se registrará la venta y se imprimirá un recibo.</b></h5> <br><br> 
   </div>
   <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
@@ -119,67 +119,62 @@
 
 <script>
 
-//recuperar por formdata y enviar por json al lado servidor mediante ajax
-//Crear un array con indices y guardar luego los datos de cantidad y pesos ahi... mediante el indice
-
-$(document).ready(function(){
-    $('#modal').leanModal();
-    //----------filtro lider/experta---------------
-    $('#search_le').autocomplete({
-      source: "recursos/ventas/buscar_le.php",
-      minLength: 1,
-      select: function(event, ui)
-      {
-        $("#ca").val(ui.item.ca)
-        if(ui.item.nivel == "experta"){
-          $("#descuento_").val('30')
-        }
-        $('#search_le').val(ui.item.value);  
-        $('#lugar').val(ui.item.lugar);
-        $('#form_productos').attr("hidden", false);
-        $('#tabla_ventas').attr("hidden", false);
+$(document).ready(function() {
+  $('#modal').leanModal();
+  //----------filtro lider/experta---------------
+  $('#search_le').autocomplete({
+    source: "recursos/ventas/buscar_le.php",
+    minLength: 1,
+    select: function(event, ui) {
+      $("#descuento_").removeAttr('disabled');
+      $("#ca").val(ui.item.ca)
+      if (ui.item.nivel == "experta") {
+        $("#descuento_").val('30')
       }
-    }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
-        return $("<li class='ui-autocomplete-row'></li>")
-        .data("item.autocomplete", item)
-        .append(item.label)
-        .appendTo(ul);
-    };
+      $('#search_le').val(ui.item.value);
+      $('#lugar').val(ui.item.lugar);
+      $('#form_productos').attr("hidden", false);
+      $('#tabla_ventas').attr("hidden", false);
+    }
+  }).data('ui-autocomplete')._renderItem = function(ul, item) {
+    return $("<li class='ui-autocomplete-row'></li>")
+      .data("item.autocomplete", item)
+      .append(item.label)
+      .appendTo(ul);
+  };
 
-    //buscar producto 
-    $('#search_producto').autocomplete({
-      source: "recursos/ventas/buscar_producto.php",
-      minLength: 1,
-      select: function(event, ui)
-      {
-        $("#pupesos_").val(ui.item.pupesos)
-        $("#stock").html("Cantidad stock: "+ui.item.stock)
-        $("#stock_").val(ui.item.stock)
-        $('#search_producto').val(ui.item.value);  
-        $('#id_').val(ui.item.id);  
-        $('#linea_').val(ui.item.linea);
-        $('#pubs_').val(ui.item.pubs);    
-      }
-    }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
-        return $("<li class='ui-autocomplete-row'></li>")
-        .data("item.autocomplete", item)
-        .append(item.label)
-        .appendTo(ul);
-    }; 
+  //buscar producto 
+  $('#search_producto').autocomplete({
+    source: "recursos/ventas/buscar_producto.php",
+    minLength: 1,
+    select: function(event, ui) {
+      $("#pupesos_").val(ui.item.pupesos)
+      $("#stock").html("Cantidad stock: " + ui.item.stock)
+      $("#stock_").val(ui.item.stock)
+      $('#search_producto').val(ui.item.value);
+      $('#id_').val(ui.item.id);
+      $('#linea_').val(ui.item.linea);
+      $('#pubs_').val(ui.item.pubs);
+    }
+  }).data('ui-autocomplete')._renderItem = function(ul, item) {
+    return $("<li class='ui-autocomplete-row'></li>")
+      .data("item.autocomplete", item)
+      .append(item.label)
+      .appendTo(ul);
+  };
 });
 /* --------------funcion insertar fila de producto---------------- */
-document.getElementById("insert_row_producto").addEventListener("submit", function (event) {
+document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
   event.preventDefault();
-  if(parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())){
-    Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>",5000)
+  $("#descuento_").prop("disabled", true);
+  if (parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) {
+    Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>", 5000)
     return false;
   }
-//Convertir precio en pesos a precio en Bs.
+  //Convertir precio en pesos a precio en Bs.
   var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   pubs_ = pubs_.toFixed(1)
-// PRECIO CON DESCUENTO EN PESOS
+  // PRECIO CON DESCUENTO EN PESOS
   var desc_ = $("#descuento_").val()
   desc_ = parseFloat(desc_) * 0.01;
   var pupesos = $("#pupesos_").val()
@@ -188,7 +183,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
   pupesos_desc = pupesos_desc.toFixed(1)
   // console.log(pupesos+"pcd pesos")
 
-// PRECIO CON DESCUENTO EN BS.
+  // PRECIO CON DESCUENTO EN BS.
   var pubs_desc = pubs_
   pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
   pubs_desc = parseFloat(pubs_) - pubs_desc
@@ -205,7 +200,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
   let table = document.getElementById("tabla_c")
   let newTableRow = table.insertRow(-1)
-  
+
   let newRow = newTableRow.insertCell(0)
   newRow.textContent = $("#id_").val()
   newRow.className = "_id"
@@ -309,7 +304,7 @@ function crear_html() {
 
   var data = detalle_venta()
   data.push({
-    total_cd: totalcd+""
+    total_cd: totalcd + ""
   })
   data.push({
     _descuento: _descuento
@@ -321,8 +316,6 @@ function crear_html() {
     _ca: _ca
   })
 
-
-
   var json_data = JSON.stringify(data)
 
   // icd(json_data).then(res =>{
@@ -332,17 +325,10 @@ function crear_html() {
   insertar_venta_detalle(json_data).then(respuesta => {
     console.log(respuesta + " respuesta de funcion promise")
 
-    var miHtml = `<!DOCTYPE html>
+    var miHtml = `<title>RECIBO</title>
 
-<html lang="es">
-
-  <head>
-    <meta charset="UTF-8" />
-    <title>RECIBO</title>
-
-  </head>
   <style>
-    body{
+    .bod{
       font-family: 'Consolas';
     }
     .detalle, .detalle th, .detalle td {
@@ -351,7 +337,7 @@ function crear_html() {
     }
  
   </style>
-  <body>
+  <div class="bod">
   
     <span style="float:right">${date}</span>
     <br><br>
@@ -419,8 +405,7 @@ function crear_html() {
       </tr>
      </table>
    </div>
-  </body>
-</html>`;
+  </div>`;
     imprimir(miHtml, respuesta);
     $("#modal1").closeModal();
     $("#tabla_c tr").remove();
@@ -429,19 +414,19 @@ function crear_html() {
 
 function detalle_venta() {
   let array_ = [];
-document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e){
-  let fila = {
-    id: e.querySelector('._id').innerText,
-    linea: e.querySelector('._linea').innerText,
-    descripcion: e.querySelector('._descripcion').innerText,
-    cantidad: e.querySelector('._cantidad').innerText,
-    pubs: e.querySelector('._pubs').innerText,
-    pubs_desc: e.querySelector('._pubs_desc').innerText,
-    precio_cd: e.querySelector('._precio_cd').innerText
-  };
-  array_.push(fila)
-});
-return (array_)
+  document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
+    let fila = {
+      id: e.querySelector('._id').innerText,
+      linea: e.querySelector('._linea').innerText,
+      descripcion: e.querySelector('._descripcion').innerText,
+      cantidad: e.querySelector('._cantidad').innerText,
+      pubs: e.querySelector('._pubs').innerText,
+      pubs_desc: e.querySelector('._pubs_desc').innerText,
+      precio_cd: e.querySelector('._precio_cd').innerText
+    };
+    array_.push(fila)
+  });
+  return (array_)
 }
 
 function insertar_venta_detalle (json_data) {
@@ -463,9 +448,56 @@ function insertar_venta_detalle (json_data) {
     });
 })
 }
-
+//funcion borrar fila de tabla ventas
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())
 }
+
+function imprimir(miHtml, numfac) {
+  var pdf = new jsPDF('l', 'pt', 'a4');
+  specialElementHandlers = {
+    // element with id of "bypass" - jQuery style selector
+    '#bypassme': function(element, renderer) {
+      // true = "handled elsewhere, bypass text extraction"
+      return false
+    }
+  };
+
+  // var ventana = window.open ("about:blank", "_blank")
+  var ventana = window.open();
+  ventana.document.write(miHtml);
+  // ventana.document.close();
+  // ventana.focus();
+  $(ventana.document).ready(function() {
+    ventana.print();
+    ventana.close();
+
+
+
+    //FALTA CAMBIAR EL TAMAÑO DE LA HOJA DEL RECIBO
+    margins = {
+      top: 1,
+      bottom: 1,
+      left: 10,
+      width: 10
+    };
+    pdf.fromHTML(
+      miHtml,
+      margins.left,
+      margins.top, {
+        'width': margins.width,
+        'elementHandlers': specialElementHandlers
+      },
+
+      function(dispose) {
+        pdf.save('recibo_venta_' + numfac + '.pdf');
+      }, margins
+    );
+
+    return true;
+  });
+
+}
 </script>
+<script src="js/jsPDF.min.js"></script>
 
