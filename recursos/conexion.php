@@ -1,5 +1,7 @@
 <?php 
 
+// $conexion = new mysqli('localhost','id16777589_root','papapapa1212AC!','id16777589_base_arbell');
+
 $conexion = new mysqli('br6vrwqejcpdav29tluj-mysql.services.clever-cloud.com','usz8khcb6vchmslt','1DjIm6ncGfmq6N81hRtt','br6vrwqejcpdav29tluj');
 
 // $conexion = new mysqli('localhost','root','','base_arbell');

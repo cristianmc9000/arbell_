@@ -46,7 +46,7 @@
     </div>
 
 <!-- anadir buscar -->
-    <div id="form_productos" class="row" hidden >
+    <div id="form_productos" class="row"  >
       <div class="fuente" style="">
         <h5 align="" style="color: red;">Buscar producto</h5>
         <div class="row">
@@ -130,6 +130,7 @@ $(document).ready(function(){
       minLength: 1,
       select: function(event, ui)
       {
+        $("#descuento_").removeAttr('disabled');
         $("#ca").val(ui.item.ca)
         if(ui.item.nivel == "experta"){
           $("#descuento_").val('30')
@@ -140,7 +141,6 @@ $(document).ready(function(){
         $('#tabla_ventas').attr("hidden", false);
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
         return $("<li class='ui-autocomplete-row'></li>")
         .data("item.autocomplete", item)
         .append(item.label)
@@ -162,7 +162,6 @@ $(document).ready(function(){
         $('#pubs_').val(ui.item.pubs);    
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
         return $("<li class='ui-autocomplete-row'></li>")
         .data("item.autocomplete", item)
         .append(item.label)
@@ -172,6 +171,7 @@ $(document).ready(function(){
 /* --------------funcion insertar fila de producto---------------- */
 document.getElementById("insert_row_producto").addEventListener("submit", function (event) {
   event.preventDefault();
+  $("#descuento_").prop("disabled", true);
   if(parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())){
     Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>",5000)
     return false;
@@ -332,17 +332,10 @@ function crear_html() {
   insertar_venta_detalle(json_data).then(respuesta => {
     console.log(respuesta + " respuesta de funcion promise")
 
-    var miHtml = `<!DOCTYPE html>
+    var miHtml = `<title>RECIBO</title>
 
-<html lang="es">
-
-  <head>
-    <meta charset="UTF-8" />
-    <title>RECIBO</title>
-
-  </head>
   <style>
-    body{
+    .bod{
       font-family: 'Consolas';
     }
     .detalle, .detalle th, .detalle td {
@@ -351,7 +344,7 @@ function crear_html() {
     }
  
   </style>
-  <body>
+  <div class="bod">
   
     <span style="float:right">${date}</span>
     <br><br>
@@ -419,8 +412,7 @@ function crear_html() {
       </tr>
      </table>
    </div>
-  </body>
-</html>`;
+  </div>`;
     imprimir(miHtml, respuesta);
     $("#modal1").closeModal();
     $("#tabla_c tr").remove();

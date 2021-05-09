@@ -22,11 +22,10 @@ require('recursos/sesiones.php');
 	<script src="js/datatable.js"></script>
 </head>
 <style>
-	body{
-		font-family: 'Segoe UI Light';
-	}
+    .login-box{
+        background-color: transparent !important;
+    }
 </style>
-
 <body>
     <div class="login-box">
         <img class="avatar" src="img/logoarbell.png" alt="Logo Arbell">
@@ -40,11 +39,10 @@ require('recursos/sesiones.php');
 					<label for="password">Password</label>
 						<input style="color: white" type="password" placeholder="Ingresar Password" name="passAcceso" class="acceso" id="passAcceso"  autocomplete="off" maxlength="20">
 					<!-- boton ingresar -->
-						<input type="submit" name="acceso" value="Ingresar"> 
+						<input type="submit" name="acceso" value="Ingresar" style="cursor: pointer"> 
 				</form>
 			</div>
     </div>
-	
 <div id="mensaje"></div>
 <script>
 //Guardamos el controlador del div con ID mensaje en una variable
