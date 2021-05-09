@@ -317,7 +317,7 @@ $("#agregar_producto").on("submit", function(e){
         console.log(echo)
         if (echo.includes("?mes")) {
           $("#modal1").closeModal(); 
-          Materialize.toast("PRODUCTO AGREGADO." , 4000);
+          Materialize.toast("PRODUCTO AGREGADO." , 2000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         } 
 
@@ -427,23 +427,23 @@ $("#agregar_linea").on("submit", function(e){
 function convertira() {
   pesos = $("#pupesos").val()
   bs = pesos * parseFloat($("#valor").val());
-  $("#pubs").val(bs.toFixed(1));
+  $("#pubs").val(bs.toFixed(2));
 }
 $("#pupesos").on("keydown input", function(){
   pesos = $("#pupesos").val()
   bs = pesos * parseFloat($("#valor").val());
-  $("#pubs").val(bs.toFixed(1));
+  $("#pubs").val(bs.toFixed(2));
 })
 
 function convertirm() {
   pesos = $("#pup").val()
   bs = pesos * parseFloat($("#valor").val());
-  $("#pub").val(bs.toFixed(1));
+  $("#pub").val(bs.toFixed(2));
 }
 $("#pup").on("keydown input", function(){
   pesos = $("#pup").val()
   bs = pesos * parseFloat($("#valor").val());
-  $("#pub").val(bs.toFixed(1));
+  $("#pub").val(bs.toFixed(2));
 })
 </script>
 

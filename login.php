@@ -7,7 +7,7 @@ require('recursos/sesiones.php');
 <!DOCTYPE html>
 <head>
     <title>login</title>
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="css/master.css">
