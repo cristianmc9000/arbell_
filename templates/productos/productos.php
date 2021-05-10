@@ -11,7 +11,7 @@ $_SESSION['periodo'] = $per;
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and periodo = ".$per; 
+$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
 
 $Busq = $conexion->query($Sql); 
 
@@ -22,10 +22,10 @@ if((mysqli_num_rows($Busq))>0){
 
   }
 }else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
+        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
 }
-  
-$Sql2 = "SELECT codli, nombre FROM lineas WHERE estado = 1";
+  //consulta de lineas
+$Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
 $Busq2 = $conexion->query($Sql2);
 if((mysqli_num_rows($Busq2))>0){
   while($arr2 = $Busq2->fetch_array()){ 
