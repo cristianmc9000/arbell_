@@ -46,7 +46,7 @@
     </div>
 
 <!-- anadir buscar -->
-    <div id="form_productos" class="row"  >
+    <div id="form_productos" class="row" hidden>
       <div class="fuente" style="">
         <h5 align="" style="color: red;">Buscar producto</h5>
         <div class="row">
