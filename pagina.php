@@ -30,7 +30,7 @@ while($arr = $Busq->fetch_array())
         $fila[] = array('id'=>$arr['codp'],'linea'=>$arr['nombre'], 'descripcion'=>$arr['descripcion'],'cantidad'=>$arr['cantidad']); 
     }}else{
   $fila[] = array('id'=>'--', 'linea'=>'--', 'descripcion'=>'--', 'cantidad'=>'--');
-    } 
+    }
 
   /* consulta fecha de vencimiento */
   $Sql2 = "SELECT b.codp, d.nombre, a.descripcion, c.cantidad, b.fecha_venc FROM productos a, inventario b, invcant c, lineas d WHERE a.linea = d.codli AND b.codp = a.id AND b.codp = c.codp AND b.fecha_venc < ".$fecha; 
