@@ -32,6 +32,22 @@ foreach ($array as $arr) {
 }
 mysqli_stmt_close($sql);
 
+//Reducir cantidad de inventario por productos individuales 
+//Si vendimos 50 del producto 1205 deben restarse de 2 productos de la tabla inventario 
+// $cant = 50;
+// while($cant>0){
+// 	$consultaobtenercantidad = "SELECT cantidad FROM inventario WHERE codp = '1205' AND MIN(fecha_venc);";
+// 	$datos = 49;
+// 	if($datos < $cant){
+// 		$consulta = "UPDATE inventario SET cantidad = 0";
+// 		$cant = $cant - $datos;
+// 	}else{
+// 		$consulta = "UPDATE inventario SET cantidad = cantidad - ".$cant;
+// 		$cant = 0;
+// 	}
+// }
+
+
 //Reducir cantidad total del producto tabla: invcant
 $res = false;
 $reducirinv = mysqli_prepare($conexion, "UPDATE invcant SET cantidad = cantidad - ? WHERE codp = ?;");
