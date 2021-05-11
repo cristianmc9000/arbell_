@@ -112,7 +112,7 @@ if((mysqli_num_rows($Busq2))>0){
 
 <!--MODAL AGREGAR LINEA-->
 <div class="row">
-<div id="modal_lin" class="modal">
+<div id="modal_lin" class="modal col s4 offset-s4">
   <div class="modal-content">
     <h4>Nueva Linea</h4>  
     <div class="row">
