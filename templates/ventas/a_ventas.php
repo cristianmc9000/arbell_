@@ -17,6 +17,10 @@
     .zoom:hover {
     transform: scale(1.8); 
     }
+    .helpertext{
+      top: -20px;
+      position: relative;
+    }
 </style>
 
     <div class="fuente" style="">
@@ -34,6 +38,7 @@
 
               <div class="col s2">
               <input id="descuento_" type="number" min="0" max="100" value="0" class="validate" placeholder="% Descuento">
+              <small class="helpertext" style="color: red">% Descuento</small>
               <input type="text" id="lugar" hidden>
               </div>
           </div>
