@@ -10,11 +10,13 @@ $fecha = date("Y-m-d h:i:s");
 $userci = $_SESSION['userCI'];
 $array = json_decode($_POST["json"]);
 
+// die(var_dump($array));
 //atributos de la compra
 $ca = array_pop($array);
 $valor = array_pop($array);
 $descuento = array_pop($array);
 $totalcd = array_pop($array);
+
 
 //insertar un nuevo registro de compra en tabla: ventas
 $insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}." )";
@@ -29,34 +31,34 @@ $respuesta = false;
 foreach ($array as $arr) {
 	mysqli_stmt_bind_param($sql, 'isidd', $ultimoid, $arr->{'id'}, $arr->{'cantidad'}, $arr->{'pubs'}, $arr->{'pubs_desc'});
 	$respuesta = mysqli_stmt_execute($sql);
+	// $cad = mysqli_stmt_error($sql);
 }
 mysqli_stmt_close($sql);
 
-//Reducir cantidad de inventario por productos individuales 
-//Si vendimos 50 del producto 1205 deben restarse de 2 productos de la tabla inventario 
-// $cant = 50;
-// while($cant>0){
-// 	$consultaobtenercantidad = "SELECT cantidad FROM inventario WHERE codp = '1205' AND MIN(fecha_venc);";
-// 	$datos = 49;
-// 	if($datos < $cant){
-// 		$consulta = "UPDATE inventario SET cantidad = 0";
-// 		$cant = $cant - $datos;
-// 	}else{
-// 		$consulta = "UPDATE inventario SET cantidad = cantidad - ".$cant;
-// 		$cant = 0;
-// 	}
-// }
 
+//CONSULTA PARA REDUCIR CANTIDAD DE PRODUCTOS INDIVIDUALES DE INVENTARIO Y DE PRODUCTOS tablas: inventario, invcant
+//DEVOLVER AL ULTIMO REGISTRO DE INVENTARIO  LOS PRODUCTOS DE DEVOLUCIONES Y DE ERRORES EN VENTAS.
+foreach ($array as $arr){ 
+	$cant = $arr->{'cantidad'};
+	$conexion->query("UPDATE invcant SET cantidad = cantidad - ".$cant." WHERE codp = '".$arr->{'id'}."'");
+	while($cant>0){
+		$consultaobtenercantidad = "SELECT id, cantidad, MIN(fecha_reg) FROM inventario WHERE codp = '".$arr->{'id'}."' AND estado = 1 LIMIT 1";
+		$result = mysqli_query($conexion, $consultaobtenercantidad);
+		$datos = mysqli_fetch_array($result);
+		$cant_inv = $datos['cantidad'];
+		$id_inv = $datos['id'];
 
-//Reducir cantidad total del producto tabla: invcant
-$res = false;
-$reducirinv = mysqli_prepare($conexion, "UPDATE invcant SET cantidad = cantidad - ? WHERE codp = ?;");
-foreach ($array as $arr) {
-	mysqli_stmt_bind_param($reducirinv, 'is', $arr->{'cantidad'}, $arr->{'id'});
-	$res = mysqli_stmt_execute($reducirinv); //devuelve un booleano 1: success, 0: error
-	$cad = mysqli_stmt_error($reducirinv); //devuelve el error de mysql
+		if($cant_inv <= $cant){
+			$conexion->query("UPDATE inventario SET cantidad = 0, estado = 0 WHERE id = ".$id_inv);
+			$cant = $cant - $cant_inv;
+		}else{
+			$conexion->query("UPDATE inventario SET cantidad = cantidad - ".$cant." WHERE id = ".$id_inv);
+			$cant = $cant - $cant_inv;
+		}
+	}
 }
-mysqli_stmt_close($reducirinv);
+
+
 
 echo $ultimoid;
 
