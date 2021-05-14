@@ -22,17 +22,19 @@ $periodo = $_SESSION["periodo"];
 
 
 
-	//consulta modificar inventario
+	//consulta modificar inventario 
 	$consulta ="UPDATE inventario SET pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fecha_venc='".$fecha_v."' WHERE id= '".$id."' ";
 	mysqli_query($conexion, $consulta) or die(mysql_error()); 
 		
-	//consulta actualizar cantidad de inventario
-	$sql = "UPDATE `invcant` SET cantidad = cantidad + (".$cant.") WHERE codp = (SELECT codp FROM inventario WHERE id = ".$id.") ";
-		if (mysqli_query($conexion, $sql) or die(mysql_error())) {
-			die('?mes='.$periodo);
-		}else{
-			die(mysql_error());
-		}
+	//consulta actualizar cantidad de inventario sumando o restando la cantidad ingresada (no es seguro)
+	// $sql = "UPDATE `invcant` SET cantidad = cantidad + (".$cant.") WHERE codp = (SELECT codp FROM inventario WHERE id = ".$id.") ";
+	// 	if (mysqli_query($conexion, $sql) or die(mysql_error())) {
+	// 		die('?mes='.$periodo);
+	// 	}else{
+	// 		die(mysql_error());
+	// 	}
+
+
 
 //PARA ACTUALIZAR A LAS CANTIDADES CORRECTAS SUMANDO CANTIDADES DESDE INVENTARIO
 // $consulta = "SELECT id FROM productos WHERE estado = 1";
@@ -41,8 +43,16 @@ $periodo = $_SESSION["periodo"];
 // while ($arr = $busq->fetch_array()) {
 // 	$sql = "UPDATE `invcant` SET cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.codp = '".$arr['id']."') WHERE codp = '".$arr['id']."'";
 // 	$res = $conexion->query($sql);
-
 // }
+
+$res = $conexion->query("UPDATE invcant a SET a.cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = (SELECT c.codp FROM inventario c WHERE c.id = ".$id.")) WHERE a.codp = (SELECT d.codp FROM inventario d WHERE d.id = ".$id.")");
+
+if ($res) {
+	die('?mes='.$periodo);
+}else{
+	die(mysqli_error($conexion));
+}
+
 ?>
 
 
