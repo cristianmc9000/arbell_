@@ -22,12 +22,12 @@ if(!isset($_SESSION['usuario']) and $_SESSION['estado'] != 'Autenticado') {
 };
 
 //consulta para inicio
-$Sql = "SELECT b.codp, d.nombre, a.descripcion, c.cantidad FROM productos a, inventario b, invcant c, lineas d WHERE b.codp = a.id AND b.codp = c.codp AND a.linea = d.codli AND c.cantidad < 51"; 
+$Sql = "SELECT a.id, d.nombre, a.descripcion, c.cantidad FROM productos a, invcant c, lineas d WHERE a.id=c.codp AND a.linea = d.codli AND c.cantidad < 51"; 
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('id'=>$arr['codp'],'linea'=>$arr['nombre'], 'descripcion'=>$arr['descripcion'],'cantidad'=>$arr['cantidad']); 
+        $fila[] = array('id'=>$arr['id'],'linea'=>$arr['nombre'], 'descripcion'=>$arr['descripcion'],'cantidad'=>$arr['cantidad']); 
     }}else{
   $fila[] = array('id'=>'--', 'linea'=>'--', 'descripcion'=>'--', 'cantidad'=>'--');
     }
