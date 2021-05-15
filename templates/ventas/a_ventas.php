@@ -105,11 +105,10 @@
   </table>
   </div>
   <div class="col s3 offset-s1">
-    <a class="waves-effect waves-light btn-large " id="modal" href="#!"><i class="material-icons right">receipt</i>Registrar venta</a>
+    <a href="#!" onclick="confirmar_v();" class="waves-effect waves-light btn-large" ><i class="material-icons right">receipt</i>Registrar venta</a>
   </div>
 </div>  
-<!-- hola czxcz-->
-<!-- gggggg -->
+
 <!--MODAL AGREGAR PRODUCTO-->
 <div class="row">
 <div id="modal1" class="modal col s4 offset-s4">
@@ -143,7 +142,7 @@
 <script>
 
 $(document).ready(function() {
-  $('#modal').leanModal();
+  // $('#modal').leanModal();
   //----------filtro lider/experta---------------
   $('#search_le').autocomplete({
     source: "recursos/ventas/buscar_le.php",
@@ -167,7 +166,8 @@ $(document).ready(function() {
   };
 
   //------confirmar venta----------
-  function confirmar_v(){
+  function confirmar_v (){
+    console.log("llegando funcion confirmar_v");
     $("#cliente_c").html("Lider/Experta: "+$("#search_le").val());
     $("#ca_c").html("Código Arbell: "+$("#ca").val());
     let totalcd=0;
@@ -175,6 +175,7 @@ $(document).ready(function() {
       totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
     });
     $("#monto_c").html("Total a pagar: "+ totalcd+" Bs.");
+    $("#modal1").openModal();
   }
   
 
