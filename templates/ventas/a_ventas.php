@@ -105,7 +105,7 @@
   </table>
   </div>
   <div class="col s3 offset-s1">
-    <a class="waves-effect waves-light btn-large " id="modal" href="#modal1"><i class="material-icons right">receipt</i>Registrar venta</a>
+    <a class="waves-effect waves-light btn-large " id="modal" href="#!"><i class="material-icons right">receipt</i>Registrar venta</a>
   </div>
 </div>
 
@@ -113,8 +113,25 @@
 <div class="row">
 <div id="modal1" class="modal col s4 offset-s4">
   <div class="modal-content">
-    <h5 class="fuente"><b>Se registrará la venta y se imprimirá un recibo.</b></h5> <br><br> 
   </div>
+    <h5 class="fuente"><b>Se registrará la venta con los datos:</h5>
+
+<!-- ---------modal confirmar venta---------- -->
+  <form action="#">
+    <div>
+      <p id="cliente_c"></p>
+      <p id="ca_c"></p>
+      <p id="monto_c"></p>
+    </div>
+    <p> Tipo de Pago:
+      <input name="tipo_pago" type="radio" id="contado" value="0" />
+      <label for="contado">Contado</label>
+      <input name="tipo_pago" type="radio" id="credito" value="1"/>
+      <label for="credito">Crédito</label>
+    </p>
+  </form>
+  <br><br>
+
   <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
       <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR VENTA</a>
@@ -147,6 +164,18 @@ $(document).ready(function() {
       .append(item.label)
       .appendTo(ul);
   };
+
+  //------confirmar venta----------
+  function confirmar_v(){
+    $("#cliente_c").html("Lider/Experta: "+$("#search_le").val());
+    $("#ca_c").html("Código Arbell: "+$("#ca").val());
+    let totalcd=0;
+    document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
+      totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
+    });
+    $("#monto_c").html("Total a pagar: "+ totalcd+" Bs.");
+  }
+  
 
   //buscar producto 
   $('#search_producto').autocomplete({
@@ -248,6 +277,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 });
 
 function crear_html() {
+  console.log($("input[name='tipo_pago']:checked").val());
 
   let filas = $("#tabla_ventas").find('tbody tr').length;
   if (filas < 1) {
