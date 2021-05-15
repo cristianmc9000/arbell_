@@ -107,7 +107,7 @@
   <div class="col s3 offset-s1">
     <a class="waves-effect waves-light btn-large " id="modal" href="#!"><i class="material-icons right">receipt</i>Registrar venta</a>
   </div>
-</div>
+</div>  
 
 <!--MODAL AGREGAR PRODUCTO-->
 <div class="row">
