@@ -34,7 +34,7 @@ while($arr = $Busq->fetch_array())
     }
 
   /* consulta fecha de vencimiento */
-  $Sql2 = "SELECT b.codp, d.nombre, a.descripcion, c.cantidad, b.fecha_venc FROM productos a, inventario b, invcant c, lineas d WHERE a.linea = d.codli AND b.codp = a.id AND b.codp = c.codp AND b.fecha_venc < ".$fecha; 
+  $Sql2 = "SELECT b.codp, d.nombre, a.descripcion, b.fecha_venc FROM productos a, inventario b, lineas d WHERE a.linea = d.codli AND b.codp = a.id AND b.fecha_venc < '".$fecha."'";
 $Busq2 = $conexion->query($Sql2); 
 if((mysqli_num_rows($Busq2))>0){
 while($arr = $Busq2->fetch_array()) 
