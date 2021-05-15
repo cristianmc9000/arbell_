@@ -10,6 +10,7 @@ session_start();
 date_default_timezone_set("America/La_Paz");
 $fecha = date('Y-m-d');
 $fecha = date ('Y-m-d', strtotime($fecha.'+ 3 month'));
+
 //Comprobamos si el usario está logueado
 //Si no lo está, se le redirecciona al index
 //Si lo está, definimos el botón de cerrar sesión y la duración de la sesión
