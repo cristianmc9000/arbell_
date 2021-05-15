@@ -12,18 +12,24 @@ $array = json_decode($_POST["json"]);
 
 // die(var_dump($array));
 //atributos de la compra
+$pago_inicial = array_pop($array); 
+$tipo_pago = array_pop($array);
 $ca = array_pop($array);
 $valor = array_pop($array);
 $descuento = array_pop($array);
 $totalcd = array_pop($array);
+/* die($pago_inicial->{"_pago_inicial"}); */
 
 
 //insertar un nuevo registro de compra en tabla: ventas
-$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}." )";
+$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`,`credito`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}." )";
 mysqli_query($conexion, $insertarCompra);
 
 //obtener el último id autogenerado tabla: ventas
 $ultimoid = var_export(mysqli_insert_id($conexion), true);
+
+/* insertar pago inicial */
+$conexion->query("INSERT INTO pagos(codv, monto, fecha_pago) VALUES(".$ultimoid.",".$pago_inicial->{'_pago_inicial'}.",'".$fecha."')");
 
 //insertar nuevo detalle de compra tabla: detalle_venta
 $sql = mysqli_prepare($conexion, "INSERT INTO detalle_venta (codv, codp, cantidad, pubs, pubs_cd) VALUES (?,?,?,?,?);");

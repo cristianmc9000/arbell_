@@ -105,7 +105,7 @@
   </table>
   </div>
   <div class="col s3 offset-s1">
-    <a href="#!" onclick="confirmar_v();" class="waves-effect waves-light btn-large" ><i class="material-icons right">receipt</i>Registrar venta</a>
+    <a href="#!" onclick="confirmar_venta()" class="waves-effect waves-light btn-large" ><i class="material-icons right">receipt</i>Registrar venta</a>
   </div>
 </div>  
 
@@ -113,8 +113,7 @@
 <div class="row">
 <div id="modal1" class="modal col s4 offset-s4">
   <div class="modal-content">
-  </div>
-    <h5 class="fuente"><b>Se registrará la venta con los datos:</h5>
+  <h5 class="fuente"><b>Se registrará la venta con los datos:</h5>
 
 <!-- ---------modal confirmar venta---------- -->
   <form action="#">
@@ -124,17 +123,22 @@
       <p id="monto_c"></p>
     </div>
     <p> Tipo de Pago:
-      <input name="tipo_pago" type="radio" id="contado" value="0" />
+      <input name="tipo_pago" type="radio" id="contado" value="0" onclick="$('#pago_i').hide()" />
       <label for="contado">Contado</label>
-      <input name="tipo_pago" type="radio" id="credito" value="1"/>
+      <input name="tipo_pago" type="radio" id="credito" value="1" onclick="$('#pago_i').show()"/>
       <label for="credito">Crédito</label>
     </p>
+    <div class="row" id="pago_i" hidden>
+        <div class="col s2"> Pago Inicial:</div>
+        <div class="col s3">
+          <input type="number" id="pago_inicial" name="pago_inicial">
+        </div>
+    </div>
   </form>
-  <br><br>
-
+  </div>
   <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
-      <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR VENTA</a>
+      <a href="#!" onclick="crear_html()" class="waves-effect waves-light btn-flat blue">REGISTRAR VENTA</a>
   </div>
 </div>
 </div>
@@ -164,21 +168,6 @@ $(document).ready(function() {
       .append(item.label)
       .appendTo(ul);
   };
-
-  //------confirmar venta----------
-  function confirmar_v (){
-    console.log("llegando funcion confirmar_v");
-    $("#cliente_c").html("Lider/Experta: "+$("#search_le").val());
-    $("#ca_c").html("Código Arbell: "+$("#ca").val());
-    let totalcd=0;
-    document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
-      totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
-    });
-    $("#monto_c").html("Total a pagar: "+ totalcd+" Bs.");
-    $("#modal1").openModal();
-  }
-  
-
   //buscar producto 
   $('#search_producto').autocomplete({
     source: "recursos/ventas/buscar_producto.php",
@@ -199,6 +188,20 @@ $(document).ready(function() {
       .appendTo(ul);
   };
 });
+
+//------confirmar venta----------
+function confirmar_venta(){
+
+    $("#cliente_c").html("Lider/Experta: "+$("#search_le").val());
+    $("#ca_c").html("Código Arbell: "+$("#ca").val());
+    let totalcd=0;
+    document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
+      totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
+    });
+    $("#monto_c").html("Total a pagar: "+ totalcd.toFixed(1)+" Bs.");
+    $("#modal1").openModal();
+  }
+
 /* --------------funcion insertar fila de producto---------------- */
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
   event.preventDefault();
@@ -279,12 +282,18 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 });
 
 function crear_html() {
-  console.log($("input[name='tipo_pago']:checked").val());
-
   let filas = $("#tabla_ventas").find('tbody tr').length;
   if (filas < 1) {
-    Materialize.toast("Debe ingresar al menos un registro.", 5000);
-    return false;
+    Materialize.toast("Debe insertar un producto.", 5000);
+    return $("#modal1").closeModal();
+  }
+  if(!document.querySelector('input[name="tipo_pago"]:checked')) {
+    return Materialize.toast("Debe seleccionar el tipo de pago.",4000);
+  }
+  if(document.getElementById("credito").checked){
+    if($("#pago_inicial").val() == ""){
+     return Materialize.toast("Debe ingresar el pago inicial.",4000)
+    }
   }
 
   var date = new Date();
@@ -322,6 +331,7 @@ function crear_html() {
     array_ = array_ + fila;
     gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
 
+    
     // totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
     totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
     pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
@@ -341,7 +351,7 @@ function crear_html() {
 
   var data = detalle_venta()
   data.push({
-    total_cd: totalcd + ""
+    total_cd: totalcd.toFixed(1) + ""
   })
   data.push({
     _descuento: _descuento
@@ -352,16 +362,18 @@ function crear_html() {
   data.push({
     _ca: _ca
   })
-
+  data.push({
+    _tipo_pago: $("input[name='tipo_pago']:checked").val()
+  })
+  data.push({
+    _pago_inicial: $("#pago_inicial").val()
+  })
   var json_data = JSON.stringify(data)
 
-  // icd(json_data).then(res =>{
-  //   console.log(res)
-  // })
+
 
   insertar_venta_detalle(json_data).then(respuesta => {
     console.log(respuesta + " respuesta de funcion promise")
-
     var miHtml = `<title>RECIBO</title>
 
   <style>

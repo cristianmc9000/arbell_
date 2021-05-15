@@ -23,7 +23,7 @@ if(!isset($_SESSION['usuario']) and $_SESSION['estado'] != 'Autenticado') {
 };
 
 //consulta para inicio
-$Sql = "SELECT a.id, d.nombre, a.descripcion, c.cantidad FROM productos a, invcant c, lineas d WHERE a.id=c.codp AND a.linea = d.codli AND c.cantidad < 51"; 
+$Sql = "SELECT a.id, d.nombre, a.descripcion, c.cantidad FROM productos a,   invcant c, lineas d WHERE a.id=c.codp AND a.linea = d.codli AND c.cantidad < 51"; 
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
 while($arr = $Busq->fetch_array()) 
