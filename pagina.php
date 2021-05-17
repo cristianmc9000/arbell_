@@ -87,6 +87,10 @@ while($arr = $Busq2->fetch_array())
 nav ul a:hover {
   background-color: rgba(0, 0, 0, 0.3) !important;
 }
+nav ul li a:hover {
+  background-color: rgba(c, c, 0, 0.3) !important;
+}
+
 .embed-container {
     position: relative;
     padding-bottom: 56.25%;
@@ -114,6 +118,7 @@ table.highlight > tbody > tr:hover {
     height: auto;
     object-fit: cover;
 }
+
 </style>
 </head>
 
@@ -131,11 +136,18 @@ table.highlight > tbody > tr:hover {
       <li><?php echo $estado; ?></li>
       <li><?php echo $salir; ?></li>
     </ul>
+
+    <ul id="dropdown1" class="dropdown-content">
+    <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">Realizar Venta</a></li>
+    <li><a href="#!" onclick="cargar('templates/ventas/reg_ventas');">Registro de Ventas</a></li>
+    </ul>
+
     <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
         <li><a href="#!" onclick="cargar('templates/usuarios/a_usuarios');">USUARIOS</a></li>
         <li><a href="#!" onclick="cargar('templates/roles/a_roles');">ROLES</a></li>
-        <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li>
+        <!-- <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li> -->
+        <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
         <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
         <li><a href="#!" onclick="cargar('templates/inventarios/a_inventarios.php?anio=<?php echo date('Y')?>&mes=1');">INVENTARIO</a></li>
@@ -229,7 +241,7 @@ table.highlight > tbody > tr:hover {
 <script type="text/javascript">
 
 $(document).ready(function() {
-  $(".dropdown-button").dropdown({ hover: true });
+  $(".dropdown-button").dropdown({ hover: true, beloworigin: true });
   $(".button-collapse").sideNav();
   $('#tabla1').dataTable();
   $('#tabla2').dataTable();

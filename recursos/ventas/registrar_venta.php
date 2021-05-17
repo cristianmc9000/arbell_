@@ -64,8 +64,6 @@ foreach ($array as $arr){
 	}
 }
 
-
-
 echo $ultimoid;
 
 ?>
