@@ -307,17 +307,17 @@ function crear_html() {
     let totalcd = 0.0
     var descuento = 0
 
-    document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
-
-        let fila = `<tr>
-                  <td>${e.querySelector('._id').innerText}</td>
-                  <td>${e.querySelector('._linea').innerText}</td>
-                  <td>${e.querySelector('._descripcion').innerText}</td>
-                  <td>${e.querySelector('._cantidad').innerText}</td>
-                  <td>${e.querySelector('._pubs').innerText}</td>
-                  <td>${e.querySelector('._pubs_desc').innerText}</td>
-                  <td>${e.querySelector('._precio_cd').innerText}</td>
-                </tr>`;
+document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
+let fila = `
+<tr>
+    <td>${e.querySelector('._id').innerText}</td>
+    <td>${e.querySelector('._linea').innerText}</td>
+    <td>${e.querySelector('._descripcion').innerText}</td>
+    <td>${e.querySelector('._cantidad').innerText}</td>
+    <td>${e.querySelector('._pubs').innerText}</td>
+    <td>${e.querySelector('._pubs_desc').innerText}</td>
+    <td>${e.querySelector('._precio_cd').innerText}</td>
+</tr>`;
 
         array_ = array_ + fila;
         gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))

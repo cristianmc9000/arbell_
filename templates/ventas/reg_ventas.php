@@ -11,13 +11,17 @@ while($arr = $Busq->fetch_array())
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <style>.fuente {
     font-family: 'Segoe UI light';
     color: red;
 }
 table.highlight>tbody>tr:hover {
     background-color: #a0aaf0 !important;
+}
+
+.borde_tabla{
+    border: 1px solid;
+    border-collapse: collapse;
 }
 </style>
 
@@ -57,7 +61,6 @@ table.highlight>tbody>tr:hover {
             <td>
                 <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "Crédito";} ?>
             </td>
-
             <td>
                 <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>')"><i class="material-icons">visibility</i></a> 
                 <!-- <a href="#!"><i class="material-icons">build</i></a> -->
@@ -70,28 +73,46 @@ table.highlight>tbody>tr:hover {
     </tbody>
 </table>
 
-
-<!-- MODAL DATOS -->
+<!-- Modal registro de venta detalle de venta -->
 <div class="row">
-    <div id="modal1" class="modal col s4 offset-s4">
+    <div id="modal1" class="modal">
         <div class="modal-content">
-            <h4>Agregar usuario</h4>
             <div class="row">
-                <form id="agregar_usuario" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input name="ci" type="text" class="validate">
-                            <label for="ci">Cédula de Identidad:</label>
-                        </div>
-                    </div>
-                </form>
+                <div class="col s4">
+                    <span>Código arbell: </span><br>
+                    <span>Lider/Experta:</span>
+                </div>
+                <div class="col s4" style="text-align: center;">
+                    <span>Punto de venta: PRINCIPAL</span><br>
+                    <span>Forma de pago:</span><br>
+                    <span>Periodo:</span>
+                </div>
+                <div class="col s4" style="text-align:right">
+                    <span>Distribuidora: CARMIÑA</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <p><h5>Items del comprobante</h5></p>
+                </div>
+            <div class="col s12">
+                <table class="borde_tabla">
+                    <tr>
+                        <th>Código <br> (producto)</th>
+                        <th>Linea</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>P. unidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </table>
+            </div>
             </div>
         </div>
     </div>
 </div>
 
 <div id="mensaje"></div>
-
 
 <!-- -----------------CRUD DE USUARIOS------------------------ -->
 <script>
@@ -101,6 +122,18 @@ $(document).ready(function() {
 });
 var mensaje = $("#mensaje");
 mensaje.hide();
+
+/* funcion ver venta */
+function ver_venta(codv){
+$.ajax({
+    url: "recursos/ventas/ver_venta.php?codv="+codv,
+    method: "GET",
+    success: function(response){
+        console.log(response);
+    }
+});
+    $("#modal1").openModal();
+}
 </script>
 
 </body>
