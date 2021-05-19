@@ -151,7 +151,7 @@ while($arr = $Busq->fetch_array())
                 <input id="codv_pago" type="text" value="codv" hidden>
                 <div class="row">
                     <p>
-                        <h5  class="fuente">Administrar pagos</h5>
+                        <h4  class="fuente">Administrar pagos</h4>
                     </p><br>
                     <div class="input-field col s4">
                         <input type="number" id="nuevo_pago" name="nuevo_pago">
@@ -276,8 +276,8 @@ function pagos(e) {
         var jsonParsedArray = JSON.parse(respuesta)
             for (key in jsonParsedArray) {
                 if (jsonParsedArray.hasOwnProperty(key)) {
-                    subtotal += parseInt(jsonParsedArray[key]['monto'])
-                    saldo = parseInt(jsonParsedArray[key]['total'])
+                    subtotal += parseFloat(jsonParsedArray[key]['monto'])
+                    saldo = parseFloat(jsonParsedArray[key]['total'])
                 }
             }
         $("#subtotal").html("Subtotal: "+subtotal)

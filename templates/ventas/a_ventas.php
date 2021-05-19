@@ -131,7 +131,8 @@
         </div>
         <div class="modal-footer">
             <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
-            <a href="#!" onclick="crear_html()" class="waves-effect waves-light btn-flat blue">REGISTRAR VENTA</a>
+            <!-- hacer que este boton solo pueda realizar una peticion -->
+            <a id="btn-create_html" href="#!" onclick="crear_html()" class="waves-effect waves-light btn">REGISTRAR VENTA</a>
         </div>
     </div>
 </div>
@@ -273,6 +274,12 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 });
 
 function crear_html() {
+
+    document.getElementById('btn-create_html').removeAttribute("onclick");
+    $("#btn-create_html").addClass('disabled')
+    
+
+
     let filas = $("#tabla_ventas").find('tbody tr').length;
     if (filas < 1) {
         Materialize.toast("Debe insertar un producto.", 5000);
@@ -447,6 +454,8 @@ let fila = `
         imprimir(miHtml, respuesta);
         $("#modal1").closeModal();
         $("#tabla_c tr").remove();
+        document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
+        $("#btn-create_html").removeClass('disabled')
     })
 }
 
@@ -469,7 +478,7 @@ function detalle_venta() {
 
 function insertar_venta_detalle(json_data) {
 
-    return new Promise((resolve, rechazar) => {
+    return new Promise((resolve, reject) => {
         $.ajax({
             url: "recursos/ventas/registrar_venta.php",
             data: {
@@ -481,7 +490,6 @@ function insertar_venta_detalle(json_data) {
             },
             error: function(error) {
                 console.log(error)
-                rachazar(error)
             }
         });
     })

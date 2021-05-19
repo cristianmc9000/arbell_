@@ -46,7 +46,6 @@ mysqli_stmt_close($sql);
 //DEVOLVER AL ULTIMO REGISTRO DE INVENTARIO  LOS PRODUCTOS DE DEVOLUCIONES Y DE ERRORES EN VENTAS.
 foreach ($array as $arr){ 
 	$cant = $arr->{'cantidad'};
-	$conexion->query("UPDATE invcant SET cantidad = cantidad - ".$cant." WHERE codp = '".$arr->{'id'}."'");
 	while($cant>0){
 		$consultaobtenercantidad = "SELECT id, cantidad, MIN(fecha_reg) FROM inventario WHERE codp = '".$arr->{'id'}."' AND estado = 1 LIMIT 1";
 		$result = mysqli_query($conexion, $consultaobtenercantidad);
@@ -59,9 +58,10 @@ foreach ($array as $arr){
 			$cant = $cant - $cant_inv;
 		}else{
 			$conexion->query("UPDATE inventario SET cantidad = cantidad - ".$cant." WHERE id = ".$id_inv);
-			$cant = $cant - $cant_inv;
+			$cant = 0;
 		}
 	}
+	$conexion->query("UPDATE invcant a SET a.cantidad = (SELECT IF((SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = '".$arr->{'id'}."')>0, (SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = '".$arr->{'id'}."'),0)) WHERE a.codp = '".$arr->{'id'}."'");
 }
 
 echo $ultimoid;
