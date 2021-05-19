@@ -144,6 +144,44 @@ while($arr = $Busq->fetch_array())
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <input id="codv_pago" type="text" value="codv" hidden>
+                <div class="row">
+                    <p>
+                        <h5  class="fuente">Administrar pagos</h5>
+                    </p><br>
+                    <div class="input-field col s4">
+                        <input type="number" id="nuevo_pago" name="nuevo_pago">
+                        <label for="nuevo_pago">Insertar nuevo pago</label>
+                    </div>
+                    <div class="col s3">
+                        <a href="#!" onclick="nuevo_pago()" class="waves-effect waves-light btn-large blue">Agregar pago</a>
+                    </div>
+                    <table id="tabla_pagos" class="borde_tabla">
+                        <tr>
+                            <th>Fecha de pago</th>
+                            <th>Monto</th>
+                            <th>Borrar pago</th>
+                        </tr>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                    <div class="col s4 offset-s8">
+                        <b><p id="subtotal">Subtotal:</p>
+                        <p id="saldo">Saldo:</p></b>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
+            </div>
+        </div>
+    </div>
+
     <div id="mensaje"></div>
 
 <!-- -----------------CRUD DE USUARIOS------------------------ -->
@@ -175,7 +213,6 @@ function ver_venta(codv) {
 
         //INSERTANDO FILAS A LA TABLA DETALLE DE VENTA 
         let table = document.getElementById("detalle_ven")
-
         $(".dinamic_rows").remove();
         for (key in jsonParsedArray) {
             if (jsonParsedArray.hasOwnProperty(key)) {
@@ -228,13 +265,101 @@ function detalle_venta(codv) {
     })
 }
 
+//ABRIR MODAL PAGOS CON TODOS LOS DATOS DE LA TABLA
 function pagos(e) {
-   row = e.target.parentNode.parentNode
-   cell = row.getElementsByTagName("td")
-   console.log(cell[0].innerText)
+    row = e.target.parentNode.parentNode
+    cell = row.getElementsByTagName("td")
+    $("#codv_pago").val(cell[0].innerText)
+    ver_pagos(cell[0].innerText).then(respuesta => {
+        let subtotal = 0
+        $(".dinamic_rows").remove();
+        var jsonParsedArray = JSON.parse(respuesta)
+            for (key in jsonParsedArray) {
+                if (jsonParsedArray.hasOwnProperty(key)) {
+                    subtotal += parseInt(jsonParsedArray[key]['monto'])
+                    saldo = parseInt(jsonParsedArray[key]['total'])
+                }
+            }
+        $("#subtotal").html("Subtotal: "+subtotal)
+        $("#saldo").html("Saldo: "+subtotal+"/"+saldo)
 
-   
+        //INSERTANDO FILAS A LA TABLA VER PAGOS
+        let table = document.getElementById("tabla_pagos")
+        for (key in jsonParsedArray) {
+            if (jsonParsedArray.hasOwnProperty(key)) {
+                let newTableRow = table.insertRow(-1)
+                newTableRow.className = "dinamic_rows"
+                newRow = newTableRow.insertCell(0)
+                newRow.textContent = jsonParsedArray[key]['fecha_pago']
 
+                newRow = newTableRow.insertCell(1)
+                newRow.textContent = jsonParsedArray[key]['monto']
+
+                newRow = newTableRow.insertCell(2)
+                newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
+            }
+        }
+    })
+
+    $("#modal2").openModal()
+}
+
+//RECUPERAR DATOS DE LA BD TABLA: PAGOS(JSON)
+function ver_pagos(codv) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "recursos/ventas/ver_pagos.php?codv="+codv,
+            method: "GET",
+            success: function(response) {
+                resolve(response)
+            },
+            error: function(error) {
+                console.log(error)
+                reject(error)
+            }
+        })
+    })
+}
+//FUNCION PARA BORRAR UN PAGO DE LA BASE DE DATOS TABLA: PAGOS
+function borrar_pago(e, id) {
+    console.log(id)
+    $.ajax({
+            url: "recursos/ventas/borrar_pago.php?id="+id,
+            method: "GET",
+            success: function(response) {
+                if(response){
+                     Materialize.toast("Pago eliminado", 4000)
+                }else{
+                    console.log("error: "+response)
+                }
+            },
+            error: function(error) {
+                console.log(error)
+            }
+    })
+    e.target.parentNode.parentNode.parentNode.remove()
+}
+
+//FUNCION PARA INSERTAR UN NUEVO PAGO
+function nuevo_pago() {
+    let codv = $("#codv_pago").val()
+    let monto = $("#nuevo_pago").val()
+    $.ajax({
+        url: "recursos/ventas/nuevo_pago.php?codv="+codv+"&monto="+monto,
+        method: "GET",
+        success: function(response) {
+            console.log(response)
+            if(response){
+                $("#modal2").closeModal()
+                Materialize.toast("Pago agregado.", 4000)
+            }else{
+                console.log("error: "+response)
+            }
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
 }
 </script>
 
