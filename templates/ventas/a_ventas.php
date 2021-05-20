@@ -277,19 +277,20 @@ function crear_html() {
 
     document.getElementById('btn-create_html').removeAttribute("onclick");
     $("#btn-create_html").addClass('disabled')
-    
-
 
     let filas = $("#tabla_ventas").find('tbody tr').length;
     if (filas < 1) {
         Materialize.toast("Debe insertar un producto.", 5000);
+        habilitar_boton()
         return $("#modal1").closeModal();
     }
     if (!document.querySelector('input[name="tipo_pago"]:checked')) {
+        habilitar_boton()
         return Materialize.toast("Debe seleccionar el tipo de pago.", 4000);
     }
     if (document.getElementById("credito").checked) {
         if ($("#pago_inicial").val() == "") {
+            habilitar_boton()
             return Materialize.toast("Debe ingresar el pago inicial.", 4000)
         }
     }
@@ -454,9 +455,13 @@ let fila = `
         imprimir(miHtml, respuesta);
         $("#modal1").closeModal();
         $("#tabla_c tr").remove();
-        document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
-        $("#btn-create_html").removeClass('disabled')
+        habilitar_boton();
     })
+}
+
+function habilitar_boton() {
+    document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
+    $("#btn-create_html").removeClass('disabled')
 }
 
 function detalle_venta() {

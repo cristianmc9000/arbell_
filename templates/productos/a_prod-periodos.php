@@ -1,3 +1,5 @@
+<!-- FALTA BORRAR LINEAS, MODIFICAR LINEAS-->
+<!-- ELIMINAR VENTAS -->
 
 <style>
 
@@ -10,8 +12,6 @@
   max-width: 250px;
 }
   </style>
-
-
 
 <span class="fuente"><h3>Seleccionar Periodo</h3></span>
 

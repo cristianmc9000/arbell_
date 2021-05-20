@@ -40,13 +40,15 @@ foreach ($array as $arr) {
 }
 mysqli_stmt_close($insertarinv);
 
-//insertar datos a tabla: invcant$cad = "";
-$insertarinvcant = mysqli_prepare($conexion, "UPDATE invcant SET cantidad = cantidad+? WHERE codp = ?;");
+
+//insertar datos a tabla: invcant
+// $insertarinvcant = mysqli_prepare($conexion, "UPDATE invcant SET cantidad = cantidad+? WHERE codp = ?;");
 foreach ($array as $arr) {
-	mysqli_stmt_bind_param($insertarinvcant, 'is', $arr->{'cantidad'}, $arr->{'id'});
-	mysqli_stmt_execute($insertarinvcant);
+	// mysqli_stmt_bind_param($insertarinvcant, 'is', $arr->{'cantidad'}, $arr->{'id'});
+	// mysqli_stmt_execute($insertarinvcant);
+	$conexion->query("UPDATE invcant a SET a.cantidad = (SELECT IF((SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = '".$arr->{'id'}."')>0, (SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = '".$arr->{'id'}."'),0)) WHERE a.codp = '".$arr->{'id'}."'");
 }
-mysqli_stmt_close($insertarinvcant);
+// mysqli_stmt_close($insertarinvcant);
 
 echo $ultimoid;
 

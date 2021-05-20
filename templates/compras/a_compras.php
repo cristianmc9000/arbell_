@@ -102,7 +102,7 @@
   </div>
   <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-light btn-flat red left">CANCELAR</a>
-      <a href="#!" onclick="crear_html()" class="modal-close waves-effect waves-light btn-flat blue">REGISTRAR COMPRA</a>
+      <a id="btn-create_html" href="#!" onclick="crear_html()" class="waves-effect waves-light btn">REGISTRAR COMPRA</a>
   </div>
 </div>
 </div>
@@ -245,11 +245,14 @@ return (array_)
 }
 
 function crear_html() {
-  
-let filas = $("#tabla_compras").find('tbody tr').length;
-  
+
+  document.getElementById('btn-create_html').removeAttribute("onclick");
+  $("#btn-create_html").addClass('disabled')
+
+  let filas = $("#tabla_compras").find('tbody tr').length;
   if(filas < 1) {
     Materialize.toast("Debe ingresar al menos un registro.", 5000);
+    habilitar_boton()
     return false;
   }
 
@@ -405,9 +408,14 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
 imprimir(miHtml, respuesta);
 $("#modal1").closeModal();
 $("#tabla_c tr").remove(); 
+habilitar_boton()
 })
 }
 
+function habilitar_boton() {
+    document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
+    $("#btn-create_html").removeClass('disabled')
+}
 
 function imprimir(miHtml,numfac) {
 
