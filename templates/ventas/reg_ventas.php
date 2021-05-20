@@ -28,6 +28,7 @@ while($arr = $Busq->fetch_array())
     }
 
     .borde_tabla tr td {
+
         border: 1px solid;
         border-collapse: collapse !important;
     }
@@ -80,7 +81,8 @@ while($arr = $Busq->fetch_array())
                     <!-- <a href="#!"><i class="material-icons">build</i></a> -->
                 </td>
                 <td>
-                    <a href="#!" onclick="borrar_venta('<?php echo $valor['codv'] ?>');"><i class="material-icons">delete</i></a>
+                    <!-- <a href="#!" onclick="borrar_venta('<?php echo $valor['codv'] ?>');"><i class="material-icons">delete</i></a> -->
+                    <a href="#modal3" class="modal_trigger_3" onclick="$('#codv').val('<?php echo $valor['codv'] ?>')"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
             <?php } ?>
@@ -145,6 +147,7 @@ while($arr = $Busq->fetch_array())
         </div>
     </div>
 
+<!-- MODAL ADMINISTRAR PAGOS -->
     <div class="row">
         <div id="modal2" class="modal">
             <div class="modal-content">
@@ -182,6 +185,22 @@ while($arr = $Busq->fetch_array())
         </div>
     </div>
 
+<!-- MODAL ELIMINAR VENTA  -->
+    <div class="row">
+        <div id="modal3" class="modal">
+            <div class="modal-content">
+                <input id="codv" type="text" value="codv" hidden>
+                <div class="row">
+                    <h4 class="fuente">Se eliminará la venta y se devolveran los productos al inventario.</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
+                <a href="#!" onclick="borrar_venta()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
+            </div>
+        </div>
+    </div>
+
     <div id="mensaje"></div>
 
 <!-- -----------------CRUD DE USUARIOS------------------------ -->
@@ -193,6 +212,8 @@ $(document).ready(function() {
         ]
     });
     $('#modal').leanModal();
+    $('.modal_trigger_3').leanModal();
+    
 });
 var mensaje = $("#mensaje");
 mensaje.hide();
@@ -363,7 +384,8 @@ function nuevo_pago() {
 }
 
 //funcion borrar venta
-function borrar_venta(codv){
+function borrar_venta(){
+console.log($("#codv").val())
 $.ajax({
     url: "recursos/ventas/borrar_venta.php?codv="+codv,
     method: "GET",

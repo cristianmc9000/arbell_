@@ -11,8 +11,6 @@ while($arr = $result->fetch_array()){
     $r = $conexion->query("UPDATE inventario a SET a.estado=1, a.cantidad = a.cantidad + ".$arr['cantidad']." WHERE a.codp = '".$arr['codp']."' AND a.id = (SELECT MAX(id) FROM (SELECT * FROM inventario WHERE codp = '".$arr['codp']."') AS maxid )");
 }
 
-
-
 echo $r;
 
 ?>
