@@ -80,7 +80,7 @@ while($arr = $Busq->fetch_array())
                     <!-- <a href="#!"><i class="material-icons">build</i></a> -->
                 </td>
                 <td>
-                    <!-- <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a> -->
+                    <a href="#!" onclick="borrar_venta('<?php echo $valor['codv'] ?>');"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
             <?php } ?>
@@ -360,6 +360,18 @@ function nuevo_pago() {
             console.log(error)
         }
     })
+}
+
+//funcion borrar venta
+function borrar_venta(codv){
+$.ajax({
+    url: "recursos/ventas/borrar_venta.php?codv="+codv,
+    method: "GET",
+    success: function (response){
+        console.log(response);
+    }
+
+});
 }
 </script>
 
