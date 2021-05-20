@@ -187,11 +187,12 @@ while($arr = $Busq->fetch_array())
 
 <!-- MODAL ELIMINAR VENTA  -->
     <div class="row">
-        <div id="modal3" class="modal">
+        <div id="modal3" class="modal col s4 offset-s4">
             <div class="modal-content">
                 <input id="codv" type="text" value="codv" hidden>
                 <div class="row">
-                    <h4 class="fuente">Se eliminará la venta y se devolveran los productos al inventario.</h4>
+                    <h4 class="fuente">Se eliminará la venta.</h4>
+                    <span> Se devolveran los productos al inventario.</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -385,12 +386,16 @@ function nuevo_pago() {
 
 //funcion borrar venta
 function borrar_venta(){
-console.log($("#codv").val())
+let codv = $("#codv").val()
 $.ajax({
     url: "recursos/ventas/borrar_venta.php?codv="+codv,
     method: "GET",
     success: function (response){
         console.log(response);
+        if (response) {
+            Materialize.toast("Venta eliminada.", 4000)
+            $("#cuerpo").load("templates/ventas/reg_ventas.php")
+        }
     }
 
 });

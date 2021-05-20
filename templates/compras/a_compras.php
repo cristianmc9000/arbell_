@@ -139,6 +139,8 @@ $(document).ready(function(){
 document.getElementById("insert_row").addEventListener("submit", function (event) {
   event.preventDefault();
 
+  $("#descuento_").prop('disabled', true);
+
 //Convertir precio en pesos a precio en Bs.
   var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
   pubs_ = pubs_.toFixed(1)
@@ -500,6 +502,10 @@ function insertar_compra_detalle (json_data) {
 //borrar elemento de un tabla
 function delete_row(e) {
   console.log(e.target.parentNode.parentNode.parentNode.remove())
+  let rows = document.getElementById('tabla_compras').getElementsByTagName('tr')
+  if (rows.length <= 1) {
+    $("#descuento_").prop('disabled', false);
+  }
 }
 
 </script>

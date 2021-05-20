@@ -1,4 +1,3 @@
-<!-- CONTIENE UN ERROR ... NO MODIFICA -->
 
 <?php
 //Conectamos a la base de datos

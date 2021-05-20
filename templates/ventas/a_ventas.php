@@ -36,7 +36,7 @@
                     <input style="color: black;" type="text" id="ca" placeholder="código" autocomplete="off" disabled required>
                 </div>
                 <div class="col s2">
-                    <input id="descuento_" type="number" min="0" max="100" value="0" class="validate" placeholder="% Descuento">
+                    <input id="descuento_" type="number" min="0" max="100" value="0" class="validate" placeholder="% Descuento" >
                     <small class="helpertext" style="color: red">% Descuento</small>
                     <input type="text" id="lugar" hidden>
                 </div>
@@ -502,6 +502,10 @@ function insertar_venta_detalle(json_data) {
 //funcion borrar fila de tabla ventas
 function delete_row(e) {
     console.log(e.target.parentNode.parentNode.parentNode.remove())
+      let rows = document.getElementById('tabla_ventas').getElementsByTagName('tr')
+    if (rows.length <= 1) {
+    $("#descuento_").prop('disabled', false);
+    }
 }
 
 function imprimir(miHtml, numfac) {
