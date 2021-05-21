@@ -94,13 +94,13 @@ while($arr = $Busq->fetch_array())
             <div class="modal-content">
                 <div class="row">
                     <div class="col s4">
-                        <span>Código arbell: </span><br>
-                        <span>Lider/Experta:</span>
+                        <span id="_ca">Código arbell: </span><br>
+                        <span id="lider_ex">Lider/Experta:</span>
                     </div>
                     <div class="col s4" style="text-align: center;">
                         <span>Punto de venta: PRINCIPAL</span><br>
-                        <span>Forma de pago:</span><br>
-                        <span>Periodo:</span>
+                        <span id="_credito">Forma de pago:</span><br>
+                        <span id="_periodo">Periodo:</span>
                     </div>
                     <div class="col s4" style="text-align:right">
                         <span>Distribuidora: CARMIÑA</span>
@@ -225,13 +225,28 @@ function ver_venta(codv) {
         let total = 0
         let cantidad = 0
         let gan_exp = 0
+        let periodo = 0
+        let credito
+        let ca
+        let cliente
         var jsonParsedArray = JSON.parse(respuesta)
         for (key in jsonParsedArray) {
             if (jsonParsedArray.hasOwnProperty(key)) {
                 total += parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])
+                credito = jsonParsedArray[key]['credito']
+                ca = jsonParsedArray[key]['ca']
+                cliente =jsonParsedArray[key]['cliente']
+                if(parseInt(jsonParsedArray[key]['periodo'])> periodo){
+                    periodo = parseInt(jsonParsedArray[key]['periodo'])
+                }
             }
         }
+        if(credito = 1){credito = "Crédito"}else{credito = "Contado"}
         total = total.toFixed(1)
+        $("#_periodo").html("Periodo: "+periodo)
+        $("#_credito").html("Tipo de pago: "+credito)
+        $("#_ca").html("Código Arbell: "+ca)
+        $("#lider_ex").html("Lider/experta: "+cliente)
 
         //INSERTANDO FILAS A LA TABLA DETALLE DE VENTA 
         let table = document.getElementById("detalle_ven")
@@ -350,7 +365,7 @@ function borrar_pago(e, id) {
             method: "GET",
             success: function(response) {
                 if(response){
-                     Materialize.toast("Pago eliminado", 4000)
+                    Materialize.toast("Pago eliminado", 4000)
                 }else{
                     console.log("error: "+response)
                 }
