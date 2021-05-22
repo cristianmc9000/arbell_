@@ -86,6 +86,7 @@ while($arr = $Busq->fetch_array())
                 </td>
             </tr>
             <?php } ?>
+            
         </tbody>
     </table>
     <!-- Modal registro de venta detalle de venta -->
