@@ -47,6 +47,23 @@ if((mysqli_num_rows($Busq2))>0){
   .fuente_azul{
     color: black;
   }
+  .borde_tabla {
+      border: 1px solid;
+      border-collapse: collapse !important;
+  }
+  .borde_tabla td, th{
+    text-align: center;
+  }
+  .borde_tabla tr td {
+      border: 1px solid;
+      border-collapse: collapse !important;
+      padding: 1px !important;
+  }
+
+  .borde_tabla tr th {
+      border: 1px solid;
+      border-collapse: collapse !important;
+  }
 
   </style>
 
@@ -63,7 +80,7 @@ if((mysqli_num_rows($Busq2))>0){
   </span>
 </div>
 <div class="col s2 offset-s1 input-field">
-  <a class="waves-effect waves-light btn-large orange" id="modal_linea" href="#modal_lin"><i class="material-icons left">add</i> Nueva Linea</a>
+  <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons left">add</i> Nueva Linea</a>
 </div>
 <!-- TABLA -->
 <table id="tabla1" class="highlight">
@@ -112,22 +129,35 @@ if((mysqli_num_rows($Busq2))>0){
 
 <!--MODAL AGREGAR LINEA-->
 <div class="row">
-<div id="modal_lin" class="modal col s4 offset-s4">
+<div id="modal_lin" class="modal col s6 offset-s3">
   <div class="modal-content">
-    <h4>Nueva Linea</h4>  
+    <h4 class="fuente">Nueva Linea</h4>  
     <div class="row">
       <form class="col s12" id="agregar_linea">
-          <div class="input-field col s12">
-            <input name="linea_" id="linea_" type="text" class="validate">
+          <div class="input-field col s4">
+            <input name="linea_" id="linea_" type="text" class="validate" required>
             <label for="linea_">Nombre de la Linea</label>
           </div>
-          <br>
-          <div class="modal-footer">
-            <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-            <a href="#!" class=" modal-action modal-close waves-effect waves-light left btn red">Cancelar</a>
+          <div class="col s3">
+              <button class="btn-large waves-effect waves-light orange" type="submit" >Agregar linea</button>
           </div>
       </form>
+      <table id="tabla_lineas" class="borde_tabla">
+          <tr>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Periodo</th>
+              <th>Modificar</th>
+              <th>Borrar</th>
+          </tr>
+          <tbody>
+              
+          </tbody>
+      </table>
     </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-light btn blue">Cerrar</a>
   </div>
 </div>
 </div>
@@ -296,8 +326,104 @@ $(document).ready(function() {
         "order": [[ 0, "desc" ]]
     } );
     $('#modal').leanModal();
-    $('#modal_linea').leanModal();
 });
+
+//FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
+function cargar_lineas() {
+  let respuesta
+  $.ajax({
+      url: "recursos/productos/ver_lineas.php",
+      //method: "GET",
+      success: function(response) {
+            $(".dinamic_rows").remove();
+            let jsonParsedArray = JSON.parse(response)
+
+            //INSERTANDO FILAS A LA TABLA VER PAGOS
+            let table = document.getElementById("tabla_lineas")
+            for (key in jsonParsedArray) {
+                if (jsonParsedArray.hasOwnProperty(key)) {
+                    let newTableRow = table.insertRow(-1)
+                    newTableRow.className = "dinamic_rows"
+
+                    newRow = newTableRow.insertCell(0)
+                    newRow.textContent = jsonParsedArray[key]['codli']
+
+                    newRow = newTableRow.insertCell(1)
+                    newRow.textContent = jsonParsedArray[key]['nombre']
+
+                    newRow = newTableRow.insertCell(2)
+                    newRow.textContent = jsonParsedArray[key]['periodo']
+
+                    newRow = newTableRow.insertCell(3)
+                    newRow.innerHTML = '<a onclick="mod_linea(event, '+jsonParsedArray[key]['codli']+')" style="cursor:pointer"><i class="material-icons">build</i></a>'
+
+                    newRow = newTableRow.insertCell(4)
+                    newRow.innerHTML = '<a onclick="borrar_linea(event, '+jsonParsedArray[key]['codli']+')" style="cursor:pointer"><i class="material-icons">delete</i></a>'
+                }
+            }
+
+            $("#modal_lin").openModal()
+      },
+      error: function(error) {
+          console.log(error)
+      }
+  })
+}
+
+function mod_linea(e, id) {
+
+  let text = $('#tabla_lineas').find('._linea').val()
+  $('#tabla_lineas').find('._linea').remove()
+  $("#tabla_lineas").find('td').each (function() {
+    if ($(this).html() == "") {
+      $(this).html(text)
+    }
+  }); 
+
+  e.target.parentNode.parentNode.parentNode.children[1].innerHTML = '<input type="text" onkeyup="onKeyUp(event)" class="_linea" value="'+e.target.parentNode.parentNode.parentNode.children[1].innerHTML+'">'
+}
+//funcion para detectar la tecla enter
+function onKeyUp(e) {
+  let keycode = e.keyCode;
+    if(keycode == '13'){
+      let linea = $("._linea").val()
+      let codli = e.target.parentNode.parentNode.children[0].innerHTML
+      $.ajax({
+      url: "recursos/productos/modificar_linea.php?nombre="+linea+"&codli="+codli,
+      method: "GET",
+      success: function(response) {
+        if (response) {
+          Materialize.toast("Línea modificada.", 4000);
+          e.target.parentNode.innerHTML = $("._linea").val()
+        }
+      },
+      error: function(error) {
+          console.log(error)
+      }
+  })
+
+    }
+}
+
+function borrar_linea(e, id) {  
+  $.ajax({
+      url: "recursos/productos/borrar_linea.php?id="+id,
+      method: "GET",
+      success: function(response) {
+          if(response){
+              console.log(response +" respuesta de borrar_linea.php")
+              Materialize.toast("Línea eliminada.", 4000)
+              console.log(e.target.parentNode.parentNode.parentNode.remove())
+          }else{
+              Materialize.toast("No se puede eliminar línea, contiene productos activos.", 4000)
+          }
+      },
+      error: function(error) {
+          console.log(error)
+      }
+  })
+  
+}
 
 $("#agregar_producto").on("submit", function(e){
     e.preventDefault(); 
@@ -445,6 +571,8 @@ $("#pup").on("keydown input", function(){
   bs = pesos * parseFloat($("#valor").val());
   $("#pub").val(bs.toFixed(2));
 })
+
+
 </script>
 
 </div>

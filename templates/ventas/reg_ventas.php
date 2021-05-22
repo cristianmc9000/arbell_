@@ -60,7 +60,7 @@ while($arr = $Busq->fetch_array())
         </thead>
         <tbody>
             <?php foreach($fila as $a  => $valor){ ?>
-            <tr class="hola">
+            <tr style='background-color: <?php if($valor["credito"] == 1){echo "#ffff9e";} if($valor["credito"] == 2){echo "#7eff9e";} ?>'>
                 <td>
                     <?php echo $valor["codv"] ?>
                 </td>
@@ -161,7 +161,7 @@ while($arr = $Busq->fetch_array())
                         <label for="nuevo_pago">Insertar nuevo pago</label>
                     </div>
                     <div class="col s3">
-                        <a href="#!" onclick="nuevo_pago()" class="waves-effect waves-light btn-large blue">Agregar pago</a>
+                        <a href="#!" onclick="nuevo_pago()" id="boton_pagos" class="waves-effect waves-light btn-large blue">Agregar pago</a>
                     </div>
                     <table id="tabla_pagos" class="borde_tabla">
                         <tr>
@@ -175,6 +175,7 @@ while($arr = $Busq->fetch_array())
                     </table>
                     <div class="col s4 offset-s8">
                         <b><p id="subtotal">Subtotal:</p>
+                            <p style="color:red" id="debe">Debe:</p>
                         <p id="saldo">Saldo:</p></b>
                     </div>
                 </div>
@@ -304,6 +305,12 @@ function detalle_venta(codv) {
 
 //ABRIR MODAL PAGOS CON TODOS LOS DATOS DE LA TABLA
 function pagos(e) {
+
+
+    document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
+    $("#boton_pagos").removeClass('disabled')
+
+
     row = e.target.parentNode.parentNode
     cell = row.getElementsByTagName("td")
     $("#codv_pago").val(cell[0].innerText)
@@ -318,7 +325,13 @@ function pagos(e) {
                 }
             }
         $("#subtotal").html("Subtotal: "+subtotal)
-        $("#saldo").html("Saldo: "+subtotal+"/"+saldo)
+        $("#debe").html("Saldo: "+(saldo-subtotal))
+        $("#saldo").html("Crédito: "+subtotal+"/"+saldo)
+
+        if (subtotal >= saldo ) {
+            $("#boton_pagos").addClass('disabled')
+            document.getElementById('boton_pagos').removeAttribute("onclick");
+        }
 
         //INSERTANDO FILAS A LA TABLA VER PAGOS
         let table = document.getElementById("tabla_pagos")
@@ -333,7 +346,7 @@ function pagos(e) {
                 newRow.textContent = jsonParsedArray[key]['monto']
 
                 newRow = newTableRow.insertCell(2)
-                newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
+                newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
             }
         }
     })
@@ -358,17 +371,23 @@ function ver_pagos(codv) {
     })
 }
 //FUNCION PARA BORRAR UN PAGO DE LA BASE DE DATOS TABLA: PAGOS
-function borrar_pago(e, id) {
+function borrar_pago(e, id, codv) {
     console.log(id)
     $.ajax({
-            url: "recursos/ventas/borrar_pago.php?id="+id,
+            url: "recursos/ventas/borrar_pago.php?id="+id+"&codv="+codv,
             method: "GET",
             success: function(response) {
                 if(response){
                     Materialize.toast("Pago eliminado", 4000)
+                    document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
+                    document.getElementById("boton_pagos").classList.remove("disabled");
+                    $("#modal2").closeModal()   
+                    $("#cuerpo").load("templates/ventas/reg_ventas.php")
+
                 }else{
                     console.log("error: "+response)
                 }
+
             },
             error: function(error) {
                 console.log(error)
@@ -389,6 +408,7 @@ function nuevo_pago() {
             if(response){
                 $("#modal2").closeModal()
                 Materialize.toast("Pago agregado.", 4000)
+                $("#cuerpo").load("templates/ventas/reg_ventas.php")
             }else{
                 console.log("error: "+response)
             }
