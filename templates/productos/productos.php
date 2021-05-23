@@ -51,7 +51,7 @@ if((mysqli_num_rows($Busq2))>0){
       border: 1px solid;
       border-collapse: collapse !important;
   }
-  .borde_tabla td, th{
+  .borde_tabla td, .borde_tabla th{
     text-align: center;
   }
   .borde_tabla tr td {
