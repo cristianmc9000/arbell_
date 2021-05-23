@@ -70,6 +70,7 @@
                     <input type="text" id="linea_" value="" hidden>
                     <input type="text" id="pubs_" value="" hidden>
                     <input type="text" id="subtotal_" value="" hidden>
+                    <input type="text" id="periodo_" value="" hidden>
                 </div>
                 <div class="col s2">
                     <button class="btn waves-effect waves-light btn-large" type="submit"><i class="material-icons right">assignment</i>Insertar</button>
@@ -124,7 +125,7 @@
                 <div class="row" id="pago_i" hidden>
                     <div class="col s2"> Pago Inicial:</div>
                     <div class="col s3">
-                        <input type="number" id="pago_inicial" name="pago_inicial">
+                        <input type="number" id="pago_inicial" name="pago_inicial" value="0">
                     </div>
                 </div>
             </form>
@@ -183,7 +184,7 @@ $(document).ready(function() {
 
 //------confirmar venta----------
 function confirmar_venta() {
-
+    $("#pago_inicial").val("0")
     $("#cliente_c").html("Lider/Experta: " + $("#search_le").val());
     $("#ca_c").html("Código Arbell: " + $("#ca").val());
     let totalcd = 0;
@@ -309,7 +310,6 @@ function crear_html() {
     let items = 0
     var pubs__ = 0
     var pubs__desc = 0
-    let gan_exp_u = 0
     let gan_exp = 0
     var totalsd = 0
     let totalcd = 0.0
@@ -338,19 +338,29 @@ let fila = `
         items = items + parseInt(e.querySelector('._cantidad').innerText);
     });
 
-    gan_exp_u = pubs__ - pubs__desc
-    gan_exp_u = gan_exp_u.toFixed(1)
+
     gan_exp = gan_exp - totalcd
     gan_exp = gan_exp.toFixed(1)
+    totalcd = totalcd.toFixed(1)
     _descuento = $("#descuento_").val();
     _valor = $("#valor").val();
 
     let _nombre_le = $("#search_le").val()
     let _ca = $("#ca").val()
+    let _tipo_pago = $("input[name='tipo_pago']:checked").val()
+    let _periodo = $("#periodo_").val()
+    let _lugar = $("#lugar").val()
+
+    if (_tipo_pago == 0) {
+        $("#pago_inicial").val(totalcd)
+    }
+
+    let _primer_pago = $("#pago_inicial").val()
+
 
     var data = detalle_venta()
     data.push({
-        total_cd: totalcd.toFixed(1) + ""
+        total_cd: totalcd
     })
     data.push({
         _descuento: _descuento
@@ -362,14 +372,18 @@ let fila = `
         _ca: _ca
     })
     data.push({
-        _tipo_pago: $("input[name='tipo_pago']:checked").val()
+        _tipo_pago: _tipo_pago
     })
     data.push({
-        _pago_inicial: $("#pago_inicial").val()
+        _pago_inicial: _primer_pago
     })
     var json_data = JSON.stringify(data)
 
-
+    if (_tipo_pago == 1) {
+        _tipo_pago = "Crédito"
+    }else{
+        _tipo_pago = "Contado"
+    }
 
     insertar_venta_detalle(json_data).then(respuesta => {
         console.log(respuesta + " respuesta de funcion promise")
@@ -394,12 +408,13 @@ let fila = `
       <tr>
         <td width="33%" align="left">
           <span>Código Arbell: ${_ca}</span><br>
-          <span>Lider/Experta: ${_nombre_le}</span>
+          <span>Lider/Experta: ${_nombre_le}</span><br>
+          <span>Lugar: ${_lugar}</span>
         </td>
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
-          <span>Forma de pago: Efectivo</span><br>
-          <span>Periodo: PERIODO 2 - 2021</span>
+          <span>Forma de pago: ${_tipo_pago}</span><br>
+          <span>Periodo: ${_periodo}</span>
         </td>
         <td width="33%" align="right">
           <span>Distribuidora: CARMIÑA</span>
@@ -435,19 +450,15 @@ let fila = `
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td><b>${items} u. (Incluye 0 aux):</b></td>
+        <td>${items} u. (Incluye 0 aux):</td>
       </tr>
       <tr>
-        <td><b>Ganancias experta U.:</b></td>
-        <td>${gan_exp_u}</td>
-      </tr>
-      <tr>
-        <td><b>Ganancias experta:</b></td>
+        <td><b>G. experta:</b></td>
         <td>${gan_exp}</td>
       </tr>
       <tr>
-        <td><b>Total a pagar:</b></td>
-        <td>${totalcd}</td>
+        <td><b>Total:</b></td>
+        <td>${_primer_pago}/${totalcd}</td>
       </tr>
      </table>
    </div>

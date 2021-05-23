@@ -153,6 +153,9 @@ while($arr = $Busq->fetch_array())
         <div id="modal2" class="modal">
             <div class="modal-content">
                 <input id="codv_pago" type="text" value="codv" hidden>
+                <input id="_subtotal" type="text" hidden>
+                <input id="_total" type="text" hidden>
+
                 <div class="row">
                     <p>
                         <h4  class="fuente">Administrar pagos</h4>
@@ -176,13 +179,13 @@ while($arr = $Busq->fetch_array())
                     </table>
                     <div class="col s4 offset-s8">
                         <b><p id="subtotal">Subtotal:</p>
-                            <p style="color:red" id="debe">Debe:</p>
-                        <p id="saldo">Saldo:</p></b>
+                            <p style="color:red" id="debe">Saldo:</p>
+                        <p id="saldo">Total:</p></b>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
+                <a href="#!" id="btn-cerrar_modal2" class=" modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
             </div>
         </div>
     </div>
@@ -307,7 +310,6 @@ function detalle_venta(codv) {
 //ABRIR MODAL PAGOS CON TODOS LOS DATOS DE LA TABLA
 function pagos(e) {
 
-
     document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
     $("#boton_pagos").removeClass('disabled')
 
@@ -327,7 +329,10 @@ function pagos(e) {
             }
         $("#subtotal").html("Subtotal: "+subtotal)
         $("#debe").html("Saldo: "+(saldo-subtotal))
-        $("#saldo").html("Crédito: "+subtotal+"/"+saldo)
+        $("#saldo").html("Total: "+subtotal+"/"+saldo)
+
+        $("#_subtotal").val(subtotal)
+        $("#_total").val(saldo)
 
         if (subtotal >= saldo ) {
             $("#boton_pagos").addClass('disabled')
@@ -352,7 +357,7 @@ function pagos(e) {
         }
     })
 
-    $("#modal2").openModal()
+    $("#modal2").openModal({dismissible: false})
 }
 
 //RECUPERAR DATOS DE LA BD TABLA: PAGOS(JSON)
@@ -379,12 +384,21 @@ function borrar_pago(e, id, codv) {
             method: "GET",
             success: function(response) {
                 if(response){
+                    let _sub = parseFloat($("#_subtotal").val())
+                    let _monto_borrado = e.target.parentNode.parentNode.parentNode.children[1].innerHTML
+                    _monto_borrado = parseFloat(_monto_borrado)
+                    $("#_subtotal").val(_sub-_monto_borrado)
+                    let nuevo_sub = parseFloat($("#_subtotal").val())
+                    let total = parseFloat($("#_total").val())
+
+                    $("#subtotal").html("Subtotal: "+nuevo_sub)
+                    $("#debe").html("Saldo: "+(total-nuevo_sub))
+                    $("#saldo").html("Total: "+nuevo_sub+"/"+total)
+
                     Materialize.toast("Pago eliminado", 4000)
                     document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
                     document.getElementById("boton_pagos").classList.remove("disabled");
-                    $("#modal2").closeModal()   
-                    $("#cuerpo").load("templates/ventas/reg_ventas.php")
-
+                    $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/ventas/reg_ventas.php")');
                 }else{
                     console.log("error: "+response)
                 }
@@ -399,20 +413,58 @@ function borrar_pago(e, id, codv) {
 
 //FUNCION PARA INSERTAR UN NUEVO PAGO
 function nuevo_pago() {
+
+    if ($('#nuevo_pago').val().length == 0) {
+        return Materialize.toast("Debe ingresar un pago válido.", 4000)
+    }
+    if ($("#nuevo_pago").val() < 1) {
+        return Materialize.toast("Debe ingresar un pago mayor a 0", 4000)
+    }
+
+
     let codv = $("#codv_pago").val()
-    let monto = $("#nuevo_pago").val()
+    let monto = parseFloat($("#nuevo_pago").val()) 
+    $("#nuevo_pago").val("")
+    let subtotal = parseFloat($("#_subtotal").val())
+    let total = parseFloat($("#_total").val())
+    if (subtotal+monto > total ) {return Materialize.toast("La suma de los pagos excede el total.", 4000)}
+
+    
+
     $.ajax({
         url: "recursos/ventas/nuevo_pago.php?codv="+codv+"&monto="+monto,
         method: "GET",
         success: function(response) {
-            console.log(response)
-            if(response){
-                $("#modal2").closeModal()
-                Materialize.toast("Pago agregado.", 4000)
-                $("#cuerpo").load("templates/ventas/reg_ventas.php")
-            }else{
-                console.log("error: "+response)
+            respuesta = JSON.parse(response)
+            monto_ = parseFloat(respuesta.monto)
+            nuevo_sub = subtotal+monto_
+            $("#_subtotal").val(nuevo_sub)
+            if (nuevo_sub >= total) {
+                $("#boton_pagos").addClass('disabled')
+                document.getElementById('boton_pagos').removeAttribute("onclick");
             }
+            
+
+            let table = document.getElementById("tabla_pagos")
+            let newTableRow = table.insertRow(-1)
+            newTableRow.className = "dinamic_rows"
+            newRow = newTableRow.insertCell(0)
+            newRow.textContent = respuesta.fecha_pago
+
+            newRow = newTableRow.insertCell(1)
+            newRow.textContent = respuesta.monto
+
+            newRow = newTableRow.insertCell(2)
+            newRow.innerHTML = '<a onclick="borrar_pago(event, '+respuesta.id+', '+respuesta.codv+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
+            Materialize.toast("Pago agregado.", 4000)
+
+            $("#subtotal").html("Subtotal: "+(nuevo_sub))
+            $("#debe").html("Saldo: "+(total-nuevo_sub))
+            $("#saldo").html("Total: "+nuevo_sub+"/"+total)
+            $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/ventas/reg_ventas.php")')
+
+
+
         },
         error: function(error) {
             console.log(error)

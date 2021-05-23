@@ -8,7 +8,7 @@ include('../conexion.php');
 if(isset($_GET["term"]))
 {
     //modificar consulta para que salga nombre de la linea ...
-    $result = $conexion->query("SELECT CA, CI, nombre, apellidos, telefono, lugar, correo, nivel FROM clientes WHERE estado = 1 AND CONCAT(nombre,' ',apellidos) LIKE '%".$_GET["term"]."%' ORDER BY CA ASC");
+    $result = $conexion->query("SELECT CA, CI, nombre, apellidos, telefono, lugar, correo, nivel FROM clientes WHERE estado = 1 AND CONCAT(CA,' ',nombre,' ',apellidos) LIKE '%".$_GET["term"]."%' ORDER BY CA ASC");
     $total_row = mysqli_num_rows($result); 
     $output = array();
     if($total_row > 0){
