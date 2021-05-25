@@ -472,7 +472,7 @@ let fila = `
 
   <br>
   
-   <h2>Items del comprobante</h2>
+   <h4><b>Items del comprobante</b></h4>
    <table width="100%" class="detalle">
     <thead>
       <tr >
@@ -490,10 +490,9 @@ let fila = `
     </tbody>
    </table>
    <br>
-   <br>
-
+ 
   <div style="float: right">
-   <h3>TOTALES</h3>
+   <h5>Totales:</h5>
   
      <table class="detalle">
       <tr>
@@ -567,50 +566,85 @@ function delete_row(e) {
     }
 }
 
-function imprimir(miHtml, numfac) {
-    var pdf = new jsPDF('l', 'pt', 'a4');
-    specialElementHandlers = {
-        // element with id of "bypass" - jQuery style selector
-        '#bypassme': function(element, renderer) {
-            // true = "handled elsewhere, bypass text extraction"
-            return false
-        }
-    };
+// function imprimir(miHtml, numfac) {
+//     var pdf = new jsPDF('l', 'pt', 'a4');
+//     specialElementHandlers = {
+//         // element with id of "bypass" - jQuery style selector
+//         '#bypassme': function(element, renderer) {
+//             // true = "handled elsewhere, bypass text extraction"
+//             return false
+//         }
+//     };
 
-    // var ventana = window.open ("about:blank", "_blank")
+//     // var ventana = window.open ("about:blank", "_blank")
+//     var ventana = window.open();
+//     ventana.document.write(miHtml);
+//     // ventana.document.close();
+//     // ventana.focus();
+//     $(ventana.document).ready(function() {
+//         ventana.print();
+//         ventana.close();
+
+
+
+//         //FALTA CAMBIAR EL TAMAÑO DE LA HOJA DEL RECIBO
+//         margins = {
+//             top: 1,
+//             bottom: 1,
+//             left: 10,
+//             width: 10
+//         };
+//         pdf.fromHTML(
+//             miHtml,
+//             margins.left,
+//             margins.top, {
+//                 'width': margins.width,
+//                 'elementHandlers': specialElementHandlers
+//             },
+
+//             function(dispose) {
+//                 pdf.save('recibo_venta_' + numfac + '.pdf');
+//             }, margins
+//         );
+
+//         return true;
+//     });
+
+// }
+
+function imprimir(mihtml, numfac) {
+    const $elementoParaConvertir = mihtml; // <-- Aquí puedes elegir cualquier elemento del DOM
+
     var ventana = window.open();
-    ventana.document.write(miHtml);
-    // ventana.document.close();
-    // ventana.focus();
+    ventana.document.write(mihtml);
     $(ventana.document).ready(function() {
         ventana.print();
         ventana.close();
 
-
-
-        //FALTA CAMBIAR EL TAMAÑO DE LA HOJA DEL RECIBO
-        margins = {
-            top: 1,
-            bottom: 1,
-            left: 10,
-            width: 10
-        };
-        pdf.fromHTML(
-            miHtml,
-            margins.left,
-            margins.top, {
-                'width': margins.width,
-                'elementHandlers': specialElementHandlers
+        html2pdf()
+        .set({
+            margin: 1,
+            filename: 'recibo_venta_'+numfac+'.pdf',
+            image: {
+                type: 'jpeg',
+                quality: 0.98
             },
-
-            function(dispose) {
-                pdf.save('recibo_venta_' + numfac + '.pdf');
-            }, margins
-        );
-
-        return true;
-    });
-
+            html2canvas: {
+                scale: 3, // A mayor escala, mejores gráficos, pero más peso
+                letterRendering: true,
+            },
+            jsPDF: {
+                unit: "cm",
+                format: "letter",
+                orientation: 'portrait' // landscape o portrait
+            }
+        })
+        .from($elementoParaConvertir)
+        .save()
+        .catch(err => console.log(err));
+    })
 }
+
 </script>
 <script src="js/jsPDF.min.js"></script>
+<script src="js/html2pdf.bundle.min.js"></script>
