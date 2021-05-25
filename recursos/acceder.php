@@ -54,7 +54,7 @@ $array_index = array(
 	$actual_y."-01-11"
 );
 
-$indice = 1;
+$indice = 0;
 for($i=0; $i<count($array_index)-1; $i++){
 	if(check_in_range($array_index[$i], $array_index[$i+1], $fecha)){
 		$indice = $i;
@@ -84,7 +84,7 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 	$_SESSION['apellidos'] = $datos['apellidos'];
 	$_SESSION['estado'] = 'Autenticado';
 	$_SESSION['userCI'] = $userBD;
-	$_SESSION['periodox'] = $indice;
+	$_SESSION['periodox'] = $indice+1;
 
 
 

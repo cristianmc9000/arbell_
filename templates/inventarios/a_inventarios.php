@@ -7,7 +7,6 @@ if (isset($_GET["mes"])) {
 }else{
   $per = $_SESSION['periodox'];
 }
-echo $per;
 // $per = $_GET["mes"];
 /* $anio = $_GET["anio"]; */
 
