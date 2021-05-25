@@ -1,9 +1,16 @@
 <?php
 require('../../recursos/conexion.php');
 require('../../recursos/sesiones.php');
-$per = $_GET["mes"];
-/* $anio = $_GET["anio"]; */
 session_start();
+if (isset($_GET["mes"])) {
+  $per = $_GET["mes"];
+}else{
+  $per = $_SESSION['periodox'];
+}
+echo $per;
+// $per = $_GET["mes"];
+/* $anio = $_GET["anio"]; */
+
 $_SESSION['periodo'] = $per;
 /* $_SESSION['anio'] = $anio; */
 //consultas a base de datos
