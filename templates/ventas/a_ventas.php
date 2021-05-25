@@ -1,5 +1,8 @@
 <!-- FALTA RESTRINGIR LA VENTA A LOS CLIENTES QUE TENGAN UN CRÉDITO ACTIVO -->
-
+<?php 
+require("../../recursos/sesiones.php");
+session_start();
+?>
 <style type="text/css">
 .ui-autocomplete-row {
     padding: 8px;
@@ -32,6 +35,7 @@
             <div class="input-field col s6">
                 <div class="col s6">
                     <input type="text" id="search_le" placeholder="Buscar Lider/Experta" autocomplete="off" class="validate" required />
+                    <div id="pendientes"></div>
                 </div>
                 <!-- codigo -->
                 <div class="col s3">
@@ -72,7 +76,6 @@
                     <input type="text" id="linea_" value="" hidden>
                     <input type="text" id="pubs_" value="" hidden>
                     <input type="text" id="subtotal_" value="" hidden>
-                    <input type="text" id="periodo_" value="" hidden>
                 </div>
                 <div class="col s2">
                     <button class="btn waves-effect waves-light btn-large" type="submit"><i class="material-icons right">assignment</i>Insertar</button>
@@ -141,7 +144,6 @@
 </div>
 <script>
 $(document).ready(function() {
-    // $('#modal').leanModal();
     //----------filtro lider/experta---------------
     $('#search_le').autocomplete({
         source: "recursos/ventas/buscar_le.php",
@@ -152,10 +154,28 @@ $(document).ready(function() {
             if (ui.item.nivel == "experta") {
                 $("#descuento_").val('30')
             }
+            //REVISAR SI LA CLIENTA TIENE DEUDAS PENDIENTES
+            $.ajax({
+                url: "recursos/ventas/control_venta.php?ca="+ui.item.ca,
+                method: "GET",
+                success: function(response) {
+                    if (response == 1) {
+                        $("#pendientes").html('<small class="helpertext" style="color: red"><b>Tiene pagos pendientes.</b></small>')
+                    }else{
+                        $("#pendientes").html("")
+                    }
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
+            //-----------------------------------------//
             $('#search_le').val(ui.item.value);
             $('#lugar').val(ui.item.lugar);
+            $("#tabla_c tr").remove();
             $('#form_productos').attr("hidden", false);
             $('#tabla_ventas').attr("hidden", false);
+
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
         return $("<li class='ui-autocomplete-row'></li>")
@@ -186,19 +206,41 @@ $(document).ready(function() {
 
 //------confirmar venta----------
 function confirmar_venta() {
+    let ca = $("#ca").val()
     $("#pago_inicial").val("0")
     $("#cliente_c").html("Lider/Experta: " + $("#search_le").val());
-    $("#ca_c").html("Código Arbell: " + $("#ca").val());
+    $("#ca_c").html("Código Arbell: " + ca);
     let totalcd = 0;
     document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
         totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
     });
     $("#monto_c").html("Total a pagar: " + totalcd.toFixed(1) + " Bs.");
+
+    $.ajax({
+        url: "recursos/ventas/control_venta.php?ca="+ca,
+        method: "GET",
+        success: function(response) {
+            if (response == 1) {
+                document.getElementById('contado').checked = true
+                document.getElementById('credito').disabled = true
+                $('#pago_i').hide()
+            }else{
+                document.getElementById('contado').checked = true
+                document.getElementById('credito').disabled = false
+                
+            }
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    });
+
     $("#modal1").openModal();
 }
 
 /* --------------funcion insertar fila de producto---------------- */
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
+
     event.preventDefault();
     $("#descuento_").prop("disabled", true);
     if (parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) {
@@ -350,7 +392,7 @@ let fila = `
     let _nombre_le = $("#search_le").val()
     let _ca = $("#ca").val()
     let _tipo_pago = $("input[name='tipo_pago']:checked").val()
-    let _periodo = $("#periodo_").val()
+    let _periodo = "<?php echo $_SESSION['periodox'];?>";
     let _lugar = $("#lugar").val()
 
     if (_tipo_pago == 0) {
@@ -379,6 +421,7 @@ let fila = `
     data.push({
         _pago_inicial: _primer_pago
     })
+
     var json_data = JSON.stringify(data)
 
     if (_tipo_pago == 1) {
@@ -386,6 +429,9 @@ let fila = `
     }else{
         _tipo_pago = "Contado"
     }
+
+    let year = (new Date).getFullYear()
+    let per = _periodo+" - "+year
 
     insertar_venta_detalle(json_data).then(respuesta => {
         console.log(respuesta + " respuesta de funcion promise")
@@ -416,7 +462,7 @@ let fila = `
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
           <span>Forma de pago: ${_tipo_pago}</span><br>
-          <span>Periodo: ${_periodo}</span>
+          <span>Periodo: ${per}</span>
         </td>
         <td width="33%" align="right">
           <span>Distribuidora: CARMIÑA</span>

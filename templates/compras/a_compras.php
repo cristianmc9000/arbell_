@@ -1,3 +1,6 @@
+<?php 
+  session_start();
+?>
 <style type="text/css">
     .ui-autocomplete-row
     {
@@ -311,7 +314,7 @@ data.push({_totalsd: totalsd})
 data.push({_descuento: _descuento})
 data.push({_valor: _valor})
 
-//console.log(data)
+
 
 var json_data = JSON.stringify(data)
 
@@ -319,6 +322,9 @@ var json_data = JSON.stringify(data)
 //   console.log(res)
 // })
 
+let year = (new Date).getFullYear()
+let periodo = '<?php echo $_SESSION["periodox"]; ?>'
+let per = periodo+" - "+year
 insertar_compra_detalle(json_data).then(respuesta => {
   console.log(respuesta+" respuesta de funcion promise")
 
@@ -342,14 +348,14 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
     <table width="100%" border="0">
       <tr>
         <td width="33%" align="left">
-          <h3>Laboratorio TRESA S.A.</h3><br>
+          <span><h3>Laboratorio TRESA S.A.</h3></span><br>
           <span>Código Arbell: 68929</span><br>
           <span>Lider/Experta: Mendez Plata</span>
         </td>
         <td width="33%" align="center">
           <span>Punto de venta: Principal</span><br>
           <span>Forma de pago: Efectivo</span><br>
-          <span>Periodo: PERIODO 2 - 2021</span>
+          <span>Periodo: ${per}</span>
         </td>
         <td width="33%" align="right">
           <span>Distribuidora: CARMIÑA</span>

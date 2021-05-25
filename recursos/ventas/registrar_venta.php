@@ -9,9 +9,10 @@ date_default_timezone_set("America/La_Paz");
 $fecha = date("Y-m-d h:i:s");
 $userci = $_SESSION['userCI'];
 $array = json_decode($_POST["json"]);
-
+$periodo = $_SESSION['periodox'];
 // die(var_dump($array));
-//atributos de la compra
+//atributos de la compra}
+
 $pago_inicial = array_pop($array); 
 $tipo_pago = array_pop($array);
 $ca = array_pop($array);
@@ -22,7 +23,7 @@ $totalcd = array_pop($array);
 
 
 //insertar un nuevo registro de compra en tabla: ventas
-$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`,`credito`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}." )";
+$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`,`credito`, `periodo`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.", ".$periodo.")";
 mysqli_query($conexion, $insertarCompra);
 
 //obtener el último id autogenerado tabla: ventas
