@@ -150,7 +150,7 @@ table.highlight > tbody > tr:hover {
         <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
         <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
-        <li><a href="#!" onclick="cargar('templates/inventarios/a_inventarios.php?anio=<?php echo date('Y')?>&mes=1');">INVENTARIO</a></li>
+        <li><a href="#!" onclick="cargar('templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
         <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
         <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
         <li class="brand-logo"></li>        
