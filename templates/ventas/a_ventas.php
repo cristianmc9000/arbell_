@@ -1,3 +1,5 @@
+<!-- FALTA RESTRINGIR LA VENTA A LOS CLIENTES QUE TENGAN UN CRÉDITO ACTIVO -->
+
 <style type="text/css">
 .ui-autocomplete-row {
     padding: 8px;

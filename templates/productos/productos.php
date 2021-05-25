@@ -336,6 +336,7 @@ function cargar_lineas() {
       //method: "GET",
       success: function(response) {
             $(".dinamic_rows").remove();
+
             let jsonParsedArray = JSON.parse(response)
 
             //INSERTANDO FILAS A LA TABLA VER PAGOS
