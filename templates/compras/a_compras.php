@@ -348,7 +348,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
     <table width="100%" border="0">
       <tr>
         <td width="33%" align="left">
-          <span><h3>Laboratorio TRESA S.A.</h3></span><br>
+          <span><b>Laboratorio TRESA S.A.</b></span><br>
           <span>Código Arbell: 68929</span><br>
           <span>Lider/Experta: Mendez Plata</span>
         </td>
@@ -367,7 +367,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
    
   <br>
   
-   <h2>Items del comprobante</h2>
+   <h5>Items del comprobante</h5>
    <table width="100%" class="detalle">
     <thead>
       <tr >
@@ -390,7 +390,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
    <br>
 
   <div style="float: right">
-   <h3>TOTALES</h3>
+   <h5>Totales:</h5>
   
      <table class="detalle">
       <tr>
@@ -417,6 +417,9 @@ imprimir(miHtml, respuesta);
 $("#modal1").closeModal();
 $("#tabla_c tr").remove(); 
 habilitar_boton()
+$("#descuento_").prop('disabled', false)
+$("#descuento_").val('0')
+
 })
 }
 
@@ -425,54 +428,37 @@ function habilitar_boton() {
     $("#btn-create_html").removeClass('disabled')
 }
 
-function imprimir(miHtml,numfac) {
+function imprimir(mihtml, numfac) {
+    const $elementoParaConvertir = mihtml; // <-- Aquí puedes elegir cualquier elemento del DOM
 
+    var ventana = window.open();
+    ventana.document.write(mihtml);
+    $(ventana.document).ready(function() {
+        ventana.print();
+        ventana.close();
 
-var pdf = new jsPDF('l', 'pt', 'a4');
-specialElementHandlers = {
-    // element with id of "bypass" - jQuery style selector
-    '#bypassme': function (element, renderer) {
-        // true = "handled elsewhere, bypass text extraction"
-        return false
-    }
-};
-
-
-
-// var ventana = window.open ("about:blank", "_blank")
-var ventana = window.open();
-ventana.document.write(miHtml);
-// ventana.document.close();
-// ventana.focus();
-$(ventana.document).ready(function (){
-ventana.print();
-ventana.close();
-
-
-
-//FALTA CAMBIAR EL TAMAÑO DE LA HOJA DEL RECIBO
-margins = {
-    top: 1,
-    bottom: 1,
-    left: 10,
-    width: 10
-};  
- pdf.fromHTML(
-  miHtml, 
-  margins.left, 
-  margins.top, { 
-      'width': margins.width, 
-      'elementHandlers': specialElementHandlers
-  },
-
-  function (dispose) {
-      pdf.save('recibo_compra_'+numfac+'.pdf');
-  }, margins
-);
-
-return true;
-});
-
+        html2pdf()
+        .set({
+            margin: 1,
+            filename: 'recibo_compra_'+numfac+'.pdf',
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 3, // A mayor escala, mejores gráficos, pero más peso
+                letterRendering: true,
+            },
+            jsPDF: {
+                unit: "cm",
+                format: "letter",
+                orientation: 'portrait' // landscape o portrait
+            }
+        })
+        .from($elementoParaConvertir)
+        .save()
+        .catch(err => console.log(err));
+    })
 }
 
 function insertar_compra_detalle (json_data) {
@@ -515,8 +501,7 @@ function delete_row(e) {
 }
 
 </script>
-<script src="js/jsPDF.min.js"></script>
-
+<script src="js/html2pdf.bundle.min.js"></script>
 
 
 <!-- RECORDATORIO
