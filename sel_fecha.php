@@ -1,4 +1,6 @@
-
+<?php 
+  date_default_timezone_set("America/La_Paz");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +13,15 @@
   }
 
 
-
+/*
 .fijo{
 
   max-width: 250px;
+
+}*/
+.auto-imagen{
+
+ width: 70%;
 
 }
 
@@ -22,143 +29,76 @@
 </head>
 <body>
 
-<span class="fuente"><h3>Seleccione la fecha</h3></span>
+<span class="fuente"><h3>Seleccione el periodo</h3></span>
 
 <form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
     <div class="input-field col s3">
         <select name = "anio" id="anio">
-          <option value="2017" selected><b>2017</b></option>
-          <option value="2018"><b>2018</b></option>
-          <option value="2019"><b>2019</b></option>
-          <option value="2020"><b>2020</b></option>
+          <option value="2021" '<?php if(date("Y") == "2021"){echo "selected";} ?>'><b>2021</b></option>
+          <option value="2022" '<?php if(date("Y") == "2022"){echo "selected";} ?>'><b>2022</b></option>
+          <option value="2023" '<?php if(date("Y") == "2023"){echo "selected";} ?>'><b>2023</b></option>
+          <option value="2024" '<?php if(date("Y") == "2024"){echo "selected";} ?>'><b>2024</b></option>
         </select>
-        <label><b>SELECCIONE EL AÑO</b></label>
+        <label><b>SELECCIONE EL PERIODO</b></label>
     </div>
     <input type="text" name="mes" id="mes" value="" hidden>
 
   <br><br>
 <!-- <button class="btn waves-effect waves-light" type="submit">Aceptar</button> -->
 </form>
-<div class="row col s12">
+<div class="row center">
 
-<div class="fijo col s3" >
+<div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('01');" >
-  <div class="card z-depth-5" >
-    <div class="card-image center" onmouseover="hover2.playclip();" style="background-color: green !important;" >
-      <img src="img/meses/enero.png" >
-    </div>
-  </div>
+
+      <img class="auto-imagen" src="img/periodos/1.png" >
+
   </a>
 </div>
 
-<div class="fijo col s3" >
+<div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('02');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <div style="background-color: green;"><img src="img/meses/febrero.png" ></div>
-    </div>
-  </div>
+
+      <img class="auto-imagen" src="img/periodos/2.png" >
+
   </a>
 </div>
 
 
-<div class="fijo col s3" >
+<div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('03');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/marzo.png" >
-    </div>
-  </div>
+
+      <img class="auto-imagen" src="img/periodos/3.png" >
+
   </a>
 </div>
+</div>
+<div class="row center">
 
-<div class="fijo col s3" >
+<div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('04');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/abril.png" >
-    </div>
-  </div>
+
+
+      <img class="auto-imagen" src="img/periodos/4.png" >
+
+
   </a>
 </div>
 
-<div class="fijo col s3" >
+<div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('05');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/mayo.png" >
-    </div>
-  </div>
+
+      <img class="auto-imagen" src="img/periodos/5.png" >
+    
+  
   </a>
 </div>
 
-<div class="fijo col s3" >
+<div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('06');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/junio.png" >
-    </div>
-  </div>
-  </a>
-</div>
 
-<div class="fijo col s3" >
-  <a href="#" onclick="enviarfecha('07');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/julio.png" >
-    </div>
-  </div>
-  </a>
-</div>
+      <img class="auto-imagen" src="img/periodos/6.png" >
 
-<div class="fijo col s3" >
-  <a href="#" onclick="enviarfecha('08');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/agosto.png" >
-    </div>
-  </div>
-  </a>
-</div>
-
-<div class="fijo col s3" >
-  <a href="#" onclick="enviarfecha('09');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/septiembre.png" >
-    </div>
-  </div>
-  </a>
-</div>
-
-<div class="fijo col s3" >
-  <a href="#" onclick="enviarfecha('10');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/octubre.png" >
-    </div>
-  </div>
-  </a>
-</div>
-
-<div class="fijo col s3" >
-  <a href="#" onclick="enviarfecha('11');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/nov.png" >
-    </div>
-  </div>
-  </a>
-</div>
-
-<div class="fijo col s3" >
-  <a href="#" onclick="enviarfecha('12');" >
-  <div class="card z-depth-5">
-    <div class="card-image center" onmouseover="hover2.playclip();" >
-      <img src="img/meses/dic.png" >
-    </div>
-  </div>
   </a>
 </div>
 
