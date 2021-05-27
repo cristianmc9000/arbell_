@@ -10,6 +10,13 @@
 
 .fijo{
   max-width: 250px;
+  border-radius: 50%
+  width: 250px !important;
+  height: 100px !important;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  background : #5cb85c;;
 }
   </style>
 
