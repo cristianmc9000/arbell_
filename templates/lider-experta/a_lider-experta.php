@@ -84,7 +84,7 @@ while($arr = $Busq->fetch_array())
             <td><?php echo $valor["fecha_alta"] ?></td>
             <td><?php echo $valor["nivel"] ?></td>
        
-            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>');">
+            <td><a href="#!" onclick="mod_cliente('<?php echo $valor['id'] ?>', '<?php echo $valor['ca'] ?>','<?php echo $valor['ci'] ?>','<?php echo $valor['nombre'] ?>','<?php echo $valor['apellidos'] ?>', '<?php echo $valor['telefono'] ?>', '<?php echo $valor['lugar'] ?>','<?php echo $valor['correo'] ?>','<?php echo $valor['nivel'] ?>','<?php echo $valor['fecha_alta'] ?>');">
             <i class="material-icons">build</i></a></td>
             <!--HASTA AQUI-->
             <td><a href="#!" onclick="borrar_cliente('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a></td>
@@ -138,13 +138,17 @@ while($arr = $Busq->fetch_array())
             </div>
             <div class="input-field col s6">
                 <select name="nivel">
-                  <option value="" disabled selected>Seleccionar tipo</option>
-                  <option value="1">Experta</option>
+                  <option value="1" selected>Experta</option>
                   <option value="2">Lider</option>
                 </select>
                 <label>Nivel</label>
-            </div>
-            
+            </div>  
+          </div>
+          <div class="row">
+              <div class="input-field col s6">
+                <input name="fecha_alta" id="fecha_alta" type="date" value="" class="validate" required>
+                <label class="active" for="fecha_alta">Fecha de alta:</label>
+              </div>
           </div>
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
@@ -182,6 +186,12 @@ while($arr = $Busq->fetch_array())
             <!-- DATOS ANTERIORES -->
             <div class="input-field col s6" id="datos_anteriores"></div>
             <!-- FIN DATOS ANTERIORES -->
+          </div>
+          <div class="row">
+              <div class="input-field col s6">
+                  <input name="fecha_alta_mod" id="fecha_alta_mod" type="date" value="" class="validate" required>
+                  <label class="active" for="fecha_alta_mod">Fecha de alta:</label>
+              </div>
           </div>
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
@@ -225,11 +235,14 @@ while($arr = $Busq->fetch_array())
 $(document).ready(function() {
     $('#tabla1').dataTable();
     $('#modal').leanModal();
+    let today = new Date().toISOString().slice(0, 10)
+    document.getElementById('fecha_alta').value = today
+
 });
 var mensaje = $("#mensaje");
 mensaje.hide();
 
-function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo){
+function mod_cliente(id,ca, ci, nombre, apellidos, telefono, lugar, correo, tipo, fecha_alta){
 
   document.getElementById("ca").innerHTML ='<input name="ca" type="number" class="validate" value="'+ca+'"><label for="ca" class="active">Código Arbell:</label>';
   document.getElementById("ci").innerHTML ='<input name="ci" type="number" class="validate" value="'+ci+'"><label for="ci" class="active">CI:</label>';
@@ -250,6 +263,7 @@ sel2 = ''
 
   $("#tipo").html('<select class="browser-default" name="nivel"><option value="1" '+sel1+'>Experta</option><option value="2" '+sel2+'>Lider</option></select>');
 
+  $("#fecha_alta_mod").val(fecha_alta)
 
 $("#datos_anteriores").html('<input name="ca_ant" type="text" value="'+ca+'" hidden><input name="ci_ant" type="text" value="'+ci+'" hidden><input name="id" type="text" value="'+id+'" hidden>');
 
@@ -303,7 +317,7 @@ $("#borrar_cliente").on("submit", function(e){
 
 $("#agregar_cliente").on("submit", function(e){
     e.preventDefault();
-
+    console.log("llego")
     var val = new FormData(document.getElementById("agregar_cliente"));
     $.ajax({
       url: "recursos/lider-experta/clientes.php",
@@ -314,7 +328,8 @@ $("#agregar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-    	mensaje.html(echo)
+    	// mensaje.html(echo)
+      console.log(echo)
       if (echo.includes('reg')){
       	Materialize.toast('<b>'+echo+'</b>', 4000)
       	$("#modal1").closeModal()

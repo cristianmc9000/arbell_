@@ -1,7 +1,8 @@
 <?php
 //Conectamos a la base de datos
 require('../conexion.php');
-date_default_timezone_set("America/La_Paz");
+// date_default_timezone_set("America/La_Paz");
+
 $caPOST = $_POST["ca"];
 $ciPOST = $_POST["ci"];
 $nombrePOST = $_POST["nombre"];
@@ -10,8 +11,7 @@ $telefonoPOST = $_POST["telefono"];
 $lugarPOST = $_POST["lugar"];
 $correoPOST = $_POST["correo"];
 $nivelPOST = $_POST["nivel"];
-$fecha_alta = date("Y-m-d");
-//die('<script>Materialize.toast('.$nivelPOST.') </script>');
+$fecha_alta = $_POST["fecha_alta"];
 
 	$consultaBuscarCa = "SELECT * FROM clientes WHERE CA = ".$caPOST;
 	$resultadoConsultaBCA = mysqli_query($conexion, $consultaBuscarCa) or die(mysql_error());

@@ -22,10 +22,13 @@
   background : #ffffff;*/
 }
 .auto-imagen{
-
- width: 70%;
-
+  padding:  1px;
+  border: 4px solid transparent;
+  background: linear-gradient(60deg, #afafaf 10%, #4e4e4e 100%);
+  width: 80%;
+  height:  250px;
 }
+
   </style>
 
 
@@ -41,7 +44,7 @@
 <div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('01');" >
 
-      <img class="auto-imagen" src="img/periodos/1.png" >
+      <img class="z-depth-5 auto-imagen" src="img/periodos/1.png" >
 
   </a>
 </div>
@@ -49,7 +52,7 @@
 <div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('02');" >
 
-      <img class="auto-imagen" src="img/periodos/2.png" >
+      <img class="z-depth-5 auto-imagen" src="img/periodos/2.png" >
 
   </a>
 </div>
@@ -58,7 +61,7 @@
 <div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('03');" >
 
-      <img class="auto-imagen" src="img/periodos/3.png" >
+      <img class="z-depth-5 auto-imagen" src="img/periodos/3.png" >
 
   </a>
 </div>
@@ -69,7 +72,7 @@
   <a href="#" onclick="enviarfecha('04');" >
 
 
-      <img class="auto-imagen" src="img/periodos/4.png" >
+      <img class="z-depth-5 auto-imagen" src="img/periodos/4.png" >
 
 
   </a>
@@ -78,7 +81,7 @@
 <div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('05');" >
 
-      <img class="auto-imagen" src="img/periodos/5.png" >
+      <img class="z-depth-5 auto-imagen" src="img/periodos/5.png" >
     
   
   </a>
@@ -87,7 +90,7 @@
 <div class="fijo col s4" >
   <a href="#" onclick="enviarfecha('06');" >
 
-      <img class="auto-imagen" src="img/periodos/6.png" >
+      <img class="z-depth-5 auto-imagen" src="img/periodos/6.png" >
 
   </a>
 </div>

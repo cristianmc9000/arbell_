@@ -21,7 +21,7 @@
 .auto-imagen{
   padding:  1px;
   border: 4px solid transparent;
-  background: linear-gradient(60deg, #d3ff08 10%, #10ff76 100%);
+  background: linear-gradient(60deg, #afafaf 10%, #4e4e4e 100%);
   width: 80%;
   height:  250px;
 }
@@ -32,7 +32,18 @@
 
 
 <div class="row">
-  <div class="col s2 offset-s5">
+  <div class="col s2 offset-s1">
+      <div class="input-field">
+          <select name = "anio" id="anio">
+            <option value="r_ventas" selected><b>Reportes de ventas</b></option>
+            <option value="r_compras" ><b>Reportes de compras</b></option>
+            <option value="r_dev" ><b>Reportes de devoluciones</b></option>
+          </select>
+          <label><b>SELECCIONE EL TIPO DE REPORTE</b></label>
+      </div>
+  </div>
+
+  <div class="col s2 offset-s2">
     <form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
         <div class="input-field">
             <select name = "anio" id="anio">
@@ -49,61 +60,56 @@
 </div>
 
 <div class="row center">
-
-<div class="fijo col s4" >
-  <a href="#" onclick="enviarfecha('01');" >
-
-      <img class="auto-imagen" src="img/periodos/1.png" >
-
-  </a>
-</div>
-
-<div class="fijo col s4" >
-  <a href="#" onclick="enviarfecha('02');" >
-
-      <img class="auto-imagen" src="img/periodos/2.png" >
-
-  </a>
-</div>
-
-
-<div class="fijo col s4" >
-  <a href="#" onclick="enviarfecha('03');" >
-
-      <img class="auto-imagen" src="img/periodos/3.png" >
-
-  </a>
-</div>
-</div>
-<div class="row center">
-
-<div class="fijo col s4" >
-  <a href="#" onclick="enviarfecha('04');" >
-
-
-      <img class="auto-imagen" src="img/periodos/4.png" >
-
-
-  </a>
-</div>
-
-<div class="fijo col s4" >
-  <a href="#" onclick="enviarfecha('05');" >
-
-      <img class="auto-imagen" src="img/periodos/5.png" >
-    
+  <div class="fijo col s4" >
+    <a href="#" onclick="enviarfecha('01');" >
   
-  </a>
+            <img class="z-depth-5 auto-imagen" src="img/periodos/1.png" >
+
+    </a>
+  </div>
+
+  <div class="fijo col s4" >
+    <a href="#" onclick="enviarfecha('02');" >
+
+            <img class="z-depth-5 auto-imagen" src="img/periodos/2.png" >
+
+    </a>
+  </div>
+
+
+  <div class="fijo col s4" >
+    <a href="#" onclick="enviarfecha('03');" >
+
+            <img class="z-depth-5 auto-imagen" src="img/periodos/3.png" >
+
+    </a>
+  </div>
 </div>
 
-<div class="fijo col s4" >
-  <a href="#" onclick="enviarfecha('06');" >
+<div class="row center">
+  <div class="fijo col s4" >
+    <a href="#" onclick="enviarfecha('04');" >
 
-      <img class="auto-imagen" src="img/periodos/6.png" >
+          <img class="z-depth-5 auto-imagen" src="img/periodos/4.png" >
 
-  </a>
-</div>
+    </a>
+  </div>
 
+  <div class="fijo col s4" >
+    <a href="#" onclick="enviarfecha('05');" >
+
+          <img class="z-depth-5 auto-imagen" src="img/periodos/5.png" >
+
+    </a>
+  </div>
+
+  <div class="fijo col s4" >
+    <a href="#" onclick="enviarfecha('06');" >
+
+          <img class="z-depth-5 auto-imagen" src="img/periodos/6.png" >
+
+    </a>
+  </div>
 </div>
 
 

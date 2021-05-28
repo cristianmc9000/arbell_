@@ -61,7 +61,11 @@ while($arr = $Busq2->fetch_array())
 <title> Arbell, Número de teléfono(s): 6637037, E-mail: arbellcarmina@gmail.com</title>
 <style>
 body{
-  background: linear-gradient(90deg, #ccfff8, #e9fffc);
+  /*background: linear-gradient(90deg, #ccfff8, #e9fffc);*/
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #919191;
+  opacity: 1; /* Firefox */
 }
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
@@ -141,21 +145,21 @@ table.highlight > tbody > tr:hover {
     </ul>
 
     <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">Realizar Venta</a></li>
-    <li><a href="#!" onclick="cargar('templates/ventas/reg_ventas');">Registro de Ventas</a></li>
+    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas');">Realizar Venta</a></li>
+    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas');">Registro de Ventas</a></li>
     </ul>
 
     <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
-        <li><a href="#!" onclick="cargar('templates/usuarios/a_usuarios');">USUARIOS</a></li>
-        <li><a href="#!" onclick="cargar('templates/roles/a_roles');">ROLES</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/usuarios/a_usuarios');">USUARIOS</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/roles/a_roles');">ROLES</a></li>
         <!-- <li><a href="#!" onclick="cargar('templates/ventas/a_ventas');">VENTAS</a></li> -->
         <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a href="#!" onclick="cargar('templates/compras/a_compras');">COMPRAS</a></li>
-        <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
-        <li><a href="#!" onclick="cargar('templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
-        <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
-        <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/compras/a_compras');">COMPRAS</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/reportes/sel_fecha');">REPORTES</a></li>
         <li class="brand-logo"></li>        
       </ul>
       <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -250,13 +254,33 @@ $(document).ready(function() {
   $('#tabla2').dataTable();
 });
 
-  function cargar(x){
+  function cargar(e, x){
+
+    for (var i = 1; i <= 8; i++) {
+      // console.log(e.target.parentNode.parentNode.children[i])
+      e.target.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
+    }
+
+    e.target.parentNode.style.backgroundColor = "#3498db"
+
     if(x.includes("templates/inventarios")){
       $("#cuerpo").load(x);
     }else{
     var y=".php";
           $("#cuerpo").load(x+y);
         }
+  }
+  //PARA CARGAR LAS VENTAS 
+  function cargar_v(e, x){
+    for (var i = 1; i <= 8; i++) {
+      e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
+    }
+    e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
+
+  
+    var y=".php";
+    $("#cuerpo").load(x+y);
+        
   }
 
 </script>
