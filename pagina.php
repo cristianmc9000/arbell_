@@ -155,7 +155,7 @@ table.highlight > tbody > tr:hover {
         <li><a href="#!" onclick="cargar('templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
         <li><a href="#!" onclick="cargar('templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
         <li><a href="#!" onclick="cargar('templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
-        <li><a href="#!" onclick="cargar('sel_fecha');">REPORTES</a></li>
+        <li><a href="#!" onclick="cargar('templates/reportes/sel_periodo');">REPORTES</a></li>
         <li class="brand-logo"></li>        
       </ul>
       <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
