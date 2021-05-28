@@ -60,6 +60,9 @@ while($arr = $Busq2->fetch_array())
 
 <title> Arbell, Número de teléfono(s): 6637037, E-mail: arbellcarmina@gmail.com</title>
 <style>
+body{
+  background: linear-gradient(90deg, #ccfff8, #e9fffc);
+}
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
 	font-family: Homestead Display;

@@ -13,16 +13,17 @@
   }
 
 
-/*
-.fijo{
 
-  max-width: 250px;
-
+/*.fijo{
+  border-style: solid;
+  border-color: red;
 }*/
 .auto-imagen{
-
- width: 70%;
-
+  padding:  1px;
+  border: 4px solid transparent;
+  background: linear-gradient(60deg, #d3ff08 10%, #10ff76 100%);
+  width: 80%;
+  height:  300px;
 }
 
   </style>
