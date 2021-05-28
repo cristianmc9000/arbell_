@@ -1,4 +1,4 @@
-<!-- FALTA RESTRINGIR LA VENTA A LOS CLIENTES QUE TENGAN UN CRÉDITO ACTIVO -->
+
 <?php 
 require("../../recursos/sesiones.php");
 session_start();
@@ -27,6 +27,7 @@ session_start();
     top: -20px;
     position: relative;
 }
+
 </style>
 <div class="fuente" style="">
     <h5 align="" style="color: red;">Buscar Lider/Experta</h5>
