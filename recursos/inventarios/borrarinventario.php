@@ -13,4 +13,5 @@ $periodo = $_SESSION["periodo"];
 		die('?mes='.$periodo);
 	}
 
+
 ?>

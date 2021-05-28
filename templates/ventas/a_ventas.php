@@ -1,4 +1,4 @@
-<!-- FALTA RESTRINGIR LA VENTA A LOS CLIENTES QUE TENGAN UN CRÉDITO ACTIVO -->
+
 <?php 
 require("../../recursos/sesiones.php");
 session_start();
