@@ -23,30 +23,31 @@
   border: 4px solid transparent;
   background: linear-gradient(60deg, #d3ff08 10%, #10ff76 100%);
   width: 80%;
-  height:  300px;
+  height:  250px;
 }
 
   </style>
 </head>
 <body>
 
-<span class="fuente"><h3>Seleccione el periodo</h3></span>
 
-<form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
-    <div class="input-field col s3">
-        <select name = "anio" id="anio">
-          <option value="2021" '<?php if(date("Y") == "2021"){echo "selected";} ?>'><b>2021</b></option>
-          <option value="2022" '<?php if(date("Y") == "2022"){echo "selected";} ?>'><b>2022</b></option>
-          <option value="2023" '<?php if(date("Y") == "2023"){echo "selected";} ?>'><b>2023</b></option>
-          <option value="2024" '<?php if(date("Y") == "2024"){echo "selected";} ?>'><b>2024</b></option>
-        </select>
-        <label><b>SELECCIONE EL PERIODO</b></label>
-    </div>
-    <input type="text" name="mes" id="mes" value="" hidden>
+<div class="row">
+  <div class="col s2 offset-s5">
+    <form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
+        <div class="input-field">
+            <select name = "anio" id="anio">
+              <option value="2021" '<?php if(date("Y") == "2021"){echo "selected";} ?>'><b>2021</b></option>
+              <option value="2022" '<?php if(date("Y") == "2022"){echo "selected";} ?>'><b>2022</b></option>
+              <option value="2023" '<?php if(date("Y") == "2023"){echo "selected";} ?>'><b>2023</b></option>
+              <option value="2024" '<?php if(date("Y") == "2024"){echo "selected";} ?>'><b>2024</b></option>
+            </select>
+            <label><b>SELECCIONE EL PERIODO</b></label>
+        </div>
+        <input type="text" name="mes" id="mes" value="" hidden>
+    </form>
+  </div>
+</div>
 
-  <br><br>
-<!-- <button class="btn waves-effect waves-light" type="submit">Aceptar</button> -->
-</form>
 <div class="row center">
 
 <div class="fijo col s4" >
