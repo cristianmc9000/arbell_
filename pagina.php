@@ -68,13 +68,6 @@ body{
 	font-family: Homestead Display;
 	color: #ffffff;
 }
-input{
-  /*font-weight: bold;*/
-}
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #78827d;
-  opacity: 1;
-}
 .fuente{
   font-family: Segoe UI Light;
 }
@@ -142,7 +135,7 @@ table.highlight > tbody > tr:hover {
   <div class="nav-wrapper" >
     <ul class="right hide-on-med-and-down">
       <li><img align="center" width="40px" src="img/divisas2.png" alt=""></li>
-      <li><input style="width: 40px" placeholder="valor del peso en Bs." id="valor" value="0.07" type="text"></li>
+      <li><input placeholder="valor del peso en Bs." id="valor" value="0.07" type="text"></li>
       <li><?php echo $estado; ?></li>
       <li><?php echo $salir; ?></li>
     </ul>
