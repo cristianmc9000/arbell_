@@ -13,7 +13,7 @@ if(isset($_GET["term"]))
        $temp_array = array();
        $temp_array['id'] = $row['id'];
        $temp_array['linea'] = $row['nombre'];
-       // $temp_array['codli'] = $row['linea'];
+       $temp_array['codli'] = $row['linea'];
        $temp_array['value'] = $row['descripcion'];
        $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
        $temp_array['pupesos'] = $row['pupesos'];

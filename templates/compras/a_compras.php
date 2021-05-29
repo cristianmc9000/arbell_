@@ -42,7 +42,7 @@
             
             <input type="text" id="id_" value="" hidden>
             <input type="text" id="linea_" value="" hidden>
-            <!-- <input type="text" id="codli_" value="" hidden> -->
+            <input type="text" id="codli_" value="" hidden>
             <!-- <input type="text" id="pubs_" value="" hidden> -->
           </div>
 
@@ -68,7 +68,7 @@
     </div>
 
 <div class="row">
-  <div class="col s8">
+  <div class="col s10">
   <table id="tabla_compras" class="highlight">
     <thead>
       <tr>
@@ -84,6 +84,7 @@
           <th>Valor de compra <br>S.D. (Bs.)</th>
           <th>Valor de compra <br>C.D. (Bs.)</th>
           <th>Borrar</th>
+          <th hidden>AUX</th>
       </tr>
     </thead>
 
@@ -92,7 +93,7 @@
   </table>
   </div>
 
-<div class="col s3 offset-s1">
+<div class="col s2 ">
     <a class="waves-effect waves-light btn-large " id="modal" href="#modal1"><i class="material-icons right">receipt</i>Registrar compra</a>
   </div>
 </div>
@@ -126,7 +127,7 @@ $(document).ready(function(){
         $("#id_").val(ui.item.id)
         $("#linea_").val(ui.item.linea)
         $("#pupesos_").val(ui.item.pupesos)
-        // $("#codli_").val(ui.item.codli)
+        $("#codli_").val(ui.item.codli)
         $('#search_data').val(ui.item.value)
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
@@ -142,27 +143,29 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   event.preventDefault();
 
   $("#descuento_").prop('disabled', true);
-
+  let codli = $("#codli_").val()
 //Convertir precio en pesos a precio en Bs.
-  var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
-  pubs_ = pubs_.toFixed(1)
-
-// PRECIO CON DESCUENTO EN PESOS
-  var desc_ = $("#descuento_").val()
-  desc_ = parseFloat(desc_) * 0.01;
-  var pupesos = $("#pupesos_").val()
-  pupesos = parseFloat(pupesos) * parseFloat(desc_);
-  pupesos = parseFloat($("#pupesos_").val()) - pupesos
+  let pupesos = parseFloat($("#pupesos_").val())
   pupesos = pupesos.toFixed(1)
-  // console.log(pupesos+"pcd pesos")
-
-// PRECIO CON DESCUENTO EN BS.
-  var pubs_desc = pubs_
-  pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
-  pubs_desc = parseFloat(pubs_) - pubs_desc
-  pubs_desc = pubs_desc.toFixed(1)
-
-  // console.log(pubs_desc+"pcd bs")
+  let pubs_ = pupesos * parseFloat($("#valor").val())
+  pubs_ = pubs_.toFixed(1)
+  let desc_ = parseFloat($("#descuento_").val())
+  let _aux_cant = 0
+  if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
+      _aux_cant = parseInt($("#cantidad_").val())
+      pupesos_desc = pupesos
+      pubs_desc = pubs_
+  }else{
+  // PRECIO CON DESCUENTO EN PESOS
+    desc_ = desc_ * 0.01;
+    pupesos_desc = pupesos * desc_;
+    pupesos_desc = pupesos - pupesos_desc
+  // PRECIO CON DESCUENTO EN BS.
+    pubs_desc = pubs_
+    pubs_desc = parseFloat(pubs_desc) * desc_
+    pubs_desc = pubs_ - pubs_desc
+    pubs_desc = pubs_desc.toFixed(1)
+  }
 
   //Subtotal sin descuento
   precio_sd = parseFloat($("#cantidad_").val()) * pubs_
@@ -193,7 +196,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_cantidad"
 
   newRow = newTableRow.insertCell(4)
-  newRow.textContent = $("#pupesos_").val()
+  newRow.textContent = pupesos
   newRow.className = "_pupesos"
 
   newRow = newTableRow.insertCell(5)
@@ -201,7 +204,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_pubs"
 
   newRow = newTableRow.insertCell(6)
-  newRow.textContent = pupesos
+  newRow.textContent = pupesos_desc
   newRow.className = "_pupesos_desc"
 
   newRow = newTableRow.insertCell(7)
@@ -219,6 +222,9 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow = newTableRow.insertCell(10)
   newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
 
+  newRow = newTableRow.insertCell(11)
+  newRow.style.visibility = 'hidden'
+  newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
 
   $("#search_data").val("")
   $("#cantidad_").val("")
@@ -297,6 +303,12 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
   items = items + parseInt(e.querySelector('._cantidad').innerText);
 });
+
+//sumando cantidad de productos auxiliares
+let aux_sum = 0
+$('._aux').each(function(){
+    aux_sum = aux_sum + parseInt(this.value)
+})
 
 gan_exp_u = pubs__ - pubs__desc
 gan_exp_u = gan_exp_u.toFixed(1)
@@ -394,11 +406,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td><b>${items} u. Incluye 0 aux.:</b></td>
-      </tr>
-      <tr>
-        <td><b>Ganancias experta U.:</b></td>
-        <td>${gan_exp_u}</td>
+        <td><b>${items} u. Incluye ${aux_sum} aux.:</b></td>
       </tr>
       <tr>
         <td><b>Ganancias experta:</b></td>

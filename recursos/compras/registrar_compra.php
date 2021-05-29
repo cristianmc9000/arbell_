@@ -6,6 +6,9 @@ require("../conexion.php");
 require("../sesiones.php");
 session_start();
 $userci = $_SESSION['userCI'];
+date_default_timezone_set("America/La_Paz");
+$fecha = date("Y-m-d h:i:s");
+
 $array = json_decode($_POST["json"]);
 
 //atributos de la compra
@@ -15,7 +18,7 @@ $total_sd = array_pop($array);
 $total_cd = array_pop($array);
 
 //insertar un nuevo registro de compra en tabla: compras
-$insertarCompra = "INSERT INTO `compras`(`ci_usu`,`totalsd`, `totalcd`,`descuento`,`valor_pesos`) VALUES ('".$userci."', ".$total_sd->{'_totalsd'}.", ".$total_cd->{'_totalcd'}.", ".$descuento->{'_descuento'}.", ".$valor->{'_valor'}." )";
+$insertarCompra = "INSERT INTO `compras`(`ci_usu`,`fecha`,`totalsd`, `totalcd`,`descuento`,`valor_pesos`) VALUES ('".$userci."','".$fecha."',".$total_sd->{'_totalsd'}.", ".$total_cd->{'_totalcd'}.", ".$descuento->{'_descuento'}.", ".$valor->{'_valor'}." )";
 mysqli_query($conexion, $insertarCompra);
 
 //obtener el último id autogenerado tabla: compras
@@ -33,9 +36,9 @@ mysqli_stmt_close($sql);
 //Insertar datos a tabla: inventario
 $res = false;
 // $cad ="";
-$insertarinv = mysqli_prepare($conexion, "INSERT INTO inventario (codp, pupesos, pubs, cantidad) VALUES(?,?,?,?);");
+$insertarinv = mysqli_prepare($conexion, "INSERT INTO inventario (codp, pupesos, pubs, cantidad, fecha_reg) VALUES(?,?,?,?,?);");
 foreach ($array as $arr) {
-	mysqli_stmt_bind_param($insertarinv, 'sddi', $arr->{'id'}, $arr->{'pupesos'}, $arr->{'pubs'}, $arr->{'cantidad'});
+	mysqli_stmt_bind_param($insertarinv, 'sddis', $arr->{'id'}, $arr->{'pupesos'}, $arr->{'pubs'}, $arr->{'cantidad'}, $fecha);
 	$res = mysqli_stmt_execute($insertarinv);
 	// $cad = mysqli_stmt_error();
 }

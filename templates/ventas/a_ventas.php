@@ -396,7 +396,7 @@ let fila = `
         pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
         items = items + parseInt(e.querySelector('._cantidad').innerText);
     });
-
+//sumando cantidad de productos auxiliares
 let aux_sum = 0
 $('._aux').each(function(){
     aux_sum = aux_sum + parseInt(this.value)
