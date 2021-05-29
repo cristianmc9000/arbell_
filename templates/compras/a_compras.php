@@ -42,8 +42,8 @@
             
             <input type="text" id="id_" value="" hidden>
             <input type="text" id="linea_" value="" hidden>
-            <!-- <input type="text" id="pupesos_" value="" hidden> -->
-            <input type="text" id="pubs_" value="" hidden>
+            <!-- <input type="text" id="codli_" value="" hidden> -->
+            <!-- <input type="text" id="pubs_" value="" hidden> -->
           </div>
 
           <div class="col s2">
@@ -126,9 +126,8 @@ $(document).ready(function(){
         $("#id_").val(ui.item.id)
         $("#linea_").val(ui.item.linea)
         $("#pupesos_").val(ui.item.pupesos)
-        $("#pubs_").val(ui.item.pubs)
-
-        $('#search_data').val(ui.item.value);  
+        // $("#codli_").val(ui.item.codli)
+        $('#search_data').val(ui.item.value)
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
@@ -395,7 +394,7 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td><b>${items} u. (Incluye 0 aux):</b></td>
+        <td><b>${items} u. Incluye 0 aux.:</b></td>
       </tr>
       <tr>
         <td><b>Ganancias experta U.:</b></td>

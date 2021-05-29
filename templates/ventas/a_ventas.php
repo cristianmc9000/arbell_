@@ -77,6 +77,7 @@ session_start();
                     <input type="text" id="linea_" value="" hidden>
                     <input type="text" id="pubs_" value="" hidden>
                     <input type="text" id="subtotal_" value="" hidden>
+                    <input type="text" id="codli_" value="" hidden>
                 </div>
                 <div class="col s2">
                     <button class="btn waves-effect waves-light btn-large" type="submit"><i class="material-icons right">assignment</i>Insertar</button>
@@ -100,6 +101,7 @@ session_start();
                     <th>Precio U. Bs. <br>con descuento</th>
                     <th>Subtotal</th>
                     <th>Borrar</th>
+                    <th hidden>AUX</th>
                 </tr>
             </thead>
             <tbody id="tabla_c" class="tabla_c">
@@ -171,11 +173,11 @@ $(document).ready(function() {
                 }
             });
             //-----------------------------------------//
-            $('#search_le').val(ui.item.value);
-            $('#lugar').val(ui.item.lugar);
-            $("#tabla_c tr").remove();
-            $('#form_productos').attr("hidden", false);
-            $('#tabla_ventas').attr("hidden", false);
+            $('#search_le').val(ui.item.value)
+            $('#lugar').val(ui.item.lugar)
+            $("#tabla_c tr").remove()
+            $('#form_productos').attr("hidden", false)
+            $('#tabla_ventas').attr("hidden", false)
 
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
@@ -192,10 +194,11 @@ $(document).ready(function() {
             $("#pupesos_").val(ui.item.pupesos)
             $("#stock").html("Cantidad stock: " + ui.item.stock)
             $("#stock_").val(ui.item.stock)
-            $('#search_producto').val(ui.item.value);
-            $('#id_').val(ui.item.id);
-            $('#linea_').val(ui.item.linea);
-            $('#pubs_').val(ui.item.pubs);
+            $('#search_producto').val(ui.item.value)
+            $('#id_').val(ui.item.id)
+            $('#linea_').val(ui.item.linea)
+            $('#pubs_').val(ui.item.pubs)
+            $('#codli_').val(ui.item.codli)
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
         return $("<li class='ui-autocomplete-row'></li>")
@@ -235,7 +238,6 @@ function confirmar_venta() {
             console.log(error)
         }
     });
-
     $("#modal1").openModal();
 }
 
@@ -244,31 +246,39 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     event.preventDefault();
     $("#descuento_").prop("disabled", true);
-    if (parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) {
+    if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
         Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>", 5000)
         return false;
     }
     //Convertir precio en pesos a precio en Bs.
     var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
     pubs_ = pubs_.toFixed(1)
-    // PRECIO CON DESCUENTO EN PESOS
-    var desc_ = $("#descuento_").val()
-    desc_ = parseFloat(desc_) * 0.01;
-    var pupesos = $("#pupesos_").val()
-    pupesos_desc = parseFloat(pupesos) * parseFloat(desc_);
-    pupesos_desc = parseFloat($("#pupesos_").val()) - pupesos
-    pupesos_desc = pupesos_desc.toFixed(1)
-    // console.log(pupesos+"pcd pesos")
 
-    // PRECIO CON DESCUENTO EN BS.
-    var pubs_desc = pubs_
-    pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
-    pubs_desc = parseFloat(pubs_) - pubs_desc
-    pubs_desc = pubs_desc.toFixed(1)
-    // console.log(pubs_desc+"pcd bs")
-    /* //Subtotal sin descuento
-    precio_sd = parseFloat($("#cantidad_").val()) * pubs_
-    precio_sd = precio_sd.toFixed(1) */
+    //VALOR DE DESCUENTO
+    var desc_ = $("#descuento_").val()
+    desc_ = parseFloat(desc_) * 0.01
+
+
+
+    let codli = $("#codli_").val()
+    let pupesos = parseFloat($("#pupesos_").val())
+    //valor sin descuento si no pertenece a la linea auxiliares
+    let pupesos_desc = pupesos
+    let pubs_desc = parseFloat(pubs_)
+    let _aux_cant = 0
+
+    if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
+        _aux_cant = parseInt($("#cantidad_").val())
+    }else{
+        // PRECIO CON DESCUENTO EN PESOS
+        pupesos_desc = pupesos * desc_;
+        pupesos_desc = pupesos - pupesos_desc
+        pupesos_desc = pupesos_desc.toFixed(1)
+        // PRECIO CON DESCUENTO EN BS.
+        pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
+        pubs_desc = pubs_ - pubs_desc
+        pubs_desc = pubs_desc.toFixed(1) 
+    }
 
     //Subtotal con descuento
     precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
@@ -312,6 +322,10 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     newRow = newTableRow.insertCell(8)
     newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+
+    newRow = newTableRow.insertCell(9)
+    newRow.style.visibility = 'hidden'
+    newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
 
     $('#stock').html("")
     $("#search_producto").val("")
@@ -383,6 +397,10 @@ let fila = `
         items = items + parseInt(e.querySelector('._cantidad').innerText);
     });
 
+let aux_sum = 0
+$('._aux').each(function(){
+    aux_sum = aux_sum + parseInt(this.value)
+})
 
     gan_exp = gan_exp - totalcd
     gan_exp = gan_exp.toFixed(1)
@@ -498,7 +516,7 @@ let fila = `
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
-        <td>${items} u. (Incluye 0 aux):</td>
+        <td>${items} u. (Incluye ${aux_sum} aux):</td>
       </tr>
       <tr>
         <td><b>G. experta:</b></td>

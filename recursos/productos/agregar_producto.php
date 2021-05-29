@@ -15,6 +15,8 @@ $periodo = $_SESSION["periodo"];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
+$aux = 0;
+
 
 if(!empty($archivo)){
 $ruta = $_SERVER['DOCUMENT_ROOT']."/arbell_/images/fotos_prod";
@@ -40,9 +42,13 @@ if(strlen($descripcion) > $maxCaracteres) {
 	if(isset($datosConsultaBID['id'])){
 		die('<script>Materialize.toast("Ya existe un producto con el código: '.$cod.'" ,5000)</script>');
 	}
+	//PARA SABER SI EL PRODUCTO ES AUXILIAR
+	if ($linea == '16' || $linea == '33' || $linea == '34' || $linea == '35' || $linea == '36' || $linea == '37') {
+		$aux = 1;
+	}
 
 	//Consulta para agregar el nuevo producto 
-	$consulta = "INSERT INTO productos (id, foto, linea, descripcion, pupesos, pubs, periodo) VALUES ('".$cod."','".$ruta2."','".$linea."','".$descripcion."','".$pupesos."','".$pubs."','".$periodo."')";
+	$consulta = "INSERT INTO productos (id, foto, linea, descripcion, pupesos, pubs, aux, periodo) VALUES ('".$cod."','".$ruta2."','".$linea."','".$descripcion."','".$pupesos."','".$pubs."','".$aux."','".$periodo."')";
 	mysqli_query($conexion, $consulta) or die(mysql_error());
 
 	//Consulta para agregar la cantidad del nuevo producto

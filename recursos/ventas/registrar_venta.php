@@ -12,7 +12,7 @@ $array = json_decode($_POST["json"]);
 $periodo = $_SESSION['periodox'];
 // die(var_dump($array));
 //atributos de la compra}
-
+$aux_cant = array_pop($array);
 $pago_inicial = array_pop($array); 
 $tipo_pago = array_pop($array);
 $ca = array_pop($array);

@@ -1,5 +1,6 @@
 <?php 
-	// hacer una consulta para recuperar pupesos y pubs de inventario y luego usar mysql rows, auxiliares a la hora de venta no aplica descuento
+
+
 //FALTA RECUEPRAR USUARIO CI: DE LA SESSION
 require("../conexion.php");
 require("../sesiones.php");
