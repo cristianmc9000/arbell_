@@ -1,4 +1,3 @@
-
 <?php 
 require("../../recursos/sesiones.php");
 session_start();
