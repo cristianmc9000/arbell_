@@ -11,7 +11,7 @@ $_SESSION['periodo'] = $per;
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
 
 $Busq = $conexion->query($Sql); 
 
@@ -109,13 +109,11 @@ if((mysqli_num_rows($Busq2))>0){
       <td><?php echo $valor["id"] ?></td>
       <td><?php echo $valor["linea"]?></td>
       <td><?php echo $valor["descripcion"]?></td>
-      <!-- <td><?php echo $valor["pupesos"]?>$</td> -->
-      <!-- <td><?php echo $valor["pubs"] ?>Bs.</td> -->
       <td><?php echo $valor["cantidad"] ?></td>
       <!-- <td><?php echo $valor["fechav"] ?></td> -->
 
       <td>
-        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
+        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
         <!-- <a href="#!"><i class="material-icons">build</i></a> -->
       </td>
       <td>
@@ -199,16 +197,7 @@ if((mysqli_num_rows($Busq2))>0){
               <label for="descripcion">Descripción:</label>
             </div>
           </div>
-          <div class="row">
-            <div  class="input-field col s6">
-              <input name="pupesos" id="pupesos" type="text" onkeypress="convertira()" autocomplete="off" required>
-              <label for="pupesos">P.U. Ref. (pesos arg.):</label>
-            </div>
-            <div class="input-field col s6">
-              <input name="pubs" id="pubs" type="text" autocomplete="off" required>
-              <label class="active" for="pubs">P.U. Ref. (Bs.):</label>
-            </div>
-          </div>
+
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
               <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
@@ -256,27 +245,6 @@ if((mysqli_num_rows($Busq2))>0){
               <label class="active" for="descripcion">Descripción:</label>
             </div>
           </div>
-          <div class="row">
-            <div  class="input-field col s6">
-              <input name="pupesos" id="pup" type="text" onkeypress="convertirm()" required>
-              <label class="active" for="pupesos">P.U. (pesos arg.):</label>
-            </div>
-            <div class="input-field col s6">
-              <input name="pubs" id="pub" type="text" required>
-              <label class="active" for="pubs">P.U. (Bs.):</label>
-            </div>
-          </div>
-          
-        <!--   <div class="row">  
-            <div class="input-field col s6">
-              <input id="cantidad" name="cantidad" type="number" required>
-              <label class="active" for="cantidad">Cantidad: </label>
-            </div>
-            <div class="input-field col s6">
-                <input id="fechav" name = "fechav" type="date">
-                <label class="active" for="first_name">Fecha de vencimiento</label>
-            </div>
-          </div> -->
 
           <div class="modal-footer">
               <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
@@ -452,7 +420,7 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion, pup, pub, cantidad) {
+function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
   
   $("#imagen").val(foto)
   $("#codigo").val(id)
@@ -463,8 +431,6 @@ function mod_producto(foto, id, linea, codli, descripcion, pup, pub, cantidad) {
   $("#lin_prev").prop("selected", true)
   // FIN SELECCIONAR LINEA
   $("#descripcion").val(descripcion)
-  $("#pup").val(pup)
-  $("#pub").val(pub)
   $("#cantidad").val(cantidad)
   // $("#fechav").val(fechav)
   $("#modal2").openModal()

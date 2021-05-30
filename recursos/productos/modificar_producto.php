@@ -9,8 +9,6 @@ $cod = $_POST["codigo"];
 $codant = $_POST["codant"];
 $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
-$pupesos = $_POST["pupesos"];
-$pubs = $_POST["pubs"];
 $periodo = $_SESSION["periodo"];
 // $year = $_SESSION['anio'];
 $nombreimg = $_FILES['imagen']['name'];
@@ -20,10 +18,11 @@ $maxCaracteres = "250";
 if(strlen($descripcion) > $maxCaracteres) {
 	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
 };
-/*  */
 
+/* FALTA AGREGAR BIEN LA RUTA DE LAS IMAGENES */
 if(!empty($archivo)){
-$ruta = "C:/xampp/htdocs/arbell_/images/fotos_prod";
+// $ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR AL 000WEBHOST
+$ruta = $_SERVER['DOCUMENT_ROOT']."/arbell_/images/fotos_prod";
 $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;
@@ -43,7 +42,7 @@ if ($cod != $codant) {
 }
 
 
-	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."', pupesos='".$pupesos."', pubs='".$pubs."' WHERE id= '".$codant."'";
+	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."' WHERE id= '".$codant."'";
 
 	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
 		die('?mes='.$periodo);
