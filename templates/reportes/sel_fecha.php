@@ -12,8 +12,6 @@
     color: red;
   }
 
-
-
 /*.fijo{
   border-style: solid;
   border-color: red;
@@ -47,10 +45,10 @@
     <form action="recursos/redireccionador.php" method="post" class="col s12" id="ffecha">
         <div class="input-field">
             <select name = "anio" id="anio">
-              <option value="2021" '<?php if(date("Y") == "2021"){echo "selected";} ?>'><b>2021</b></option>
-              <option value="2022" '<?php if(date("Y") == "2022"){echo "selected";} ?>'><b>2022</b></option>
-              <option value="2023" '<?php if(date("Y") == "2023"){echo "selected";} ?>'><b>2023</b></option>
-              <option value="2024" '<?php if(date("Y") == "2024"){echo "selected";} ?>'><b>2024</b></option>
+              <option value="2021"  '<?php if(date("Y") == "2021"){echo "selected";} ?>'><b>2021</b></option>
+              <option value="2022"  '<?php if(date("Y") == "2022"){echo "selected";} ?>'><b>2022</b></option>
+              <option value="2023"  '<?php if(date("Y") == "2023"){echo "selected";} ?>'><b>2023</b></option>
+              <option value="2024"  '<?php if(date("Y") == "2024"){echo "selected";} ?>'><b>2024</b></option>
             </select>
             <label><b>SELECCIONE EL PERIODO</b></label>
         </div>
@@ -61,15 +59,15 @@
 
 <div class="row center">
   <div class="fijo col s4" >
-    <a href="#" onclick="enviarfecha('01');" >
-  
+    <a href="#" onclick="reporte('1');" >
+          
             <img class="z-depth-5 auto-imagen" src="img/periodos/1.png" >
 
     </a>
   </div>
 
   <div class="fijo col s4" >
-    <a href="#" onclick="enviarfecha('02');" >
+    <a href="#" onclick="reporte('2');" >
 
             <img class="z-depth-5 auto-imagen" src="img/periodos/2.png" >
 
@@ -78,7 +76,7 @@
 
 
   <div class="fijo col s4" >
-    <a href="#" onclick="enviarfecha('03');" >
+    <a href="#" onclick="reporte('3');" >
 
             <img class="z-depth-5 auto-imagen" src="img/periodos/3.png" >
 
@@ -88,7 +86,7 @@
 
 <div class="row center">
   <div class="fijo col s4" >
-    <a href="#" onclick="enviarfecha('04');" >
+    <a href="#" onclick="reporte('4');" >
 
           <img class="z-depth-5 auto-imagen" src="img/periodos/4.png" >
 
@@ -96,7 +94,7 @@
   </div>
 
   <div class="fijo col s4" >
-    <a href="#" onclick="enviarfecha('05');" >
+    <a href="#" onclick="reporte('5');" >
 
           <img class="z-depth-5 auto-imagen" src="img/periodos/5.png" >
 
@@ -104,7 +102,7 @@
   </div>
 
   <div class="fijo col s4" >
-    <a href="#" onclick="enviarfecha('06');" >
+    <a href="#" onclick="reporte('6');" >
 
           <img class="z-depth-5 auto-imagen" src="img/periodos/6.png" >
 
@@ -145,7 +143,7 @@ mensaje.hide();
   });
 
 
-function enviarfecha(mes_recibido) {
+function reporte(periodo) {
    
    anio = document.getElementById('anio').value;
    document.getElementById('mes').value = mes_recibido;
