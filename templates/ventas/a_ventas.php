@@ -421,24 +421,12 @@ $('._aux').each(function(){
 
 
     var data = detalle_venta()
-    data.push({
-        total_cd: totalcd
-    })
-    data.push({
-        _descuento: _descuento
-    })
-    data.push({
-        _valor: _valor
-    })
-    data.push({
-        _ca: _ca
-    })
-    data.push({
-        _tipo_pago: _tipo_pago
-    })
-    data.push({
-        _pago_inicial: _primer_pago
-    })
+    data.push({total_cd: totalcd})
+    data.push({_descuento: _descuento})
+    data.push({_valor: _valor})
+    data.push({_ca: _ca})
+    data.push({_tipo_pago: _tipo_pago})
+    data.push({_pago_inicial: _primer_pago})
 
     var json_data = JSON.stringify(data)
 

@@ -90,8 +90,8 @@ if((mysqli_num_rows($Busq2))>0){
         <th>Código<br>(Producto)</th>
         <th>Linea</th>
         <th>Descripción</th>
-        <th>P.U. Referencial<br>(pesos arg.)</th>
-        <th>P.U. Referencial<br>(Bs.)</th>
+        <!-- <th>P.U. Referencial<br>(pesos arg.)</th> -->
+        <!-- <th>P.U. Referencial<br>(Bs.)</th> -->
         <th>Cantidad</th>
         <!-- <th>Fecha de venc.</th> -->
 
@@ -109,8 +109,8 @@ if((mysqli_num_rows($Busq2))>0){
       <td><?php echo $valor["id"] ?></td>
       <td><?php echo $valor["linea"]?></td>
       <td><?php echo $valor["descripcion"]?></td>
-      <td><?php echo $valor["pupesos"]?>$</td>
-      <td><?php echo $valor["pubs"] ?>Bs.</td>
+      <!-- <td><?php echo $valor["pupesos"]?>$</td> -->
+      <!-- <td><?php echo $valor["pubs"] ?>Bs.</td> -->
       <td><?php echo $valor["cantidad"] ?></td>
       <!-- <td><?php echo $valor["fechav"] ?></td> -->
 
