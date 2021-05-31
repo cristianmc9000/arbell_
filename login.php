@@ -5,6 +5,7 @@ session_start();
 require('recursos/sesiones.php');
 ?>
 <!DOCTYPE html>
+
 <head>
 	<title>login</title>
 	<link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
