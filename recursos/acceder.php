@@ -87,7 +87,13 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 	$_SESSION['userCI'] = $userBD;
 	$_SESSION['periodox'] = $indice+1;
 
-
+	//fechas inicio de periodos
+	$_SESSION['per1'] = "-01-11";
+	$_SESSION['per2'] = "-03-08";
+	$_SESSION['per3'] = "-05-10";
+	$_SESSION['per4'] = "-07-12";
+	$_SESSION['per5'] = "-09-14";
+	$_SESSION['per6'] = "-11-16";
 
 	/* Sesión iniciada, si se desea, se puede redireccionar desde el servidor */
 

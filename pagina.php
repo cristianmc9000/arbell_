@@ -45,11 +45,12 @@ while($arr = $Busq2->fetch_array())
 <meta charset="utf-8">
   <link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" >
   <link rel="stylesheet" type="text/css" href="css/index.css">
   <link rel="stylesheet" type="text/css" href="css/datatable.css">
   <link rel="stylesheet" type="text/css" href="css/materialize.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/datatable.js"></script>
 

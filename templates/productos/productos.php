@@ -80,7 +80,7 @@ if((mysqli_num_rows($Busq2))>0){
   </span>
 </div>
 <div class="col s2 offset-s1 input-field">
-  <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons left">add</i> Nueva Linea</a>
+  <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
 </div>
 <!-- TABLA -->
 <table id="tabla1" class="highlight">
@@ -137,7 +137,7 @@ if((mysqli_num_rows($Busq2))>0){
             <label for="linea_">Nombre de la Linea</label>
           </div>
           <div class="col s3">
-              <button class="btn-large waves-effect waves-light orange" type="submit" >Agregar linea</button>
+              <button class="btn-large waves-effect waves-light orange" type="submit" ><i class="material-icons left">add</i>Agregar linea</button>
           </div>
       </form>
       <table id="tabla_lineas" class="borde_tabla">
@@ -247,7 +247,7 @@ if((mysqli_num_rows($Busq2))>0){
           </div>
 
           <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+              <button id="btn-mod_prod" class="btn waves-effect waves-light" type="submit" >Aceptar</button>
               <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
           </div>
       </form>
@@ -441,7 +441,8 @@ function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
 
 $("#modificar_producto").on("submit", function(e){
     e.preventDefault();
-    
+    $("#btn-mod_prod").addClass('disabled')
+    document.getElementById('btn-mod_prod').disabled = true
     var val = new FormData(document.getElementById("modificar_producto"));
     $.ajax({
       url: "recursos/productos/modificar_producto.php",
@@ -453,8 +454,9 @@ $("#modificar_producto").on("submit", function(e){
       processData: false
     }).done(function(echo){
       if (echo !== "") {
+        $("#btn-mod_prod").removeClass('disabled')
+        document.getElementById('btn-mod_prod').disabled = false
         mensaje.html(echo);
-        // mensaje.show();
         console.log(echo);
         if (echo.includes("?mes")) {
           $("#modal2").closeModal(); 
