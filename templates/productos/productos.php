@@ -199,7 +199,7 @@ if((mysqli_num_rows($Busq2))>0){
           </div>
 
           <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
+              <button class="btn waves-effect waves-light" id="btn-add_prod" type="submit" >Aceptar</button>
               <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
           </div>
       </form>
@@ -396,6 +396,8 @@ function borrar_linea(e, id) {
 
 $("#agregar_producto").on("submit", function(e){
     e.preventDefault(); 
+    $("#btn-add_prod").addClass('disabled')
+    document.getElementById('btn-add_prod').disabled = true
     var val = new FormData(document.getElementById("agregar_producto"));
     $.ajax({
       url: "recursos/productos/agregar_producto.php",
@@ -407,8 +409,9 @@ $("#agregar_producto").on("submit", function(e){
       processData: false
     }).done(function(echo){
       if (echo !== "") {
+        $("#btn-add_prod").removeClass('disabled')
+        document.getElementById('btn-add_prod').disabled = false
         mensaje.html(echo);
-        // mensaje.show();
         console.log(echo)
         if (echo.includes("?mes")) {
           $("#modal1").closeModal(); 
