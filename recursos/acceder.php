@@ -82,6 +82,7 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 	session_start();
 	$_SESSION['usuario'] = $datos['nombre'];
 	$_SESSION['apellidos'] = $datos['apellidos'];
+	$_SESSION['rol'] = $datos['rol'];
 	$_SESSION['estado'] = 'Autenticado';
 	$_SESSION['userCI'] = $userBD;
 	$_SESSION['periodox'] = $indice+1;
@@ -95,7 +96,7 @@ if($userBD == $userPOST and  $passPOST == $passwordBD){
 //Si los datos no son correctos, o están vacíos, muestra un error
 //Además, hay un script que vacía los campos con la clase "acceso" (formulario)
 } else if ( $userBD != $userPOST || $userPOST == "" || $passPOST == "" || $passPOST != $passwordBD)  {
-	die ('<script>$(".acceso").val("");$("#modal1").openModal();</script>
+	die ('<script>Materialize.toast("Los datos de acceso son incorrectos", 4000);</script>
 Los datos de acceso son incorrectos');
 } else {
 	die('Error');

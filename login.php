@@ -8,18 +8,18 @@ require('recursos/sesiones.php');
 
 <head>
 	<title>login</title>
-	<link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
 	<link rel="stylesheet" href="css/master.css">
 	<link rel="icon" href="img/iconoarbell.ico"></link>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<link rel="stylesheet" type="text/css" href="css/datatable.css">
-	<!-- <link rel="stylesheet" type="text/css" href="css/materialize.css"> -->
-	<!--  <script src="js/materialize.js"></script> -->
+  	<link rel="stylesheet" type="text/css" href="css/materialize.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script src="js/materialize.js"></script>
 	<script src="js/datatable.js"></script>
 </head>
 <style>
@@ -76,43 +76,14 @@ require('recursos/sesiones.php');
 			}).done(function(echo) {
 				//Una vez que recibimos respuesta
 				//comprobamos si la respuesta no es vacía
-				if (echo !== "") {
+				if (echo != "") {
 					//Si hay respuesta (error), mostramos el mensaje
 					mensaje.html(echo);
-					mensaje.show();
 				} else {
 					//Si no hay respuesta, redirecionamos a donde sea necesario
 					//Si está vacío, recarga la página
 					window.location.replace("index.php");
 				}
-			});
-		});
-		//Cuando el formulario con ID acceso se envíe...
-		$("#registro").on("submit", function(e) {
-			//Evitamos que se envíe por defecto
-			e.preventDefault();
-			//Creamos un FormData con los datos del mismo formulario
-			var formData = new FormData(document.getElementById("registro"));
-			//Llamamos a la función AJAX de jQuery
-			$.ajax({
-				//Definimos la URL del archivo al cual vamos a enviar los datos
-				url: "recursos/registro.php",
-				//Definimos el tipo de método de envío
-				type: "POST",
-				//Definimos el tipo de datos que vamos a enviar y recibir
-				dataType: "HTML",
-				//Definimos la información que vamos a enviar
-				data: formData,
-				//Deshabilitamos el caché
-				cache: false,
-				//No especificamos el contentType
-				contentType: false,
-				//No permitimos que los datos pasen como un objeto
-				processData: false
-			}).done(function(echo) {
-				//Cuando recibamos respuesta, la mostramos
-				mensaje.html(echo);
-				mensaje.show();
 			});
 		});
 	</script>

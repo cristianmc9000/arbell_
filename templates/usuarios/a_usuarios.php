@@ -5,7 +5,7 @@ $Sql = "SELECT * FROM usuarios";
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'],'password'=>$arr['password']);
+        $fila[] = array('ci'=>$arr['CI'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'telefono'=>$arr['telefono'],'password'=>$arr['password'],'rol'=>$arr['rol']);
         array_push($_SESSION['filas'],$fila); 
     } 
 ?>
@@ -47,30 +47,34 @@ while($arr = $Busq->fetch_array())
   <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a></h3> 
 </span>
   <!-- TABLA -->
-  <table id="tabla1" class="highlight">
-    <thead>
-      <tr>
-          <th>CI</th>
-          <th>Nombres y apellidos</th>
-          <th>Telefono</th>
-          <th>Rol</th>
-          <th>Modificar</th>
-          <th>Borrar</th>
-      </tr>
-    </thead>
-    <tbody>
-    <?php foreach($fila as $a  => $valor){ ?>
-      <tr>
-        <td><?php echo $valor["ci"] ?></td>
-        <td><?php echo $valor["nombre"]." ".$valor["apellidos"] ?></td>
-        <td><?php echo $valor["telefono"] ?></td>
-        <td>Administrador</td>
-        <td><a href="#!" onclick="modificar_usuario('<?php echo $valor['ci']?>','<?php echo $valor['nombre']?>','<?php echo $valor['apellidos']?>','<?php echo $valor['telefono']?>')"><i class="material-icons">build</i></a></td>
-        <td><a href="#"><i class="material-icons">delete</i></a></td>        
-      </tr>
-    <?php } ?>	
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col s11">
+      <table id="tabla1" class="highlight">
+        <thead>
+          <tr>
+              <th>CI</th>
+              <th>Nombres y apellidos</th>
+              <th>Telefono</th>
+              <th>Rol</th>
+              <th>Modificar</th>
+              <!-- <th>Borrar</th> -->
+          </tr>
+        </thead>
+        <tbody>
+        <?php foreach($fila as $a  => $valor){ ?>
+          <tr>
+            <td><?php echo $valor["ci"] ?></td>
+            <td><?php echo $valor["nombre"]." ".$valor["apellidos"] ?></td>
+            <td><?php echo $valor["telefono"] ?></td>
+            <td><?php if($valor['rol'] == '1') {echo 'Administrador';}else{echo 'Vendedor';}?></td>
+            <td><a href="#!" onclick="modificar_usuario('<?php echo $valor['ci']?>','<?php echo $valor['nombre']?>','<?php echo $valor['apellidos']?>','<?php echo $valor['telefono']?>','<?php echo $valor['rol']?>')"><i class="material-icons">build</i></a></td>
+            <!-- <td><a href="#"><i class="material-icons">delete</i></a></td>         -->
+          </tr>
+        <?php } ?>	
+        </tbody>
+      </table>
+    </div>
+  </div>
 <!-- MODAL DATOS -->
 <div class="row">
   <div id="modal1" class="modal col s4 offset-s4">
@@ -106,6 +110,14 @@ while($arr = $Busq->fetch_array())
               <div class="input-field col s6">
                   <input name="password1" type="password">
                   <label for="password1">Repita la contraseña:</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <select name="rol" class="browser-default">
+                    <option value="1">Administrador</option>
+                    <option value="2" selected>Vendedor</option>
+                </select>
               </div>
             </div>
             <div class="modal-footer">
@@ -147,8 +159,7 @@ while($arr = $Busq->fetch_array())
             </div>             
             <div class="row">
               <div class="input-field col s6">
-                <input id="m_password" name="password" type="password" value="" 
-autocomplete="new-password">
+                <input id="m_password" name="password" type="password" value="" autocomplete="new-password">
                 <label for="password">Nueva Contraseña:</label>
                 <small class="helper-text" style="color: red">Dejar en blanco si no desea modificar</small>
               </div>
@@ -157,11 +168,15 @@ autocomplete="new-password">
                   <label for="password1">Repita la contraseña:</label>
               </div>
             </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <select id="rol" name="rol" class="browser-default">
+                </select>
+              </div>
+            </div>
             <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" 
->Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect 
-waves-green btn-flat">Cancelar</a>
+              <button class="btn waves-effect waves-light" type="submit">Aceptar</button>
+              <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
             </div>
           </form>
         </div>
@@ -200,55 +215,49 @@ $("#agregar_usuario").on("submit", function(e){
       }
     });
 });
-/* modificar usuario */
-$("#modificar_cliente").on("submit", function(e){
-    e.preventDefault();
-    var val = new FormData(document.getElementById("modificar_cliente"));
-    $.ajax({
-      url: "recursos/modcliente.php",
-      type: "POST",
-      dataType: "HTML",
-      data: val,
-      cache: false,
-      contentType: false,
-      processData: false
-    }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        $("#cuerpo").load("clientes.php");
-      }
-    });
-});
-/* borrar usuario */
-function borrar_cliente(id){
-  document.getElementById("datos_borrar").innerHTML ='<input type="text" name="id" value="'+id+'" hidden/>';
-  $('#modal4').openModal();
-}
-$("#borrar_cliente").on("submit", function(e){
-    e.preventDefault();
-    var val = new FormData(document.getElementById("borrar_cliente"));
-    $.ajax({
-      url: "recursos/borrarcliente.php",
-      type: "POST",
-      dataType: "HTML",
-      data: val,
-      cache: false,
-      contentType: false,
-      processData: false
-    }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        $("#cuerpo").load("clientes.php");      }
-    });
-});
 
-function modificar_usuario(ci, nombre, apellidos, telefono){
-  $("#m_ci").val(ci);
-  $("#m_telefono").val(telefono);
-  $("#m_nombre").val(nombre);
-  $("#m_apellidos").val(apellidos);
+/* borrar usuario */
+// function borrar_cliente(id){
+//   document.getElementById("datos_borrar").innerHTML ='<input type="text" name="id" value="'+id+'" hidden/>';
+//   $('#modal4').openModal();
+// }
+
+
+function modificar_usuario(ci, nombre, apellidos, telefono, rol){
+  $("#m_ci").val(ci)
+  $("#m_telefono").val(telefono)
+  $("#m_nombre").val(nombre)
+  $("#m_apellidos").val(apellidos)
+  let selad = ""
+  let selve = ""
+  if (rol == 1) {selad = 'selected'}
+  else{selve = 'selected'}
+  document.getElementById('rol').innerHTML = `<option value="1" ${selad}>Administrador</option><option value="2" ${selve}>Vendedor</option>`;
+
   $("#modal2").openModal()
 }
+/* agregar usuario */
+$("#modificar_usuario").on("submit", function(e){
+    e.preventDefault();
+    var val = new FormData(document.getElementById("modificar_usuario"));
+    $.ajax({
+      url: "recursos/usuarios/modificar_usuario.php",
+      type: "POST",
+      dataType: "HTML",
+      data: val,
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(echo){
+        console.log(echo)
+        mensaje.html(echo)
+        if (echo == 1) {
+          Materialize.toast("<b>Usuario modificado.</b>",5000)
+          $("#modal2").closeModal()
+          $("#cuerpo").load("templates/usuarios/a_usuarios.php")
+        }
+    });
+});
 </script>
 </body>
 </html>
