@@ -33,34 +33,36 @@ if ($periodo == "6") {
 ?>
 
 <h3 class="fuente">Reporte de compras</h3>
-<table id="tabla1">
-	<thead>
-		<tr>
-			<th>Código</th>
-			<th>C.I.</th>
-			<th>Nombres</th>
-			<th>Fecha de <br>compra</th>
-			<th>Total sin <br>descuento</th>
-			<th>Total con <br>descuento</th>
-			<th>Descuento</th>
-			<th>Valor de <br>cambio</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php foreach($fila as $a  => $valor){ ?>
-		<tr>
-			<td><?php echo $valor['codc']?></td>
-			<td><?php echo $valor['ci_usu']?></td>
-			<td><?php echo $valor['nombre']." ".$valor['apellidos']?></td>
-			<td><?php echo $valor['fecha']?></td>
-			<td><?php echo $valor['totalsd']?></td>
-			<td><?php echo $valor['totalcd']?></td>
-			<td><?php echo $valor['descuento']." %"?></td>
-			<td><?php echo $valor['valor']." Bs."?></td>
-		</tr>
-	    <?php } ?>
-	</tbody>
-</table>
+<div class="row">
+	<div class="col s11">
+		<table id="tabla1">
+			<thead>
+				<tr>
+					<th>Código</th>
+					<!-- <th>Nombres y apellidos</th> -->
+					<th>Fecha de <br>compra</th>
+					<th>Total sin <br>descuento</th>
+					<th>Total con <br>descuento</th>
+					<th>Descuento</th>
+					<th>Valor de <br>cambio</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($fila as $a  => $valor){ ?>
+				<tr>
+					<td><?php echo $valor['codc']?></td>
+					<!-- <td><?php echo $valor['nombre']." ".$valor['apellidos']?></td> -->
+					<td><?php echo $valor['fecha']?></td>
+					<td><?php echo $valor['totalsd']?></td>
+					<td><?php echo $valor['totalcd']?></td>
+					<td><?php echo $valor['descuento']." %"?></td>
+					<td><?php echo $valor['valor']." Bs."?></td>
+				</tr>
+			    <?php } ?>
+			</tbody>
+		</table>
+	</div>
+</div>
 
 <script>
 	    
