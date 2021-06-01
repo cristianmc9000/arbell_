@@ -213,9 +213,18 @@ while($arr = $Busq->fetch_array())
 <script>
 $(document).ready(function() {
     $('#tabla1').dataTable({
-        "order": [
-            [0, "desc"]
-        ]
+      "order": [[ 0, "desc" ]],
+      "language": {
+      "lengthMenu": "Mostrar _MENU_ registros por página",
+      "zeroRecords": "Lo siento, no se encontraron datos",
+      "info": "Página _PAGE_ de _PAGES_",
+      "infoEmpty": "No hay datos disponibles",
+      "infoFiltered": "(filtrado de _MAX_ resultados)",
+      "paginate": {
+        "next": "Siguiente",
+        "previous": "Anterior"
+      }
+      }
     });
     $('#modal').leanModal();
     $('.modal_trigger_3').leanModal();

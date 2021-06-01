@@ -144,7 +144,7 @@ mensaje.hide();
 
 
 function reporte(periodo) {
-   
+
    gestion = document.getElementById('gestion').value
    tipo = document.getElementById('tipo_reporte').value
 

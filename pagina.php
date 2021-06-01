@@ -47,12 +47,26 @@ while($arr = $Busq2->fetch_array())
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" >
   <link rel="stylesheet" type="text/css" href="css/index.css">
-  <link rel="stylesheet" type="text/css" href="css/datatable.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/datatable.css"> -->
   <link rel="stylesheet" type="text/css" href="css/materialize.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="js/materialize.js"></script>
-  <script src="js/datatable.js"></script>
+  <!-- <script src="js/datatable.js"></script> -->
+
+  <!-- Datatables CDN downloaded -->
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css"/>
+<link rel="stylesheet" type="text/css" href="css/buttons.dataTables.css"/>
+ 
+<script type="text/javascript" src="js/jszip.js"></script>
+<script type="text/javascript" src="js/pdfmake.js"></script>
+<script type="text/javascript" src="js/vfs_fonts.js"></script>
+<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/dataTables.buttons.js"></script>
+<script type="text/javascript" src="js/buttons.html5.js"></script>
+<script type="text/javascript" src="js/buttons.print.js"></script>
+
+
 
 <title> Arbell, Número de teléfono(s): 6637037, E-mail: arbellcarmina@gmail.com</title>
 <style>
@@ -180,7 +194,7 @@ table.highlight > tbody > tr:hover {
         </span>
           <!-- TABLA -->
           <div class="col s11">
-          <table id="tabla1" class="highlight">
+          <table id="" class="tabla1 highlight">
             <thead>
               <tr>
                 <th>Código <br> (Producto)</th>
@@ -211,7 +225,7 @@ table.highlight > tbody > tr:hover {
         </span>
           <!-- TABLA -->
           <div class="col s11">
-          <table id="tabla2" class="highlight">
+          <table id="" class="tabla1 highlight">
             <thead>
               <tr>
                 <th>Código <br> (Producto)</th>
@@ -242,10 +256,24 @@ table.highlight > tbody > tr:hover {
 <script type="text/javascript">
 
 $(document).ready(function() {
+    $('.tabla1').dataTable({
+        "order": [[ 0, "desc" ]],
+        "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "Lo siento, no se encontraron datos",
+        "info": "Página _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay datos disponibles",
+        "infoFiltered": "(filtrado de _MAX_ resultados)",
+        "paginate": {
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+        }
+    });
+
   $(".dropdown-button").dropdown({ hover: true, beloworigin: true });
   $(".button-collapse").sideNav();
-  $('#tabla1').dataTable();
-  $('#tabla2').dataTable();
+
 });
 
   function cargar(e, x){

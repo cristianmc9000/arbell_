@@ -39,7 +39,9 @@ if((mysqli_num_rows($Busq2))>0){
 ?>
 
 <style>
-
+  table.dataTable tbody th, table.dataTable tbody td {
+      padding: 0;
+  }
   .fuente{
     color: red;
 
@@ -83,48 +85,39 @@ if((mysqli_num_rows($Busq2))>0){
   <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
 </div>
 <!-- TABLA -->
-<table id="tabla1" class="highlight">
-  <thead>
-    <tr>
-        <th>Ver</th>
-        <th>Código<br>(Producto)</th>
-        <th>Linea</th>
-        <th>Descripción</th>
-        <!-- <th>P.U. Referencial<br>(pesos arg.)</th> -->
-        <!-- <th>P.U. Referencial<br>(Bs.)</th> -->
-        <th>Cantidad</th>
-        <!-- <th>Fecha de venc.</th> -->
-
-        <th>Modificar</th>
-        <th>Borrar</th>
-    </tr>
-  </thead>
-
-  <tbody>
-  <?php foreach($fila as $a  => $valor){ ?>
-    <tr>
-
+<div class="row">
+  <table id="tabla1" class="highlight" >
+    <thead>
+      <tr>
+          <th>Ver</th>
+          <th>Código<br>(Producto)</th>
+          <th>Linea</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Modificar</th>
+          <th>Borrar</th>
+      </tr>
+    </thead>
+    <tbody>
+    <?php foreach($fila as $a  => $valor){ ?>
+      <tr>
+        <td><img src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
+        <td><?php echo $valor["id"] ?></td>
+        <td><?php echo $valor["linea"]?></td>
+        <td><?php echo $valor["descripcion"]?></td>
+        <td><?php echo $valor["cantidad"] ?></td>
+        <td>
+          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
+        </td>
+        <td>
+          <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
+        </td>
       
-      <td><img src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
-      <td><?php echo $valor["id"] ?></td>
-      <td><?php echo $valor["linea"]?></td>
-      <td><?php echo $valor["descripcion"]?></td>
-      <td><?php echo $valor["cantidad"] ?></td>
-      <!-- <td><?php echo $valor["fechav"] ?></td> -->
-
-      <td>
-        <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
-        <!-- <a href="#!"><i class="material-icons">build</i></a> -->
-      </td>
-      <td>
-        <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
-      </td>
-    
-    </tr>
-  <?php } ?>  
-  </tbody>
-</table>
-
+      </tr>
+    <?php } ?>  
+    </tbody>
+  </table>
+</div>
 <!--MODAL AGREGAR LINEA-->
 <div class="row">
 <div id="modal_lin" class="modal col s6 offset-s3">
@@ -290,9 +283,21 @@ if((mysqli_num_rows($Busq2))>0){
 
 var mensaje = $("#mensaje");
 $(document).ready(function() {
-    $('#tabla1').dataTable( {
-        "order": [[ 0, "desc" ]]
-    } );
+    $('#tabla1').dataTable({
+        "order": [[ 0, "desc" ]],
+        "language": {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "Lo siento, no se encontraron datos",
+        "info": "Página _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay datos disponibles",
+        "infoFiltered": "(filtrado de _MAX_ resultados)",
+        "paginate": {
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+        }
+
+    });
     $('#modal').leanModal();
 });
 
