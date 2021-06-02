@@ -66,9 +66,7 @@ while($arr = $Busq2->fetch_array())
 <script type="text/javascript" src="js/buttons.html5.js"></script>
 <script type="text/javascript" src="js/buttons.print.js"></script>
 
-
-
-<title> Arbell, Número de teléfono(s): 6637037, E-mail: arbellcarmina@gmail.com</title>
+<title>Arbell</title>
 <style>
 body{
   /*background: linear-gradient(90deg, #ccfff8, #e9fffc);*/

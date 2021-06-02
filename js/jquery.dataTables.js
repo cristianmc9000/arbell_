@@ -11781,7 +11781,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "<h6 style='color:black;'>Filtro de búsqueda:</h6>",
+			"sSearch": "",
 	
 	
 			/**
