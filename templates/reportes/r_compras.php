@@ -31,7 +31,7 @@ if ($periodo == "6") {
 	}
 
 ?>
-
+<title>reporte de compras</title>
 <h3 class="fuente">Reporte de compras</h3>
 <div class="row">
 	<div class="col s11">
@@ -70,16 +70,36 @@ $(document).ready(function() {
 	$('#tabla1').dataTable({
       "order": [[ 0, "desc" ]],
       "language": {
-      "lengthMenu": "Mostrar _MENU_ registros por página",
-      "zeroRecords": "Lo siento, no se encontraron datos",
-      "info": "Página _PAGE_ de _PAGES_",
-      "infoEmpty": "No hay datos disponibles",
-      "infoFiltered": "(filtrado de _MAX_ resultados)",
-      "paginate": {
-        "next": "Siguiente",
-        "previous": "Anterior"
+	      "lengthMenu": "Registros por página: _MENU_",
+	      "zeroRecords": "Lo siento, no se encontraron datos",
+	      "info": "Página _PAGE_ de _PAGES_",
+	      "infoEmpty": "No hay datos disponibles",
+	      "infoFiltered": "(filtrado de _MAX_ resultados)",
+	      "paginate": {
+	        "next": "Siguiente",
+	        "previous": "Anterior"
+	      }},
+	"dom": 'Bfrtip',
+    "buttons":[
+      {
+        extend:     'excelHtml5',
+        text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
+        titleAttr:  'Exportar a Excel',
+        className:  'btn'
+      },
+      {
+        extend:     'pdfHtml5',
+        text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
+        titleAttr:  'Exportar a PDF',
+        className:  'btn'
+      },
+      {
+        extend:     'print',
+        text:       '<i class="material-icons-outlined">print</i>',
+        titleAttr:  'Imprimir',
+        className:  'btn'
       }
-      }
+    ]
     });
 })
 </script>

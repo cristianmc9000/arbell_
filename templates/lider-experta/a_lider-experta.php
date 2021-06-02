@@ -17,12 +17,13 @@ while($arr = $Busq->fetch_array())
 
   <title>Clientes</title>
 <style>
-
   .fuente{
     font-family: 'Segoe UI light';
     color: red;
   }
-
+  table.dataTable tbody th, table.dataTable tbody td {
+    padding: 1px 0px;
+  }
 
   table.highlight > tbody > tr:hover {
     background-color: #a0aaf0 !important;
@@ -236,7 +237,7 @@ $(document).ready(function() {
     $('#tabla1').dataTable({
       "order": [[ 0, "desc" ]],
       "language": {
-      "lengthMenu": "Mostrar _MENU_ registros por página",
+      "lengthMenu": "Registros por página: _MENU_",
       "zeroRecords": "Lo siento, no se encontraron datos",
       "info": "Página _PAGE_ de _PAGES_",
       "infoEmpty": "No hay datos disponibles",
