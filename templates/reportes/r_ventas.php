@@ -21,13 +21,13 @@ if ($periodo == "6") {
 	$per_b = "per".$periodo;
 	$per_b = $gestion.$_SESSION[$per_b];
 }
-	$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.descuento, a.valor_pesos FROM compras a, usuarios b WHERE (fecha BETWEEN '".$per_a."' AND '".$per_b."') AND a.ci_usu = b.CI AND a.estado = 1");
+	$result = $conexion->query("SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito, a.descuento, a.valor_peso FROM ventas a, clientes b WHERE (a.fecha BETWEEN '".$per_a."' AND '".$per_b."') AND a.ca = b.CA AND a.estado = 1");
 	if((mysqli_num_rows($result))>0){
 	  while($arr = $result->fetch_array()){ 
-	        $fila[] = array('codc'=>$arr['codc'], 'ci_usu'=>$arr['ci_usu'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'fecha'=>$arr['fecha'], 'totalsd'=>$arr['totalsd'], 'totalcd'=>$arr['totalcd'], 'descuento'=>$arr['descuento'], 'valor'=>$arr['valor_pesos']); 
+	        $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'credito'=>$arr['credito'], 'descuento'=>$arr['descuento'], 'valor'=>$arr['valor_peso']); 
 	  }
 	}else{
-	        $fila[] = array('codc'=>'--', 'ci_usu'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'fecha'=>'--', 'totalsd'=>'--', 'totalcd'=>'--', 'descuento'=>'--', 'valor'=>'--');
+	        $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'fecha'=>'--', 'total'=>'--', 'credito'=>'--', 'descuento'=>'--', 'valor'=>'--');
 	}
 
 ?>
@@ -59,10 +59,11 @@ if ($periodo == "6") {
 			<thead>
 				<tr>
 					<th>Código</th>
-					<!-- <th>Nombres y apellidos</th> -->
-					<th>Fecha de <br>compra</th>
-					<th>Total sin <br>descuento</th>
-					<th>Total con <br>descuento</th>
+					<th>Código Arbell</th>
+					<th>Nombres y apellidos</th>
+					<th>Fecha de <br>venta</th>
+					<th>Total</th>
+					<th>Tipo de venta</th>
 					<th>Descuento</th>
 					<th>Valor de <br>cambio</th>
 				</tr>
@@ -70,11 +71,12 @@ if ($periodo == "6") {
 			<tbody>
 				<?php foreach($fila as $a  => $valor){ ?>
 				<tr>
-					<td><?php echo $valor['codc']?></td>
-					<!-- <td><?php echo $valor['nombre']." ".$valor['apellidos']?></td> -->
+					<td><?php echo $valor['codv']?></td>
+					<td><?php echo $valor['ca']?></td>
+					<td><?php echo $valor['nombre']." ".$valor['apellidos']?></td>
 					<td><?php echo $valor['fecha']?></td>
-					<td><?php echo $valor['totalsd']?> Bs.</td>
-					<td><?php echo $valor['totalcd']?> Bs.</td>
+					<td><?php echo $valor['total']?> Bs.</td>
+					<td><?php if($valor['credito'] == '0'){echo 'contado';}else{echo 'crédito';}?></td>
 					<td><?php echo $valor['descuento']." %"?></td>
 					<td><?php echo $valor['valor']." Bs."?></td>
 				</tr>
@@ -106,21 +108,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de compras del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de ventas del periodo: <?php echo $_GET["per"] ?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de compras del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de ventas del periodo: <?php echo $_GET["per"] ?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del compras de periodo: <?php echo $_GET["per"] ?> </span>'
+        title: 			'<span style="font-size:30">Reporte del ventas del periodo: <?php echo $_GET["per"] ?> </span>'
       }
     ]
     });

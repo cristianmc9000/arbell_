@@ -1,6 +1,8 @@
 <?php
+require('../../recursos/sesiones.php');
+session_start();
 require('../../recursos/conexion.php');
-$Sql = "SELECT a.codv, b.nombre, b.apellidos, a.fecha, a.total, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1"; 
+$Sql = "SELECT a.codv, b.nombre, b.apellidos, a.fecha, a.total, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.periodo = ".$_SESSION['periodox']; 
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 
@@ -41,9 +43,7 @@ while($arr = $Busq->fetch_array())
 </head>
 
 <body>
-    <span class="fuente">
-        <h3>Registro de ventas</h3>
-    </span>
+    <span class="fuente"><h3>Registro de ventas del periodo: <?php echo $_SESSION['periodox']?></h3></span>
     <!-- TABLA -->
     <table id="tabla1" class="highlight">
         <thead>
@@ -73,7 +73,7 @@ while($arr = $Busq->fetch_array())
                 <td>
                     <?php echo $valor["total"]?>
                 </td>
-                <td style="text-align: center">
+                <td > <!-- style="text-align: center" -->
                     <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event)'>Ver pagos</button>";} ?>
                 </td>
                 <td>
