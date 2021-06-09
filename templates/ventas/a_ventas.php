@@ -190,6 +190,7 @@ $(document).ready(function() {
         source: "recursos/ventas/buscar_producto.php",
         minLength: 1,
         select: function(event, ui) {
+            console.log(ui.item.value);
             $("#pupesos_").val(ui.item.pupesos)
             $("#stock").html("Cantidad stock: " + ui.item.stock)
             $("#stock_").val(ui.item.stock)
@@ -566,7 +567,7 @@ function insertar_venta_detalle(json_data) {
 //funcion borrar fila de tabla ventas
 function delete_row(e) {
     console.log(e.target.parentNode.parentNode.parentNode.remove())
-      let rows = document.getElementById('tabla_ventas').getElementsByTagName('tr')
+        let rows = document.getElementById('tabla_ventas').getElementsByTagName('tr')
     if (rows.length <= 1) {
     $("#descuento_").prop('disabled', false);
     }

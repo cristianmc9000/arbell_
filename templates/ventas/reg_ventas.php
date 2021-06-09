@@ -4,7 +4,7 @@ $Sql = "SELECT a.codv, b.nombre, b.apellidos, a.fecha, a.total, a.credito FROM v
 $Busq = $conexion->query($Sql); 
 while($arr = $Busq->fetch_array()) 
     { 
-        $fila[] = array('codv'=>$arr['codv'], 'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']); 
+        $fila[] = array('codv'=>$arr['codv'], 'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']);
     } 
 ?>
 

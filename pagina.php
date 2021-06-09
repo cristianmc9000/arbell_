@@ -150,7 +150,6 @@ table.highlight > tbody > tr:hover {
       <li><?php echo $estado; ?></li>
       <li><?php echo $salir; ?></li>
     </ul>
-
     <ul id="dropdown1" class="dropdown-content">
     <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas');">Realizar Venta</a></li>
     <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas');">Registro de Ventas</a></li>
@@ -159,12 +158,15 @@ table.highlight > tbody > tr:hover {
     <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
         <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/usuarios/a_usuarios');">USUARIOS</a></li>
-       <!--  <li><a href="#!" onclick="cargar(event, 'templates/roles/a_roles');">ROLES</a></li> -->
-        <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/compras/a_compras');">COMPRAS</a></li>
-        <li><a href="#!" onclick="cargar(event, 'templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
-        <li><a href="#!" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
         <li><a href="#!" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
+        <!--  <li><a href="#!" onclick="cargar(event, 'templates/roles/a_roles');">ROLES</a></li> -->
+        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/compras/a_compras');">COMPRAS</a></li>
+        <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a></li>
+        
+
+        <li><a href="#!" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
+        
         <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/reportes/sel_fecha');">REPORTES</a></li>
         <li class="brand-logo"></li>        
       </ul>

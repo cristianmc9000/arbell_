@@ -34,8 +34,6 @@ if((mysqli_num_rows($Busq2))>0){
 
   }
 }
-
-
 ?>
 
 <style>
@@ -249,8 +247,6 @@ if((mysqli_num_rows($Busq2))>0){
 </div>
 </div>
 
-
-
 <!--MODAL BORRAR CLIENTE-->
 <div class="row">
 <div id="modal3" class="modal col s4 offset-s4">
@@ -280,7 +276,6 @@ if((mysqli_num_rows($Busq2))>0){
     <div id="mensaje" class="modal-content" hidden>
 
 <script>
-
 var mensaje = $("#mensaje");
 $(document).ready(function() {
     $('#tabla1').dataTable({
@@ -298,7 +293,6 @@ $(document).ready(function() {
     });
     $('#modal').leanModal();
 });
-
 //FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
 function cargar_lineas() {
   let respuesta
@@ -307,9 +301,7 @@ function cargar_lineas() {
       //method: "GET",
       success: function(response) {
             $(".dinamic_rows").remove();
-
             let jsonParsedArray = JSON.parse(response)
-
             //INSERTANDO FILAS A LA TABLA VER PAGOS
             let table = document.getElementById("tabla_lineas")
             for (key in jsonParsedArray) {
@@ -333,7 +325,6 @@ function cargar_lineas() {
                     newRow.innerHTML = '<a onclick="borrar_linea(event, '+jsonParsedArray[key]['codli']+')" style="cursor:pointer"><i class="material-icons">delete</i></a>'
                 }
             }
-
             $("#modal_lin").openModal()
       },
       error: function(error) {
