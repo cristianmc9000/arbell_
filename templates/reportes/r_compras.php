@@ -73,8 +73,8 @@ if ($periodo == "6") {
 					<td><?php echo $valor['codc']?></td>
 					<!-- <td><?php echo $valor['nombre']." ".$valor['apellidos']?></td> -->
 					<td><?php echo $valor['fecha']?></td>
-					<td><?php echo $valor['totalsd']?></td>
-					<td><?php echo $valor['totalcd']?></td>
+					<td><?php echo $valor['totalsd']?> Bs.</td>
+					<td><?php echo $valor['totalcd']?> Bs.</td>
 					<td><?php echo $valor['descuento']." %"?></td>
 					<td><?php echo $valor['valor']." Bs."?></td>
 				</tr>
