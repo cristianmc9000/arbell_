@@ -172,8 +172,8 @@ table.dataTable tbody th, table.dataTable tbody td {
       <li><?php echo $salir; ?></li>
     </ul>
     <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas');">Realizar Venta</a></li>
-    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas');">Registro de Ventas</a></li>
+    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas.php');">Realizar Venta</a></li>
+    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de Ventas</a></li>
     </ul>
 
     <ul id="nav-mobile" class="left hide-on-med-and-down">
@@ -320,9 +320,7 @@ $(document).ready(function() {
     }
     e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
 
-  
-    var y=".php";
-    $("#cuerpo").load(x+y);
+    $("#cuerpo").load(x);
         
   }
 

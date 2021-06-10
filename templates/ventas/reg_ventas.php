@@ -2,12 +2,19 @@
 require('../../recursos/sesiones.php');
 session_start();
 require('../../recursos/conexion.php');
-$Sql = "SELECT a.codv, b.nombre, b.apellidos, a.fecha, a.total, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.periodo = ".$_SESSION['periodox']; 
+
+// echo $_GET['ges'];
+
+$Sql = "SELECT a.codv, b.nombre, b.apellidos, a.fecha, a.total, a.periodo, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
 $Busq = $conexion->query($Sql); 
-while($arr = $Busq->fetch_array()) 
-    { 
-        $fila[] = array('codv'=>$arr['codv'], 'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'],'credito'=>$arr['credito']);
-    } 
+if((mysqli_num_rows($Busq))>0){
+    while($arr = $Busq->fetch_array()) 
+        { 
+            $fila[] = array('codv'=>$arr['codv'], 'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'], 'periodo'=>$arr['periodo'],'credito'=>$arr['credito']);
+        } 
+}else{
+    $fila[] = array('codv'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--', 'periodo'=>'--','credito'=>'--');
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +50,23 @@ while($arr = $Busq->fetch_array())
 </head>
 
 <body>
-    <span class="fuente"><h3>Registro de ventas del periodo: <?php echo $_SESSION['periodox']?></h3></span>
+    <div class="col s11">
+        <div class="col s1">
+                <b style= "color:blue"> Periodo:</b>
+                <select onchange="enviarges()" name="ges" id="ges" class="browser-default">
+                    <option value="0" selected disabled> Seleccionar</option>
+                    <option value="2021"> 2021 </option>
+                    <option value="2022"> 2022 </option>
+                    <option value="2023"> 2023 </option>
+                    <option value="2024"> 2024 </option>
+                    <option value="2025"> 2025 </option>
+                </select>
+        </div>
+        <div class="col s10 m8 offset-m3">
+            <span class="fuente"><h3>Registro de ventas de la gestión: <?php echo $_GET['ges']?></h3></span> 
+        </div>
+    </div>
+    
     <!-- TABLA -->
     <table id="tabla1" class="highlight">
         <thead>
@@ -496,6 +519,13 @@ $.ajax({
     }
 
 });
+}
+
+//funcion gestión
+function enviarges() {
+    ges = $('#ges').val();
+    console.log(ges)
+    $("#cuerpo").load("templates/ventas/reg_ventas.php?ges="+ges);
 }
 </script>
 

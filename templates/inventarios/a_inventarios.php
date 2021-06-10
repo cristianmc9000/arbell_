@@ -50,9 +50,6 @@ if((mysqli_num_rows($Busq))>0){
             <option value="6"> 6 </option>
         </select>
     </div>
-    <div class=" input-field col s1">
-        
-    </div>
 </div>
 <div class="col s2 offset-s1">
 <span class="fuente">
