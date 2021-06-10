@@ -133,6 +133,27 @@ table.highlight > tbody > tr:hover {
     height: auto;
     object-fit: cover;
 }
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 5px 5px;
+}
+  .dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+  }
 </style>
 </head>
 
