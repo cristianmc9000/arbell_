@@ -35,6 +35,7 @@
           <select name="tipo_reporte" id="tipo_reporte">
             <option value="r_ventas.php" selected><b>Reportes de ventas</b></option>
             <option value="r_compras.php" ><b>Reportes de compras</b></option>
+            <option value="r_le.php"><b>Reportes de Lider/Experta</b></option>
             <option value="r_dev.php" ><b>Reportes de devoluciones</b></option>
           </select>
           <label><b>SELECCIONE EL TIPO DE REPORTE</b></label>
@@ -50,7 +51,7 @@
               <option value="2023"  '<?php if(date("Y") == "2023"){echo "selected";} ?>'><b>2023</b></option>
               <option value="2024"  '<?php if(date("Y") == "2024"){echo "selected";} ?>'><b>2024</b></option>
             </select>
-            <label><b>SELECCIONE EL PERIODO</b></label>
+            <label><b>SELECCIONE LA GESTIÓN</b></label>
         </div>
         <input type="text" name="mes" id="mes" value="" hidden>
     </form>
@@ -147,7 +148,7 @@ function reporte(periodo) {
 
    gestion = document.getElementById('gestion').value
    tipo = document.getElementById('tipo_reporte').value
-
+   console.log("templates/reportes/"+tipo+"?ges="+gestion+"&per="+periodo)
    $("#cuerpo").load("templates/reportes/"+tipo+"?ges="+gestion+"&per="+periodo)
 
    

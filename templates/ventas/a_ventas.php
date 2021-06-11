@@ -191,13 +191,13 @@ $(document).ready(function() {
         minLength: 1,
         select: function(event, ui) {
             console.log(ui.item.value);
-            $("#pupesos_").val(ui.item.pupesos)
+            $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
             $("#stock").html("Cantidad stock: " + ui.item.stock)
             $("#stock_").val(ui.item.stock)
             $('#search_producto').val(ui.item.value)
             $('#id_').val(ui.item.id)
             $('#linea_').val(ui.item.linea)
-            $('#pubs_').val(ui.item.pubs)
+            $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
             $('#codli_').val(ui.item.codli)
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
@@ -252,13 +252,10 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     }
     //Convertir precio en pesos a precio en Bs.
     var pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
-    pubs_ = pubs_.toFixed(1)
 
     //VALOR DE DESCUENTO
     var desc_ = $("#descuento_").val()
     desc_ = parseFloat(desc_) * 0.01
-
-
 
     let codli = $("#codli_").val()
     let pupesos = parseFloat($("#pupesos_").val())
@@ -277,13 +274,20 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
         // PRECIO CON DESCUENTO EN BS.
         pubs_desc = parseFloat(pubs_desc) * parseFloat(desc_);
         pubs_desc = pubs_ - pubs_desc
-        pubs_desc = pubs_desc.toFixed(1) 
+        
     }
 
     //Subtotal con descuento
     precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
     precio_cd = precio_cd.toFixed(1)
     $("#subtotal_").val(precio_cd)
+
+    //Redondeando precios al final de los calculos
+    __pubs_desc = pubs_desc
+    __pubs = pubs_
+    pubs_desc = pubs_desc.toFixed(1) 
+    pubs_ = pubs_.toFixed(1)   
+
 
     let table = document.getElementById("tabla_c")
     let newTableRow = table.insertRow(-1)
@@ -327,6 +331,14 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     newRow.style.visibility = 'hidden'
     newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
 
+    newRow = newTableRow.insertCell(10)
+    newRow.style.visibility = 'hidden'
+    newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
+
+    newRow = newTableRow.insertCell(11)
+    newRow.style.visibility = 'hidden'
+    newRow.innerHTML = ' <input type="text" value="'+__pubs_desc+'" class="__pubs_desc" hidden>'
+
     $('#stock').html("")
     $("#search_producto").val("")
     $("#cantidad_").val("")
@@ -367,12 +379,12 @@ function crear_html() {
 
     array_ = "";
     let items = 0
-    var pubs__ = 0
-    var pubs__desc = 0
+    let pubs__ = 0
+    let pubs__desc = 0
     let gan_exp = 0
-    var totalsd = 0
+    let totalsd = 0
     let totalcd = 0.0
-    var descuento = 0
+    let descuento = 0
 
 document.querySelectorAll('#tabla_ventas tbody tr').forEach(function(e) {
 let fila = `
@@ -386,14 +398,14 @@ let fila = `
     <td>${e.querySelector('._precio_cd').innerText}</td>
 </tr>`;
 
-        array_ = array_ + fila;
-        gan_exp = gan_exp + (parseFloat(e.querySelector('._pubs').innerText) * parseInt(e.querySelector('._cantidad').innerText))
+        array_ = array_ + fila;     
 
+        gan_exp = parseFloat(parseFloat(gan_exp) + (parseFloat(e.querySelector('.__pubs').value) * parseInt(e.querySelector('._cantidad').innerText))).toFixed(1)
 
         // totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
         totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
-        pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
-        pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
+        pubs__ = pubs__ + parseFloat(e.querySelector('.__pubs').value);
+        pubs__desc = pubs__desc + parseFloat(e.querySelector('.__pubs_desc').value);
         items = items + parseInt(e.querySelector('._cantidad').innerText);
     });
 //sumando cantidad de productos auxiliares
@@ -401,9 +413,10 @@ let aux_sum = 0
 $('._aux').each(function(){
     aux_sum = aux_sum + parseInt(this.value)
 })
-
+    console.log(gan_exp+"---"+totalcd)
+    gan_exp = parseFloat(gan_exp).toFixed(1)
     gan_exp = gan_exp - totalcd
-    gan_exp = gan_exp.toFixed(1)
+    
     totalcd = totalcd.toFixed(1)
     _descuento = $("#descuento_").val();
     _valor = $("#valor").val();

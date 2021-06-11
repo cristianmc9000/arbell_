@@ -18,7 +18,6 @@ if($fecha_v == ""){
 $cant = $cantidad - $cant_ant;
 
 // $year = $_SESSION['anio'];
-$periodo = $_SESSION["periodo"];
 
 	//consulta modificar inventario 
 	$consulta ="UPDATE inventario SET pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fecha_venc='".$fecha_v."' WHERE id= '".$id."' ";
@@ -46,10 +45,10 @@ $periodo = $_SESSION["periodo"];
 
 $res = $conexion->query("UPDATE invcant a SET a.cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = (SELECT c.codp FROM inventario c WHERE c.id = ".$id.")) WHERE a.codp = (SELECT d.codp FROM inventario d WHERE d.id = ".$id.")");
 
-if ($res) {
-	die('?mes='.$periodo);
+if ($res && (isset($_SESSION["periodo"]))) {
+	die('?mes='.$_SESSION['periodo']);
 }else{
-	die(mysqli_error($conexion));
+	die('');
 }
 
 ?>

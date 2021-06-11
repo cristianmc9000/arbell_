@@ -2,11 +2,14 @@
 require('../../recursos/conexion.php');
 require('../../recursos/sesiones.php');
 session_start();
+
 if (isset($_GET["mes"])) {
   $per = $_GET["mes"];
+  $Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1 AND b.periodo = ".$per; 
 }else{
-  $per = $_SESSION['periodox'];
+  $Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1";
 }
+
 // $per = $_GET["mes"];
 /* $anio = $_GET["anio"]; */
 
@@ -15,7 +18,7 @@ $_SESSION['periodo'] = $per;
 //consultas a base de datos
 
 //consulta tabla inventario
-$Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1 AND b.periodo = ".$per; 
+
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()){ 
@@ -48,14 +51,16 @@ if((mysqli_num_rows($Busq))>0){
             <option value="4"> 4 </option>
             <option value="5"> 5 </option>
             <option value="6"> 6 </option>
+            <!-- <option> Todos </option> -->
         </select>
     </div>
 </div>
-<div class="col s2 offset-s1">
+<div class="col s7 offset-s1">
 <span class="fuente">
     <h3>
-        Inventario
+        Inventario: <?php if(isset($_GET["mes"])){echo $_GET["mes"];}else{echo "Total";}?>
     </h3>
+
 </span>
 </div>
 
@@ -219,11 +224,12 @@ $("#modificar_inventario").on("submit", function(e){
         mensaje.html(echo);
         // mensaje.show();
         console.log(echo);
-        if (echo.includes("?mes")) {
+        // if (echo.includes("?mes") || echo.includes('vacio')) {
           $("#modal2").closeModal(); 
           Materialize.toast("PRODUCTO MODIFICADO." , 4000);
+          console.log(echo)
           $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);
-        }
+        // }
         
       }
     });
