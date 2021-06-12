@@ -57,7 +57,7 @@
     </form>
   </div>
   <div class="col s3 offset-s1">
-    <a href="#" class="btn-large pink">Reporte por gestión</a>
+    <a href="#" onclick="reporte_ges()" class="btn-large pink">Reporte por gestión</a>
   </div>
 </div>
 
@@ -146,15 +146,19 @@ mensaje.hide();
     $('select').material_select();
   });
 
-
+//reporte por periodo y gestión
 function reporte(periodo) {
-
    gestion = document.getElementById('gestion').value
    tipo = document.getElementById('tipo_reporte').value
    console.log("templates/reportes/"+tipo+"?ges="+gestion+"&per="+periodo)
    $("#cuerpo").load("templates/reportes/"+tipo+"?ges="+gestion+"&per="+periodo)
-
-   
+}
+//reporte anual
+function reporte_ges(){
+  let per = 0
+  gestion = document.getElementById('gestion').value
+  tipo = document.getElementById('tipo_reporte').value
+  $("#cuerpo").load("templates/reportes/"+tipo+"?ges="+gestion+"&per="+per)
 }
 
 </script>

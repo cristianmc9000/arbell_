@@ -6,22 +6,12 @@ session_start();
 $gestion = $_GET['ges'];
 $periodo = $_GET['per'];
 
-if ($periodo == "6") {
-	$per_a = "per".$periodo;
-	$per_a = $gestion.$_SESSION[$per_a];
-	$gestion = (int)$gestion+1;
-	$per_b = "per1";
-	$per_b = $gestion.$_SESSION[$per_b];
+if ($periodo == 0) {
+	$result = $conexion->query(" SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
 }else{
-
-	$per_a = "per".$periodo;
-	$per_a = $gestion.$_SESSION[$per_a];
-	// $gestion = (int)$gestion+1;
-	$periodo = (int)$periodo+1;
-	$per_b = "per".$periodo;
-	$per_b = $gestion.$_SESSION[$per_b];
+	$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.periodo = ".$periodo." AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
 }
-	$result = $conexion->query(" SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
+
 	if((mysqli_num_rows($result))>0){
 	  while($arr = $result->fetch_array()){ 
 	        $fila[] = array('ca'=>$arr['ca'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'monto'=>$arr['monto']); 
@@ -68,7 +58,7 @@ if ($periodo == "6") {
 				<tr>
 					<td><?php echo $valor['ca']?></td>
 					<td><?php echo $valor['nombre']." ".$valor['apellidos']?></td>
-					<td><?php echo round(((float)$valor['monto']), 1)?></td>
+					<td><?php echo round(((float)$valor['monto']), 1)?> Bs.</td>
 				</tr>
 			    <?php } ?>
 			</tbody>

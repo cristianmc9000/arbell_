@@ -6,22 +6,25 @@ session_start();
 $gestion = $_GET['ges'];
 $periodo = $_GET['per'];
 
-if ($periodo == "6") {
-	$per_a = "per".$periodo;
-	$per_a = $gestion.$_SESSION[$per_a];
-	$gestion = (int)$gestion+1;
-	$per_b = "per1";
-	$per_b = $gestion.$_SESSION[$per_b];
+if ($periodo == 0) {
+	$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.descuento, a.valor_pesos FROM compras a, usuarios b WHERE a.fecha LIKE '".$gestion."%' AND a.ci_usu = b.CI AND a.estado = 1");
 }else{
-
-	$per_a = "per".$periodo;
-	$per_a = $gestion.$_SESSION[$per_a];
-	// $gestion = (int)$gestion+1;
-	$periodo = (int)$periodo+1;
-	$per_b = "per".$periodo;
-	$per_b = $gestion.$_SESSION[$per_b];
+	if ($periodo == "6") {
+		$per_a = "per".$periodo;
+		$per_a = $gestion.$_SESSION[$per_a];
+		$gestion = (int)$gestion+1;
+		$per_b = "per1";
+		$per_b = $gestion.$_SESSION[$per_b];
+	}else{
+		$per_a = "per".$periodo;
+		$per_a = $gestion.$_SESSION[$per_a];
+		$periodo = (int)$periodo+1;
+		$per_b = "per".$periodo;
+		$per_b = $gestion.$_SESSION[$per_b];
+	}
+$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.descuento, a.valor_pesos FROM compras a, usuarios b WHERE (fecha BETWEEN '".$per_a."' AND '".$per_b."') AND a.ci_usu = b.CI AND a.estado = 1");
 }
-	$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.descuento, a.valor_pesos FROM compras a, usuarios b WHERE (fecha BETWEEN '".$per_a."' AND '".$per_b."') AND a.ci_usu = b.CI AND a.estado = 1");
+
 	if((mysqli_num_rows($result))>0){
 	  while($arr = $result->fetch_array()){ 
 	        $fila[] = array('codc'=>$arr['codc'], 'ci_usu'=>$arr['ci_usu'], 'nombre'=>$arr['nombre'], 'apellidos'=>$arr['apellidos'], 'fecha'=>$arr['fecha'], 'totalsd'=>$arr['totalsd'], 'totalcd'=>$arr['totalcd'], 'descuento'=>$arr['descuento'], 'valor'=>$arr['valor_pesos']); 

@@ -52,7 +52,7 @@ if((mysqli_num_rows($Busq))>0){
 <body>
     <div class="col s11">
         <div class="col s1">
-                <b style= "color:blue"> Periodo:</b>
+                <b style= "color:blue"> Gestión:</b>
                 <select onchange="enviarges()" name="ges" id="ges" class="browser-default">
                     <option value="0" selected disabled> Seleccionar</option>
                     <option value="2021"> 2021 </option>
@@ -184,7 +184,7 @@ if((mysqli_num_rows($Busq))>0){
                         <h4  class="fuente">Administrar pagos</h4>
                     </p><br>
                     <div class="input-field col s4">
-                        <input type="number" id="nuevo_pago" name="nuevo_pago">
+                        <input type="number" min="0" onkeypress="return check(event)" id="nuevo_pago" name="nuevo_pago">
                         <label for="nuevo_pago">Insertar nuevo pago</label>
                     </div>
                     <div class="col s3">
@@ -305,10 +305,10 @@ function ver_venta(codv) {
                 newRow.textContent = jsonParsedArray[key]['cantidad']
 
                 newRow = newTableRow.insertCell(4)
-                newRow.textContent = jsonParsedArray[key]['pubs_cd']
+                newRow.textContent = jsonParsedArray[key]['pubs_cd'] +" Bs."
 
                 newRow = newTableRow.insertCell(5)
-                newRow.textContent = (parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)
+                newRow.textContent = ((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)) +" Bs."
 
                 cantidad = cantidad + parseInt(jsonParsedArray[key]['cantidad'])
                 gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
@@ -316,9 +316,9 @@ function ver_venta(codv) {
             }
         }
 
-        $("#total").html(total)
+        $("#total").html(total +" Bs.")
         $("#items").html(cantidad)
-        $("#gan_exp").html((gan_exp).toFixed(1))
+        $("#gan_exp").html(((gan_exp).toFixed(1))+" Bs.")
         $("#modal1").openModal()
     })
 }
@@ -359,9 +359,9 @@ function pagos(e) {
                     saldo = parseFloat(jsonParsedArray[key]['total'])
                 }
             }
-        $("#subtotal").html("Subtotal: "+subtotal)
-        $("#debe").html("Saldo: "+(saldo-subtotal))
-        $("#saldo").html("Total: "+subtotal+"/"+saldo)
+        $("#subtotal").html("Subtotal: "+subtotal+" Bs.")
+        $("#debe").html("Saldo: "+(saldo-subtotal)+" Bs.")
+        $("#saldo").html("Total: "+subtotal+" Bs./"+saldo+" Bs.")
 
         $("#_subtotal").val(subtotal)
         $("#_total").val(saldo)
@@ -381,7 +381,7 @@ function pagos(e) {
                 newRow.textContent = jsonParsedArray[key]['fecha_pago']
 
                 newRow = newTableRow.insertCell(1)
-                newRow.textContent = jsonParsedArray[key]['monto']
+                newRow.textContent = jsonParsedArray[key]['monto']+" Bs."
 
                 newRow = newTableRow.insertCell(2)
                 newRow.innerHTML = '<a onclick="borrar_pago(event, '+jsonParsedArray[key]['id']+', '+jsonParsedArray[key]['codv']+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
@@ -423,9 +423,9 @@ function borrar_pago(e, id, codv) {
                     let nuevo_sub = parseFloat($("#_subtotal").val())
                     let total = parseFloat($("#_total").val())
 
-                    $("#subtotal").html("Subtotal: "+nuevo_sub)
-                    $("#debe").html("Saldo: "+(total-nuevo_sub))
-                    $("#saldo").html("Total: "+nuevo_sub+"/"+total)
+                    $("#subtotal").html("Subtotal: "+nuevo_sub+" Bs.")
+                    $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
+                    $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
 
                     Materialize.toast("Pago eliminado", 4000)
                     document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
@@ -484,15 +484,15 @@ function nuevo_pago() {
             newRow.textContent = respuesta.fecha_pago
 
             newRow = newTableRow.insertCell(1)
-            newRow.textContent = respuesta.monto
+            newRow.textContent = respuesta.monto +" Bs."
 
             newRow = newTableRow.insertCell(2)
             newRow.innerHTML = '<a onclick="borrar_pago(event, '+respuesta.id+', '+respuesta.codv+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
             Materialize.toast("Pago agregado.", 4000)
 
-            $("#subtotal").html("Subtotal: "+(nuevo_sub))
-            $("#debe").html("Saldo: "+(total-nuevo_sub))
-            $("#saldo").html("Total: "+nuevo_sub+"/"+total)
+            $("#subtotal").html("Subtotal: "+(nuevo_sub)+" Bs.")
+            $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
+            $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
             $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/ventas/reg_ventas.php")')
 
 
