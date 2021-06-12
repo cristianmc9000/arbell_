@@ -70,7 +70,7 @@ session_start();
                         <input type="text" id="stock_" hidden>
                     </div>
                     <div class="col s3">
-                        <input type="text" id="pupesos_" placeholder="Precio en Pesos" required>
+                        <input type="text" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
                     </div>
                     <input type="text" id="id_" value="" hidden>
                     <input type="text" id="linea_" value="" hidden>

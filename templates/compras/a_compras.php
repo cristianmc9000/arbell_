@@ -36,7 +36,7 @@
             </div>
 
             <div class="col s3">
-              <input type="text" id="pupesos_" placeholder="Precio en Pesos Arg." required>
+              <input type="text" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
             </div>
 
             
@@ -141,6 +141,8 @@ $(document).ready(function(){
 
 document.getElementById("insert_row").addEventListener("submit", function (event) {
   event.preventDefault();
+
+
 
   $("#descuento_").prop('disabled', true);
   let codli = $("#codli_").val()
@@ -473,7 +475,7 @@ function imprimir(mihtml, numfac) {
             }
         })
         .from($elementoParaConvertir)
-        .save()
+        // .save()
         .catch(err => console.log(err));
     })
 }
@@ -516,6 +518,8 @@ function delete_row(e) {
     $("#descuento_").prop('disabled', false);
   }
 }
+
+
 
 </script>
 <script src="js/html2pdf.bundle.min.js"></script>

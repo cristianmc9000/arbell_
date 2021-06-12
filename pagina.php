@@ -324,6 +324,14 @@ $(document).ready(function() {
         
   }
 
+function check(e){
+  if ((e.charCode >= 48 && e.charCode <= 57) || e.charCode == 46) {
+    return true
+  }else{
+    return false
+  }
+}
+
 </script>
         
 </body>

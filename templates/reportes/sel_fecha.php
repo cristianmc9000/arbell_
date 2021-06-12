@@ -36,7 +36,7 @@
             <option value="r_ventas.php" selected><b>Reportes de ventas</b></option>
             <option value="r_compras.php" ><b>Reportes de compras</b></option>
             <option value="r_le.php"><b>Reportes de Lider/Experta</b></option>
-            <option value="r_dev.php" ><b>Reportes de devoluciones</b></option>
+            <!-- <option value="r_dev.php" ><b>Reportes de devoluciones</b></option> -->
           </select>
           <label><b>SELECCIONE EL TIPO DE REPORTE</b></label>
       </div>
@@ -55,6 +55,9 @@
         </div>
         <input type="text" name="mes" id="mes" value="" hidden>
     </form>
+  </div>
+  <div class="col s3 offset-s1">
+    <a href="#" class="btn-large pink">Reporte por gestión</a>
   </div>
 </div>
 

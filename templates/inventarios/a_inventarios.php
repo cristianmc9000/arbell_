@@ -114,12 +114,12 @@ if((mysqli_num_rows($Busq))>0){
         <form class="col s12" id="modificar_inventario">
             <div class="row">
                 <div  class="input-field col s6">
-                    <input name="pupesos" id="pup" type="text" onkeypress="convertirm()" required>
+                    <input name="pupesos" id="pup" onkeypress="return check(event)" type="text" required>
                     <label class="active" for="pupesos">P.U. (pesos arg.):</label>
                     <input type="text" id = "codigo" name= "id" hidden>
                 </div>
             <div class="input-field col s6">
-                <input name="pubs" id="pub" type="text" required>
+                <input name="pubs" onkeypress="return check(event)" id="pub" type="text" required>
                 <label class="active" for="pubs">P.U. (Bs.):</label>
                 </div>
             </div>
@@ -268,30 +268,20 @@ $("#eliminar_inventario").on("submit", function(e){
 });
 
 
-function convertira() {
 
-    pesos = $("#pupesos").val()
-    bs = pesos * parseFloat($("#valor").val())
-    $("#pubs").val(bs.toFixed(1));
-}
-
-$("#pupesos").on("keydown input", function(){
-  pesos = $("#pupesos").val()
-  bs = pesos * parseFloat($("#valor").val());
-  $("#pubs").val(bs.toFixed(1));
-})
-
-function convertirm() {
-
-  pesos = $("#pup").val()
-  bs = pesos * parseFloat($("#valor").val());
-  $("#pub").val(bs.toFixed(1));
-}
-
-$("#pup").on("keydown input", function(){
+$("#pup").on("keydown input", function(e){
     pesos = $("#pup").val()
     bs = pesos * parseFloat($("#valor").val());
     $("#pub").val(bs.toFixed(1));
+
+
+    // console.log(e.keyCode)
+    // if ((e.keyCode > 48 && e.keyCode < 57) || e.keyCode == 190 || e.keyCode == 46) {
+    //     return true
+    // }else{
+    //     return false
+    // }
+
 })
 
 //funcion periodo
