@@ -68,9 +68,6 @@ while($arr = $Busq2->fetch_array())
 
 <title>Arbell</title>
 <style>
-body{
-  /*background: linear-gradient(90deg, #ccfff8, #e9fffc);*/
-}
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: #919191;
   opacity: 1; /* Firefox */
