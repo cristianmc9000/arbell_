@@ -168,9 +168,14 @@ table.dataTable tbody th, table.dataTable tbody td {
       <li><?php echo $estado; ?></li>
       <li><?php echo $salir; ?></li>
     </ul>
+
     <ul id="dropdown1" class="dropdown-content">
-    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas.php');">Realizar Venta</a></li>
-    <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de Ventas</a></li>
+      <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/a_ventas.php');">Realizar venta</a></li>
+      <li><a href="#!" onclick="cargar_v(event, 'templates/ventas/reg_ventas.php?ges=<?php echo date('Y') ?>');">Registro de ventas</a></li>
+    </ul>
+    <ul id="dropdown2" class="dropdown-content">
+      <li><a href="#!" onclick="cargar_v(event, 'templates/compras/a_compras.php');">Realizar compra</a></li>
+      <li><a href="#!" onclick="cargar_v(event, 'templates/compras/reg_compras.php?ges=<?php echo date('Y') ?>');">Registro de compras</a></li>
     </ul>
 
     <ul id="nav-mobile" class="left hide-on-med-and-down">
@@ -179,8 +184,12 @@ table.dataTable tbody th, table.dataTable tbody td {
         <li><a href="#!" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
         <li><a href="#!" onclick="cargar(event, 'templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
         <!--  <li><a href="#!" onclick="cargar(event, 'templates/roles/a_roles');">ROLES</a></li> -->
-        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/compras/a_compras');">COMPRAS</a></li>
-        <li><a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a></li>
+        <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
+          <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown2">COMPRAS<i class="material-icons right">arrow_drop_down</i></a>
+        </li>
+        <li>
+          <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a>
+        </li>
         
 
         <li><a href="#!" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
@@ -316,10 +325,10 @@ $(document).ready(function() {
       e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
     }
     e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
-
     $("#cuerpo").load(x);
         
   }
+
 
 function check(e){
   if ((e.charCode >= 48 && e.charCode <= 57) || e.charCode == 46) {

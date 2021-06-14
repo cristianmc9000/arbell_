@@ -279,15 +279,16 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
 
     //Subtotal con descuento
     precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
-    precio_cd = precio_cd.toFixed(1)
+    precio_cd = precio_cd.toFixed(1)+"0"
     $("#subtotal_").val(precio_cd)
 
     //Redondeando precios al final de los calculos
     __pubs_desc = pubs_desc
     __pubs = pubs_
-    pubs_desc = pubs_desc.toFixed(1) 
-    pubs_ = pubs_.toFixed(1)   
-
+    pubs_desc = pubs_desc.toFixed(2) 
+    // console.log(pubs_ +"<-- Valor sin redondear")
+    pubs_ = pubs_.toFixed(2)   
+    // console.log(pubs_ +"<-- Valor redondeado")
 
     let table = document.getElementById("tabla_c")
     let newTableRow = table.insertRow(-1)
@@ -401,7 +402,6 @@ let fila = `
         array_ = array_ + fila;     
 
         gan_exp = parseFloat(parseFloat(gan_exp) + (parseFloat(e.querySelector('.__pubs').value) * parseInt(e.querySelector('._cantidad').innerText))).toFixed(1)
-
         // totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
         totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
         pubs__ = pubs__ + parseFloat(e.querySelector('.__pubs').value);
@@ -413,11 +413,12 @@ let aux_sum = 0
 $('._aux').each(function(){
     aux_sum = aux_sum + parseInt(this.value)
 })
-    console.log(gan_exp+"---"+totalcd)
+    // console.log(gan_exp+"---"+totalcd)
     gan_exp = parseFloat(gan_exp).toFixed(1)
+    totalcd = totalcd.toFixed(1)
     gan_exp = gan_exp - totalcd
     
-    totalcd = totalcd.toFixed(1)
+
     _descuento = $("#descuento_").val();
     _valor = $("#valor").val();
 

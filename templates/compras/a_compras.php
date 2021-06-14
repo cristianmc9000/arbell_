@@ -78,8 +78,8 @@
           <th>Descripción</th>
           <th>Cantidad</th>
           <th>P.U.<br>(pesos arg.)</th>
-          <th>P.U.<br>(Bs.)</th>
           <th>P.U. con <br>descuento (Pesos)</th>
+          <th>P.U.<br>(Bs.)</th>
           <th>P.U. con <br>descuento (Bs.)</th>
           <th>Valor de compra <br>S.D. (Bs.)</th>
           <th>Valor de compra <br>C.D. (Bs.)</th>
@@ -160,7 +160,7 @@ document.getElementById("insert_row").addEventListener("submit", function (event
     desc_ = desc_ * 0.01
     pupesos_desc = pupesos * desc_
     pupesos_desc = pupesos - pupesos_desc
-    pupesos_desc = pupesos_desc.toFixed(1)
+    pupesos_desc = pupesos_desc.toFixed(2)
   // PRECIO CON DESCUENTO EN BS.
     pubs_desc = pubs_
     pubs_desc = parseFloat(pubs_desc) * desc_
@@ -169,15 +169,15 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   }
   //Subtotal sin descuento
   precio_sd = parseFloat($("#cantidad_").val()) * pubs_
-  precio_sd = precio_sd.toFixed(1)
+  precio_sd = precio_sd.toFixed(1)+"0"
   //Subtotal con descuento
   precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
-  precio_cd = precio_cd.toFixed(1)
+  precio_cd = precio_cd.toFixed(1)+"0"
   //haciendo el redondeo al final 
   __pubs = pubs_
-  pubs_desc = pubs_desc.toFixed(1)
-  pupesos = pupesos.toFixed(1)
-  pubs_ = pubs_.toFixed(1)
+  pubs_desc = pubs_desc.toFixed(2)
+  pupesos = pupesos.toFixed(2)
+  pubs_ = pubs_.toFixed(2)
 
 
   let table = document.getElementById("tabla_c")
@@ -205,12 +205,12 @@ document.getElementById("insert_row").addEventListener("submit", function (event
   newRow.className = "_pupesos"
 
   newRow = newTableRow.insertCell(5)
-  newRow.textContent = pubs_
-  newRow.className = "_pubs"
-
-  newRow = newTableRow.insertCell(6)
   newRow.textContent = pupesos_desc
   newRow.className = "_pupesos_desc"
+
+  newRow = newTableRow.insertCell(6)
+  newRow.textContent = pubs_
+  newRow.className = "_pubs"
 
   newRow = newTableRow.insertCell(7)
   newRow.textContent = pubs_desc

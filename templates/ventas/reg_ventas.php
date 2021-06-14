@@ -5,15 +5,15 @@ require('../../recursos/conexion.php');
 
 // echo $_GET['ges'];
 
-$Sql = "SELECT a.codv, b.nombre, b.apellidos, a.fecha, a.total, a.periodo, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
+$Sql = "SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.periodo, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()) 
         { 
-            $fila[] = array('codv'=>$arr['codv'], 'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'], 'periodo'=>$arr['periodo'],'credito'=>$arr['credito']);
+            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'], 'periodo'=>$arr['periodo'],'credito'=>$arr['credito']);
         } 
 }else{
-    $fila[] = array('codv'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--', 'periodo'=>'--','credito'=>'--');
+    $fila[] = array('codv'=>'--', 'ca'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--', 'periodo'=>'--','credito'=>'--');
 }
 ?>
 
@@ -36,16 +36,14 @@ if((mysqli_num_rows($Busq))>0){
         border-collapse: collapse !important;
     }
 
-    .borde_tabla tr td {
+    .borde_tabla tr td, .borde_tabla tr th {
 
         border: 1px solid;
         border-collapse: collapse !important;
+        padding-top:  1px;
+        padding-bottom:  1px;
     }
 
-    .borde_tabla tr th {
-        border: 1px solid;
-        border-collapse: collapse !important;
-    }
     </style>
 </head>
 
@@ -88,7 +86,7 @@ if((mysqli_num_rows($Busq))>0){
                     <?php echo $valor["codv"] ?>
                 </td>
                 <td>
-                    <?php echo $valor["nombre"]." ".$valor["apellidos"] ?>
+                    <?php echo $valor['nombre']." ".$valor['apellidos'] ?>
                 </td>
                 <td>
                     <?php echo $valor["fecha"]?>
@@ -100,7 +98,7 @@ if((mysqli_num_rows($Busq))>0){
                     <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event)'>Ver pagos</button>";} ?>
                 </td>
                 <td>
-                    <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>')"><i class="material-icons">visibility</i></a>
+                    <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>','<?php echo $valor['total']?>','<?php echo $valor['credito']?>','<?php echo $valor['ca']?>','<?php echo $valor['nombre'].' '.$valor['apellidos']?>','<?php echo $valor['periodo']?>')"><i class="material-icons">visibility</i></a>
                     <!-- <a href="#!"><i class="material-icons">build</i></a> -->
                 </td>
                 <td>
@@ -257,29 +255,14 @@ var mensaje = $("#mensaje");
 mensaje.hide();
 
 /* funcion ver venta */
-function ver_venta(codv) {
+function ver_venta(codv, total, credito, ca, cliente, periodo) {
     detalle_venta(codv).then(respuesta => {
-        let total = 0
+        var jsonParsedArray = JSON.parse(respuesta)
         let cantidad = 0
         let gan_exp = 0
-        let periodo = 0
-        let credito
-        let ca
-        let cliente
-        var jsonParsedArray = JSON.parse(respuesta)
-        for (key in jsonParsedArray) {
-            if (jsonParsedArray.hasOwnProperty(key)) {
-                total += parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])
-                credito = jsonParsedArray[key]['credito']
-                ca = jsonParsedArray[key]['ca']
-                cliente =jsonParsedArray[key]['cliente']
-                if(parseInt(jsonParsedArray[key]['periodo'])> periodo){
-                    periodo = parseInt(jsonParsedArray[key]['periodo'])
-                }
-            }
-        }
-        if(credito = 1){credito = "Crédito"}else{credito = "Contado"}
-        total = total.toFixed(1)
+        let auxiliares = 0
+        if (credito != 0) {credito = 'Crédito'}else{credito = 'Contado'}
+        
         $("#_periodo").html("Periodo: "+periodo)
         $("#_credito").html("Tipo de pago: "+credito)
         $("#_ca").html("Código Arbell: "+ca)
@@ -310,14 +293,18 @@ function ver_venta(codv) {
                 newRow = newTableRow.insertCell(5)
                 newRow.textContent = ((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)) +" Bs."
 
-                cantidad = cantidad + parseInt(jsonParsedArray[key]['cantidad'])
+                
                 gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
 
+                cantidad += parseInt(jsonParsedArray[key]['cantidad'])
+                if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
+                    auxiliares += parseInt(jsonParsedArray[key]['cantidad']) 
+                }
             }
         }
 
         $("#total").html(total +" Bs.")
-        $("#items").html(cantidad)
+        $("#items").html(cantidad+"u. Incluye "+auxiliares+" auxiliares.")
         $("#gan_exp").html(((gan_exp).toFixed(1))+" Bs.")
         $("#modal1").openModal()
     })
