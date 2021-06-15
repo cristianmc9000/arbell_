@@ -90,22 +90,22 @@ if((mysqli_num_rows($Busq))>0){
                     <?php echo $valor["fecha"] ?>
                 </td>
                 <td>
-                    <?php echo $valor["totalsd"] ?>
+                    <?php echo $valor["totalsd"] ?> Bs.
                 </td>
                 <td>
-                    <?php echo $valor["totalcd"] ?>
+                    <?php echo $valor["totalcd"] ?> Bs.
                 </td>
                 <td >
-                    <?php echo $valor["descuento"] ?>
+                    <?php echo $valor["descuento"] ?> %
                 </td>
                 <td >
-                    <?php echo $valor["valor_pesos"] ?>
+                    <?php echo $valor["valor_pesos"] ?> Bs.
                 </td>
                 <td>
                     <a href="#!" onclick="ver_compra('<?php echo $valor['codc']?>', '<?php echo $valor['fecha'] ?>', '<?php echo $valor['totalcd'] ?>' )"><i class="material-icons">visibility</i></a>
                 </td>
                 <td>
-                    <a href="#modal3" class="modal_trigger_3" onclick="$('#codc').val('<?php echo $valor['codc'] ?>')"><i class="material-icons">delete</i></a>
+                    <!-- <a href="#modal3" class="modal_trigger_3" onclick="$('#codc').val('<?php echo $valor['codc'] ?>')"><i class="material-icons">delete</i></a> -->
                 </td>
             </tr>
             <?php } ?>

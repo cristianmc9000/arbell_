@@ -5,8 +5,9 @@ session_start();
 
 $gestion = $_GET['ges'];
 $periodo = $_GET['per'];
-
+$_per = $_GET['per'];
 if ($periodo == 0) {
+	$_per = "total";
 	$result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fecha, a.totalsd, a.totalcd, a.descuento, a.valor_pesos FROM compras a, usuarios b WHERE a.fecha LIKE '".$gestion."%' AND a.ci_usu = b.CI AND a.estado = 1");
 }else{
 	if ($periodo == "6") {
@@ -109,21 +110,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de compras del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de compras del periodo: <?php echo $_per ?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de compras del periodo: <?php echo $_GET["per"] ?>'
+        title: 			'Reporte de compras del periodo: <?php echo $_per ?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del compras de periodo: <?php echo $_GET["per"] ?> </span>'
+        title: 			'<span style="font-size:30">Reporte del compras de periodo: <?php echo $_per ?> </span>'
       }
     ]
     });
