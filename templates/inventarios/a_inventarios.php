@@ -7,7 +7,8 @@ if (isset($_GET["mes"])) {
   $per = $_GET["mes"];
   $Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1 AND b.periodo = ".$per; 
 }else{
-  $Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1";
+    $per = "";
+    $Sql = "SELECT a.id, a.codp, c.nombre, b.descripcion, a.pupesos, a.pubs, a.cantidad, a.fecha_reg, a.fecha_venc FROM inventario a, productos b, lineas c WHERE b.linea = c.codli AND a.codp = b.id AND a.estado = 1";
 }
 
 // $per = $_GET["mes"];
@@ -68,7 +69,7 @@ if((mysqli_num_rows($Busq))>0){
 <table id="tabla1" class="highlight">
     <thead>
         <tr>
-            <th>Codp</th>
+            <th>Código</th>
             <th>Linea<br>(Producto)</th>
             <th>Descripcion</th>
             <th>P.U.<br>(arg.)</th>
@@ -180,7 +181,7 @@ if((mysqli_num_rows($Busq))>0){
 var mensaje = $("#mensaje");
 $(document).ready(function() {
     $('#tabla1').dataTable({
-        "order": [[ 0, "desc" ]],
+        "order": [[ 6, "desc" ]],
         "language": {
         "lengthMenu": "Mostrar _MENU_ registros por página",
         "zeroRecords": "Lo siento, no se encontraron datos",
@@ -220,18 +221,13 @@ $("#modificar_inventario").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        // mensaje.show();
-        console.log(echo);
-        // if (echo.includes("?mes") || echo.includes('vacio')) {
-          $("#modal2").closeModal(); 
-          Materialize.toast("PRODUCTO MODIFICADO." , 4000);
-          console.log(echo)
-          $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);
-        // }
-        
-      }
+    
+          if (echo.includes("?mes") || echo == "") {
+              $("#modal2").closeModal(); 
+              Materialize.toast("PRODUCTO MODIFICADO." , 4000);
+              $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);
+            
+          }
     });
 });
 

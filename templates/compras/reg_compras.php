@@ -44,7 +44,11 @@ if((mysqli_num_rows($Busq))>0){
         padding-top: 0px;
         padding-bottom: 0px;
     }
-
+    .helpertext {
+        top: -20px;
+        position: relative;
+        color: red;
+    }
     </style>
 </head>
 
@@ -77,7 +81,7 @@ if((mysqli_num_rows($Busq))>0){
                 <th>Descuento</th>
                 <th>Valor de cambio</th>
                 <th>Detalle</th>
-                <th>Borrar</th>
+                <th>Modificar</th>
             </tr>
         </thead>
         <tbody>
@@ -95,17 +99,17 @@ if((mysqli_num_rows($Busq))>0){
                 <td>
                     <?php echo $valor["totalcd"] ?> Bs.
                 </td>
-                <td >
-                    <?php echo $valor["descuento"] ?> %
+                <td>
+                    <a href="#" onclick="modal_descuento('<?php echo $valor["codc"] ?>','<?php echo $valor['descuento']?>')" style="background-color: #bdc3c7;" class="btn-flat waves-light waves-effect"><?php echo $valor["descuento"] ?> %</a>
                 </td>
-                <td >
-                    <?php echo $valor["valor_pesos"] ?> Bs.
+                <td>
+                    <a href="#" onclick="modal_cambio('<?php echo $valor["codc"] ?>','<?php echo $valor['valor_pesos']?>')" style="background-color: #bdc3c7;" class="btn-flat waves-light waves-effect"><?php echo $valor["valor_pesos"] ?> Bs.</a>
                 </td>
                 <td>
                     <a href="#!" onclick="ver_compra('<?php echo $valor['codc']?>', '<?php echo $valor['fecha'] ?>', '<?php echo $valor['totalcd'] ?>' )"><i class="material-icons">visibility</i></a>
                 </td>
                 <td>
-                    <!-- <a href="#modal3" class="modal_trigger_3" onclick="$('#codc').val('<?php echo $valor['codc'] ?>')"><i class="material-icons">delete</i></a> -->
+                    <a href="#" onclick="mod_compra(event, '<?php echo $valor['codc'] ?>','<?php echo $valor['descuento']?>','<?php echo $valor['valor_pesos']?>')"><i class="material-icons">build</i></a>
                 </td>
             </tr>
             <?php } ?>
@@ -117,18 +121,6 @@ if((mysqli_num_rows($Busq))>0){
         <div id="modal1" class="modal">
             <div class="modal-content">
                 <div class="row">
-<!--                     <div class="col s4">
-                        <span id="_ca">Código arbell: </span><br>
-                        <span id="lider_ex">Lider/Experta:</span>
-                    </div>
-                    <div class="col s4" style="text-align: center;">
-                        <span>Punto de venta: PRINCIPAL</span><br>
-                        <span id="_credito">Forma de pago:</span><br>
-                        <span id="_periodo">Periodo:</span>
-                    </div>
-                    <div class="col s4" style="text-align:right">
-                        <span>Distribuidora: CARMIÑA</span>
-                    </div> -->
                     <div class="col s12">
                         <center><b><h5>Detalle de compra</h5></b></center>
                     </div>
@@ -171,57 +163,79 @@ if((mysqli_num_rows($Busq))>0){
     <div class="row">
         <div id="modal2" class="modal">
             <div class="modal-content">
-                <input id="codv_pago" type="text" value="codv" hidden>
-                <input id="_subtotal" type="text" hidden>
-                <input id="_total" type="text" hidden>
-
+                <input id="codc" type="text" value="" hidden >
                 <div class="row">
                     <p>
-                        <h4  class="fuente">Administrar pagos</h4>
+                        <h4  class="fuente">Modificar detalle de compra</h4>
                     </p><br>
-                    <div class="input-field col s4">
-                        <input type="number" min="0" onkeypress="return check(event)" id="nuevo_pago" name="nuevo_pago">
-                        <label for="nuevo_pago">Insertar nuevo pago</label>
-                    </div>
-                    <div class="col s3">
-                        <a href="#!" onclick="nuevo_pago()" id="boton_pagos" class="waves-effect waves-light btn-large blue">Agregar pago</a>
-                    </div>
-                    <table id="tabla_pagos" class="borde_tabla">
+
+                    <table id="tabla_compras" class="borde_tabla">
                         <tr>
-                            <th>Fecha de pago</th>
-                            <th>Monto</th>
-                            <th>Borrar pago</th>
+                            <th>Código</th>
+                            <th>Línea</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>P. Unidad</th>
+                            <th>Subtotal</th>
+                            <th>Borrar</th>
                         </tr>
                         <tbody>
                             
                         </tbody>
                     </table>
-                    <div class="col s4 offset-s8">
-                        <b><p id="subtotal">Subtotal:</p>
-                            <p style="color:red" id="debe">Saldo:</p>
-                        <p id="saldo">Total:</p></b>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" id="btn-cerrar_modal2" class=" modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
+                <a href="#!" class="btn red modal-action modal-close waves-effect waves-light left">Cancelar</a>
+                <a href="#!" id="btn-cerrar_modal2" class="modal-action modal-close waves-effect waves-light btn green">Aceptar</a>
             </div>
         </div>
     </div>
 
-<!-- MODAL ELIMINAR VENTA  -->
+
+
+<!-- MODAL MODIFICAR VALOR DE CAMBIO  -->
     <div class="row">
         <div id="modal3" class="modal col s4 offset-s4">
             <div class="modal-content">
-                <input id="codv" type="text" value="codv" hidden>
+                <input id="codc" type="text" value="codc" hidden>
                 <div class="row">
-                    <h4 class="fuente">Se eliminará la venta.</h4>
-                    <span> Se devolveran los productos al inventario.</span>
+                    <center><h4 class="fuente">Modificar valor del cambio.</h4></center><br>
+                    <div class="col s3 offset-s2"><input type="text" style="color: black" value="1" disabled>
+                        <small class="helpertext">Peso argentino</small>
+                    </div>
+                    <div style="padding: 15px" class="col s2">
+                        <i class="material-icons">forward</i>
+                    </div>
+                    <div class="col s3"><input maxlength="5" onkeypress="return check(event)" id="v_cambio" type="text" value="">
+                        <small class="helpertext">Bolivianos</small>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
-                <a href="#!" onclick="borrar_venta()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
+                <a href="#!" onclick="mod_cambio()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
+            </div>
+        </div>
+    </div>
+
+<!-- MODAL MODIFICAR PORCENTAJE DE DESCUENTO -->
+    <div class="row">
+        <div id="modal4" class="modal col s4 offset-s4">
+            <div class="modal-content">
+                <input id="codc_desc" type="text" hidden>
+                <div class="row">
+                    <center><h4 class="fuente">Modificar porcentaje de descuento.</h4></center><br>
+
+                    <div class="col l3 offset-l5 m8 offset-m2 s12">
+                        <input maxlength="2" onkeypress="return check(event)" id="mod_desc" type="text" value="">
+                        <small class="helpertext">% Descuento</small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn left red">Cancelar</a>
+                <a href="#!" onclick="mod_descuento()" class="modal-action modal-close waves-effect waves-light btn">Confirmar</a>
             </div>
         </div>
     </div>
@@ -302,7 +316,7 @@ function ver_compra(codc, fecha, total) {
         $("#modal1").openModal()
     })
 }
-//OBTENER EL DETALLE DE VENTA EN JSON
+//OBTENER EL DETALLE DE COMPRA EN JSON
 function detalle_compra(codc) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -319,22 +333,136 @@ function detalle_compra(codc) {
     })
 }
 
-//funcion borrar venta
-function borrar_venta(){
-let codv = $("#codv").val()
-$.ajax({
-    url: "recursos/ventas/borrar_venta.php?codv="+codv,
-    method: "GET",
-    success: function (response){
-        console.log(response);
-        if (response) {
-            Materialize.toast("Venta eliminada.", 4000)
-            $("#cuerpo").load("templates/ventas/reg_ventas.php")
-        }
-    }
+//FUNCION PARA MODIFICAR LA COMPRA
+function mod_compra(e, codc, descuento, valor) {
+    $("#codc").val(codc)
+    $("#descuento_mod").val(descuento)
+    $("#valor_cambio").val(valor)
+    $("#descuento_ant").val(descuento)
+    $("#cambio_ant").val(valor)
 
-});
+    detalle_compra(codc).then(respuesta => {
+        $(".dinamic_rows").remove();
+        var jsonParsedArray = JSON.parse(respuesta)
+
+        //INSERTANDO FILAS A LA TABLA VER PAGOS
+        let table = document.getElementById("tabla_compras")
+        for (key in jsonParsedArray) {
+            if (jsonParsedArray.hasOwnProperty(key)) {
+                let newTableRow = table.insertRow(-1)
+                newTableRow.className = "dinamic_rows"
+                newRow = newTableRow.insertCell(0)
+                newRow.textContent = jsonParsedArray[key]['codp']
+
+                newRow = newTableRow.insertCell(1)
+                newRow.textContent = jsonParsedArray[key]['linea']
+
+                newRow = newTableRow.insertCell(2)
+                newRow.textContent = jsonParsedArray[key]['descripcion']
+
+                newRow = newTableRow.insertCell(3)
+                newRow.textContent = jsonParsedArray[key]['cantidad']
+
+                newRow = newTableRow.insertCell(4)
+                newRow.textContent = jsonParsedArray[key]['pubs_cd'] +" Bs."
+
+                newRow = newTableRow.insertCell(5)
+                newRow.textContent = ((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)) +" Bs."
+
+                newRow = newTableRow.insertCell(6)
+                let codp_b = jsonParsedArray[key]['codp']
+                let cant = jsonParsedArray[key]['cantidad']
+                newRow.innerHTML = "<a href='#' onclick='borrar_item(event,`"+codp_b+"`,"+codc+", "+cant+")' style='color:red'><i class='material-icons'>delete</i></a>"
+            }
+        }
+    })
+
+    $("#modal2").openModal({dismissible: false})
 }
+
+//FUNCION PARA BORRAR UN ITEM DE LA BASE DE DATOS TABLA: DETALLE_COMPRA, COMPRA, INVENTARIO, INVCANT
+function borrar_item(e, codp, codc, cant) {
+
+    $.ajax({
+            url: "recursos/compras/borrar_item.php?codc="+codc+"&codp="+codp+"&cant="+cant,
+            method: "GET",
+            success: function(response) {
+                console.log(response)
+                if(response == "0"){
+                    Materialize.toast("La cantidad a eliminar supera al stock de inventario.", 4000)
+                }else{  
+                    e.target.parentNode.parentNode.parentNode.remove()
+                    Materialize.toast("Item eliminado", 3000)
+                    let ges = "<?php echo $_GET['ges'] ?>"
+                    $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/compras/reg_compras.php?ges='+ges+'")');
+                }
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+    })
+    
+}
+
+//funciones para modificar el porcentaje de descuento
+function modal_descuento(codc, descuento) {
+    $("#codc_desc").val(codc)
+    $("#mod_desc").val(descuento)
+    $("#modal4").openModal()
+}
+function mod_descuento() {
+    let descuento = $("#mod_desc").val()
+    let codc = $("#codc_desc").val()
+    let get_url = '?codc='+codc+'&descuento='+descuento
+
+    if ($("#mod_desc").val() == "" || (parseFloat(descuento)<0)) {
+        return Materialize.toast("Debe ingresar datos válidos", 3000)
+    }
+    $.ajax({
+            url: "recursos/compras/mod_descuento.php"+get_url,
+            method: "GET",
+            success: function(response) {
+                console.log(response)
+                Materialize.toast("Descuento modificado.", 4000)
+                let ges = "<?php echo $_GET['ges'] ?>"
+                $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges)
+            },
+            error: function(error) {
+                console.log(error)
+            }
+    })
+}
+//funciones para modificar el valor de cambio pesos a bs.
+function modal_cambio(codc, cambio) {
+    $("#codc").val(codc)
+    $("#v_cambio").val(cambio)
+    $("#modal3").openModal()
+}
+function mod_cambio() {
+
+    let cambio = $("#v_cambio").val()
+    let codc = $("#codc").val()
+    let get_url = '?codc='+codc+'&cambio='+cambio 
+
+    if ($("#v_cambio").val() == "" || (parseFloat(cambio)<0)) {
+        return Materialize.toast("Debe ingresar datos válidos", 3000)
+    }
+    $.ajax({
+            url: "recursos/compras/mod_cambio.php"+get_url,
+            method: "GET",
+            success: function(response) {
+                console.log(response)
+                Materialize.toast("Valor de cambio modificado.", 4000)
+                let ges = "<?php echo $_GET['ges'] ?>"
+                $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges)
+            },
+            error: function(error) {
+                console.log(error)
+            }
+    })
+}
+
 
 //funcion gestión
 function enviarges() {

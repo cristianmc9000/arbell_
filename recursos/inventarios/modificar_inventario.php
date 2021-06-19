@@ -44,8 +44,10 @@ $cant = $cantidad - $cant_ant;
 
 $res = $conexion->query("UPDATE invcant a SET a.cantidad = (SELECT SUM(b.cantidad) FROM inventario b WHERE b.estado = 1 AND b.codp = (SELECT c.codp FROM inventario c WHERE c.id = ".$id.")) WHERE a.codp = (SELECT d.codp FROM inventario d WHERE d.id = ".$id.")");
 
-if ($res && (isset($_SESSION["periodo"]))) {
-	die('?mes='.$_SESSION['periodo']);
+$per = $_SESSION["periodo"];
+
+if ($res && ( $per> 0 && $per <7 )) {
+	die('?mes='.$per);
 }else{
 	die('');
 }
