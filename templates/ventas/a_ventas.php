@@ -417,7 +417,7 @@ $('._aux').each(function(){
     gan_exp = parseFloat(gan_exp).toFixed(1)
     totalcd = totalcd.toFixed(1)
     gan_exp = gan_exp - totalcd
-    
+    gan_exp = gan_exp.toFixed(2)
 
     _descuento = $("#descuento_").val();
     _valor = $("#valor").val();

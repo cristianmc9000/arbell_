@@ -208,9 +208,11 @@ if((mysqli_num_rows($Busq))>0){
                         </tbody>
                     </table>
                     <div class="col s4 offset-s8">
-                        <b><p id="subtotal">Subtotal:</p>
+                        <b>
+                            <p id="subtotal">Subtotal:</p>
                             <p style="color:red" id="debe">Saldo:</p>
-                        <p id="saldo">Total:</p></b>
+                            <p id="saldo">Total:</p>
+                        </b>
                     </div>
                 </div>
             </div>
@@ -360,7 +362,7 @@ function pagos(e, ca, nombre, apellidos) {
                 }
             }
         $("#subtotal").html("Subtotal: "+subtotal+" Bs.")
-        $("#debe").html("Saldo: "+(saldo-subtotal)+" Bs.")
+        $("#debe").html("Saldo: "+(saldo-subtotal).toFixed(2)+" Bs.")
         $("#saldo").html("Total: "+subtotal+" Bs./"+saldo+" Bs.")
 
         $("#_subtotal").val(subtotal)
