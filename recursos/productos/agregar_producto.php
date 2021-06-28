@@ -35,7 +35,6 @@ if(strlen($descripcion) > $maxCaracteres) {
 	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
 };
 
-
 	$consultaBuscarID = "SELECT * FROM productos WHERE id = '".$cod."'";
 	$resultadoConsultaBID = mysqli_query($conexion, $consultaBuscarID) or die(mysql_error());
 	$datosConsultaBID = mysqli_fetch_array($resultadoConsultaBID);

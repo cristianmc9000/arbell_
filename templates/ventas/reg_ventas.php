@@ -70,6 +70,7 @@ if((mysqli_num_rows($Busq))>0){
         <thead>
             <tr>
                 <th>Código</th>
+                <th>C.A.</th>
                 <th>Lider/Experta</th>
                 <th>Fecha de Venta</th>
                 <th>Monto Total</th>
@@ -86,6 +87,9 @@ if((mysqli_num_rows($Busq))>0){
                     <?php echo $valor["codv"] ?>
                 </td>
                 <td>
+                    <?php echo $valor["ca"] ?>
+                </td>
+                <td>
                     <?php echo $valor['nombre']." ".$valor['apellidos'] ?>
                 </td>
                 <td>
@@ -95,7 +99,7 @@ if((mysqli_num_rows($Busq))>0){
                     <?php echo $valor["total"]?>
                 </td>
                 <td > <!-- style="text-align: center" -->
-                    <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event)'>Ver pagos</button>";} ?>
+                    <?php if($valor["credito"] == "0"){echo "Contado";} else{echo "<button onclick='pagos(event, ".$valor['ca'].", `".$valor['nombre']."`, `".$valor['apellidos']."`)'>Ver pagos</button>";} ?>
                 </td>
                 <td>
                     <a href="#!" onclick="ver_venta('<?php echo $valor['codv']?>','<?php echo $valor['total']?>','<?php echo $valor['credito']?>','<?php echo $valor['ca']?>','<?php echo $valor['nombre'].' '.$valor['apellidos']?>','<?php echo $valor['periodo']?>')"><i class="material-icons">visibility</i></a>
@@ -173,9 +177,11 @@ if((mysqli_num_rows($Busq))>0){
     <div class="row">
         <div id="modal2" class="modal">
             <div class="modal-content">
-                <input id="codv_pago" type="text" value="codv" hidden>
+                <input id="codv_pago" type="text" hidden>
                 <input id="_subtotal" type="text" hidden>
                 <input id="_total" type="text" hidden>
+                <input id="ca_pagos" type="text" hidden>
+                <input id="nombres_pagos" type="text" hidden>
 
                 <div class="row">
                     <p>
@@ -187,6 +193,9 @@ if((mysqli_num_rows($Busq))>0){
                     </div>
                     <div class="col s3">
                         <a href="#!" onclick="nuevo_pago()" id="boton_pagos" class="waves-effect waves-light btn-large blue">Agregar pago</a>
+                    </div>
+                    <div class="col s3">
+                        <a href="#!" onclick="imprimir_pago()" id="print_pagos" class="waves-effect waves-light btn-large orange"><i class="material-icons">print</i></a>
                     </div>
                     <table id="tabla_pagos" class="borde_tabla">
                         <tr>
@@ -327,7 +336,11 @@ function detalle_venta(codv) {
 }
 
 //ABRIR MODAL PAGOS CON TODOS LOS DATOS DE LA TABLA
-function pagos(e) {
+function pagos(e, ca, nombre, apellidos) {
+    
+
+    $("#ca_pagos").val(ca)
+    $("#nombres_pagos").val(nombre+" "+apellidos)
 
     document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
     $("#boton_pagos").removeClass('disabled')
@@ -413,11 +426,12 @@ function borrar_pago(e, id, codv) {
                     $("#subtotal").html("Subtotal: "+nuevo_sub+" Bs.")
                     $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
                     $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
-
+                    
+                    let gest = "templates/ventas/reg_ventas.php?ges="+'<?php echo $_GET["ges"]?>'
                     Materialize.toast("Pago eliminado", 4000)
                     document.getElementById("boton_pagos").setAttribute('onclick', "nuevo_pago()");
                     document.getElementById("boton_pagos").classList.remove("disabled");
-                    $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/ventas/reg_ventas.php")');
+                    $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("'+gest+'")');
                 }else{
                     console.log("error: "+response)
                 }
@@ -463,7 +477,6 @@ function nuevo_pago() {
                 document.getElementById('boton_pagos').removeAttribute("onclick");
             }
             
-
             let table = document.getElementById("tabla_pagos")
             let newTableRow = table.insertRow(-1)
             newTableRow.className = "dinamic_rows"
@@ -477,12 +490,12 @@ function nuevo_pago() {
             newRow.innerHTML = '<a onclick="borrar_pago(event, '+respuesta.id+', '+respuesta.codv+')" class="btn-floating red"><i class="material-icons">delete</i></a>'
             Materialize.toast("Pago agregado.", 4000)
 
+            let gest = "templates/ventas/reg_ventas.php?ges="+'<?php echo $_GET["ges"]?>'
+
             $("#subtotal").html("Subtotal: "+(nuevo_sub)+" Bs.")
             $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
             $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
-            $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("templates/ventas/reg_ventas.php")')
-
-
+            $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("'+gest+'")')
 
         },
         error: function(error) {
@@ -508,6 +521,106 @@ $.ajax({
 });
 }
 
+function imprimir_pago() {
+    var date = new Date();
+    var options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric'
+    };
+    date = date.toLocaleDateString("es-ES", options)
+
+    let codv = $("#codv_pago").val()
+    let ca = $("#ca_pagos").val()
+    let nombres = $("#nombres_pagos").val()
+    let array_ = ""
+    let subtotal = 0
+    ver_pagos(codv).then(respuesta => {
+        let jsonParsedArray = JSON.parse(respuesta)
+        for (key in jsonParsedArray) {
+            subtotal += parseFloat(jsonParsedArray[key]['monto'])
+            if (jsonParsedArray.hasOwnProperty(key)) {
+
+                let fila = `
+                <tr style="text-align: center">
+                    <td>${jsonParsedArray[key]["monto"]}</td>
+                    <td>${jsonParsedArray[key]["fecha_pago"]}</td>
+                </tr>`
+                array_ = array_ + fila
+            }
+        }
+        // console.log(array_)
+    var miHtml = `<title>RECIBO</title>
+
+  <style>
+    .bod{
+      font-family: 'Consolas';
+    }
+    .detalle, .detalle th, .detalle td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+ 
+  </style>
+  <div class="bod">
+  
+    <span style="float:right">${date}</span>
+    <br><br>
+
+    <table width="100%" border="0">
+      <tr>
+        <td width="33%" align="left">
+          <span>Código Arbell: ${ca}</span><br>
+          <span>Lider/Experta: ${nombres}</span><br>
+        </td>
+        <td width="33%" align="center">
+          <span>Punto de venta: Principal</span><br>
+          <span>Forma de pago: Crédito</span><br>
+        </td>
+        <td width="33%" align="right">
+          <span>Distribuidora: CARMIÑA</span>
+        </td>
+      </tr>
+    </table>
+
+  <br>
+  
+   <h4><b>Comprobante de pagos</b></h4>
+   <table width="100%" class="detalle">
+    <thead>
+      <tr >
+        <th center>Monto</th>
+        <th center>Fecha de pago</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${array_}
+    </tbody>
+   </table>
+   <br>
+ 
+  <div style="float: right">
+   <h5>Totales:</h5>
+  
+     <table class="detalle">
+      <tr>
+        <td><b>Total:</b></td>
+        <td>${subtotal}/${jsonParsedArray[0]['total']}</td>
+      </tr>
+     </table>
+   </div>
+  </div>`;
+
+    var ventana = window.open();
+    ventana.document.write(miHtml);
+    ventana.print();
+    ventana.close();
+    })
+    
+}
+
 //funcion gestión
 function enviarges() {
     ges = $('#ges').val();
@@ -518,3 +631,4 @@ function enviarges() {
 
 </body>
 </html>
+
