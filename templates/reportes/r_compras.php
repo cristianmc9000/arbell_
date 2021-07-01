@@ -65,8 +65,8 @@ $result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fe
 					<th>Código</th>
 					<!-- <th>Nombres y apellidos</th> -->
 					<th>Fecha de <br>compra</th>
-					<th>Total sin <br>descuento</th>
-					<th>Total con <br>descuento</th>
+					<th>Total sin <br>descuento (Bs.)</th>
+					<th>Total con <br>descuento (Bs.)</th>
 					<th>Descuento</th>
 					<th>Valor de <br>cambio</th>
 				</tr>
@@ -77,8 +77,8 @@ $result = $conexion->query("SELECT a.codc, a.ci_usu, b.nombre, b.apellidos, a.fe
 					<td><?php echo $valor['codc']?></td>
 					<!-- <td><?php echo $valor['nombre']." ".$valor['apellidos']?></td> -->
 					<td><?php echo $valor['fecha']?></td>
-					<td><?php echo $valor['totalsd']?> Bs.</td>
-					<td><?php echo $valor['totalcd']?> Bs.</td>
+					<td><?php echo $valor['totalsd']?></td>
+					<td><?php echo $valor['totalcd']?></td>
 					<td><?php echo $valor['descuento']." %"?></td>
 					<td><?php echo $valor['valor']." Bs."?></td>
 				</tr>

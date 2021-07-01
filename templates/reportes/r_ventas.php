@@ -65,7 +65,7 @@ if ($periodo == 0) {
 					<th>Código Arbell</th>
 					<th>Nombres y apellidos</th>
 					<th>Fecha de <br>venta</th>
-					<th>Total</th>
+					<th>Total (Bs.)</th>
 					<th>Tipo de venta</th>
 					<th>Descuento</th>
 					<th>Valor de <br>cambio</th>
@@ -78,7 +78,7 @@ if ($periodo == 0) {
 					<td><?php echo $valor['ca']?></td>
 					<td><?php echo $valor['nombre']." ".$valor['apellidos']?></td>
 					<td><?php echo $valor['fecha']?></td>
-					<td><?php echo $valor['total']?> Bs.</td>
+					<td><?php echo $valor['total']?></td>
 					<td><?php if($valor['credito'] == '0'){echo 'contado';}else{echo 'crédito';}?></td>
 					<td><?php echo $valor['descuento']." %"?></td>
 					<td><?php echo $valor['valor']." Bs."?></td>
