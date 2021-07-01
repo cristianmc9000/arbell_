@@ -50,7 +50,7 @@ if ($periodo == 0) {
 				<tr>
 					<th>Código Arbell</th>
 					<th>Nombres y apellidos</th>
-					<th>Valor de compras</th>
+					<th>Valor de compras en Bs.</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -58,7 +58,7 @@ if ($periodo == 0) {
 				<tr>
 					<td><?php echo $valor['ca']?></td>
 					<td><?php echo $valor['nombre']." ".$valor['apellidos']?></td>
-					<td><?php echo round(((float)$valor['monto']), 1)?> Bs.</td>
+					<td><?php echo round(((float)$valor['monto']), 2)?></td>
 				</tr>
 			    <?php } ?>
 			</tbody>
