@@ -73,7 +73,7 @@ if((mysqli_num_rows($Busq))>0){
                 <th>C.A.</th>
                 <th>Lider/Experta</th>
                 <th>Fecha de Venta</th>
-                <th>Monto Total</th>
+                <th>Monto Total (Bs.)</th>
                 <th>Tipo de Venta</th>
                 <th>Ver</th>
                 <!-- <th>Pagos</th> -->
