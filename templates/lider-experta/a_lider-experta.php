@@ -342,12 +342,13 @@ $("#agregar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-    	// mensaje.html(echo)
       console.log(echo)
       if (echo.includes('reg')){
       	Materialize.toast('<b>'+echo+'</b>', 4000)
       	$("#modal1").closeModal()
         $("#cuerpo").load("templates/lider-experta/a_lider-experta.php");   
+      }else{
+        mensaje.html(echo)
       }
     });
 });
