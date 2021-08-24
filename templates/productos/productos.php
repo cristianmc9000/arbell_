@@ -273,7 +273,7 @@ if((mysqli_num_rows($Busq2))>0){
 
 
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
-    <div id="mensaje" class="modal-content" hidden>
+    <div id="mensaje" class="modal-content" hidden></div>
 
 <script>
 var mensaje = $("#mensaje");
