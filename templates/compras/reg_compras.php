@@ -468,7 +468,7 @@ function mod_cambio() {
 function enviarges() {
     ges = $('#ges').val();
     console.log(ges)
-    $("#cuerpo").load("templates/ventas/reg_ventas.php?ges="+ges);
+    $("#cuerpo").load("templates/compras/reg_compras.php?ges="+ges);
 }
 </script>
 
