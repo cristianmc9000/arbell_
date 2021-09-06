@@ -366,9 +366,9 @@ function imprimir_detalle(codv, total, credito, lugar, ca, cliente, periodo) {
                    <td>${jsonParsedArray[key]['linea']}</td>
                    <td>${jsonParsedArray[key]['descripcion']}</td>
                    <td>${jsonParsedArray[key]['cantidad']}</td>
-                   <td>${jsonParsedArray[key]['pubs']} Bs.</td>
-                   <td>${jsonParsedArray[key]['pubs_cd']}</td>
-                   <td>${((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1))} Bs.</td>
+                   <td>${parseFloat(jsonParsedArray[key]['pubs']).toFixed(2)} Bs.</td>
+                   <td>${parseFloat(parseFloat(jsonParsedArray[key]['pubs_cd']).toFixed(1)).toFixed(2)}</td>
+                   <td>${((parseInt(jsonParsedArray[key]['cantidad']) * parseFloat(parseFloat(jsonParsedArray[key]['pubs_cd'])).toFixed(1)).toFixed(2))} Bs.</td>
                 </tr>
                 `;
 
@@ -461,11 +461,11 @@ function imprimir_detalle(codv, total, credito, lugar, ca, cliente, periodo) {
           </tr>
           <tr>
             <td><b>G. experta:</b></td>
-            <td>${gan_exp}</td>
+            <td>${gan_exp} Bs.</td>
           </tr>
           <tr>
             <td><b>Total:</b></td>
-            <td>${_monto}/${total}</td>
+            <td>${_monto} Bs./${total} Bs.</td>
           </tr>
          </table>
        </div>
@@ -827,5 +827,3 @@ function enviarges() {
 </script>
 
 </body>
-</html>
-
