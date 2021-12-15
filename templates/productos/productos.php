@@ -85,6 +85,7 @@ if (isset($_GET["mes"])) {
           <b style= "color:blue"> Periodo:</b>
           <select onchange="enviarfecha()" name="mes" id="mes" class="browser-default">
               <option value="0" selected disabled> Seleccionar</option>
+              <option value="total">Total</option>
               <option value="1"> 1 </option>
               <option value="2"> 2 </option>
               <option value="3"> 3 </option>
@@ -100,7 +101,7 @@ if (isset($_GET["mes"])) {
     <h3>
       Productos
       <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1"><i class="material-icons left">add</i></a>
+      <a class="waves-effect waves-light btn-floating btn-large red" id="modal" href="#modal1" <?php if ($per == 'total') echo 'style="display:none"'; ?>><i class="material-icons left">add</i></a>
     </h3>
   </span>
 </div>
@@ -117,7 +118,7 @@ if (isset($_GET["mes"])) {
           <th>Linea</th>
           <th>Descripción</th>
           <th>Cantidad</th>
-          <th>Modificar</th>
+          <th <?php if ($per == 'total') echo 'hidden'; ?>>Modificar</th>
           <th>Borrar</th>
       </tr>
     </thead>
@@ -129,7 +130,7 @@ if (isset($_GET["mes"])) {
         <td><?php echo $valor["linea"]?></td>
         <td><?php echo $valor["descripcion"]?></td>
         <td><?php echo $valor["cantidad"] ?></td>
-        <td>
+        <td <?php if ($per == 'total') echo 'hidden'; ?>>
           <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
         </td>
         <td>
@@ -566,7 +567,12 @@ $("#pup").on("keydown input", function(){
 
 function enviarfecha() {
     mes = $('#mes').val();
-    $("#cuerpo").load("templates/productos/productos.php?mes="+mes);
+    if (mes == 'total') {
+      $("#cuerpo").load("templates/productos/productos.php");  
+    }else{
+      $("#cuerpo").load("templates/productos/productos.php?mes="+mes);
+    }
+    
 }
 
 </script>
