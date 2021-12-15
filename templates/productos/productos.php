@@ -1,17 +1,25 @@
 <?php
 require('../../recursos/conexion.php');
 require('../../recursos/sesiones.php');
-
+session_start();
 $per = $_GET["mes"];
 /* $anio = $_GET["anio"]; */
 
-session_start();
-$_SESSION['periodo'] = $per;
+if (isset($_GET["mes"])) {
+  $per = $_GET["mes"];
+  $_SESSION['periodo'] = $per;
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+}else{
+  $_SESSION['periodo'] = 'total';
+  $per = 'total';
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+}
+
 /* $_SESSION['anio'] = $anio; */
 
 // $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, a.pupesos, a.pubs, a.cantidad, a.fechav FROM productos a, lineas b WHERE a.estado = 1 and a.linea = b.codli and fechareg LIKE '".$anio."-%-%' and periodo = ".$per; 
 
-$Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+
 
 $Busq = $conexion->query($Sql); 
 
@@ -25,15 +33,18 @@ if((mysqli_num_rows($Busq))>0){
         $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
 }
   //consulta de lineas
-$Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
-$Busq2 = $conexion->query($Sql2);
-if((mysqli_num_rows($Busq2))>0){
-  while($arr2 = $Busq2->fetch_array()){ 
-
-        $fila2[] = array('codli'=>$arr2['codli'], 'nombre'=>$arr2['nombre']); 
-
+if (isset($_GET["mes"])) {
+  $Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
+  $Busq2 = $conexion->query($Sql2);
+  if((mysqli_num_rows($Busq2))>0){
+    while($arr2 = $Busq2->fetch_array()){ 
+      $fila2[] = array('codli'=>$arr2['codli'], 'nombre'=>$arr2['nombre']); 
+    }
   }
+}else{
+  $fila2[] = array('codli'=>"--", 'nombre'=>"--"); 
 }
+
 ?>
 
 <style>
@@ -69,7 +80,21 @@ if((mysqli_num_rows($Busq2))>0){
 
 <div class="row">
 <div class="col s11">
-
+  <div class=" col s12 ">
+      <div class="col s3">
+          <b style= "color:blue"> Periodo:</b>
+          <select onchange="enviarfecha()" name="mes" id="mes" class="browser-default">
+              <option value="0" selected disabled> Seleccionar</option>
+              <option value="1"> 1 </option>
+              <option value="2"> 2 </option>
+              <option value="3"> 3 </option>
+              <option value="4"> 4 </option>
+              <option value="5"> 5 </option>
+              <option value="6"> 6 </option>
+              <!-- <option> Todos </option> -->
+          </select>
+      </div>
+  </div>
 <div class="col s4">
   <span class="fuente">
     <h3>
@@ -80,7 +105,7 @@ if((mysqli_num_rows($Busq2))>0){
   </span>
 </div>
 <div class="col s2 offset-s1 input-field">
-  <a class="waves-effect waves-light btn-large orange" onclick="cargar_lineas()" id="modal_linea" href="#"><i class="material-icons-outlined left">grading</i>Ver líneas</a>
+  <a class="waves-effect waves-light btn-large orange <?php if ($per == "total") echo 'disabled' ?>" onclick="cargar_lineas()" id="modal_linea" href="#" ><i class="material-icons-outlined left">grading</i>Ver líneas</a>
 </div>
 <!-- TABLA -->
 <div class="row">
@@ -295,6 +320,11 @@ $(document).ready(function() {
 });
 //FUNCION PARA CARGAR LINEAS DESDE LA BASE DE DATOS
 function cargar_lineas() {
+  let _per = '<?php echo $per ?>'; 
+  if (_per == 'total') {
+    return Materialize.toast("Seleccione un periodo.", 4000);
+  }
+
   let respuesta
   $.ajax({
       url: "recursos/productos/ver_lineas.php",
@@ -479,18 +509,14 @@ $("#eliminar_producto").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        // mensaje.show();
-        console.log(echo);
-
-        if (echo.includes("?mes")) {
+        if (echo == '2') {
+          return Materialize.toast("No se puede eliminar el producto porque contiene productos activos en inventario." , 4000);
+        }else{
+          console.log(echo);
           $("#modal3").closeModal(); 
           Materialize.toast("PRODUCTO ELIMINADO." , 4000);
           $("#cuerpo").load("templates/productos/productos.php"+echo);
         }
-        
-      }
     });
 });
 
@@ -538,6 +564,10 @@ $("#pup").on("keydown input", function(){
   $("#pub").val(bs.toFixed(2));
 })
 
+function enviarfecha() {
+    mes = $('#mes').val();
+    $("#cuerpo").load("templates/productos/productos.php?mes="+mes);
+}
 
 </script>
 

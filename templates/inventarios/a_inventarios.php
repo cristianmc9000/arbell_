@@ -117,7 +117,7 @@ if((mysqli_num_rows($Busq))>0){
                 <div  class="input-field col s6">
                     <input name="pupesos" id="pup" onkeypress="return check(event)" type="text" required>
                     <label class="active" for="pupesos">P.U. (pesos arg.):</label>
-                    <input type="text" id = "codigo" name= "id" hidden>
+                    <input type="text" id = "codigo" name= "id">
                 </div>
             <div class="input-field col s6">
                 <input name="pubs" onkeypress="return check(event)" id="pub" type="text" required>
@@ -210,7 +210,7 @@ function mod_inventario(id, pup, pub, cantidad, fecha_v) {
 
 $("#modificar_inventario").on("submit", function(e){
     e.preventDefault();
-    
+
     var val = new FormData(document.getElementById("modificar_inventario"));
     $.ajax({
       url: "recursos/inventarios/modificar_inventario.php",
@@ -248,18 +248,11 @@ $("#eliminar_inventario").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      if (echo !== "") {
-        mensaje.html(echo);
-        // mensaje.show();
-        console.log(echo);
-
-        if (echo.includes("?mes")) {
+        if (echo == '1') {
           $("#modal3").closeModal(); 
           Materialize.toast("PRODUCTO ELIMINADO." , 4000);
-          $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);
+          $("#cuerpo").load("templates/inventarios/a_inventarios.php");
         }
-        
-      }
     });
 });
 

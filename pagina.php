@@ -182,7 +182,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
         <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/usuarios/a_usuarios');">USUARIOS</a></li>
         <li><a href="#!" onclick="cargar(event, 'templates/lider-experta/a_lider-experta');">LIDER/EXPERTA</a></li>
-        <li><a href="#!" onclick="cargar(event, 'templates/productos/a_prod-periodos');">PRODUCTOS</a></li>
+        <li><a href="#!" onclick="cargar(event, 'templates/productos/productos');">PRODUCTOS</a></li>
         <!--  <li><a href="#!" onclick="cargar(event, 'templates/roles/a_roles');">ROLES</a></li> -->
         <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>>
           <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown2">COMPRAS<i class="material-icons right">arrow_drop_down</i></a>

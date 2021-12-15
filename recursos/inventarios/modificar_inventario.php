@@ -20,7 +20,7 @@ $cant = $cantidad - $cant_ant;
 
 	//consulta modificar inventario 
 	$consulta ="UPDATE inventario SET pupesos='".$pupesos."', pubs='".$pubs."', cantidad='".$cantidad."', fecha_venc='".$fecha_v."' WHERE id= '".$id."' ";
-	mysqli_query($conexion, $consulta) or die(mysql_error()); 
+	mysqli_query($conexion, $consulta) or die(mysqli_error($conexion)); 
 		
 	//consulta actualizar cantidad de inventario sumando o restando la cantidad ingresada (no es seguro)
 	// $sql = "UPDATE `invcant` SET cantidad = cantidad + (".$cant.") WHERE codp = (SELECT codp FROM inventario WHERE id = ".$id.") ";
