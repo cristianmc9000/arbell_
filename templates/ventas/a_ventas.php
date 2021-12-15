@@ -220,24 +220,24 @@ function confirmar_venta() {
     });
     $("#monto_c").html("Total a pagar: " + totalcd.toFixed(1) + " Bs.");
 
-    $.ajax({
-        url: "recursos/ventas/control_venta.php?ca="+ca,
-        method: "GET",
-        success: function(response) {
-            if (response == 1) {
-                document.getElementById('contado').checked = true
-                document.getElementById('credito').disabled = true
-                $('#pago_i').hide()
-            }else{
-                document.getElementById('contado').checked = true
-                document.getElementById('credito').disabled = false
+    // $.ajax({
+    //     url: "recursos/ventas/control_venta.php?ca="+ca,
+    //     method: "GET",
+    //     success: function(response) {
+    //         if (response == 1) {
+    //             document.getElementById('contado').checked = true
+    //             document.getElementById('credito').disabled = true
+    //             $('#pago_i').hide()
+    //         }else{
+    //             document.getElementById('contado').checked = true
+    //             document.getElementById('credito').disabled = false
                 
-            }
-        },
-        error: function(error) {
-            console.log(error)
-        }
-    });
+    //         }
+    //     },
+    //     error: function(error) {
+    //         console.log(error)
+    //     }
+    // });
     $("#modal1").openModal();
 }
 
