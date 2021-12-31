@@ -16,52 +16,79 @@
     .zoom {
     transition: transform .2s; 
     }
- 
+
     .zoom:hover {
-    transform: scale(1.8); 
+      transform: scale(1.8); 
+    }
+
+    .img-prod{
+      border-radius: 5px;
+      border-collapse: collapse;
+      border: solid 5px;
+      width: 65%;
+    }
+    .contenedor_insert{
+      display: grid;
+      grid-template-columns: 1fr auto 1fr ;
+      gap: 20px;
+    }
+    .contenedor_btn{
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+    .contenedor_img{
+      min-width: 200px;
+      /*min-height: 200px;*/
+      max-width: 201px;
+    }
+    #foto_prod{
+      min-width: 201.5px;
+      max-height: 201.5px;
     }
 </style>
 
     <div class="fuente" style="">
       <h3 align="">Buscar producto</h3>
       <div class="row">
-        <form id="insert_row" >
-          <div class="input-field col s4">
-            <div class="col s6">
-              <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+        <div class="col s12">
+          <form id="insert_row" >
+            <div class="contenedor_insert">
+              <div class="input-field contenedor_form">
+
+                  
+                  <div class="col s12">
+                    <input type="text" id="search_data" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+                  </div>
+
+                  <div class="col s12">
+                    <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" required>
+                  </div>
+
+                  <div class="col s12">
+                    <input type="text" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
+                  </div>
+                  
+                  <input type="text" id="id_" value="" hidden>
+                  <input type="text" id="linea_" value="" hidden>
+                  <input type="text" id="codli_" value="" hidden>
+
+              </div>
+              <div class="contenedor_img">
+                <img src="img/producto_vacio.jpg"  id="foto_prod" class="img-prod" alt="">
+              </div>
+              <div class="contenedor_btn">
+                <div style="width: 30%;">
+                   % Descuento general: 
+                  <div class="input-field inline">
+                    <input id="descuento_" type="number" min="0" max="100" value="0" class="validate">
+                  </div>
+                </div>
+                <div >
+                  <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment_returned</i><b>Insertar</b></button>
+                </div>
+              </div>
             </div>
-
-            <div class="col s3">
-              <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" required>
-            </div>
-
-            <div class="col s3">
-              <input type="text" onkeypress="return check(event)" id="pupesos_" placeholder="Precio en Pesos Arg." min="1" required>
-            </div>
-
-            
-            <input type="text" id="id_" value="" hidden>
-            <input type="text" id="linea_" value="" hidden>
-            <input type="text" id="codli_" value="" hidden>
-            <!-- <input type="text" id="pubs_" value="" hidden> -->
-          </div>
-
-          <div class="col s2">
-            <button class="btn waves-effect waves-light btn-large" type="submit" ><i class="material-icons right">assignment</i>Insertar</button>
-          </div>
-        </form>
-        
-
-        <div class="input-field col s1">
-           % Descuento: 
-          <div class="input-field inline">
-            <input id="descuento_" type="number" min="0" max="100" value="0" class="validate">
-          </div>
-            
-
-            
-
-          <!-- </div> -->
+          </form>
         </div>
 
       </div>
@@ -129,6 +156,7 @@ $(document).ready(function(){
         $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
         $("#codli_").val(ui.item.codli)
         $('#search_data').val(ui.item.value)
+        $('#foto_prod').attr("src", ui.item.foto);
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)

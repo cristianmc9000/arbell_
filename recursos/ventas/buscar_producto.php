@@ -22,6 +22,7 @@ if(isset($_GET["term"]))
         $temp_array['value'] = $row['descripcion'];
         $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
         $temp_array['pupesos'] = $row['maxpupesos'];
+        $temp_array['foto'] = $row['foto'];
         $output[] = $temp_array;
       }
     }else{

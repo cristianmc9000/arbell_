@@ -26,7 +26,33 @@ session_start();
     top: -20px;
     position: relative;
 }
-
+.martop{
+    margin-top: -20px;
+}
+    .img-prod{
+      border-radius: 5px;
+      border-collapse: collapse;
+      border: solid 5px;
+      width: 65%;
+    }
+    .contenedor_insert{
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+    }
+    .contenedor_btn{
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+    .contenedor_img{
+      min-width: 200px;
+      /*min-height: 200px;*/
+      max-width: 201px;
+    }
+    #foto_prod{
+      min-width: 201.5px;
+      max-height: 201.5px;
+    }
 </style>
 <div class="fuente" style="">
     <h5 align="" style="color: red;">Buscar Lider/Experta</h5>
@@ -54,40 +80,57 @@ session_start();
         </form>
     </div>
 </div>
+
 <!-- anadir buscar -->
-<div id="form_productos" class="row" hidden>
-    <div class="fuente" style="">
-        <h5 align="" style="color: red;">Buscar producto</h5>
+<div id="form_productos" class="row fuente" hidden>
+    <!-- <div class="fuente" style=""> -->
+        <h5 style="color: red;">Buscar producto</h5>
         <div class="row">
-            <form id="insert_row_producto">
-                <div class="input-field col s5">
-                    <div class="col s5">
-                        <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+            <div class="col s12">
+                <form id="insert_row_producto">
+                    <div class="contenedor_insert">
+                        <div class="input-field contenedor_form">
+
+                            <div class="col s12">
+                                <input type="text" id="search_producto" placeholder="Buscar producto" autocomplete="off" class="validate" required />
+                            </div>
+                            <div class="col s12">
+                                <div>
+                                    <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
+                                </div>
+                                <div class="martop">
+                                    <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
+                                    <input type="text" id="stock_" hidden>
+                                </div>
+                            </div>
+                            <div class="col s12" style="margin-top: 20px;">
+                                <input type="text" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
+                            </div>
+                            <input type="text" id="id_" value="" hidden>
+                            <input type="text" id="linea_" value="" hidden>
+                            <input type="text" id="pubs_" value="" hidden>
+                            <input type="text" id="subtotal_" value="" hidden>
+                            <input type="text" id="codli_" value="" hidden>
+                        </div>
+                    
+                        <div class="contenedor_img">
+                            <img src="img/producto_vacio.jpg"  id="foto_prod" class="img-prod" alt="">
+                        </div>
+                        <div class="contenedor_btn">   
+                            <div></div> 
+                            <div class="col s12">
+                                <button class="btn waves-effect waves-light btn-large" type="submit"><i class="material-icons right">assignment_returned</i>Insertar</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col s3">
-                        <input type="number" id="cantidad_" placeholder="Cantidad" autocomplete="off" class="validate" required>
-                        <b><span id="stock" style="color: red; text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87"></span></b>
-                        <input type="text" id="stock_" hidden>
-                    </div>
-                    <div class="col s3">
-                        <input type="text" id="pupesos_" onkeypress="return check(event)" placeholder="Precio en Pesos" required>
-                    </div>
-                    <input type="text" id="id_" value="" hidden>
-                    <input type="text" id="linea_" value="" hidden>
-                    <input type="text" id="pubs_" value="" hidden>
-                    <input type="text" id="subtotal_" value="" hidden>
-                    <input type="text" id="codli_" value="" hidden>
-                </div>
-                <div class="col s2">
-                    <button class="btn waves-effect waves-light btn-large" type="submit"><i class="material-icons right">assignment</i>Insertar</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    <!-- </div> -->
 </div>
 <!-- tabla de productos pa la venta -->
 <div id="tabla_ventas" class="row" hidden>
-    <div class="col s8">
+    <div class="col s10">
         <table class="highlight">
             <thead>
                 <tr>
@@ -107,7 +150,7 @@ session_start();
             </tbody>
         </table>
     </div>
-    <div class="col s3 offset-s1">
+    <div class="col s2 ">
         <a href="#!" onclick="confirmar_venta()" class="waves-effect waves-light btn-large"> <i class="material-icons right">receipt</i>Registrar venta</a>
     </div>
 </div>
@@ -192,13 +235,14 @@ $(document).ready(function() {
         select: function(event, ui) {
             console.log(ui.item.value);
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
-            $("#stock").html("Cantidad stock: " + ui.item.stock)
+            $("#stock").html("<small>Cantidad stock: " + ui.item.stock+"</small>")
             $("#stock_").val(ui.item.stock)
             $('#search_producto').val(ui.item.value)
             $('#id_').val(ui.item.id)
             $('#linea_').val(ui.item.linea)
             $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
             $('#codli_').val(ui.item.codli)
+            $('#foto_prod').attr("src", ui.item.foto);
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
         return $("<li class='ui-autocomplete-row'></li>")
