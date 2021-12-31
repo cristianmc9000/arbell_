@@ -8,11 +8,11 @@ $per = $_GET["mes"];
 if (isset($_GET["mes"])) {
   $per = $_GET["mes"];
   $_SESSION['periodo'] = $per;
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
 }else{
   $_SESSION['periodo'] = 'total';
   $per = 'total';
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
 }
 
 /* $_SESSION['anio'] = $anio; */
@@ -26,11 +26,11 @@ $Busq = $conexion->query($Sql);
 if((mysqli_num_rows($Busq))>0){
   while($arr = $Busq->fetch_array()){ 
 
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'periodo'=>$arr['periodo']); 
+        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad']); 
 
   }
 }else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','periodo'=>'--');
+        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
 }
   //consulta de lineas
 if (isset($_GET["mes"])) {
@@ -117,7 +117,6 @@ if (isset($_GET["mes"])) {
           <th>Código<br>(Producto)</th>
           <th>Linea</th>
           <th>Descripción</th>
-          <th>Periodo</th>
           <th>Cantidad</th>
           <th <?php if ($per == 'total') echo 'hidden'; ?>>Modificar</th>
           <th>Borrar</th>
@@ -130,7 +129,6 @@ if (isset($_GET["mes"])) {
         <td><?php echo $valor["id"] ?></td>
         <td><?php echo $valor["linea"]?></td>
         <td><?php echo $valor["descripcion"]?></td>
-        <td><?php echo $valor["periodo"]?></td>
         <td><?php echo $valor["cantidad"] ?></td>
         <td <?php if ($per == 'total') echo 'hidden'; ?>>
           <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
