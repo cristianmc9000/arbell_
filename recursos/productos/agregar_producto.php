@@ -19,7 +19,7 @@ $maxCaracteres = "250";
 
 
 if(!empty($archivo)){
-	//$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR A 000WEBHOST
+	// $ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR A 000WEBHOST
 	$ruta = $_SERVER['DOCUMENT_ROOT']."/arbell_/images/fotos_prod";
 	$ruta = $ruta."/".$nombreimg;
 	move_uploaded_file($archivo, $ruta);
