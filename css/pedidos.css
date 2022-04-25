@@ -27,6 +27,12 @@
 	  .shop{
 		width: 100%;
 	  }
+	  .modal_prod{
+	  	/*min-height: 80%;*/
+	  	width: 100%;
+	  	min-width: 100%;
+	  }
+
 	}
 
 	@media (min-width: 1350px) {

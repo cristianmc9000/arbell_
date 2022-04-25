@@ -170,8 +170,6 @@ $(document).ready(function(){
 document.getElementById("insert_row").addEventListener("submit", function (event) {
   event.preventDefault();
 
-
-
   $("#descuento_").prop('disabled', true);
   let codli = $("#codli_").val()
 //Convertir precio en pesos a precio en Bs.
@@ -374,8 +372,10 @@ var json_data = JSON.stringify(data)
 // })
 
 let year = (new Date).getFullYear()
-let periodo = '<?php echo $_SESSION["periodox"]; ?>'
-let per = periodo+" - "+year
+let periodo = "<?php"+"echo $_SESSION['periodox'];"+"?>";
+let per = periodo+" - "+year;
+
+
 insertar_compra_detalle(json_data).then(respuesta => {
   console.log(respuesta+" respuesta de funcion promise")
 

@@ -65,6 +65,7 @@
     transform: scale(1.8); 
   }
 
+
 </style>
 
 <body>
@@ -167,17 +168,22 @@
 
 <div class="container" id="form_container">
 	<div class="row">	
-		<div class="input-field col s7">
+		<div class="input-field col s5">
 	        <input id="search_data" type="text" autocomplete="off" class="validate semi" required>
 	        <label for="search_data">Código producto</label>
-	    </div>
+	  </div>
+		<div class="input-field col s2 " style="text-align: center;" >
+			<!-- aqui va el código de la imagen. -->
+			<img id="img_prod" src="images/fotos_prod/default.png" alt="" style="width: 100%; border-radius: 10px;">
+			<small class="fuente" style="line-height: 0px;"><b id="cod_prod"></b></small>
+		</div>
 		<div class="input-field col s4 offset-s1">
 			<div class="number-container">
 				<!-- <label for="">Cantidad</label> -->
 				<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="15" disabled>
 			</div>
 		</div>
-		<div id="__datosprod" hidden></div>
+		<div id="__datosprod" hidden><input id='__datosp' cp='1' hidden/></div>
 	</div>
 </div>
 
@@ -186,8 +192,8 @@
 </div>
 
 
-
-<div class="row roboto" id="cart_row" hidden>
+<div class="container">
+<div class="row fuente" id="cart_row" hidden>
 	<div class="row get_out">
 		<div class="left">
 			<a href="#!" class="btn-large red lighten-2" id="return"><i class="material-icons">keyboard_return</i></a>
@@ -206,13 +212,13 @@
 						<th>Borrar</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody style="font-size: 0.9em">
 					<td colspan="4">Aún no has agregado ningún producto.</td>
 				</tbody>
 			</table>
 
 			<hr>
-			<div class="row" align="right">
+			<div class="row right">
 				<!-- <div class="col m6 offset-m6 s4 offset-s6"> -->
 					<div class="neon" >Subtotal: <label id="total_ped" class="neon">0.00 Bs</label></div>
 				<!-- </div> -->
@@ -224,7 +230,26 @@
 		<a class="waves-effect waves-light btn btn-large modal-trigger" id="mod_ubi" href="#modal_ubi">PEDIR!</a>
 	</div>
 </div>
+</div>
 
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal fuente modal_prod">
+    <div class="modal-content" style="padding-bottom: 0px;">
+      
+      <div class="center">
+      	<h6 id="modal_title"  style=" font-weight: bold;"></h6>
+      	<img id="modal_foto" src="images/fotos_prod/default.png" width="100%" alt="">
+      </div>
+      <div style="line-height: 0.5em">
+      	<p id="modal_cod"></p>
+      	<p id="modal_pu"></p>
+    	</div>
+    </div>
+    <div class="">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat right">Aceptar</a>
+    </div>
+  </div>
 
 </body>
 </html>
@@ -233,9 +258,10 @@
 <script type="text/javascript" src="js/viewpdf.js"></script>
 <script>
 	$(document).ready(function(){
-    	$('.sidenav').sidenav();
-    	$('select').formSelect();
-    	$('input[type="number"]').niceNumber({
+		$('.modal').modal();
+  	$('.sidenav').sidenav();
+  	$('select').formSelect();
+    $('input[type="number"]').niceNumber({
 			autoSize: true,
 			autoSizeBuffer: 1,
 			buttonDecrement: "-",
@@ -262,14 +288,25 @@
         // $("#linea_").val(ui.item.linea)
         // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
         // $("#codli_").val(ui.item.codli)
-        // console.log(ui.item.id)
-        $("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' hidden/>");
-        $('#search_data').val(ui.item.value)
+        console.log(ui.item.pupesos)
+        if (ui.item.pupesos == null) {
+        	console.log("nulo")
+        	$("#__datosprod").html("<input id='__datosp' cp='0' hidden/>")
+        	document.getElementById("img_prod").src = "images/fotos_prod/default.png";
+        	document.getElementById("cod_prod").innerHTML = "Agotado";
+        }else{
+        	console.log("no es nulo")
+        	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' hidden/>");
+        	// $("#img_prod").src(ui.item.foto);
+        	document.getElementById("img_prod").src = ui.item.foto;
+        	document.getElementById("cod_prod").innerHTML = ui.item.value
+        	$('#search_data').val(ui.item.value)
+        }
         // $('#foto_prod').attr("src", ui.item.foto);
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
-        return $("<li class='ui-autocomplete-row'></li>")
+        return $("<li class='ui-autocomplete-row fuente'></li>")
         .data("item.autocomplete", item.id)
         .append(item.label)
         .appendTo(ul);
@@ -280,8 +317,7 @@
 var reg_pedidos = new Array();
 
 document.getElementById('add').addEventListener('click', () => {
-	$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
-
+	
 	// console.log(reg_pedidos.length)
 	// let c_sell = $("#current_sell").val()
 	// let c_stock = $("#current_stock").val()
@@ -291,52 +327,82 @@ document.getElementById('add').addEventListener('click', () => {
 	// if (disp < cantp) {
 		// return M.toast({html: "Cantidad solicitada insuficiente en stock, "+disp+" disponible."})
 	// }else{
-		M.toast({html: "Agregado al carrito de compra."})
 	// }
 
 	var cp = $("#__datosp").attr("cp");
 	var np = $("#__datosp").attr("np");
 	var pp = $("#__datosp").attr("pp");
 	var fp = $("#__datosp").attr("fp");
-	
-	if (parseInt(cantp) > 50 || cantp == "") {M.toast({html: "El pedido no puede superar las 15 unidades"})}
+	var st = $("#__datosp").attr("st");
+	var pu = $("#__datosp").attr("pp");
+
+	if (cp == 0) {
+		$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
+		return M.toast({html: "Producto agotado."})
+	}
+	if (cp == 1) {
+		return M.toast({html: "<span style='color:#ffeb3b'>Debe seleccionar un producto.</span>"})
+	}
+	if (parseInt(cantp) > parseInt(st)) {
+		return M.toast({html: "<span style='color:#ffeb3b'>Cantidad insuficiente en stock, "+st+" disponibles.</span>"})
+	}
+
+	if (parseInt(cantp) > 50 || cantp == "") {M.toast({html: "El pedido no puede superar las 50 unidades"})}
 		else{
 	if (parseInt(cantp) < 1 || cantp == "") { M.toast({html: "Ingresa una cantidad válida."})}
 	else{
-		pp = parseInt(pp)*parseInt(cantp);
 		
-		reg_pedidos[cp] = [cp, np, cantp, pp, fp];
-		//borrando tabla
-		// $('#pedidos_cliente tr:not(:first-child)').slice(0).remove();
-		// var table = $("#pedidos_cliente")[0];
-		// console.log($("#pedidos_cliente tbody"))
+
+
+		pp = ((parseFloat(pp)*0.05).toFixed(1))*parseInt(cantp);
+		pp = parseFloat(pp.toFixed(1))
+
+		pu = (parseFloat(pu)*0.05).toFixed(1);
+		console.log(pu)
+		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pu];
+
+
+
+		for(var x in reg_pedidos) {
+    	console.log(reg_pedidos[x][2]);
+		}
+
 		$("#pedidos_cliente tbody").html("")
 		var table = $("#pedidos_cliente tbody")[0];
-
 		total =  0;
-		//llenando tabla
-		// reg_pedidos = reg_pedidos.filter(Boolean)
-		// let json_pedi = JSON.stringify(reg_pedidos)
-		// console.log(json_pedi)
-		// console.log(reg_pedidos.length)
-		console.log(reg_pedidos.length)
-		console.log(reg_pedidos)
 
-		reg_pedidos.forEach(function (valor) {
-			console.log(".....")
+		Object.keys(reg_pedidos).forEach(function(key) {
 			var row = table.insertRow(-1);
-			row.insertCell(0).innerHTML = "<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borr_pla("+valor[0]+")'><i class='material-icons prefix'>delete</i></a>";
-			row.insertCell(0).innerHTML = valor[3];
-			row.insertCell(0).innerHTML = valor[2];
-			row.insertCell(0).innerHTML = valor[1];
-			total  = parseInt(total) + parseInt(valor[3]);
+			row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
+			row.insertCell(0).innerHTML = reg_pedidos[key][3];
+			row.insertCell(0).innerHTML = reg_pedidos[key][2];
+			row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
+			total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 		});
 		$("#total_ped").html(total +" Bs.");
 		// $("#shop_button").addClass('pulse');
 		// $("#modal2").modal('close');
 	}}
 
+	$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
+	M.toast({html: "<span style='color:#1de9b6'>Agregado al carrito de compra.</span>"})
+	$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
+	$('#search_data').val("")
+  document.getElementById("img_prod").src = "images/fotos_prod/default.png";
+	document.getElementById("cod_prod").innerHTML = "";
+	$('#__cantidad').val(1)
+
 });
+
+function modal_detalle(cod, producto, pu, foto) {
+	document.getElementById("modal_title").innerHTML = producto;
+	document.getElementById("modal_foto").src = foto;
+	document.getElementById("modal_cod").innerHTML = "<b>Código: </b>"+cod;
+	document.getElementById("modal_pu").innerHTML = "<b>Precio U.: </b>"+pu+" Bs.";
+	M.Modal.getInstance(modal1).open();
+
+}
+
 
 document.getElementById('cart').addEventListener('click', () => {
 	// console.log("mostrar")
@@ -358,6 +424,32 @@ document.getElementById('return').addEventListener('click', () => {
 	document.getElementById('menu').hidden = false
 });
 
+	function borrar_prod(x) {
+
+		delete reg_pedidos[x];
+
+		console.log(reg_pedidos)
+				//borrando tabla
+			// $('#pedidos_cliente tr:not(:first-child)').slice(0).remove();
+			// var table = $("#pedidos_cliente")[0];
+			$("#pedidos_cliente tbody").html("") //limpiar tabla
+			var table = $("#pedidos_cliente tbody")[0]; //obtener tabla
+			
+			total =  0;
+			//llenando tabla
+			// console.log(reg_pedidos.length, "tamaño del array reg pedidos") // REVISANDO EL ARRAY
+			// var json_ped = JSON.parse(JSON.stringify(reg_pedidos))
+			// console.log(json_ped)
+			Object.keys(reg_pedidos).forEach(function(key) {
+				var row = table.insertRow(-1);
+				row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
+				row.insertCell(0).innerHTML = reg_pedidos[key][3];
+				row.insertCell(0).innerHTML = reg_pedidos[key][2];
+				row.insertCell(0).innerHTML = "<a href='#'>"+reg_pedidos[key][0]+"</a> ";
+				total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
+			});
+			$("#total_ped").html(total +" Bs.");
+	}
 
 
 	// document.getElementById("openPDF_").addEventListener('click', () => {

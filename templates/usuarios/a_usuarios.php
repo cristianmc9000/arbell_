@@ -9,7 +9,6 @@ while($arr = $Busq->fetch_array())
         array_push($_SESSION['filas'],$fila); 
     } 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
