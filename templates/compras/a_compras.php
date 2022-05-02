@@ -168,185 +168,131 @@ $(document).ready(function(){
     };
 });
 
+document.getElementById("insert_row").addEventListener("submit", function (event) {
+  event.preventDefault();
 
-function crear_html() {
-
-  document.getElementById('btn-create_html').removeAttribute("onclick");
-  $("#btn-create_html").addClass('disabled')
-
-  let filas = $("#tabla_compras").find('tbody tr').length;
-  if(filas < 1) {
-    Materialize.toast("Debe ingresar al menos un registro.", 5000);
-    habilitar_boton()
-    return false;
+  $("#descuento_").prop('disabled', true);
+  let codli = $("#codli_").val()
+//Convertir precio en pesos a precio en Bs.
+  let pupesos = parseFloat($("#pupesos_").val())
+  let pubs_ = parseFloat($("#pupesos_").val()) * parseFloat($("#valor").val())
+  let desc_ = parseFloat($("#descuento_").val())
+  let _aux_cant = 0
+  if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
+      _aux_cant = parseInt($("#cantidad_").val())
+      pupesos_desc = pupesos
+      pubs_desc = pubs_
+  }else{
+  // PRECIO CON DESCUENTO EN PESOS
+    desc_ = desc_ * 0.01
+    pupesos_desc = pupesos * desc_
+    pupesos_desc = pupesos - pupesos_desc
+    pupesos_desc = pupesos_desc.toFixed(2)
+  // PRECIO CON DESCUENTO EN BS.
+    pubs_desc = pubs_
+    pubs_desc = parseFloat(pubs_desc) * desc_
+    pubs_desc = pubs_ - pubs_desc
+ 
   }
+  //Subtotal sin descuento
+  precio_sd = parseFloat($("#cantidad_").val()) * pubs_
+  precio_sd = precio_sd.toFixed(1)+"0"
+  //Subtotal con descuento
+  precio_cd = parseFloat($("#cantidad_").val()) * pubs_desc
+  precio_cd = precio_cd.toFixed(1)+"0"
+  //haciendo el redondeo al final 
+  __pubs = pubs_
+  pubs_desc = pubs_desc.toFixed(2)
+  pupesos = pupesos.toFixed(2)
+  pubs_ = pubs_.toFixed(2)
 
-var date = new Date();
-var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
-date = date.toLocaleDateString("es-ES", options)
 
-array_ = "";
-let items = 0
-var pubs__ = 0
-var pubs__desc = 0
-let gan_exp = 0 
-var totalsd = 0
-var totalcd = 0
-var descuento = 0
+  let table = document.getElementById("tabla_c")
+  let newTableRow = table.insertRow(-1)
+  let newRow = newTableRow.insertCell(0)
 
-document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
-  
-  let fila = `<tr>
-                <td>${e.querySelector('._id').innerText}</td>
-                <td>${e.querySelector('._linea').innerText}</td>
-                <td>${e.querySelector('._descripcion').innerText}</td>
-                <td>${e.querySelector('._cantidad').innerText}</td>
-                <td>${e.querySelector('._pupesos').innerText}</td>
-                <td>${e.querySelector('._pubs').innerText}</td>
-                <td>${e.querySelector('._pupesos_desc').innerText}</td>
-                <td>${e.querySelector('._pubs_desc').innerText}</td>
-                <td>${e.querySelector('._precio_cd').innerText}</td>
-              </tr>`;
-  
-  array_ = array_ + fila;
-  gan_exp = parseFloat(parseFloat(gan_exp) + (parseFloat(e.querySelector('.__pubs').value) * parseInt(e.querySelector('._cantidad').innerText))).toFixed(1)
 
-  totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
-  totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
-  pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
-  pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
-  items = items + parseInt(e.querySelector('._cantidad').innerText);
+  newRow.textContent = $("#id_").val()
+  newRow.className = "_id"
+
+  newRow = newTableRow.insertCell(1)
+  newRow.textContent = $("#linea_").val()
+  newRow.className = "_linea"
+
+  newRow = newTableRow.insertCell(2)
+  newRow.textContent = $("#search_data").val()
+  newRow.className = "_descripcion"
+
+  newRow = newTableRow.insertCell(3)
+  newRow.textContent = $("#cantidad_").val()
+  newRow.className = "_cantidad"
+
+  newRow = newTableRow.insertCell(4)
+  newRow.textContent = pupesos
+  newRow.className = "_pupesos"
+
+  newRow = newTableRow.insertCell(5)
+  newRow.textContent = pupesos_desc
+  newRow.className = "_pupesos_desc"
+
+  newRow = newTableRow.insertCell(6)
+  newRow.textContent = pubs_
+  newRow.className = "_pubs"
+
+  newRow = newTableRow.insertCell(7)
+  newRow.textContent = pubs_desc
+  newRow.className = "_pubs_desc"
+
+  newRow = newTableRow.insertCell(8)
+  newRow.textContent = precio_sd
+  newRow.className = "_precio_sd"
+
+  newRow = newTableRow.insertCell(9)
+  newRow.textContent = precio_cd
+  newRow.className = "_precio_cd"
+
+  newRow = newTableRow.insertCell(10)
+  newRow.innerHTML = '<a href="#!" onclick="delete_row(event)" class="btn-floating red"><i class="material-icons">delete</i></a>'
+
+  newRow = newTableRow.insertCell(11)
+  newRow.style.visibility = 'hidden'
+  newRow.innerHTML = ' <input type="text" value="'+_aux_cant+'" class="_aux" hidden>'
+
+  newRow = newTableRow.insertCell(12)
+  newRow.style.visibility = 'hidden'
+  newRow.innerHTML = ' <input type="text" value="'+__pubs+'" class="__pubs" hidden>'
+
+
+
+  $("#search_data").val("")
+  $("#cantidad_").val("")
+  $("#pupesos_").val("")
 });
 
-//sumando cantidad de productos auxiliares
-let aux_sum = 0
-$('._aux').each(function(){
-    aux_sum = aux_sum + parseInt(this.value)
-})
-
-console.log(gan_exp+"---"+totalcd)
-gan_exp = parseFloat(gan_exp).toFixed(1)
-gan_exp = gan_exp - totalcd
 
 
+function detalle_compra() {
 
-_descuento = $("#descuento_").val();
-_valor = $("#valor").val();
-
-
-
-var data = detalle_compra()
-data.push({_totalcd: totalcd})
-data.push({_totalsd: totalsd})
-data.push({_descuento: _descuento})
-data.push({_valor: _valor})
-
-
-
-var json_data = JSON.stringify(data)
-
-// icd(json_data).then(res =>{
-//   console.log(res)
-// })
-
-let year = (new Date).getFullYear()
-let periodo = "<?php"+"echo $_SESSION['periodox'];"+"?>";
-let per = periodo+" - "+year;
-
-
-insertar_compra_detalle(json_data).then(respuesta => {
-  console.log(respuesta+" respuesta de funcion promise")
-
-var miHtml = `<title>RECIBO DE COMPRA</title>
-
-  <style>
-    .bod{
-      font-family: 'Consolas';
-    }
-    .detalle, .detalle th, .detalle td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
- 
-  </style>
-  <div class="bod">
-  
-    <span style="float:right">${date}</span>
-    <br><br>
-
-    <table width="100%" border="0">
-      <tr>
-        <td width="33%" align="left">
-          <span><b>Laboratorio TRESA S.A.</b></span><br>
-          <span>Código Arbell: 68929</span><br>
-          <span>Lider/Experta: Mendez Plata</span>
-        </td>
-        <td width="33%" align="center">
-          <span>Punto de venta: Principal</span><br>
-          <span>Forma de pago: Efectivo</span><br>
-          <span>Periodo: ${per}</span>
-        </td>
-        <td width="33%" align="right">
-          <span>Distribuidora: CARMIÑA</span>
-        </td>
-      </tr>
-
-    </table>
-
-   
-  <br>
-  
-   <h5>Items del comprobante</h5>
-   <table width="100%" class="detalle">
-    <thead>
-      <tr >
-        <th >Código<br>(producto)</th>
-        <th >Linea</th>
-        <th >Descripción</th>
-        <th >Cantidad</th>
-        <th >P.U. Pesos</th>
-        <th >P.U. Bs.</th>
-        <th >Precio con <br>descuento (pesos)</th>
-        <th >Precio con <br>descuento (Bs.)</th>
-        <th >Subtotal (Bs.)</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${array_}
-    </tbody>
-   </table>
-   <br>
-   <br>
-
-  <div style="float: right">
-   <h5>Totales:</h5>
-  
-     <table class="detalle">
-      <tr>
-        <td><b>Items:</b></td>
-        <td><b>${items} u. Incluye ${aux_sum} aux.:</b></td>
-      </tr>
-      <tr>
-        <td><b>Ganancias experta:</b></td>
-        <td>${gan_exp}</td>
-      </tr>
-      <tr>
-        <td><b>Total a pagar:</b></td>
-        <td>${totalcd}</td>
-      </tr>
-     </table>
-   </div>
-  </div>`;
-
-imprimir(miHtml, respuesta);
-$("#modal1").closeModal();
-$("#tabla_c tr").remove(); 
-habilitar_boton()
-$("#descuento_").prop('disabled', false)
-$("#descuento_").val('0')
-
-})
+  let array_ = [];
+document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
+  let fila = {
+    id: e.querySelector('._id').innerText,
+    linea: e.querySelector('._linea').innerText,
+    descripcion: e.querySelector('._descripcion').innerText,
+    cantidad: e.querySelector('._cantidad').innerText,
+    pupesos: e.querySelector('._pupesos').innerText,
+    pubs: e.querySelector('._pubs').innerText,
+    pupesos_desc: e.querySelector('._pupesos_desc').innerText,
+    pubs_desc: e.querySelector('._pubs_desc').innerText,
+    precio_sd: e.querySelector('._precio_sd').innerText,
+    precio_cd: e.querySelector('._precio_cd').innerText
+  };
+  array_.push(fila)
+});
+return (array_)
 }
+
+
 
 function habilitar_boton() {
     document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
