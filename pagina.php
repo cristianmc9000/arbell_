@@ -321,6 +321,7 @@ $(document).ready(function() {
   }
   //PARA CARGAR LAS VENTAS 
   function cargar_v(e, x){
+    console.log(x)
     for (var i = 1; i <= 8; i++) {
       e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
     }
