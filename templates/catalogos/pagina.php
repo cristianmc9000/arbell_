@@ -225,15 +225,22 @@
 			</div>
 		<!-- </div> -->
 	</div>
-
+	<div class="container">
+		<p>
+      <label>
+        <input type="checkbox" id="pago" />
+        <span>Compra a crédito.</span>
+      </label>
+    </p>
+	</div>
 	<div class="center">
-		<a class="waves-effect waves-light btn btn-large modal-trigger" id="mod_ubi" href="#modal_ubi">PEDIR!</a>
+		<a class="waves-effect waves-light btn btn-large disabled" id="mod_con">PEDIR!</a>
 	</div>
 </div>
 </div>
 
 
-  <!-- Modal Structure -->
+  <!-- Modal Structure - detalle de producto -->
   <div id="modal1" class="modal fuente modal_prod">
     <div class="modal-content" style="padding-bottom: 0px;">
       
@@ -250,6 +257,31 @@
       <a href="#!" class="modal-close waves-effect waves-green btn-flat right">Aceptar</a>
     </div>
   </div>
+
+  <!-- Modal Structure - confirmación de pedidos -->
+  <div id="modal2" class="modal fuente modal_prod">
+    <div class="modal-content" style="padding-bottom: 0px;">
+      
+      <div class="center">
+      	<h6 id="modal_title"  style=" font-weight: bold;">Detalle del pedido</h6><br>
+      </div>
+      <div style="line-height: 0.5em">
+      	<div hidden>
+      		<input type="text" id="input_cant">
+      		<input type="text" id="input_total">
+      	</div>
+      	<p id="conf_fecha"></p>
+      	<p id="conf_monto"></p>
+      	<p id="conf_cant"></p>
+      	<p id="conf_cred"></p>
+    	</div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn red left">Cancelar</a>
+      <a href="#!" id="conf_ped" class="waves-effect waves-light btn right">Confirmar pedido</a>
+    </div>
+  </div>
+
 
 </body>
 </html>
@@ -334,7 +366,8 @@ document.getElementById('add').addEventListener('click', () => {
 	var pp = $("#__datosp").attr("pp");
 	var fp = $("#__datosp").attr("fp");
 	var st = $("#__datosp").attr("st");
-	var pu = $("#__datosp").attr("pp");
+	var pub = $("#__datosp").attr("pp");
+	var pup = $("#__datosp").attr("pp");
 
 	if (cp == 0) {
 		$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
@@ -357,9 +390,9 @@ document.getElementById('add').addEventListener('click', () => {
 		pp = ((parseFloat(pp)*0.05).toFixed(1))*parseInt(cantp);
 		pp = parseFloat(pp.toFixed(1))
 
-		pu = (parseFloat(pu)*0.05).toFixed(1);
-		console.log(pu)
-		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pu];
+		pub = (parseFloat(pub)*0.05).toFixed(1);
+		console.log(pub)
+		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup];
 
 
 
@@ -370,7 +403,7 @@ document.getElementById('add').addEventListener('click', () => {
 		$("#pedidos_cliente tbody").html("")
 		var table = $("#pedidos_cliente tbody")[0];
 		total =  0;
-
+		let in_cant = 0;
 		Object.keys(reg_pedidos).forEach(function(key) {
 			var row = table.insertRow(-1);
 			row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
@@ -378,8 +411,11 @@ document.getElementById('add').addEventListener('click', () => {
 			row.insertCell(0).innerHTML = reg_pedidos[key][2];
 			row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
 			total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
+			in_cant = in_cant + parseInt(reg_pedidos[key][2]);
 		});
 		$("#total_ped").html(total +" Bs.");
+		$("#input_total").val(total);
+		$("#input_cant").val(in_cant);
 		// $("#shop_button").addClass('pulse');
 		// $("#modal2").modal('close');
 	}}
@@ -391,14 +427,15 @@ document.getElementById('add').addEventListener('click', () => {
   document.getElementById("img_prod").src = "images/fotos_prod/default.png";
 	document.getElementById("cod_prod").innerHTML = "";
 	$('#__cantidad').val(1)
+	$("#mod_con").removeClass("disabled")
 
 });
 
-function modal_detalle(cod, producto, pu, foto) {
+function modal_detalle(cod, producto, pub, foto) {
 	document.getElementById("modal_title").innerHTML = producto;
 	document.getElementById("modal_foto").src = foto;
 	document.getElementById("modal_cod").innerHTML = "<b>Código: </b>"+cod;
-	document.getElementById("modal_pu").innerHTML = "<b>Precio U.: </b>"+pu+" Bs.";
+	document.getElementById("modal_pu").innerHTML = "<b>Precio U.: </b>"+pub+" Bs.";
 	M.Modal.getInstance(modal1).open();
 
 }
@@ -407,6 +444,7 @@ function modal_detalle(cod, producto, pu, foto) {
 document.getElementById('cart').addEventListener('click', () => {
 	// console.log("mostrar")
 	// M.toast({html: "Agregado al carrito de compras."})
+	document.getElementById('cart').hidden = true
 	document.getElementById('add_container').hidden = true
 	document.getElementById('form_container').hidden = true
 	document.getElementById('pdf_container').hidden = true
@@ -417,6 +455,7 @@ document.getElementById('cart').addEventListener('click', () => {
 document.getElementById('return').addEventListener('click', () => {
 	// console.log("ocultar")
 	// M.toast({html: "Agregado al carrito de compras."})
+	document.getElementById('cart').hidden = false
 	document.getElementById('add_container').hidden = false
 	document.getElementById('form_container').hidden = false
 	document.getElementById('pdf_container').hidden = false
@@ -428,7 +467,7 @@ document.getElementById('return').addEventListener('click', () => {
 
 		delete reg_pedidos[x];
 
-		console.log(reg_pedidos)
+		// console.log(reg_pedidos)
 				//borrando tabla
 			// $('#pedidos_cliente tr:not(:first-child)').slice(0).remove();
 			// var table = $("#pedidos_cliente")[0];
@@ -449,7 +488,71 @@ document.getElementById('return').addEventListener('click', () => {
 				total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 			});
 			$("#total_ped").html(total +" Bs.");
+			if ((reg_pedidos.filter(Boolean)).length < 1) {
+				$("#cart i").html('<img style="max-height: 40px;" src="images/icons/vacio.png"/>');
+				$("#mod_con").addClass("disabled")
+			}
 	}
+
+	document.getElementById('mod_con').addEventListener('click', () => {
+		let today = new Date();
+		let date = today.getDate()+'-'+("0" + (today.getMonth() + 1)).slice(-2)+'-'+today.getFullYear()+" "+today.getHours() + ":" + today.getMinutes();
+		let cred
+		if (document.getElementById('pago').checked) {
+			cred = "Crédito"
+		}else{
+			cred = "Contado"
+		}
+
+		document.getElementById("conf_fecha").innerHTML = `<b>Fecha y hora: </b>${date}`
+		document.getElementById("conf_monto").innerHTML = `<b>Items: </b>${document.getElementById('input_cant').value}`
+		document.getElementById("conf_cant").innerHTML = `<b>Total: </b>${document.getElementById('input_total').value} Bs.`
+		document.getElementById("conf_cred").innerHTML = `<b>Tipo de pago: </b>${cred}`
+
+		$("#modal2").modal('open')
+
+	});
+
+	document.getElementById('conf_ped').addEventListener("click", () => {
+
+		let total = document.getElementById('input_total').value;
+		let credito = document.getElementById('pago').checked;
+		// let json_detalle = reg_pedidos.filter(Boolean)
+		// json_detalle = JSON.stringify(json_detalle)
+
+				// reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup];
+
+		// let x = "";
+		let a = new Array()
+		Object.keys(reg_pedidos).forEach(function(key) {
+			// x = x+`{${key}:[{${reg_pedidos[key][1]},${reg_pedidos[key][2]},${reg_pedidos[key][3]},${reg_pedidos[key][5]},${reg_pedidos[key][6]}}]}`;
+			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6]]);
+		})
+		
+
+		x = JSON.stringify(a)
+		// x = JSON.parse(a)
+		// return console.log(a.length)
+
+		if(a.length > 0){
+		    $.ajax({
+	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&a="+x+"&cred="+credito,
+	            method: "GET",
+	            success: function(response) {
+	              console.log(response + "lastid")
+	              // if (response == true) {
+	              //   M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 8000, classes: 'rounded'})
+	              //   	$("#modal2").modal('close')
+	              // }
+	            },
+	            error: function(error) {
+	                console.log(error)
+	            }
+		    })
+		}else{
+			M.toast({html: "No se ha seleccionado ningún producto..."});
+		}
+	})
 
 
 	// document.getElementById("openPDF_").addEventListener('click', () => {
