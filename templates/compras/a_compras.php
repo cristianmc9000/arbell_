@@ -295,7 +295,7 @@ return (array_)
 function crear_html() {
 
   document.getElementById('btn-create_html').removeAttribute("onclick");
-  $("#btn-create_html").addClass('disabled')
+  $("#btn-create_html").addClass('disabled');
 
   let filas = $("#tabla_compras").find('tbody tr').length;
   if(filas < 1) {
@@ -308,38 +308,28 @@ var date = new Date();
 var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 date = date.toLocaleDateString("es-ES", options)
 
-array_ = "";
-let items = 0
-var pubs__ = 0
-var pubs__desc = 0
-let gan_exp = 0 
-var totalsd = 0
-var totalcd = 0
-var descuento = 0
-
+let array_ = "";
+let items = 0;
+var pubs__ = 0;
+var pubs__desc = 0;
+let gan_exp = 0;
+var totalsd = 0;
+var totalcd = 0;
+var descuento = 0;
+let fila = "";
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
-  
-  let fila = `<tr>
-                <td>${e.querySelector('._id').innerText}</td>
-                <td>${e.querySelector('._linea').innerText}</td>
-                <td>${e.querySelector('._descripcion').innerText}</td>
-                <td>${e.querySelector('._cantidad').innerText}</td>
-                <td>${e.querySelector('._pupesos').innerText}</td>
-                <td>${e.querySelector('._pubs').innerText}</td>
-                <td>${e.querySelector('._pupesos_desc').innerText}</td>
-                <td>${e.querySelector('._pubs_desc').innerText}</td>
-                <td>${e.querySelector('._precio_cd').innerText}</td>
-              </tr>`;
+  fila = "";
+  fila = `<tr><td>${e.querySelector('._id').innerText}</td><td>${e.querySelector('._linea').innerText}</td><td>${e.querySelector('._descripcion').innerText}</td><td>${e.querySelector('._cantidad').innerText}</td><td>${e.querySelector('._pupesos').innerText}</td><td>${e.querySelector('._pubs').innerText}</td><td>${e.querySelector('._pupesos_desc').innerText}</td><td>${e.querySelector('._pubs_desc').innerText}</td><td>${e.querySelector('._precio_cd').innerText}</td></tr>`;
   
   array_ = array_ + fila;
-  gan_exp = parseFloat(parseFloat(gan_exp) + (parseFloat(e.querySelector('.__pubs').value) * parseInt(e.querySelector('._cantidad').innerText))).toFixed(1)
+  gan_exp = parseFloat(parseFloat(gan_exp)+(parseFloat(e.querySelector('.__pubs').value)*parseInt(e.querySelector('._cantidad').innerText))).toFixed(1);
 
   totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
   totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
   pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
   pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
   items = items + parseInt(e.querySelector('._cantidad').innerText);
-});
+})
 
 //sumando cantidad de productos auxiliares
 let aux_sum = 0
@@ -381,7 +371,6 @@ insertar_compra_detalle(json_data).then(respuesta => {
   console.log(respuesta+" respuesta de funcion promise")
 
 var miHtml = `<title>RECIBO DE COMPRA</title>
-
   <style>
     .bod{
       font-family: 'Consolas';
@@ -390,13 +379,10 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
       border: 1px solid black;
       border-collapse: collapse;
     }
- 
   </style>
   <div class="bod">
-  
     <span style="float:right">${date}</span>
     <br><br>
-
     <table width="100%" border="0">
       <tr>
         <td width="33%" align="left">
@@ -413,12 +399,8 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
           <span>Distribuidora: CARMIÑA</span>
         </td>
       </tr>
-
-    </table>
-
-   
+    </table>   
   <br>
-  
    <h5>Items del comprobante</h5>
    <table width="100%" class="detalle">
     <thead>
@@ -434,16 +416,12 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
         <th >Subtotal (Bs.)</th>
       </tr>
     </thead>
-    <tbody>
-      ${array_}
-    </tbody>
+    <tbody>${array_}</tbody>
    </table>
    <br>
    <br>
-
   <div style="float: right">
    <h5>Totales:</h5>
-  
      <table class="detalle">
       <tr>
         <td><b>Items:</b></td>
@@ -461,12 +439,12 @@ var miHtml = `<title>RECIBO DE COMPRA</title>
    </div>
   </div>`;
 
-imprimir(miHtml, respuesta);
-$("#modal1").closeModal();
-$("#tabla_c tr").remove(); 
-habilitar_boton()
-$("#descuento_").prop('disabled', false)
-$("#descuento_").val('0')
+  imprimir(miHtml, respuesta);
+  $("#modal1").closeModal();
+  $("#tabla_c tr").remove(); 
+  habilitar_boton()
+  $("#descuento_").prop('disabled', false)
+  $("#descuento_").val('0')
 
 })
 }
