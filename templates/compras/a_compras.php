@@ -292,7 +292,184 @@ document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
 return (array_)
 }
 
+function crear_html() {
 
+  document.getElementById('btn-create_html').removeAttribute("onclick");
+  $("#btn-create_html").addClass('disabled')
+
+  let filas = $("#tabla_compras").find('tbody tr').length;
+  if(filas < 1) {
+    Materialize.toast("Debe ingresar al menos un registro.", 5000);
+    habilitar_boton()
+    return false;
+  }
+
+var date = new Date();
+var options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+date = date.toLocaleDateString("es-ES", options)
+
+array_ = "";
+let items = 0
+var pubs__ = 0
+var pubs__desc = 0
+let gan_exp = 0 
+var totalsd = 0
+var totalcd = 0
+var descuento = 0
+
+document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
+  
+  let fila = `<tr>
+                <td>${e.querySelector('._id').innerText}</td>
+                <td>${e.querySelector('._linea').innerText}</td>
+                <td>${e.querySelector('._descripcion').innerText}</td>
+                <td>${e.querySelector('._cantidad').innerText}</td>
+                <td>${e.querySelector('._pupesos').innerText}</td>
+                <td>${e.querySelector('._pubs').innerText}</td>
+                <td>${e.querySelector('._pupesos_desc').innerText}</td>
+                <td>${e.querySelector('._pubs_desc').innerText}</td>
+                <td>${e.querySelector('._precio_cd').innerText}</td>
+              </tr>`;
+  
+  array_ = array_ + fila;
+  gan_exp = parseFloat(parseFloat(gan_exp) + (parseFloat(e.querySelector('.__pubs').value) * parseInt(e.querySelector('._cantidad').innerText))).toFixed(1)
+
+  totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
+  totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
+  pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
+  pubs__desc = pubs__desc + parseFloat(e.querySelector('._pubs_desc').innerText);
+  items = items + parseInt(e.querySelector('._cantidad').innerText);
+});
+
+//sumando cantidad de productos auxiliares
+let aux_sum = 0
+$('._aux').each(function(){
+    aux_sum = aux_sum + parseInt(this.value)
+})
+
+console.log(gan_exp+"---"+totalcd)
+gan_exp = parseFloat(gan_exp).toFixed(1)
+gan_exp = gan_exp - totalcd
+
+
+
+_descuento = $("#descuento_").val();
+_valor = $("#valor").val();
+
+
+
+var data = detalle_compra()
+data.push({_totalcd: totalcd})
+data.push({_totalsd: totalsd})
+data.push({_descuento: _descuento})
+data.push({_valor: _valor})
+
+
+
+var json_data = JSON.stringify(data)
+
+// icd(json_data).then(res =>{
+//   console.log(res)
+// })
+
+let year = (new Date).getFullYear()
+let periodo = "<?php"+"echo $_SESSION['periodox'];"+"?>";
+let per = periodo+" - "+year;
+
+
+insertar_compra_detalle(json_data).then(respuesta => {
+  console.log(respuesta+" respuesta de funcion promise")
+
+var miHtml = `<title>RECIBO DE COMPRA</title>
+
+  <style>
+    .bod{
+      font-family: 'Consolas';
+    }
+    .detalle, .detalle th, .detalle td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+ 
+  </style>
+  <div class="bod">
+  
+    <span style="float:right">${date}</span>
+    <br><br>
+
+    <table width="100%" border="0">
+      <tr>
+        <td width="33%" align="left">
+          <span><b>Laboratorio TRESA S.A.</b></span><br>
+          <span>Código Arbell: 68929</span><br>
+          <span>Lider/Experta: Mendez Plata</span>
+        </td>
+        <td width="33%" align="center">
+          <span>Punto de venta: Principal</span><br>
+          <span>Forma de pago: Efectivo</span><br>
+          <span>Periodo: ${per}</span>
+        </td>
+        <td width="33%" align="right">
+          <span>Distribuidora: CARMIÑA</span>
+        </td>
+      </tr>
+
+    </table>
+
+   
+  <br>
+  
+   <h5>Items del comprobante</h5>
+   <table width="100%" class="detalle">
+    <thead>
+      <tr >
+        <th >Código<br>(producto)</th>
+        <th >Linea</th>
+        <th >Descripción</th>
+        <th >Cantidad</th>
+        <th >P.U. Pesos</th>
+        <th >P.U. Bs.</th>
+        <th >Precio con <br>descuento (pesos)</th>
+        <th >Precio con <br>descuento (Bs.)</th>
+        <th >Subtotal (Bs.)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${array_}
+    </tbody>
+   </table>
+   <br>
+   <br>
+
+  <div style="float: right">
+   <h5>Totales:</h5>
+  
+     <table class="detalle">
+      <tr>
+        <td><b>Items:</b></td>
+        <td><b>${items} u. Incluye ${aux_sum} aux.:</b></td>
+      </tr>
+      <tr>
+        <td><b>Ganancias experta:</b></td>
+        <td>${gan_exp}</td>
+      </tr>
+      <tr>
+        <td><b>Total a pagar:</b></td>
+        <td>${totalcd}</td>
+      </tr>
+     </table>
+   </div>
+  </div>`;
+
+imprimir(miHtml, respuesta);
+$("#modal1").closeModal();
+$("#tabla_c tr").remove(); 
+habilitar_boton()
+$("#descuento_").prop('disabled', false)
+$("#descuento_").val('0')
+
+})
+}
 
 function habilitar_boton() {
     document.getElementById("btn-create_html").setAttribute('onclick', "crear_html()");
