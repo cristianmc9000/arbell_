@@ -319,10 +319,7 @@ var descuento = 0;
 
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   
-  let fila = ``;
-  
-  array_ = array_+fila;
-  gan_exp = parseFloat(parseFloat(gan_exp)+(parseFloat(e.querySelector('.__pubs').value)*parseInt(e.querySelector('._cantidad').innerText))).toFixed(1);
+
 
   totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
   totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
