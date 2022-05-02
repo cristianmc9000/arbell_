@@ -362,7 +362,7 @@ var json_data = JSON.stringify(data)
 // })
 
 let year = (new Date).getFullYear()
-let periodo = "6";
+let periodo = "<?php echo $_SESSION['periodox']; ?>";
 let per = periodo+" - "+year;
 
 
