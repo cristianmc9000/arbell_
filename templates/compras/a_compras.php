@@ -316,12 +316,12 @@ let gan_exp = 0;
 var totalsd = 0;
 var totalcd = 0;
 var descuento = 0;
-let fila = "";
+
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
-  fila = "";
-  fila = `<tr><td>${e.querySelector('._id').innerText}</td><td>${e.querySelector('._linea').innerText}</td><td>${e.querySelector('._descripcion').innerText}</td><td>${e.querySelector('._cantidad').innerText}</td><td>${e.querySelector('._pupesos').innerText}</td><td>${e.querySelector('._pubs').innerText}</td><td>${e.querySelector('._pupesos_desc').innerText}</td><td>${e.querySelector('._pubs_desc').innerText}</td><td>${e.querySelector('._precio_cd').innerText}</td></tr>`;
   
-  array_ = array_ + fila;
+  let fila = ``;
+  
+  array_ = array_+fila;
   gan_exp = parseFloat(parseFloat(gan_exp)+(parseFloat(e.querySelector('.__pubs').value)*parseInt(e.querySelector('._cantidad').innerText))).toFixed(1);
 
   totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
