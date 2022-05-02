@@ -320,7 +320,6 @@ var descuento = 0;
 document.querySelectorAll('#tabla_compras tbody tr').forEach(function(e){
   
 
-
   totalsd = totalsd + parseFloat(e.querySelector('._precio_sd').innerText);
   totalcd = totalcd + parseFloat(e.querySelector('._precio_cd').innerText);
   pubs__ = pubs__ + parseFloat(e.querySelector('._pubs').innerText);
