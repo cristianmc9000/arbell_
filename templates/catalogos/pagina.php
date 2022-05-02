@@ -320,14 +320,11 @@
         // $("#linea_").val(ui.item.linea)
         // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
         // $("#codli_").val(ui.item.codli)
-        console.log(ui.item.pupesos)
         if (ui.item.pupesos == null) {
-        	console.log("nulo")
         	$("#__datosprod").html("<input id='__datosp' cp='0' hidden/>")
         	document.getElementById("img_prod").src = "images/fotos_prod/default.png";
         	document.getElementById("cod_prod").innerHTML = "Agotado";
         }else{
-        	console.log("no es nulo")
         	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' hidden/>");
         	// $("#img_prod").src(ui.item.foto);
         	document.getElementById("img_prod").src = ui.item.foto;
@@ -391,14 +388,14 @@ document.getElementById('add').addEventListener('click', () => {
 		pp = parseFloat(pp.toFixed(1))
 
 		pub = (parseFloat(pub)*0.05).toFixed(1);
-		console.log(pub)
+		// console.log(pub)
 		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup];
 
 
 
-		for(var x in reg_pedidos) {
-    	console.log(reg_pedidos[x][2]);
-		}
+		// for(var x in reg_pedidos) {
+    	// console.log(reg_pedidos[x][2]);
+		// }
 
 		$("#pedidos_cliente tbody").html("")
 		var table = $("#pedidos_cliente tbody")[0];
@@ -539,11 +536,11 @@ document.getElementById('return').addEventListener('click', () => {
 	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&a="+x+"&cred="+credito,
 	            method: "GET",
 	            success: function(response) {
-	              console.log(response + "lastid")
-	              // if (response == true) {
-	              //   M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 8000, classes: 'rounded'})
-	              //   	$("#modal2").modal('close')
-	              // }
+	              if (response == 1) {
+	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 8000, classes: 'rounded'})
+	                	$("#modal2").modal('close')
+	                	clean_table();
+	              }
 	            },
 	            error: function(error) {
 	                console.log(error)
@@ -553,6 +550,17 @@ document.getElementById('return').addEventListener('click', () => {
 			M.toast({html: "No se ha seleccionado ningún producto..."});
 		}
 	})
+
+	function clean_table() {
+		reg_pedidos = [];
+		$("#pedidos_cliente tbody").html("<td colspan=4 class='center'>No se ha seleccionado ningún producto.</td>") //limpiar tabla
+		$("#total_ped").html("0 Bs.");
+		document.getElementById('pago').checked = false
+		if ((reg_pedidos.filter(Boolean)).length < 1) {
+			$("#cart i").html('<img style="max-height: 40px;" src="images/icons/vacio.png"/>');
+			$("#mod_con").addClass("disabled")
+		}
+	}
 
 
 	// document.getElementById("openPDF_").addEventListener('click', () => {

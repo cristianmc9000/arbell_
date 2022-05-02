@@ -45,8 +45,11 @@ while($arr = $Busq2->fetch_array())
 <meta charset="utf-8">
   <link rel="icon" type="image/x-icon" href="img/iconoarbell.ico" />
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" >
-  <link rel="stylesheet" type="text/css" href="css/index.css">
+
+  <!-- <link rel="stylesheet" type="text/css" href="css/index.css"> -->
   <!-- <link rel="stylesheet" type="text/css" href="css/datatable.css"> -->
   <link rel="stylesheet" type="text/css" href="css/materialize.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -177,7 +180,10 @@ table.dataTable tbody th, table.dataTable tbody td {
       <li><a href="#!" onclick="cargar_v(event, 'templates/compras/a_compras.php');">Realizar compra</a></li>
       <li><a href="#!" onclick="cargar_v(event, 'templates/compras/reg_compras.php?ges=<?php echo date('Y') ?>');">Registro de compras</a></li>
     </ul>
-
+    <ul id="dropdown3" class="dropdown-content">
+      <li><a href="#!" onclick="cargar_v(event, 'templates/pedidos/pedidos.php');">Pendientes</a></li>
+      <li><a href="#!" onclick="cargar_v(event, 'templates/pedidos/reg_pedidos.php');">Aceptados</a></li>
+    </ul>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="#!" onclick="location.reload();">INICIO</a></li>
         <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/usuarios/a_usuarios');">USUARIOS</a></li>
@@ -190,11 +196,15 @@ table.dataTable tbody th, table.dataTable tbody td {
         <li>
           <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown1">VENTAS<i class="material-icons right">arrow_drop_down</i></a>
         </li>
-        
+       
 
         <li><a href="#!" onclick="cargar(event, 'templates/inventarios/a_inventarios.php');">INVENTARIO</a></li>
         
         <li <?php if ($_SESSION['rol'] == 2) {echo 'hidden';}?>><a href="#!" onclick="cargar(event, 'templates/reportes/sel_fecha');">REPORTES</a></li>
+        <li>
+          <a class="dropdown-button" data-beloworigin="true" href="#!" data-activates="dropdown3">PEDIDOS<i class="material-icons right">arrow_drop_down</i></a>
+        </li>
+
         <li class="brand-logo"></li>        
       </ul>
       <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>

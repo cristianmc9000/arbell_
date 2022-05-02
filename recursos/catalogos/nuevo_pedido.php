@@ -25,9 +25,9 @@
 				// cp, np, cantp, pp, pub, pup
 	foreach($a as $x){
 		// $dato = $dato."--".$x[0];
-		$resut = $conexion->query("INSERT INTO `detalle_pedido`(`codped`, `codpro`, `cant`, `pubs`, `pubs_cd`) VALUES (".$lastid.",'".$x[0]."',".$x[2].",'".$x[4]."','".((int)($x[4]))*0.3."')");
+		$result = $conexion->query("INSERT INTO `detalle_pedido`(`codped`, `codpro`, `cant`, `pubs`, `pubs_cd`) VALUES (".$lastid.",'".$x[0]."',".$x[2].",'".$x[4]."','".((int)($x[4]))*0.3."')");
 	}
 
 	
-	echo mysqli_error($conexion);
+	echo $result;
 ?>
