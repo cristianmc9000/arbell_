@@ -362,11 +362,90 @@ var json_data = JSON.stringify(data)
 // })
 
 let year = (new Date).getFullYear()
-let periodo = "<?php"+"echo $_SESSION['periodox'];"+"?>";
+let periodo = "6";
 let per = periodo+" - "+year;
 
 
+insertar_compra_detalle(json_data).then(respuesta => {
+  console.log(respuesta+" respuesta de funcion promise")
 
+var miHtml = `<title>RECIBO DE COMPRA</title>
+  <style>
+    .bod{
+      font-family: 'Consolas';
+    }
+    .detalle, .detalle th, .detalle td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+  </style>
+  <div class="bod">
+    <span style="float:right">${date}</span>
+    <br><br>
+    <table width="100%" border="0">
+      <tr>
+        <td width="33%" align="left">
+          <span><b>Laboratorio TRESA S.A.</b></span><br>
+          <span>Código Arbell: 68929</span><br>
+          <span>Lider/Experta: Mendez Plata</span>
+        </td>
+        <td width="33%" align="center">
+          <span>Punto de venta: Principal</span><br>
+          <span>Forma de pago: Efectivo</span><br>
+          <span>Periodo: ${per}</span>
+        </td>
+        <td width="33%" align="right">
+          <span>Distribuidora: CARMIÑA</span>
+        </td>
+      </tr>
+    </table>   
+  <br>
+   <h5>Items del comprobante</h5>
+   <table width="100%" class="detalle">
+    <thead>
+      <tr >
+        <th >Código<br>(producto)</th>
+        <th >Linea</th>
+        <th >Descripción</th>
+        <th >Cantidad</th>
+        <th >P.U. Pesos</th>
+        <th >P.U. Bs.</th>
+        <th >Precio con <br>descuento (pesos)</th>
+        <th >Precio con <br>descuento (Bs.)</th>
+        <th >Subtotal (Bs.)</th>
+      </tr>
+    </thead>
+    <tbody>${array_}</tbody>
+   </table>
+   <br>
+   <br>
+  <div style="float: right">
+   <h5>Totales:</h5>
+     <table class="detalle">
+      <tr>
+        <td><b>Items:</b></td>
+        <td><b>${items} u. Incluye ${aux_sum} aux.:</b></td>
+      </tr>
+      <tr>
+        <td><b>Ganancias experta:</b></td>
+        <td>${gan_exp}</td>
+      </tr>
+      <tr>
+        <td><b>Total a pagar:</b></td>
+        <td>${totalcd}</td>
+      </tr>
+     </table>
+   </div>
+  </div>`;
+
+  imprimir(miHtml, respuesta);
+  $("#modal1").closeModal();
+  $("#tabla_c tr").remove(); 
+  habilitar_boton()
+  $("#descuento_").prop('disabled', false)
+  $("#descuento_").val('0')
+
+})
 }
 
 function habilitar_boton() {
