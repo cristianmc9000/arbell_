@@ -117,7 +117,7 @@ if((mysqli_num_rows($Busq))>0){
                 <div  class="input-field col s6">
                     <input name="pupesos" id="pup" onkeypress="return check(event)" type="text" required>
                     <label class="active" for="pupesos">P.U. (pesos arg.):</label>
-                    <input type="text" id = "codigo" name= "id">
+                    <input type="text" id = "codigo" name= "id" hidden>
                 </div>
             <div class="input-field col s6">
                 <input name="pubs" onkeypress="return check(event)" id="pub" type="text" required>
