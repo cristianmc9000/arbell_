@@ -1,10 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap');
 	body{
 		background-color: #dfe4ea;
 	}
 	.fuente{
-		/*font-family: 'Segoe UI Light'*/
+		font-family: 'Karla', sans-serif;
+		/*font-family: 'Alfa Slab One', cursive;*/
+		/*font-family: 'Dancing Script', cursive;*/
+		/*font-family: 'Roboto', sans-serif;*/
+	}
+	.roboto{
 		font-family: 'Roboto', sans-serif;
+	}
+	.macondo{
+		font-family: 'Macondo', cursive;
+	}
+	.dancing{
+		font-family: 'Dancing Script', cursive;
 	}
 	.centrar{
 		display: flex;

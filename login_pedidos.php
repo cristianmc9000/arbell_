@@ -84,11 +84,14 @@
 				contentType: false,
 				processData: false
 			}).done(function(echo) {
+				if (echo == '2') {
+					return M.toast({html: 'Usuario inhabilitado.'})
+				}
 				if (echo != "1") {
-					M.toast({html: 'Código Arbell incorrecto.'})
+					return M.toast({html: 'Código Arbell incorrecto.'})
 				}
 				if (echo == '1') {
-					window.location.replace("pedidos.php");
+					return window.location.replace("pedidos.php");
 				}
 			});
 		});

@@ -13,13 +13,14 @@ $periodo = $_SESSION['periodox'];
 // die(var_dump($array));
 //atributos de la compra}
 
+
 $pago_inicial = array_pop($array); 
 $tipo_pago = array_pop($array);
 $ca = array_pop($array);
 $valor = array_pop($array);
 $descuento = array_pop($array);
 $totalcd = array_pop($array);
-/* die($pago_inicial->{"_pago_inicial"}); */
+ // die($pago_inicial->{"_pago_inicial"}); 
 
 
 //insertar un nuevo registro de compra en tabla: ventas

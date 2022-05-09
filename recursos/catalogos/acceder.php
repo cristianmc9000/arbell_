@@ -6,6 +6,12 @@ date_default_timezone_set("America/La_Paz");
 //Obtenemos los datos del formulario de acceso
 $ca = $_POST["codigo"]; 
 
+$res = $conexion->query("SELECT estado FROM clientes WHERE CA = '".$ca."'");
+$res = $res->fetch_all(MYSQLI_ASSOC);
+if ($res && $res[0]['estado'] == '0') {
+	die('2');
+}
+
 //Escribimos la consulta necesaria
 $consulta = "SELECT * FROM `clientes` WHERE CA='".$ca."'";
 
@@ -16,6 +22,12 @@ $datos = mysqli_fetch_array($resultado);
 //Guardamos los resultados del nombre de usuario en minúsculas
 //y de la contraseña de la base de datos
 $caBD = $datos['CA'];
+$descuento = 0;
+if ($datos['nivel'] == 'experta') {
+	$descuento = 0.3;
+}else{
+	$descuento = 0.3;
+}
 
 //PARA OBTENER EL PERIODO ACTUAL
 $fecha = date("Y-m-d");
@@ -30,6 +42,9 @@ $array_index = array(
 	$actual_y."-11-16", 
 	$actual_y."-01-11"
 );
+
+
+
 
 $indice = 0;
 for($i=0; $i<count($array_index)-1; $i++){
@@ -64,6 +79,7 @@ if($caBD == $ca){
 	$_SESSION['userCI'] = $datos['CI'];
 	$_SESSION['ca'] = $caBD;
 	$_SESSION['telf'] = $datos['telefono'];
+	$_SESSION['desc'] = $descuento;
 
 	die('1');
 	/* Sesión iniciada, si se desea, se puede redireccionar desde el servidor */

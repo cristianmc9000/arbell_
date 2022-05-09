@@ -6,6 +6,9 @@ date_default_timezone_set("America/La_Paz");
 $fecha = date('Y-m-d');
 $fecha = date ('Y-m-d', strtotime($fecha.'+ 3 month'));
 
+$result = $conexion->query("SELECT valor FROM cambio WHERE id = 1");
+$result = $result->fetch_all(MYSQLI_ASSOC);
+// echo $result[0]['valor'];
 //Comprobamos si el usario está logueado
 //Si no lo está, se le redirecciona al index
 //Si lo está, definimos el botón de cerrar sesión y la duración de la sesión
@@ -75,6 +78,13 @@ while($arr = $Busq2->fetch_array())
   color: #919191;
   opacity: 1; /* Firefox */
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+  .roboto{
+    /*font-family: 'Segoe UI Light'*/
+    font-family: 'Roboto', sans-serif;
+  }
+
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
 	font-family: Homestead Display;
@@ -167,7 +177,7 @@ table.dataTable tbody th, table.dataTable tbody td {
   <div class="nav-wrapper" >
     <ul class="right hide-on-med-and-down">
       <li><img align="center" width="40px" src="img/divisas2.png" alt=""></li>
-      <li><input style="width: 40px" placeholder="valor del peso en Bs." id="valor" value="0.05" type="text"></li>
+      <li><input style="width: 40px" placeholder="valor del peso en Bs." id="valor"  value="<?php echo $result[0]['valor'];?>" type="text"></li>
       <li><?php echo $estado; ?></li>
       <li><?php echo $salir; ?></li>
     </ul>
@@ -312,6 +322,22 @@ $(document).ready(function() {
   $(".button-collapse").sideNav();
 
 });
+
+
+$("#valor").on('input', function() {
+    let valor = document.getElementById("valor").value;
+    $.ajax({
+        url: "recursos/cambio.php?valor="+valor,
+        method: "GET",
+        success: function(response) {
+            console.log(response)   
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    });
+  })
+
 
   function cargar(e, x){
 

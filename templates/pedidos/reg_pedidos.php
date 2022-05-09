@@ -7,7 +7,8 @@ $year = date('Y');
 if (isset($_GET["ges"])) {
   $year = $_GET["ges"];
 }
-$Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 1 AND a.fecha LIKE '".$year."%'";
+
+$Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 2 AND a.fecha LIKE '".$year."%'";
 
 // $_SESSION['periodo'] = $per;
 //consulta tabla inventario
@@ -49,10 +50,10 @@ if((mysqli_num_rows($Busq))>0){
         </select>
     </div>
 </div>
-<div class="col s7 offset-s1">
+<div class="col s7">
 <span class="fuente">
     <h3>
-        Pedidos: Gestión - <?php echo $year;?>
+        Registro de pedidos: Gestión - <?php echo $year;?>
     </h3>
 
 </span>
@@ -190,7 +191,7 @@ $(document).ready(function() {
 //funcion periodo
 function enviarfecha() {
     ges = $('#ges').val();
-    $("#cuerpo").load("templates/pedidos/pedidos.php?ges="+ges);
+    $("#cuerpo").load("templates/pedidos/reg_pedidos.php?ges="+ges);
 }
 
 </script>

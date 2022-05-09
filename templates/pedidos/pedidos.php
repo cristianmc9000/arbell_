@@ -7,6 +7,10 @@ $year = date('Y');
 if (isset($_GET["ges"])) {
   $year = $_GET["ges"];
 }
+
+$result = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
+$result = $result->fetch_all(MYSQLI_ASSOC);
+
 $Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 1 AND a.fecha LIKE '".$year."%'";
 
 // $_SESSION['periodo'] = $per;
@@ -23,11 +27,36 @@ if((mysqli_num_rows($Busq))>0){
 ?>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+.roboto{
+    font-family: 'Segoe UI Light'
+    /*font-family: 'Roboto', sans-serif;*/
+}
 .fuente{
     color: red;
 }
 .fuente_azul{
     color: black;
+}
+
+#detalle_ped th, #detalle_ped tr td{
+    border:  1px solid;
+}
+
+.line div{
+    line-height: 1px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.line div p{
+    width: calc(33.3% - 20px);
+}
+
+.columnas{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 </style>
 
@@ -49,13 +78,15 @@ if((mysqli_num_rows($Busq))>0){
         </select>
     </div>
 </div>
-<div class="col s7 offset-s1">
+<div class="col s5">
 <span class="fuente">
     <h3>
         Pedidos: Gestión - <?php echo $year;?>
     </h3>
-
 </span>
+    <div class="center">
+        <a href="#!" id="cambio" style="background-color: #bdc3c7;" class="btn btn-flat waves-light waves-effect"><?php echo $result[0]['valor'] ?> Bs.</a>
+    </div>
 </div>
 
 <!-- TABLA -->
@@ -87,11 +118,11 @@ if((mysqli_num_rows($Busq))>0){
             <td><?php echo $valor["total"]?> Bs.</td>
 
             <td>
-            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>','<?php echo $valor['pupesos']?>','<?php echo $valor['pubs']?>','<?php echo $valor['cantidad']?>','<?php echo $valor['fecha_venc']?>')"><i class="material-icons">check_circle</i></a>
+            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['total']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>')"><i class="material-icons">check_circle</i></a>
             <!-- <a href="#!"><i class="material-icons">build</i></a> -->
             </td>
             <td>
-            <a href="#!" onclick="borrar_inventario('<?php echo $valor['id'] ?>');"><i class="material-icons">remove_shopping_cart</i></a>
+            <a href="#!" onclick="rechazar_pedido('<?php echo $valor['id'] ?>');"><i class="material-icons">remove_shopping_cart</i></a>
             </td>
 
         </tr>
@@ -100,50 +131,52 @@ if((mysqli_num_rows($Busq))>0){
 </table>
 
 <!--MODAL MODIFICAR INVENTARIO-->
-<div class="row">
-<div id="modal2" class="modal col s4 offset-s4">
-  <div class="modal-content fuente fuente_azul" >
-    <h4>Modificar producto</h4>  
-    <div class="row">
-        <form class="col s12" id="modificar_inventario">
-            <div class="row">
-                <div  class="input-field col s6">
-                    <input name="pupesos" id="pup" onkeypress="return check(event)" type="text" required>
-                    <label class="active" for="pupesos">P.U. (pesos arg.):</label>
-                    <input type="text" id = "codigo" name= "id" hidden>
+<div id="modal1" class="modal roboto">
+    <div class="modal-content">
+        <h4>Detalle del pedido</h4>
+        <input type="text" id="id_ped" hidden>
+        <div class="row">
+            <div class="col s12 line">
+                <div>
+                    <p id="det_ca"></p>
+                    <p id="det_cli"></p>
+                    <p id="det_desc"></p>
                 </div>
-            <div class="input-field col s6">
-                <input name="pubs" onkeypress="return check(event)" id="pub" type="text" required>
-                <label class="active" for="pubs">P.U. (Bs.):</label>
+                <div>
+                    <p id="det_cred"></p>
+                    <p id="det_total"></p>
+                    <p id="det_total_cd"></p>
                 </div>
             </div>
-            <div class="row">  
-                <div class="input-field col s6">
-                <input id="cantidad" name="cantidad" type="number" required>
-                <label class="active" for="cantidad">Cantidad: </label>
-                <input type="text" id="cant_ant" name="cant_ant" hidden>
-            </div>
-            <div class="input-field col s6">
-                <input id="fechav" name = "fechav" type="date">
-                <label class="active" for="first_name">Fecha de vencimiento</label>
-            </div>
-          </div>
 
-          <div class="modal-footer">
-              <button class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
+            <div class="col s12">
+                <table id="detalle_ped" class="highlight striped centered"> <!-- class="borde_tabla" -->
+                    <thead>
+                        <tr>
+                            <th>Código <br> (producto)</th>
+                            <th>Linea</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th>Subtotal C/D</th>
+                        </tr>
+                    </thead>
+                    <tbody class="centered"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn red left">Cerrar</a>
+        <a href="#!" id="reg_ped" class="waves-effect waves-light btn">Aceptar pedido</a>
+    </div>
 </div>
 
 
 
 <!--MODAL BORRAR CLIENTE-->
 <div class="row">
-<div id="modal3" class="modal col s4 offset-s4">
+<div id="modal2" class="modal col s4 offset-s4">
   <div class="modal-content">
     <h4><b>Borrar Producto</b></h4>  
     <p>¿Esta seguro que desea eliminar este producto del inventario?</p>
@@ -165,7 +198,34 @@ if((mysqli_num_rows($Busq))>0){
 </div>
 </div>
 
+<!-- Modal Structure -->
+<div class="row">
+  <div id="modal3" class="modal roboto col s4 offset-s4">
+    <div class="modal-content ">
+        <h4>Valor de cambio</h4>
+        <div class="columnas">
+            <div><p>1 Peso arg.</p></div>
+            <div><input id="_cambio" type="text" value="<?php echo $result[0]['valor'] ?>"></div>
+            <div><p>Bs.</p></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" id="set_value" class="waves-effect waves-green btn-flat">Aceptar</a>
+    </div>
+  </div>
+</div>
 
+<div class="row">
+    <div id="modal4" class="modal roboto col s4 offset-s4">
+        <div class="modal-content">
+          <h4>Se rechazará el pedido seleccionado.</h4>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-light btn red left">Cerrar</a>
+            <a href="#!" id="del_ped" class="waves-effect waves-light btn">Aceptar</a>
+        </div>
+    </div>
+</div>
 <!-- PARA RECIBIR MENSAJES DESDE PHP -->  
     <div id="mensaje" class="modal-content" hidden>
 
@@ -187,83 +247,190 @@ $(document).ready(function() {
         }
         }
     });
-    $('#modal').leanModal();
+
+    // $('.modal').leanModal();
 
 });
 
-function mod_inventario(id, pup, pub, cantidad, fecha_v) {
-    $("#codigo").val(id)
-    $("#pup").val(pup)
-    $("#pub").val(pub)
-    $("#cantidad").val(cantidad)
-    $("#cant_ant").val(cantidad)
-    $("#fechav").val(fecha_v)
-    $("#modal2").openModal()
-}
+function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) {
+    if (credito == '1') {
+        credito = 'Crédito'
+    }else{
+        credito = "Contado"
+    }
 
-$("#modificar_inventario").on("submit", function(e){
-    e.preventDefault();
+    let json = [id, ca, credito, total, valor_peso, descuento]
+    document.getElementById("id_ped").value = JSON.stringify(json)
 
-    var val = new FormData(document.getElementById("modificar_inventario"));
-    $.ajax({
-      url: "recursos/inventarios/modificar_inventario.php",
-      type: "POST",
-      dataType: "HTML",
-      data: val,
-      cache: false,
-      contentType: false,
-      processData: false
-    }).done(function(echo){
+    document.getElementById("det_ca").innerHTML = "<b>Código arbell: </b>"+ca
+    document.getElementById("det_cli").innerHTML = "<b>Cliente: </b>"+cliente
+    document.getElementById("det_desc").innerHTML = "<b>Descuento: </b>"+descuento+"%"
+    document.getElementById("det_cred").innerHTML = "<b>Tipo pago: </b>"+credito
+    document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total+" Bs."
+
     
-          if (echo.includes("?mes") || echo == "") {
-              $("#modal2").closeModal(); 
-              Materialize.toast("PRODUCTO MODIFICADO." , 4000);
-              $("#cuerpo").load("templates/inventarios/a_inventarios.php"+echo);
-            
-          }
-    });
-});
 
-function borrar_inventario(id){
-
-  $("#datos_borrar").val(id)
-  $('#modal3').openModal()
-}
-$("#eliminar_inventario").on("submit", function(e){
-    e.preventDefault();
-    var val = new FormData(document.getElementById("eliminar_inventario"));
     $.ajax({
-      url: "recursos/inventarios/borrarinventario.php",
-      type: "POST",
-      dataType: "HTML",
-      data: val,
-      cache: false,
-      contentType: false,
-      processData: false
-    }).done(function(echo){
-        if (echo == '1') {
-          $("#modal3").closeModal(); 
-          Materialize.toast("PRODUCTO ELIMINADO." , 4000);
-          $("#cuerpo").load("templates/inventarios/a_inventarios.php");
+        url: "recursos/pedidos/detalle.php?id="+id,
+        method: "GET",
+        success: function(response) {
+            let total_cd = 0;
+            let cantidad = 0;
+            let auxiliares = 0;
+            var jsonParsedArray = JSON.parse(response)
+            //INSERTANDO FILAS A LA TABLA DETALLE DE PEDIDO
+            let table = document.getElementById("detalle_ped")
+            $(".dinamic_rows").remove();
+            for (key in jsonParsedArray) {
+                if (jsonParsedArray.hasOwnProperty(key)) {
+                    let newTableRow = table.insertRow(-1)
+                    newTableRow.className = "dinamic_rows"
+                    newRow = newTableRow.insertCell(0)
+                    newRow.textContent = jsonParsedArray[key]['id']
+
+                    newRow = newTableRow.insertCell(1)
+                    newRow.textContent = jsonParsedArray[key]['linea']
+
+                    newRow = newTableRow.insertCell(2)
+                    newRow.textContent = jsonParsedArray[key]['descripcion']
+
+                    newRow = newTableRow.insertCell(3)
+                    newRow.textContent = jsonParsedArray[key]['cantidad']
+
+                    newRow = newTableRow.insertCell(4)
+                    newRow.textContent = jsonParsedArray[key]['pubs'] +" Bs."
+
+                    newRow = newTableRow.insertCell(5)
+                    newRow.textContent = jsonParsedArray[key]['pubs_desc'] +" Bs."
+
+                    
+                    // gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
+                    total_cd += parseFloat(jsonParsedArray[key]['pubs_desc'])
+
+                    cantidad += parseInt(jsonParsedArray[key]['cantidad'])
+                    if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
+                        auxiliares += parseInt(jsonParsedArray[key]['cantidad']) 
+                    }
+                }
+            }
+
+            document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd+" Bs."
+            $("#modal1").openModal();
+        },
+        error: function(error) {
+            console.log(error)
         }
     });
+}
+
+document.getElementById('cambio').addEventListener('click', () => {
+    $("#modal3").openModal();
+});
+document.getElementById('set_value').addEventListener('click', () => {
+    let cambio = document.getElementById("_cambio").value;
+    $.ajax({
+        url: "recursos/pedidos/cambio.php?valor="+cambio,
+        method: "GET",
+        success: function(response) {
+            console.log(response)
+            $("#modal3").closeModal();
+            $("#cuerpo").load("templates/pedidos/pedidos.php");
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
 });
 
+document.getElementById('reg_ped').addEventListener('click', () => {
+    // let array_
+    let id = document.getElementById("id_ped").value
+    id = JSON.parse(id)
+    
+
+    let total_cd = id[3]
+    let descuento = id[5]
+    let valor = id[4]
+    let ca = id[1]
+    let tipo_pago = id[2]
+    let pago_inicial = "0";
+    
+    if (tipo_pago == "Contado") {
+        tipo_pago = "0";
+    }else{
+        tipo_pago = "1";
+    }
 
 
-$("#pup").on("keydown input", function(e){
-    pesos = $("#pup").val()
-    bs = pesos * parseFloat($("#valor").val());
-    $("#pub").val(bs.toFixed(1));
+            $.ajax({
+                url: "recursos/pedidos/check_stock.php?id="+id[0],
+                method: "GET",
+                success: function(item) {
+                    if (item != '1') {
+                        item = JSON.parse(item)
+                        return Materialize.toast("Cantidad del producto: "+item.codpro+" insuficiente en stock, "+item.stock+" disponibles.", 4000);
+                    }
+                    
+                    $.ajax({
+                        url: "recursos/pedidos/detalle.php?id="+id[0]+"&x=1",
+                        method: "GET",
+                        success: function(resp) {
+                            resp = JSON.parse(resp)
+                            resp.push({total_cd: total_cd})
+                            resp.push({_descuento: descuento})
+                            resp.push({_valor: valor})
+                            resp.push({_ca: ca})
+                            resp.push({_tipo_pago: tipo_pago})
+                            resp.push({_pago_inicial: pago_inicial})
+                            // console.log(resp)
+                            $.ajax({
+                                url: "recursos/ventas/registrar_venta.php",
+                                data: {
+                                    "json": JSON.stringify(resp)
+                                },
+                                method: "post",
+                                success: function(response) {
+                                    console.log(response)
+                                    $("#modal1").closeModal()
+                                    $("#cuerpo").load("templates/pedidos/pedidos.php")
+                                    Materialize.toast("El pedido fué registrado.", 4000)
+                                },
+                                error: function(error) {
+                                    console.log(error)
+                                }
+                            });
+                        },
+                        error: function(error) {
+                            console.log(error)
+                        }
+                    });
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            });
 
+});
+function rechazar_pedido(id) {
+    document.getElementById('id_ped').value = id
+    $("#modal4").openModal()
+}
 
-    // console.log(e.keyCode)
-    // if ((e.keyCode > 48 && e.keyCode < 57) || e.keyCode == 190 || e.keyCode == 46) {
-    //     return true
-    // }else{
-    //     return false
-    // }
-
+document.getElementById('del_ped').addEventListener('click', () => {
+    let id = document.getElementById('id_ped').value
+    $.ajax({
+        url: "recursos/pedidos/rechazar.php?id="+id,
+        method: "GET",
+        success: function(response) {
+            // console.log(response)
+            $("#modal4").closeModal();
+            Materialize.toast("El pedido fué rechazado.", 4000);
+            $("#cuerpo").load("templates/pedidos/pedidos.php");
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    });    
 })
 
 //funcion periodo

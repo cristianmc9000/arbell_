@@ -480,6 +480,7 @@ $('._aux').each(function(){
 
 
     var data = detalle_venta()
+    // return console.log(detalle_venta())
     data.push({total_cd: totalcd})
     data.push({_descuento: _descuento})
     data.push({_valor: _valor})

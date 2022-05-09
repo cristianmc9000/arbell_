@@ -1,4 +1,7 @@
-
+<?php 
+	session_start();
+	$salir = '<a href="recursos/salir.php" class="right" target="_self"><i class="material-icons">logout</i>Cerrar sesión</a>';
+?>
 <!DOCTYPE html>
 <html lang="ES">
 <head>
@@ -25,6 +28,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"
 		integrity="sha512-U5C477Z8VvmbYAoV4HDq17tf4wG6HXPC6/KM9+0/wEXQQ13gmKY2Zb0Z2vu0VNUWch4GlJ+Tl/dfoLOH4i2msw==" crossorigin="anonymous"
 		referrerpolicy="no-referrer"></script>
+
+<!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+<!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+<!-- <link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&display=swap" rel="stylesheet"> -->
 
 	<title>Distribuidora Carmina - Pedidos</title>
 </head>
@@ -65,7 +72,6 @@
     transform: scale(1.8); 
   }
 
-
 </style>
 
 <body>
@@ -73,27 +79,28 @@
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" id="menu" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-			<a href="#" class="brand-logo center fuente">Dist. Carmina</a>
+			<a href="#" class="brand-logo center dancing">Distrib. Carmina</a>
 			<ul class="right">
 				<li><a href="#" id="cart"><i class="grande material-icons"><img style="max-height: 40px;" src="images/icons/vacio.png"/></i></a></li>
 			</ul>
 		</div>
 	</nav>
 
-	<ul id="slide-out" class="sidenav">
+	<ul id="slide-out" class="sidenav roboto">
 	    <li><div class="user-view">
 	      <div class="background">
-	        <img src="images/sort_desc.png" height="100%" width="100%">
+	        <img src="images/fondo4.jpg" height="100%" width="100%">
 	      </div>
 	      <a href="#user"><img class="circle" src="images/logo_sin_fondo.png"></a>
-	      <a href="#name"><span class="white-text name">Carmen</span></a>
-	      <a href="#email"><span class="white-text email">carmen@gmail.com</span></a>
+	      <a href="#name"><span class="white-text name"><?php echo $_SESSION['usuario']." ".$_SESSION['apellidos']?></span></a>
+	      <a href="#email"><span class="white-text email"><?php echo "CA: ".$_SESSION['ca']?></span></a>
 	    </div></li>
-	    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-	    <li><a href="#!">Second Link</a></li>
+	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">home</i>Inicio</a></li>
+	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
+	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
 	    <li><div class="divider"></div></li>
-	    <li><a class="subheader">Subheader</a></li>
-	    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+	    <li><a class="subheader"></a></li>
+	    <li><a class="waves-effect" href="recursos/catalogos/salir.php"><i class="material-icons">logout</i>Cerrar sesión</a></li>
 	</ul>
 </div>
 
@@ -188,12 +195,12 @@
 </div>
 
 <div class="container center" id="add_container">
-	<a class="waves-effect waves-light btn-large shop red lighten-1" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
+	<a class="waves-effect waves-light btn-large shop red lighten-1 fuente" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
 </div>
 
 
 <div class="container">
-<div class="row fuente" id="cart_row" hidden>
+<div class="row roboto" id="cart_row" hidden>
 	<div class="row get_out">
 		<div class="left">
 			<a href="#!" class="btn-large red lighten-2" id="return"><i class="material-icons">keyboard_return</i></a>
@@ -202,7 +209,7 @@
 	<!-- antes era col s12 m12 l4 xl5 -->
 	<div class="col s12 m12 l12" id="div_tabla_pedidos">
 		<!-- <div class="col l6 m10 offset-m1 s12"> -->
-			<div class="center"><h4 class="fuente">Tu pedido</h4></div>
+			<div class="center"><h4>Tu pedido</h4></div>
 			<table id="pedidos_cliente" class="content-table centered z-depth-4">
 				<thead>
 					<tr>
@@ -218,9 +225,12 @@
 			</table>
 
 			<hr>
-			<div class="row right">
+			<div class="row">
 				<!-- <div class="col m6 offset-m6 s4 offset-s6"> -->
-					<div class="neon" >Subtotal: <label id="total_ped" class="neon">0.00 Bs</label></div>
+					<div class="neon container" >
+						<p>Subtotal: <label id="total_ped" class="neon">0.00 Bs</label></p>
+						<p>Total con descuento: <label id="total_ped_cd" class="neon">0.00 Bs</label></p>
+					</div>
 				<!-- </div> -->
 			</div>
 		<!-- </div> -->
@@ -259,7 +269,7 @@
   </div>
 
   <!-- Modal Structure - confirmación de pedidos -->
-  <div id="modal2" class="modal fuente modal_prod">
+  <div id="modal2" class="modal roboto modal_prod">
     <div class="modal-content" style="padding-bottom: 0px;">
       
       <div class="center">
@@ -325,7 +335,7 @@
         	document.getElementById("img_prod").src = "images/fotos_prod/default.png";
         	document.getElementById("cod_prod").innerHTML = "Agotado";
         }else{
-        	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' hidden/>");
+        	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' cl='"+ui.item.codli+"' hidden/>");
         	// $("#img_prod").src(ui.item.foto);
         	document.getElementById("img_prod").src = ui.item.foto;
         	document.getElementById("cod_prod").innerHTML = ui.item.value
@@ -363,6 +373,7 @@ document.getElementById('add').addEventListener('click', () => {
 	var pp = $("#__datosp").attr("pp");
 	var fp = $("#__datosp").attr("fp");
 	var st = $("#__datosp").attr("st");
+	var cl = $("#__datosp").attr("cl");
 	var pub = $("#__datosp").attr("pp");
 	var pup = $("#__datosp").attr("pp");
 
@@ -389,7 +400,7 @@ document.getElementById('add').addEventListener('click', () => {
 
 		pub = (parseFloat(pub)*0.05).toFixed(1);
 		// console.log(pub)
-		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup];
+		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl];
 
 
 
@@ -411,6 +422,7 @@ document.getElementById('add').addEventListener('click', () => {
 			in_cant = in_cant + parseInt(reg_pedidos[key][2]);
 		});
 		$("#total_ped").html(total +" Bs.");
+		$("#total_ped_cd").html((parseFloat(total)-(parseFloat(total)*parseFloat('<?php echo $_SESSION['desc']; ?>'))).toFixed(1)+" Bs.")
 		$("#input_total").val(total);
 		$("#input_cant").val(in_cant);
 		// $("#shop_button").addClass('pulse');
@@ -485,6 +497,7 @@ document.getElementById('return').addEventListener('click', () => {
 				total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 			});
 			$("#total_ped").html(total +" Bs.");
+			$("#total_ped_cd").html((parseFloat(total)-(parseFloat(total)*parseFloat('<?php echo $_SESSION['desc']; ?>'))).toFixed(1)+" Bs.")
 			if ((reg_pedidos.filter(Boolean)).length < 1) {
 				$("#cart i").html('<img style="max-height: 40px;" src="images/icons/vacio.png"/>');
 				$("#mod_con").addClass("disabled")
@@ -517,13 +530,14 @@ document.getElementById('return').addEventListener('click', () => {
 		// let json_detalle = reg_pedidos.filter(Boolean)
 		// json_detalle = JSON.stringify(json_detalle)
 
-				// reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup];
+				// reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, codli];
 
 		// let x = "";
 		let a = new Array()
 		Object.keys(reg_pedidos).forEach(function(key) {
+			console.log(reg_pedidos[key][7] +"<<< linea ")
 			// x = x+`{${key}:[{${reg_pedidos[key][1]},${reg_pedidos[key][2]},${reg_pedidos[key][3]},${reg_pedidos[key][5]},${reg_pedidos[key][6]}}]}`;
-			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6]]);
+			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6], reg_pedidos[key][7]]);
 		})
 		
 
@@ -536,6 +550,7 @@ document.getElementById('return').addEventListener('click', () => {
 	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&a="+x+"&cred="+credito,
 	            method: "GET",
 	            success: function(response) {
+	            	console.log(response+"<<<< respuesta de php")
 	              if (response == 1) {
 	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 8000, classes: 'rounded'})
 	                	$("#modal2").modal('close')
@@ -555,6 +570,7 @@ document.getElementById('return').addEventListener('click', () => {
 		reg_pedidos = [];
 		$("#pedidos_cliente tbody").html("<td colspan=4 class='center'>No se ha seleccionado ningún producto.</td>") //limpiar tabla
 		$("#total_ped").html("0 Bs.");
+		$("#total_ped_cd").html("0 Bs.")
 		document.getElementById('pago').checked = false
 		if ((reg_pedidos.filter(Boolean)).length < 1) {
 			$("#cart i").html('<img style="max-height: 40px;" src="images/icons/vacio.png"/>');
