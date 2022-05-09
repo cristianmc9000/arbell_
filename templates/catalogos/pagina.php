@@ -95,11 +95,22 @@
 	      <a href="#name"><span class="white-text name"><?php echo $_SESSION['usuario']." ".$_SESSION['apellidos']?></span></a>
 	      <a href="#email"><span class="white-text email"><?php echo "CA: ".$_SESSION['ca']?></span></a>
 	    </div></li>
-	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">home</i>Inicio</a></li>
-	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
+	    <li><a href="#!" onclick="window.location.reload()" class="waves-effect waves-teal"><i class="material-icons">home</i>Inicio</a></li>
+	    <li><a href="#!" onclick="_load(`templates/catalogos/mipedido`)" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
 	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
 	    <li><div class="divider"></div></li>
-	    <li><a class="subheader"></a></li>
+	    <!-- <li><a class="subheader"></a></li> -->
+	    <li>
+	    	<div class="input-field container">
+			    <select class="browser-default">
+			      <option value="" disabled selected>Seleccione el catálogo</option>
+			      <option value="1">Option 1</option>
+			      <option value="2">Option 2</option>
+			      <option value="3">Option 3</option>
+			    </select>
+
+			  </div>
+	    </li>	
 	    <li><a class="waves-effect" href="recursos/catalogos/salir.php"><i class="material-icons">logout</i>Cerrar sesión</a></li>
 	</ul>
 </div>
@@ -140,6 +151,7 @@
 </div> -->
 
 
+<div id="cuerpo"> 
 
 <div class="contenedor" id="pdf_container">
 <!-- 	<div class="left_arrow"><a href="#"><i class="large material-icons">chevron_left</i></a></div>
@@ -292,7 +304,7 @@
     </div>
   </div>
 
-
+</div>
 </body>
 </html>
 
@@ -300,6 +312,11 @@
 <script type="text/javascript" src="js/viewpdf.js"></script>
 <script>
 	$(document).ready(function(){
+		$('select').formSelect();
+		$('.fixed-action-btn').floatingActionButton({
+			hoverEnabled: false,
+    	toolbarEnabled: true
+  	});
 		$('.modal').modal();
   	$('.sidenav').sidenav();
   	$('select').formSelect();
@@ -578,48 +595,11 @@ document.getElementById('return').addEventListener('click', () => {
 		}
 	}
 
-
-	// document.getElementById("openPDF_").addEventListener('click', () => {
-	// 	$.ajax({
-	// 	  url: "recursos/catalogos/last-pdf.php",
-	// 	  method: "GET",
-	// 	  success: function(response) {
-	// 	  	response = JSON.parse(response)
-	// 	 		console.log(response.ruta);
-	// 	 		// load_pdf(response.ruta);
-	// 	 		prueba();
-	// 	  }
-	// 	})
-	// })
-
-// CÓDIGO PARA ENVIAR CATÁLOGOS A PHP
-	// $("#load_pdf").on("submit", function(e){
- //    e.preventDefault(); 
- //    var data = new FormData(document.getElementById("load_pdf"));
- //    $.ajax({
- //      url: "recursos/catalogos/load-pdf.php",
- //      type: "POST",
- //      dataType: "HTML",
- //      data: data,
- //      cache: false,
- //      contentType: false,
- //      processData: false
- //    }).done(function(echo){
-
- //    	if (echo) {
- //    		M.toast({html: "Catálogo agregado con éxito."})
- //    	}
- //    	if (echo == "2") {
- //    		M.toast({html:"Debe seleccionar un archivo."})
- //    	}
- //    	if (echo == "3") {
- //    		M.toast({html: "Solo se permite el formato PDF."})
- //    	}
-
- //        // $("#cuerpo").load("templates/productos/productos.php"+echo);
-
- //    });
-	// });
-
+	function _load (url) {
+		let y = '.php';
+		document.getElementById('cart').hidden = true;
+		$(".sidenav").sidenav('close')
+		$("#cuerpo").load(url+y);
+	}
 
 </script>

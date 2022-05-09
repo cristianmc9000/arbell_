@@ -1,9 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');*/
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap');*/
+/*@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');*/
 	body{
 		background-color: #dfe4ea;
+	}
+	.pacifico{
+		font-family: 'Pacifico', cursive;;
+	}
+	.rubik{
+		font-family: 'Rubik', sans-serif;
+	}
+	.nunito{
+		font-family: 'Nunito', sans-serif;
+	}
+	.mono{
+		font-weight: bold;
+		font-family: 'Roboto Mono', monospace;
 	}
 	.fuente{
 		font-family: 'Karla', sans-serif;
@@ -28,7 +45,28 @@
 		font-size: 1.3em !important;
 	}
 
+	.btn-cancelar{
+	    position: absolute;
+	    bottom: 20%;
+	    left: 50%;
+	    -ms-transform: translate(-50%, -50%);
+	    transform: translate(-50%, -50%);
+	}
+
+
 	@media (max-width: 600px) {
+		.toolbar{
+			top: 4.5em;
+			left: 5px;
+		}
+		.btn-cancelar{
+	        position: fixed;
+	        bottom: 0;
+	        left: 0;
+	        width: 100% !important;
+	        -ms-transform: none;
+	        transform: none;
+    	}
 	  .img_querie {
 	  	/*margin-top: 30%;*/
 	  	/*margin-left: auto;*/
@@ -126,6 +164,7 @@
 body{
 	/*overflow-x: hidden;*/
 }
+
 
 .get_out {
     left: 0;
