@@ -610,7 +610,7 @@ document.getElementById('return').addEventListener('click', () => {
 	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&total_cd="+total_cd+"&a="+x+"&cred="+credito,
 	            method: "GET",
 	            success: function(response) {
-	            	// console.log(response+"<<<< respuesta de php")
+	            	console.log(response+"<<<< respuesta de php")
 	              if (response == 1) {
 	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 5000, classes: 'rounded'})
 	                	$("#modal2").modal('close')
