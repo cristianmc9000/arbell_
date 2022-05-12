@@ -133,8 +133,8 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 					$("#cabezal").show()
 					$("#404").hide()
 					$('#actped').html('Tienes 1 pedido pendiente, tu pedido aun no ha sido aceptado.');
-					$('#totped').html('<b>subtotal:</b> '+arr[0]+'Bs.');
-					$("#totped_cd").html('<b>Total con descuento:</b> '+(parseFloat(arr[0])*(1-(parseFloat(arr[6])/100))).toFixed(1)+'Bs.');
+					$('#totped').html('<b>Subtotal:</b> '+arr[0]+'Bs.');
+					$("#totped_cd").html('<b>Total con descuento:</b> '+arr[7]+'Bs.');
 					$('#fecha_ped').html(arr[4]);
 					$("#hora_ped").html(arr[5]);
 					// $("#boton-cancelar").html("<a class='btn-large red' onclick='cancelar_pedido("+arr[2]+")'>CANCELAR MI PEDIDO</a>");
@@ -148,8 +148,8 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 					$("#404").hide()
 					$('#actped').css('color', '#329f21');
 					$('#actped').html('Tu pedido ha sido aceptado, y enviado.');
-					$('#totped').html('<b>Total:</b> '+arr[0]+'Bs.');
-					$("#totped_cd").html('<b>Total con descuento:</b> '+(parseFloat(arr[0])*(1-(parseFloat(arr[6])/100))).toFixed(1)+'Bs.');
+					$('#totped').html('<b>Subtotal:</b> '+arr[0]+'Bs.');
+					$("#totped_cd").html('<b>Total con descuento:</b> '+arr[7]+'Bs.');
 					$('#fecha_ped').html(arr[4]);
 					$("#hora_ped").html(arr[5]);
 					// $("#boton-cancelar").html("");
@@ -164,7 +164,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 					$('#actped').css('color', 'orange');
 					$('#actped').html('Tu pedido fue rechazado.');
 					$('#totped').html('<b>Total:</b> '+arr[0]+'Bs.');
-					$("#totped_cd").html('<b>Total con descuento:</b> '+(parseFloat(arr[0])*(1-(parseFloat(arr[6])/100))).toFixed(1)+'Bs.');
+					$("#totped_cd").html('<b>Total con descuento:</b> '+arr[7]+'Bs.');
 					$('#fecha_ped').html(arr[4]);
 					$("#hora_ped").html(arr[5]);
 					// $("#boton-cancelar").html("<a class='btn-large red' onclick='cancelar_pedido("+arr[2]+")'>CANCELAR MI PEDIDO</a>");
@@ -192,7 +192,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 				var row = table.insertRow(-1);
 				row.insertCell(0).innerHTML = "<?php echo $valor['descripcion'] ?>";
 				row.insertCell(1).innerHTML = "<?php echo $valor['cant'] ?>";
-				row.insertCell(2).innerHTML = "<?php echo $valor['pubs'].' Bs.'?>";
+				row.insertCell(2).innerHTML = (parseFloat("<?php echo $valor['cant'] ?>")*parseFloat("<?php echo $valor['pubs'].' Bs.'?>")).toFixed(1);
 			}
 		"<?php } ?>";
 	}

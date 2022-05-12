@@ -5,14 +5,18 @@
 	$ca = $_SESSION['ca'];
 	$per = $_SESSION['periodox'];
 
-	// die($ca."---".$per);
-
+	$result = $conexion->query("SELECT * FROM pedidos WHERE ca = '".$ca."' AND estado = 1");
+	$result = mysqli_num_rows($result);
+	if ($result > 0) {
+		die('2');
+	}
 	$total = $_GET['total'];
+	$total_cd = $_GET['total_cd'];
 	$a = json_decode($_GET['a']);
 	$cred = $_GET['cred'];
 
 	$desc = ((float)$_SESSION['desc'])*100;
-	$result = $conexion->query("INSERT INTO pedidos (ca, total, descuento, valor_peso, credito, periodo) VALUES('".$ca."', ".$total.", ".$desc.", 0.05, ".$cred.", ".$per.")");
+	$result = $conexion->query("INSERT INTO pedidos (ca, total, total_cd, descuento, valor_peso, credito, periodo) VALUES('".$ca."', ".$total.", ".$total_cd.", ".$desc.", 0.05, ".$cred.", ".$per.")");
 
 	$lastid = mysqli_insert_id($conexion);
 

@@ -32,17 +32,17 @@ $rvp = mysqli_fetch_array($resultadoVP);
 $nuevo = strtotime($fecha_actual) - strtotime($rvp['fecha']);
 
 if (($nuevo < 1800)  && ($rvp['estado'] == '2')) {
-	$array = $rvp['total'].",".$rvp['fecha'].",".$rvp['id'].",ACEPTADO,".fechaString($rvp['fecha']).",".date("H:m:s", strtotime($rvp['fecha'])).",".$rvp['descuento'];
+	$array = $rvp['total'].",".$rvp['fecha'].",".$rvp['id'].",ACEPTADO,".fechaString($rvp['fecha']).",".date("H:m:s", strtotime($rvp['fecha'])).",".$rvp['descuento'].",".$rvp['total_cd'];
 	die($array);
 }
 
 if ($rvp['estado'] == 1) {
-	$array = $rvp['total'].",".$rvp['fecha'].",".$rvp['id'].",PENDIENTE,".fechaString($rvp['fecha']).",".date("H:m:s", strtotime($rvp['fecha'])).",".$rvp['descuento'];
+	$array = $rvp['total'].",".$rvp['fecha'].",".$rvp['id'].",PENDIENTE,".fechaString($rvp['fecha']).",".date("H:m:s", strtotime($rvp['fecha'])).",".$rvp['descuento'].",".$rvp['total_cd'];
 	die($array);
 }
 
 if (($nuevo < 1800) && ($rvp['estado'] == 0)) {
-	$array = $rvp['total'].",".$rvp['fecha'].",".$rvp['id'].",RECHAZADO,".fechaString($rvp['fecha']).",".date("H:m:s", strtotime($rvp['fecha'])).",".$rvp['descuento'];
+	$array = $rvp['total'].",".$rvp['fecha'].",".$rvp['id'].",RECHAZADO,".fechaString($rvp['fecha']).",".date("H:m:s", strtotime($rvp['fecha'])).",".$rvp['descuento'].",".$rvp['total_cd'];
 	die($array);
 }else{
 	die("sinpedidos");

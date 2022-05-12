@@ -291,10 +291,12 @@
       	<div hidden>
       		<input type="text" id="input_cant">
       		<input type="text" id="input_total">
+      		<input type="text" id="input_total_cd">
       	</div>
       	<p id="conf_fecha"></p>
-      	<p id="conf_monto"></p>
       	<p id="conf_cant"></p>
+      	<!-- <p id="conf_monto"></p> -->
+      	<p id="conf_monto_cd"></p>
       	<p id="conf_cred"></p>
     	</div>
     </div>
@@ -427,8 +429,10 @@ document.getElementById('add').addEventListener('click', () => {
 
 		$("#pedidos_cliente tbody").html("")
 		var table = $("#pedidos_cliente tbody")[0];
-		total =  0;
+		let total =  0;
 		let in_cant = 0;
+		let total_aux = 0;
+		let total_ped_cd = 0;
 		Object.keys(reg_pedidos).forEach(function(key) {
 			var row = table.insertRow(-1);
 			row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
@@ -437,10 +441,17 @@ document.getElementById('add').addEventListener('click', () => {
 			row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
 			total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 			in_cant = in_cant + parseInt(reg_pedidos[key][2]);
+			if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+				total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
+			}else{
+				total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
+			}
 		});
+		total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
 		$("#total_ped").html(total +" Bs.");
-		$("#total_ped_cd").html((parseFloat(total)-(parseFloat(total)*parseFloat('<?php echo $_SESSION['desc']; ?>'))).toFixed(1)+" Bs.")
+		$("#total_ped_cd").html(total_ped_cd+" Bs.");
 		$("#input_total").val(total);
+		$("#input_total_cd").val(total_ped_cd);
 		$("#input_cant").val(in_cant);
 		// $("#shop_button").addClass('pulse');
 		// $("#modal2").modal('close');
@@ -490,9 +501,10 @@ document.getElementById('return').addEventListener('click', () => {
 });
 
 	function borrar_prod(x) {
-
+		// console.log(x)
+		// console.log(reg_pedidos[x]+"<<<antes")
 		delete reg_pedidos[x];
-
+		// console.log(reg_pedidos['AX00229']+"<<<despues")
 		// console.log(reg_pedidos)
 				//borrando tabla
 			// $('#pedidos_cliente tr:not(:first-child)').slice(0).remove();
@@ -500,22 +512,37 @@ document.getElementById('return').addEventListener('click', () => {
 			$("#pedidos_cliente tbody").html("") //limpiar tabla
 			var table = $("#pedidos_cliente tbody")[0]; //obtener tabla
 			
-			total =  0;
+			let total =  0;
+			let total_ped_cd = 0;
+			let total_aux = 0;
+			let in_cant = 0;
 			//llenando tabla
 			// console.log(reg_pedidos.length, "tamaño del array reg pedidos") // REVISANDO EL ARRAY
 			// var json_ped = JSON.parse(JSON.stringify(reg_pedidos))
 			// console.log(json_ped)
 			Object.keys(reg_pedidos).forEach(function(key) {
+				console.log(reg_pedidos[key]+"<dentro del foreach")
 				var row = table.insertRow(-1);
 				row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
 				row.insertCell(0).innerHTML = reg_pedidos[key][3];
 				row.insertCell(0).innerHTML = reg_pedidos[key][2];
 				row.insertCell(0).innerHTML = "<a href='#'>"+reg_pedidos[key][0]+"</a> ";
 				total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
+				in_cant = in_cant + parseInt(reg_pedidos[key][2]);
+				if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+					total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
+				}else{
+					total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
+				}
 			});
+			total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
 			$("#total_ped").html(total +" Bs.");
-			$("#total_ped_cd").html((parseFloat(total)-(parseFloat(total)*parseFloat('<?php echo $_SESSION['desc']; ?>'))).toFixed(1)+" Bs.")
-			if ((reg_pedidos.filter(Boolean)).length < 1) {
+			$("#total_ped_cd").html(total_ped_cd+" Bs.")
+			$("#input_total").val(total);
+			$("#input_total_cd").val(total_ped_cd);
+			$("#input_cant").val(in_cant);
+			// console.log(Object.keys(reg_pedidos).filter(Boolean))
+			if ((Object.keys(reg_pedidos).filter(Boolean)).length < 1) {
 				$("#cart i").html('<img style="max-height: 40px;" src="images/icons/vacio.png"/>');
 				$("#mod_con").addClass("disabled")
 			}
@@ -532,8 +559,9 @@ document.getElementById('return').addEventListener('click', () => {
 		}
 
 		document.getElementById("conf_fecha").innerHTML = `<b>Fecha y hora: </b>${date}`
-		document.getElementById("conf_monto").innerHTML = `<b>Items: </b>${document.getElementById('input_cant').value}`
-		document.getElementById("conf_cant").innerHTML = `<b>Total: </b>${document.getElementById('input_total').value} Bs.`
+		document.getElementById("conf_cant").innerHTML = `<b>Items: </b>${document.getElementById('input_cant').value}`
+		// document.getElementById("conf_monto").innerHTML = `<b>Subtotal: </b>${document.getElementById('input_total').value} Bs.`
+		document.getElementById("conf_monto_cd").innerHTML = `<b>Total: </b>${document.getElementById('input_total_cd').value} Bs.`
 		document.getElementById("conf_cred").innerHTML = `<b>Tipo de pago: </b>${cred}`
 
 		$("#modal2").modal('open')
@@ -543,16 +571,17 @@ document.getElementById('return').addEventListener('click', () => {
 	document.getElementById('conf_ped').addEventListener("click", () => {
 
 		let total = document.getElementById('input_total').value;
+		let total_cd = document.getElementById('input_total_cd').value;
 		let credito = document.getElementById('pago').checked;
 		// let json_detalle = reg_pedidos.filter(Boolean)
 		// json_detalle = JSON.stringify(json_detalle)
 
 				// reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, codli];
-
+		// console.log(reg_pedidos + "<<<----")
 		// let x = "";
 		let a = new Array()
 		Object.keys(reg_pedidos).forEach(function(key) {
-			console.log(reg_pedidos[key][7] +"<<< linea ")
+			// console.log(reg_pedidos[key][7] +"<<< linea ")
 			// x = x+`{${key}:[{${reg_pedidos[key][1]},${reg_pedidos[key][2]},${reg_pedidos[key][3]},${reg_pedidos[key][5]},${reg_pedidos[key][6]}}]}`;
 			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6], reg_pedidos[key][7]]);
 		})
@@ -561,17 +590,37 @@ document.getElementById('return').addEventListener('click', () => {
 		x = JSON.stringify(a)
 		// x = JSON.parse(a)
 		// return console.log(a.length)
+		let cliente = "```<?php echo $_SESSION['usuario'].' '.$_SESSION['apellidos']?>```";
+		// console.log(a[0][0]+" <<< X")
+		let detalle = "";
+		a.forEach(function(x) {
+			console.log(x[0])
+			detalle = detalle+'*'+x[0]+'* ```'+x[1]+'``` *x'+x[2]+'*%0A';
+			// *${x[0]}*-${x[1]} *x${x[2]}*%0A
+		})
+		let tipo = "";
+		if (credito) {
+			tipo = "Crédito";
+		}else{
+			tipo = "Contado";
+		}
 
 		if(a.length > 0){
 		    $.ajax({
-	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&a="+x+"&cred="+credito,
+	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&total_cd="+total_cd+"&a="+x+"&cred="+credito,
 	            method: "GET",
 	            success: function(response) {
-	            	console.log(response+"<<<< respuesta de php")
+	            	// console.log(response+"<<<< respuesta de php")
 	              if (response == 1) {
-	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 8000, classes: 'rounded'})
+	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 5000, classes: 'rounded'})
 	                	$("#modal2").modal('close')
 	                	clean_table();
+	                	let texto = `*LIDER/EXPERTA:*%0A${cliente}%0A*DETALLE DEL PEDIDO:*%0A${detalle}*Monto a pagar:* ${total_cd} Bs.%0A*Tipo de pago:* ${tipo}`;
+	                							// *Catálogo Arbell:* Crema facial
+	                	window.location.href = "https://wa.me/59176191403?text="+texto;
+	              }
+	              if (response == 2) {
+	              	M.toast({html: '<span style="color: #f6e58d">Usted ya tiene un pedido pendiente.</span>'})
 	              }
 	            },
 	            error: function(error) {
