@@ -376,17 +376,7 @@ var reg_pedidos = new Array();
 
 document.getElementById('add').addEventListener('click', () => {
 	
-	// console.log(reg_pedidos.length)
-	// let c_sell = $("#current_sell").val()
-	// let c_stock = $("#current_stock").val()
 	var cantp = $("#__cantidad").val();
-	// let disp = parseInt(c_stock) - parseInt(c_sell)
-
-	// if (disp < cantp) {
-		// return M.toast({html: "Cantidad solicitada insuficiente en stock, "+disp+" disponible."})
-	// }else{
-	// }
-
 	var cp = $("#__datosp").attr("cp");
 	var np = $("#__datosp").attr("np");
 	var pp = $("#__datosp").attr("pp");
@@ -396,75 +386,87 @@ document.getElementById('add').addEventListener('click', () => {
 	var pub = $("#__datosp").attr("pp");
 	var pup = $("#__datosp").attr("pp");
 
-	if (cp == 0) {
-		$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
-		return M.toast({html: "Producto agotado."})
-	}
-	if (cp == 1) {
-		return M.toast({html: "<span style='color:#ffeb3b'>Debe seleccionar un producto.</span>"})
-	}
-	if (parseInt(cantp) > parseInt(st)) {
-		return M.toast({html: "<span style='color:#ffeb3b'>Cantidad insuficiente en stock, "+st+" disponibles.</span>"})
-	}
+	$.ajax({
+    url: "recursos/catalogos/check_order.php",
+    method: "GET",
+    success: function(response) {
+    	console.log(response);
+    	if (response) {
+    		return M.toast({html: 'Usted ya tiene un pedido activo.', displayLength: 2000})
+    	}else{
+				if (cp == 0) {
+					$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
+					return M.toast({html: "Producto agotado."})
+				}
+				if (cp == 1) {
+					return M.toast({html: "<span style='color:#ffeb3b'>Debe seleccionar un producto.</span>"})
+				}
+				if (parseInt(cantp) > parseInt(st)) {
+					return M.toast({html: "<span style='color:#ffeb3b'>Cantidad insuficiente en stock, "+st+" disponibles.</span>"})
+				}
 
-	if (parseInt(cantp) > 50 || cantp == "") {M.toast({html: "El pedido no puede superar las 50 unidades"})}
-		else{
-	if (parseInt(cantp) < 1 || cantp == "") { M.toast({html: "Ingresa una cantidad válida."})}
-	else{
-		
+				if (parseInt(cantp) > 50 || cantp == "") {M.toast({html: "El pedido no puede superar las 50 unidades"})}
+					else{
+				if (parseInt(cantp) < 1 || cantp == "") { M.toast({html: "Ingresa una cantidad válida."})}
+				else{
+					
 
 
-		pp = ((parseFloat(pp)*0.05).toFixed(1))*parseInt(cantp);
-		pp = parseFloat(pp.toFixed(1))
+					pp = ((parseFloat(pp)*0.05).toFixed(1))*parseInt(cantp);
+					pp = parseFloat(pp.toFixed(1))
 
-		pub = (parseFloat(pub)*0.05).toFixed(1);
-		// console.log(pub)
-		reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl];
+					pub = (parseFloat(pub)*0.05).toFixed(1);
+					// console.log(pub)
+					reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl];
 
 
+					$("#pedidos_cliente tbody").html("")
+					var table = $("#pedidos_cliente tbody")[0];
+					let total =  0;
+					let in_cant = 0;
+					let total_aux = 0;
+					let total_ped_cd = 0;
+					Object.keys(reg_pedidos).forEach(function(key) {
+						var row = table.insertRow(-1);
+						row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
+						row.insertCell(0).innerHTML = reg_pedidos[key][3];
+						row.insertCell(0).innerHTML = reg_pedidos[key][2];
+						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
+						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
+						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
+						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
+						}else{
+							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
+						}
+					});
+					total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
+					$("#total_ped").html(total +" Bs.");
+					$("#total_ped_cd").html(total_ped_cd+" Bs.");
+					$("#input_total").val(total);
+					$("#input_total_cd").val(total_ped_cd);
+					$("#input_cant").val(in_cant);
+					// $("#shop_button").addClass('pulse');
+					// $("#modal2").modal('close');
+				}}
 
-		// for(var x in reg_pedidos) {
-    	// console.log(reg_pedidos[x][2]);
-		// }
+				$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
+				M.toast({html: "<span style='color:#1de9b6'>Agregado al carrito de compra.</span>", displayLength: 2500})
+				$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
+				$('#search_data').val("")
+			  document.getElementById("img_prod").src = "images/fotos_prod/default.png";
+				document.getElementById("cod_prod").innerHTML = "";
+				$('#__cantidad').val(1)
+				$("#mod_con").removeClass("disabled")
 
-		$("#pedidos_cliente tbody").html("")
-		var table = $("#pedidos_cliente tbody")[0];
-		let total =  0;
-		let in_cant = 0;
-		let total_aux = 0;
-		let total_ped_cd = 0;
-		Object.keys(reg_pedidos).forEach(function(key) {
-			var row = table.insertRow(-1);
-			row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
-			row.insertCell(0).innerHTML = reg_pedidos[key][3];
-			row.insertCell(0).innerHTML = reg_pedidos[key][2];
-			row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
-			total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
-			in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-			if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
-				total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
-			}else{
-				total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
-			}
-		});
-		total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
-		$("#total_ped").html(total +" Bs.");
-		$("#total_ped_cd").html(total_ped_cd+" Bs.");
-		$("#input_total").val(total);
-		$("#input_total_cd").val(total_ped_cd);
-		$("#input_cant").val(in_cant);
-		// $("#shop_button").addClass('pulse');
-		// $("#modal2").modal('close');
-	}}
+    	}
+    },
+    error: function(error) {
+        console.log(error)
+    }
+	})
 
-	$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
-	M.toast({html: "<span style='color:#1de9b6'>Agregado al carrito de compra.</span>"})
-	$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
-	$('#search_data').val("")
-  document.getElementById("img_prod").src = "images/fotos_prod/default.png";
-	document.getElementById("cod_prod").innerHTML = "";
-	$('#__cantidad').val(1)
-	$("#mod_con").removeClass("disabled")
+
 
 });
 
