@@ -79,7 +79,7 @@
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" id="menu" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-			<a href="#" class="brand-logo center dancing">Distrib. Carmina</a>
+			<a href="#" id="titulo" class="brand-logo center dancing">Distrib. Carmina</a>
 			<ul class="right">
 				<li><a href="#" id="cart"><i class="grande material-icons"><img style="max-height: 40px;" src="images/icons/vacio.png"/></i></a></li>
 			</ul>
@@ -92,12 +92,12 @@
 	        <img src="images/fondo4.jpg" height="100%" width="100%">
 	      </div>
 	      <a href="#user"><img class="circle" src="images/logo_sin_fondo.png"></a>
-	      <a href="#name"><span class="white-text name"><?php echo $_SESSION['usuario']." ".$_SESSION['apellidos']?></span></a>
-	      <a href="#email"><span class="white-text email"><?php echo "CA: ".$_SESSION['ca']?></span></a>
+	      <a href="#name"><span class="white-text name"><b><?php echo $_SESSION['usuario']." ".$_SESSION['apellidos']?></b></span></a>
+	      <a href="#email"><span class="white-text email"><b><?php echo "CA: ".$_SESSION['ca']?></b></span></a>
 	    </div></li>
 	    <li><a href="#!" onclick="window.location.reload()" class="waves-effect waves-teal"><i class="material-icons">home</i>Inicio</a></li>
 	    <li><a href="#!" onclick="_load(`templates/catalogos/mipedido`)" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
-	    <li><a href="#!" class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
+	    <li><a href="#!" onclick="_load(`templates/catalogos/historial`)"class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
 	    <li><div class="divider"></div></li>
 	    <!-- <li><a class="subheader"></a></li> -->
 	    <li>
@@ -151,7 +151,7 @@
 </div> -->
 
 
-<div id="cuerpo"> 
+<div id="cuerpo" class="row"> 
 
 <div class="contenedor" id="pdf_container">
 <!-- 	<div class="left_arrow"><a href="#"><i class="large material-icons">chevron_left</i></a></div>
@@ -619,7 +619,8 @@ document.getElementById('return').addEventListener('click', () => {
 	                	clean_table();
 	                	let texto = `*LIDER/EXPERTA:*%0A${cliente}%0A*DETALLE DEL PEDIDO:*%0A${detalle}*Monto a pagar:* ${total_cd} Bs.%0A*Tipo de pago:* ${tipo}`;
 	                							// *Catálogo Arbell:* Crema facial
-	                	window.location.href = "https://wa.me/59176191403?text="+texto;
+	                	window.location.href = "https://wa.me/59177894488?text="+texto;
+	                	// 76191403
 	              }
 	              if (response == 2) {
 	              	M.toast({html: '<span style="color: #f6e58d">Usted ya tiene un pedido pendiente.</span>'})

@@ -28,7 +28,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 		background-color: white;
 	}
 </style>
-
+<br>
 <div id="404">
 	<img src="images/404.png" width="100%" alt="">
 	<div id="txt" class="container">
@@ -37,7 +37,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 </div>
 
 
-<div id="cabezal" class="center dancing"><h4>Mi pedido</h4></div> <!-- ESTADO -->
+<!-- <div id="cabezal" class="center dancing"><h4>Mi pedido</h4></div> -->
 
 <div id="contenido" class="row rubik" >
 	<div class="col s12">
@@ -106,6 +106,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 <script>
 
 	$(document).ready(function() {
+		$("#titulo").html('Mi pedido');
 		$(".modal").modal();
 	    $.ajax({
             url: "recursos/catalogos/ver_pedido.php",
@@ -147,7 +148,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 					$("#cabezal").show()
 					$("#404").hide()
 					$('#actped').css('color', '#329f21');
-					$('#actped').html('Tu pedido ha sido aceptado, y enviado.');
+					$('#actped').html('Tu pedido ha sido aceptado.');
 					$('#totped').html('<b>Subtotal:</b> '+arr[0]+'Bs.');
 					$("#totped_cd").html('<b>Total con descuento:</b> '+arr[7]+'Bs.');
 					$('#fecha_ped').html(arr[4]);

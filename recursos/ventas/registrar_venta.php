@@ -21,10 +21,16 @@ $valor = array_pop($array);
 $descuento = array_pop($array);
 $totalcd = array_pop($array);
  // die($pago_inicial->{"_pago_inicial"}); 
-
-
+// 
+if (isset($array[0]->{'codped'})) {
+	$codped = $array[0]->{'codped'};
+	$insertarCompra = "INSERT INTO `ventas`(`codp`,`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`,`credito`, `periodo`) VALUES (".$codped.",".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.", ".$periodo.")";
+}else{
+	$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`,`credito`, `periodo`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.", ".$periodo.")";
+}
+// }
 //insertar un nuevo registro de compra en tabla: ventas
-$insertarCompra = "INSERT INTO `ventas`(`ci_usu`,`ca`,`fecha`,`total`,`descuento`,`valor_peso`,`credito`, `periodo`) VALUES (".$userci.", ".$ca->{'_ca'}.", '".$fecha."', ".$totalcd->{'total_cd'}.", ".$descuento->{'_descuento'}.",".$valor->{'_valor'}.", ".$tipo_pago->{'_tipo_pago'}.", ".$periodo.")";
+
 mysqli_query($conexion, $insertarCompra);
 
 //obtener el último id autogenerado tabla: ventas

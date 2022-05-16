@@ -11,7 +11,7 @@ if (isset($_GET["ges"])) {
 $result = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
 $result = $result->fetch_all(MYSQLI_ASSOC);
 
-$Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 1 AND a.fecha LIKE '".$year."%'";
+$Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.total_cd, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 1 AND a.fecha LIKE '".$year."%'";
 
 // $_SESSION['periodo'] = $per;
 //consulta tabla inventario
@@ -19,10 +19,10 @@ $Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha,
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()){ 
-        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito'], 'periodo'=>$arr['periodo']); 
+        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'total_cd'=>$arr['total_cd'], 'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito'], 'periodo'=>$arr['periodo']); 
     }
 }else{
-        $fila[] = array('id'=>'---', 'ca'=>'---', 'cliente'=>'---', 'fecha'=>'---', 'total'=>'---', 'descuento'=>'---', 'valor_peso'=>'---', 'credito'=>'---', 'periodo'=>'---');
+        $fila[] = array('id'=>'---', 'ca'=>'---', 'cliente'=>'---', 'fecha'=>'---', 'total'=>'---', 'total_cd'=>'---', 'descuento'=>'---', 'valor_peso'=>'---', 'credito'=>'---', 'periodo'=>'---');
 }
 ?>
 
@@ -115,10 +115,10 @@ if((mysqli_num_rows($Busq))>0){
             <td><?php echo $valor["fecha"]?></td>
             <td><?php echo $valor["periodo"] ?></td>
             <td><?php if($valor["credito"] == '1'){echo 'Crédito';}else{echo 'Contado';} ?></td>
-            <td><?php echo $valor["total"]?> Bs.</td>
+            <td><?php echo $valor["total_cd"]?> Bs.</td>
 
             <td>
-            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['total']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>')"><i class="material-icons">check_circle</i></a>
+            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['total_cd']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>')"><i class="material-icons">check_circle</i></a>
             <!-- <a href="#!"><i class="material-icons">build</i></a> -->
             </td>
             <td>
@@ -253,6 +253,7 @@ $(document).ready(function() {
 });
 
 function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) {
+    console.log(total)
     if (credito == '1') {
         credito = 'Crédito'
     }else{
@@ -347,7 +348,7 @@ document.getElementById('reg_ped').addEventListener('click', () => {
     let id = document.getElementById("id_ped").value
     id = JSON.parse(id)
     
-
+    // let id_pedido = id[0];
     let total_cd = id[3]
     let descuento = id[5]
     let valor = id[4]
