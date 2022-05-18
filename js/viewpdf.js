@@ -22,7 +22,7 @@ function resetCurrentPDF() {
 // });
 
 function load_pdf(ruta) {
-	ruta = "images/pdf/Catalogo_02-2022_2.pdf";
+	// ruta = "images/pdf/Catalogo_02-2022_2.pdf";
 	fetch(ruta)
 	  .then(res => res.blob()) 
 	  .then(blob => {
@@ -33,6 +33,16 @@ function load_pdf(ruta) {
 	});	
 
 };
+
+// PDFJS.getDocument({url:url,rangeChunkSize:65536*16}).then(function(pdfDoc_) {
+//         pdfDoc = pdfDoc_;
+//         document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+//         // Initial/first page rendering
+//         renderPage(pageNum);
+
+//    }) 
+
 
 // input.addEventListener('change', event => {
 // 	const inputFile = event.target.files[0];
