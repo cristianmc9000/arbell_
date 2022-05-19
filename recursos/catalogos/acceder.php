@@ -5,7 +5,7 @@ require('../conexion.php');
 date_default_timezone_set("America/La_Paz");
 //Obtenemos los datos del formulario de acceso
 $ca = $_POST["codigo"]; 
-
+$pass = $_POST['pass'];
 $res = $conexion->query("SELECT estado FROM clientes WHERE CA = '".$ca."'");
 $res = $res->fetch_all(MYSQLI_ASSOC);
 if ($res && $res[0]['estado'] == '0') {
@@ -70,7 +70,7 @@ function check_in_range($fecha_inicio, $fecha_fin, $fecha){
 
 
 //Comprobamos si los datos son correctos
-if($caBD == $ca){
+if(($caBD == $ca) && ($pass == $datos['password']) ){
 	session_start();
 	$_SESSION['periodox'] = $indice+1;
 	$_SESSION['usuario'] = $datos['nombre'];
@@ -80,12 +80,14 @@ if($caBD == $ca){
 	$_SESSION['ca'] = $caBD;
 	$_SESSION['telf'] = $datos['telefono'];
 	$_SESSION['desc'] = $descuento;
+	$_SESSION['dir'] = $datos['lugar'];
+	$_SESSION['pass'] = $datos['password'];
 
 	die('1');
 	/* Sesión iniciada, si se desea, se puede redireccionar desde el servidor */
 //Si los datos no son correctos, o están vacíos, muestra un error
 //Además, hay un script que vacía los campos con la clase "acceso" (formulario)
-} else if ( $caBD != $ca || $ca == "" )  {
+} else if ( $caBD != $ca || $ca == "" || $pass != $datos['password'] )  {
 	die ('0');
 } else {
 	die('Error');

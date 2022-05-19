@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="stylesheet" href="css/pedidos.css">
     <link rel="icon" type="image/x-icon" href="images/iconoarbell.ico" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -47,8 +48,14 @@
                 <div class="col s10 offset-s1 m8 l4 xl4 offset-m2 offset-l4 offset-xl4">
                     <form id="acceso">
                         <div class="input-field">
-                            <input inputmode="numeric" class=" tam" type="password" id="codigo" name="codigo" />
+                            <i class="material-icons prefix">account_circle</i>
+                            <input inputmode="numeric" class=" tam validate" type="text" id="codigo" name="codigo" />
                             <label for="codigo" class="tam">Ingresa tu código Arbell</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input inputmode="numeric" class=" tam validate" type="password" id="pass" name="pass" />
+                            <label for="codigo" class="tam">Ingresa tu contraseña</label>
                         </div>
                     </form>
                 </div>
@@ -93,7 +100,7 @@ $("#acceso").on("submit", function(e) {
         }
         if (echo != "1") {
             return M.toast({
-                html: 'Código Arbell incorrecto.'
+                html: 'Datos incorrectos.'
             })
         }
         if (echo == '1') {

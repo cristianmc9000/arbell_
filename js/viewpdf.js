@@ -22,7 +22,8 @@ function resetCurrentPDF() {
 // });
 
 function load_pdf(ruta) {
-	// ruta = "images/pdf/Catalogo_02-2022_2.pdf";
+	// ruta = "https://drive.google.com/file/d/10ucno1KAkW06yhD-pWT51bDNgir5UbR3/view?usp=sharing";
+	// ruta = "https://mega.nz/file/HkgUhSpA#DIdxgjdAVZ0glFsgoOfOt5qI9YtzfLWt0f2InycqGBw";
 	fetch(ruta)
 	  .then(res => res.blob()) 
 	  .then(blob => {
