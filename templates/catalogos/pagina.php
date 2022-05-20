@@ -158,11 +158,13 @@
 <!-- 	<div class="left_arrow"><a href="#"><i class="large material-icons">chevron_left</i></a></div>
 	<div class="catalogo"><img width="100%" src="images/catalogo.png" alt="catalogo..."></div>
 	<div class="right_arrow"><a href="#"><i class="large material-icons">chevron_right</i></a></div> -->
-	<div id="princ">
-		<h3 id="open_h3">Open a PDF file</h3>
-		<canvas style="max-width: 95%;" class="pdf-viewer hidden">
+	<div id="princ" class="">
+		<!-- <h3 id="open_h3">Open a PDF file</h3> PARA VISUALIZAR PDF--> 
+		<!-- <canvas style="max-width: 95%;" class="pdf-viewer hidden"> PARA VISUALIZAR PDF-->
+		
+			<img width="95%" id="img_container" src="images/catalogos/Catalogo_02-2022_2_page-0001.jpg" alt="">
 			<!-- <iframe src="https://mega.nz/file/HkgUhSpA#DIdxgjdAVZ0glFsgoOfOt5qI9YtzfLWt0f2InycqGBw" frameborder="0"></iframe> -->
-		</canvas>
+		
 	</div>
 	<div id="foot">
 		<ul style="margin-top: 0px;margin-bottom: 0px;">
@@ -174,7 +176,7 @@
 			</li>
 			<li class="pagination">
 				<button id="previous"><i class="fas fa-arrow-alt-circle-left"></i></button>
-				<span id="current_page">0 of 0</span>
+				<span id="current_page">0</span>
 				<button id="next"><i class="fas fa-arrow-alt-circle-right"></i></button>
 			</li>
 
@@ -197,7 +199,7 @@
 			<img id="img_prod" src="images/fotos_prod/default.png" alt="" style="width: 100%; border-radius: 10px;">
 			<small class="fuente" style="line-height: 0px;"><b id="cod_prod"></b></small>
 		</div>
-		<div class="input-field col s4 offset-s1">
+		<div class="input-field col s4 offset-s1" id="div_cantidad" hidden>
 			<div class="number-container">
 				<!-- <label for="">Cantidad</label> -->
 				<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="15" disabled>
@@ -314,7 +316,20 @@
 
 <script type="text/javascript" src="js/viewpdf.js"></script>
 <script>
+	let total_img = 0;
 	$(document).ready(function(){
+
+		$.ajax({
+      url: "recursos/catalogos/files.php",
+      method: "GET",
+      success: function(response) {
+      	total_img = response;
+      	document.getElementById("current_page").innerHTML = "1 de "+total_img
+      },
+      error: function(error) {
+          console.log(error)
+      }
+		})
 		$('select').formSelect();
 		$('.fixed-action-btn').floatingActionButton({
 			hoverEnabled: false,
@@ -331,15 +346,15 @@
 			buttonPosition: 'around'
 		});
 
-		$.ajax({
-		  url: "recursos/catalogos/last-pdf.php",
-		  method: "GET",
-		  success: function(response) {
-		  	response = JSON.parse(response)
-		 		console.log(response.ruta);
-		 		load_pdf(response.ruta);
-		  }
-		})
+		// $.ajax({  CÓDIGO PARA VISUALIZAR PDF
+		//   url: "recursos/catalogos/last-pdf.php",
+		//   method: "GET",
+		//   success: function(response) {
+		//   	response = JSON.parse(response)
+		//  		console.log(response.ruta);
+		//  		load_pdf(response.ruta);
+		//   }
+		// })
 
 		$('#search_data').autocomplete({
       source: "recursos/catalogos/search_data.php",
@@ -359,6 +374,7 @@
         	// $("#img_prod").src(ui.item.foto);
         	document.getElementById("img_prod").src = ui.item.foto;
         	document.getElementById("cod_prod").innerHTML = ui.item.value
+        	document.getElementById("div_cantidad").hidden = false;
         	$('#search_data').val(ui.item.value)
         }
         // $('#foto_prod').attr("src", ui.item.foto);
@@ -372,6 +388,46 @@
     };
 
   });
+
+let pag = 1;
+document.getElementById('next').addEventListener('click', () => {
+	if (pag >= total_img) {
+		return pag = total_img;
+	}
+	pag += 1;
+	let name = "";
+	if (pag < 10) {
+		name = "images/catalogos/Catalogo_02-2022_2_page-000"+pag+".jpg";
+	}
+	if (pag >= 10 && pag < 100) {
+		name = "images/catalogos/Catalogo_02-2022_2_page-00"+pag+".jpg"
+	}
+	if (pag > 99) {
+		name = "images/catalogos/Catalogo_02-2022_2_page-0"+pag+".jpg"
+	}
+	document.getElementById("current_page").innerHTML = pag+" de "+total_img
+	document.getElementById("img_container").src = name;
+})
+
+document.getElementById('previous').addEventListener('click', () => {
+	if (pag < 2) {
+		return pag = 1;
+	}else{
+		pag -= 1;
+		let name = "";
+		if (pag < 10) {
+			name = "images/catalogos/Catalogo_02-2022_2_page-000"+pag+".jpg";
+		}
+		if (pag >= 10 && pag < 100) {
+			name = "images/catalogos/Catalogo_02-2022_2_page-00"+pag+".jpg"
+		}
+		if (pag > 99) {
+			name = "images/catalogos/Catalogo_02-2022_2_page-0"+pag+".jpg"
+		}
+		document.getElementById("current_page").innerHTML = pag+" de "+total_img
+		document.getElementById("img_container").src = name;
+	}
+})
 
 var reg_pedidos = new Array();
 
@@ -457,6 +513,7 @@ document.getElementById('add').addEventListener('click', () => {
 				$('#search_data').val("")
 			  document.getElementById("img_prod").src = "images/fotos_prod/default.png";
 				document.getElementById("cod_prod").innerHTML = "";
+				document.getElementById("div_cantidad").hidden = true;
 				$('#__cantidad').val(1)
 				$("#mod_con").removeClass("disabled")
 
