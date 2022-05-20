@@ -55,7 +55,7 @@
                         <div class="input-field">
                             <i class="material-icons prefix">lock</i>
                             <input inputmode="numeric" class=" tam validate" type="password" id="pass" name="pass" />
-                            <label for="codigo" class="tam active">Contraseña</label>
+                            <label for="pass" class="tam active">Contraseña</label>
                         </div>
                     </form>
                 </div>
