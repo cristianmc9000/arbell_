@@ -677,7 +677,7 @@ document.getElementById('return').addEventListener('click', () => {
 	                	clean_table();
 	                	let texto = `*LIDER/EXPERTA:*%0A${cliente}%0A*DETALLE DEL PEDIDO:*%0A${detalle}*Monto a pagar:* ${total_cd} Bs.%0A*Tipo de pago:* ${tipo}`;
 	                							// *Catálogo Arbell:* Crema facial
-	                	window.location.href = "https://wa.me/59177894488?text="+texto;
+	                	window.location.href = "https://wa.me/59175174075?text="+texto;
 	                	// 76191403
 	              }
 	              if (response == 2) {
