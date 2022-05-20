@@ -202,7 +202,7 @@
 		<div class="input-field col s4 offset-s1" id="div_cantidad" hidden>
 			<div class="number-container">
 				<!-- <label for="">Cantidad</label> -->
-				<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="15" disabled>
+				<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
 			</div>
 		</div>
 		<div id="__datosprod" hidden><input id='__datosp' cp='1' hidden/></div>
