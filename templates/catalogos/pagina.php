@@ -102,7 +102,7 @@
 	    <li><div class="divider"></div></li>
 	    <!-- <li><a class="subheader"></a></li> -->
 	    <li>
-	    	<div class="input-field container">
+	    	<div class="input-field container" hidden>
 			    <select class="browser-default">
 			      <option value="" disabled selected>Seleccione el catálogo</option>
 			      <option value="1">Option 1</option>
