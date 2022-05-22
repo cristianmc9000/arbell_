@@ -191,16 +191,16 @@
 <div id="form__">
 	<div class="container col s12 m6" id="form_container">
 		<!-- <div class="row">	 -->
-			<div class="input-field col s5">
+			<div class="input-field col s5 m6 offset-m3">
 		        <input id="search_data" type="text" autocomplete="off" class="validate semi" required>
 		        <label for="search_data">Código producto</label>
 		  </div>
-			<div class="input-field col s2 " style="text-align: center;" >
+			<div class="input-field col s2 m4 offset-m4" style="text-align: center;" >
 				<!-- aqui va el código de la imagen. -->
 				<img id="img_prod" src="images/fotos_prod/default.png" alt="" style="width: 100%; border-radius: 10px;">
 				<small class="fuente" style="line-height: 0px;"><b id="cod_prod"></b></small>
 			</div>
-			<div class="input-field col s4 offset-s1" id="div_cantidad" hidden>
+			<div class="input-field col s4 offset-s1 m12" id="div_cantidad" hidden>
 				<div class="number-container">
 					<!-- <label for="">Cantidad</label> -->
 					<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>

@@ -169,7 +169,7 @@ body{
 
 
 .get_out {
-    left: 0;
+    left: 300px;
     top: 0;
     position: fixed;
     z-index: 999;
@@ -205,11 +205,17 @@ header, main, body, footer {
 }
 
 @media only screen and (max-width : 992px) {
-  header, main, body, footer {
-    padding-left: 0;
-  }
-  #form_{
-  	padding-top: 0%;
-  }
+	header, main, body, footer {
+		padding-left: 0;
+	}
+	#form_{
+		padding-top: 0%;
+	}
+	.get_out {
+		left: 0;
+		top: 0;
+		position: fixed;
+		z-index: 999;
+	}
 }
 
