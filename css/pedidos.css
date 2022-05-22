@@ -169,7 +169,7 @@ body{
 
 
 .get_out {
-    left: 300px !important;
+    left: 300px;
     top: 0;
     position: fixed;
     z-index: 999;
