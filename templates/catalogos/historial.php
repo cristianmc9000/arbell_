@@ -37,7 +37,7 @@
         </select>
         <br>
         <?php foreach($result as $key  => $valor){ ?>
-        <div class="col s12 m6 l6 xl4 rubik">
+        <div class="col s12 m6 l6 xl6 rubik">
             <div class="z-depth-3 card horizontal card__pad"
                 <?php if ($valor['estado'] == '1') {echo 'style="background-color: #f1c40f"';}else{echo 'style="background-color: #2ecc71"';}?>>
                 <div class="card-stacked">
@@ -65,9 +65,10 @@
         </div>
         <?php } ?>
     </div>
-    <div class="col s12 m4 offset-m4 rubik">
 
-        <div id="modal1" style="width: 100%;" class="modal">
+    <div class="rubik">
+
+        <div id="modal1"  style="" class="modal">
             <div class="modal-content">
                 <h4>Historial de pagos</h4>
 
@@ -96,7 +97,7 @@
             </div>
         </div>
 
-        <div id="modal2" style="width: 100%;" class="modal">
+        <div id="modal2" class="modal">
             <div class="modal-content">
                 <h4>Detalle del pedido</h4>
                 <br>

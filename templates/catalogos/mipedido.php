@@ -29,7 +29,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 	}
 </style>
 <br>
-<div id="404">
+<div id="404" class="col s12 m6 offset-m3">
 	<img src="images/404.png" width="100%" alt="">
 	<div id="txt" class="container">
 		<span class="dancing center"><h3><b>Parece que no tienes pedidos activos!</b></h3></span>
@@ -90,7 +90,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 
 <!-- Modal cancelar_pedido -->
 <div class="row">
-	<div id="modal_cancelar_pedido" class="modal rubik col s12 m4 offset-m4">
+	<div id="modal_cancelar_pedido" class="modal rubik">  <!-- col s12 m4 offset-m4 controlado por pedidos.css--> 
 		<div id="cont_cancelar_pedido" class="modal-content">
 			<p><h4>Su pedido será cancelado.</h4></p>
 			<input type="text" id="codigo_ped" hidden>

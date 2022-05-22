@@ -86,7 +86,7 @@
 		</div>
 	</nav>
 
-	<ul id="slide-out" class="sidenav roboto">
+	<ul id="slide-out" class="sidenav sidenav-fixed roboto">
 	    <li><div class="user-view">
 	      <div class="background">
 	        <img src="images/fondo4.jpg" height="100%" width="100%">
@@ -154,7 +154,7 @@
 
 <div id="cuerpo" class="row"> 
 
-<div class="contenedor" id="pdf_container">
+<div class="contenedor col s12 m6" id="pdf_container">
 <!-- 	<div class="left_arrow"><a href="#"><i class="large material-icons">chevron_left</i></a></div>
 	<div class="catalogo"><img width="100%" src="images/catalogo.png" alt="catalogo..."></div>
 	<div class="right_arrow"><a href="#"><i class="large material-icons">chevron_right</i></a></div> -->
@@ -188,7 +188,7 @@
 	</div>
 </div>
 
-<div class="container" id="form_container">
+<div class="container col s12 m6" id="form_container">
 	<div class="row">	
 		<div class="input-field col s5">
 	        <input id="search_data" type="text" autocomplete="off" class="validate semi" required>
@@ -209,7 +209,7 @@
 	</div>
 </div>
 
-<div class="container center" id="add_container">
+<div class="container center col s12 m6" id="add_container">
 	<a class="waves-effect waves-light btn-large shop red lighten-1 fuente" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
 </div>
 
@@ -708,7 +708,9 @@ document.getElementById('return').addEventListener('click', () => {
 	function _load (url) {
 		let y = '.php';
 		document.getElementById('cart').hidden = true;
-		$(".sidenav").sidenav('close')
+		if (screen.width < 993) {
+			$(".sidenav").sidenav('close')
+		}
 		$("#cuerpo").load(url+y);
 	}
 
