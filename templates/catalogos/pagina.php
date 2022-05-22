@@ -188,31 +188,32 @@
 	</div>
 </div>
 
-<div class="container col s12 m6" id="form_container">
-	<div class="row">	
-		<div class="input-field col s5">
-	        <input id="search_data" type="text" autocomplete="off" class="validate semi" required>
-	        <label for="search_data">Código producto</label>
-	  </div>
-		<div class="input-field col s2 " style="text-align: center;" >
-			<!-- aqui va el código de la imagen. -->
-			<img id="img_prod" src="images/fotos_prod/default.png" alt="" style="width: 100%; border-radius: 10px;">
-			<small class="fuente" style="line-height: 0px;"><b id="cod_prod"></b></small>
-		</div>
-		<div class="input-field col s4 offset-s1" id="div_cantidad" hidden>
-			<div class="number-container">
-				<!-- <label for="">Cantidad</label> -->
-				<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
+<div id="form__">
+	<div class="container col s12 m6" id="form_container">
+		<!-- <div class="row">	 -->
+			<div class="input-field col s5">
+		        <input id="search_data" type="text" autocomplete="off" class="validate semi" required>
+		        <label for="search_data">Código producto</label>
+		  </div>
+			<div class="input-field col s2 " style="text-align: center;" >
+				<!-- aqui va el código de la imagen. -->
+				<img id="img_prod" src="images/fotos_prod/default.png" alt="" style="width: 100%; border-radius: 10px;">
+				<small class="fuente" style="line-height: 0px;"><b id="cod_prod"></b></small>
 			</div>
-		</div>
-		<div id="__datosprod" hidden><input id='__datosp' cp='1' hidden/></div>
+			<div class="input-field col s4 offset-s1" id="div_cantidad" hidden>
+				<div class="number-container">
+					<!-- <label for="">Cantidad</label> -->
+					<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
+				</div>
+			</div>
+			<div id="__datosprod" hidden><input id='__datosp' cp='1' hidden/></div>
+		<!-- </div> -->
+	</div>
+
+	<div class="container center col s12 m6" style="padding-top: 2em;" id="add_container">
+		<a class="waves-effect waves-light btn-large shop red lighten-1 fuente" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
 	</div>
 </div>
-
-<div class="container center col s12 m6" id="add_container">
-	<a class="waves-effect waves-light btn-large shop red lighten-1 fuente" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
-</div>
-
 
 <div class="container">
 <div class="row roboto" id="cart_row" hidden>

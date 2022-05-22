@@ -200,9 +200,16 @@ body{
 header, main, body, footer {
   padding-left: 300px;
 }
+#form__{
+	padding-top: 10%;
+}
 
 @media only screen and (max-width : 992px) {
   header, main, body, footer {
     padding-left: 0;
   }
+  #form_{
+  	padding-top: 0%;
+  }
 }
+
