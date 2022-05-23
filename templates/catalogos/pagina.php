@@ -72,6 +72,21 @@
     transform: scale(1.8); 
   }
 
+  .get_out {
+    left: 300px;
+    top: 0;
+    position: fixed;
+    z-index: 999;
+	}
+	@media only screen and (max-width : 992px) {
+	.get_out {
+		left: 0;
+		top: 0;
+		position: fixed;
+		z-index: 999;
+	}
+}
+
 </style>
 
 <body>
