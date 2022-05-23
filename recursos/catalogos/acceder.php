@@ -75,7 +75,7 @@ if(($caBD == $ca) && ($pass == $datos['password']) ){
 	$_SESSION['periodox'] = $indice+1;
 	$_SESSION['usuario'] = $datos['nombre'];
 	$_SESSION['apellidos'] = $datos['apellidos'];
-	$_SESSION['estado'] = 'Autenticado';
+	$_SESSION['estado'] = 'Autenticadox';
 	$_SESSION['userCI'] = $datos['CI'];
 	$_SESSION['ca'] = $caBD;
 	$_SESSION['telf'] = $datos['telefono'];
