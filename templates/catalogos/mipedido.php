@@ -27,6 +27,22 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 		/*border: 3px solid black;*/
 		background-color: white;
 	}
+	.btn-cancelar{
+
+	}
+
+	@media (max-width: 600px) {
+
+		.btn-cancelar{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100% !important;
+        -ms-transform: none;
+        transform: none;
+		}
+	}
+
 </style>
 <br>
 <div id="404" class="col s12 m6 offset-m3">
