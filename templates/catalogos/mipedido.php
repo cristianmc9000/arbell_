@@ -102,7 +102,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 
 </div>
 <div class="col s12 center">
-	<a class="btn-large red btn-cancelar" id="boton-cancelar">CANCELAR MI PEDIDO</a>
+	<a class="btn-large red " id="boton-cancelar">CANCELAR MI PEDIDO</a>
 </div>
 <!-- Modal cancelar_pedido -->
 <div class="row">
