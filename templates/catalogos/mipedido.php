@@ -85,9 +85,9 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 	
 
 </div>
-
-<a class="btn-large red btn-cancelar" id="boton-cancelar">CANCELAR MI PEDIDO</a>
-
+<div class="col s12 center">
+	<a class="btn-large red btn-cancelar" id="boton-cancelar">CANCELAR MI PEDIDO</a>
+</div>
 <!-- Modal cancelar_pedido -->
 <div class="row">
 	<div id="modal_cancelar_pedido" class="modal rubik">  <!-- col s12 m4 offset-m4 controlado por pedidos.css--> 
