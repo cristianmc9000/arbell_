@@ -2,6 +2,10 @@
 	require("sesiones.php");
 	require("../conexion.php");
 	session_start();
+
+	date_default_timezone_set("America/La_Paz");
+	$fecha = date("Y-m-d h:i:s");
+
 	$ca = $_SESSION['ca'];
 	$per = $_SESSION['periodox'];
 
@@ -16,7 +20,7 @@
 	$cred = $_GET['cred'];
 
 	$desc = ((float)$_SESSION['desc'])*100;
-	$result = $conexion->query("INSERT INTO pedidos (ca, total, total_cd, descuento, valor_peso, credito, periodo) VALUES('".$ca."', ".$total.", ".$total_cd.", ".$desc.", 0.05, ".$cred.", ".$per.")");
+	$result = $conexion->query("INSERT INTO pedidos (ca, fecha, total, total_cd, descuento, valor_peso, credito, periodo) VALUES('".$ca."', '".$fecha."',".$total.", ".$total_cd.", ".$desc.", 0.05, ".$cred.", ".$per.")");
 
 	$lastid = mysqli_insert_id($conexion);
 
