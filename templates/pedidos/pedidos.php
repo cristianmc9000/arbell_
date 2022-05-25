@@ -51,7 +51,7 @@ if((mysqli_num_rows($Busq))>0){
     gap: 20px;
 }
 .line div p{
-    width: calc(33.3% - 20px);
+    width: calc(50% - 20px);
 }
 
 .columnas{
@@ -118,7 +118,7 @@ if((mysqli_num_rows($Busq))>0){
             <td><?php echo $valor["total_cd"]?> Bs.</td>
 
             <td>
-            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['total_cd']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>')"><i class="material-icons">check_circle</i></a>
+            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['total']?>', '<?php echo $valor['total_cd']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>')"><i class="material-icons">check_circle</i></a>
             <!-- <a href="#!"><i class="material-icons">build</i></a> -->
             </td>
             <td>
@@ -140,10 +140,12 @@ if((mysqli_num_rows($Busq))>0){
                 <div>
                     <p id="det_ca"></p>
                     <p id="det_cli"></p>
-                    <p id="det_desc"></p>
                 </div>
                 <div>
                     <p id="det_cred"></p>
+                    <p id="det_desc"></p>
+                </div>
+                <div>
                     <p id="det_total"></p>
                     <p id="det_total_cd"></p>
                 </div>
@@ -252,7 +254,7 @@ $(document).ready(function() {
 
 });
 
-function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) {
+function aceptar_pedido(id, ca, cliente, credito, total, total_cd, valor_peso, descuento) {
     console.log(total)
     if (credito == '1') {
         credito = 'Crédito'
@@ -260,7 +262,7 @@ function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) 
         credito = "Contado"
     }
 
-    let json = [id, ca, credito, total, valor_peso, descuento]
+    let json = [id, ca, credito, total_cd, valor_peso, descuento]
     document.getElementById("id_ped").value = JSON.stringify(json)
 
     document.getElementById("det_ca").innerHTML = "<b>Código arbell: </b>"+ca
@@ -268,7 +270,7 @@ function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) 
     document.getElementById("det_desc").innerHTML = "<b>Descuento: </b>"+descuento+"%"
     document.getElementById("det_cred").innerHTML = "<b>Tipo pago: </b>"+credito
     document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total+" Bs."
-
+    document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd+" Bs."
     
 
     $.ajax({
@@ -306,7 +308,7 @@ function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) 
 
                     
                     // gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
-                    total_cd += parseFloat(jsonParsedArray[key]['pubs_desc'])
+                    // total_cd += parseFloat(jsonParsedArray[key]['pubs_desc'])
 
                     cantidad += parseInt(jsonParsedArray[key]['cantidad'])
                     if (jsonParsedArray[key]['codli'] == 16 || (jsonParsedArray[key]['codli'] >= 32 && jsonParsedArray[key]['codli'] <= 37)) {
@@ -315,7 +317,6 @@ function aceptar_pedido(id, ca, cliente, credito, total, valor_peso, descuento) 
                 }
             }
 
-            document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd+" Bs."
             $("#modal1").openModal();
         },
         error: function(error) {

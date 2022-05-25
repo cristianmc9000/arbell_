@@ -4,7 +4,7 @@
 	session_start();
 
 	date_default_timezone_set("America/La_Paz");
-	$fecha = date("Y-m-d h:i:s");
+	$fecha = date("Y-m-d H:i:s");
 
 	$ca = $_SESSION['ca'];
 	$per = $_SESSION['periodox'];
