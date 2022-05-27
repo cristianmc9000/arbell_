@@ -21,8 +21,8 @@ if(strlen($descripcion) > $maxCaracteres) {
 
 /* FALTA AGREGAR BIEN LA RUTA DE LAS IMAGENES */
 if(!empty($archivo)){
-// $ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR AL 000WEBHOST
-$ruta = $_SERVER['DOCUMENT_ROOT']."/arbell/images/fotos_prod";
+$ruta = $_SERVER['DOCUMENT_ROOT']."/images/fotos_prod"; //PARA SUBIR AL 000WEBHOST
+// $ruta = $_SERVER['DOCUMENT_ROOT']."/arbell/images/fotos_prod";
 $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;

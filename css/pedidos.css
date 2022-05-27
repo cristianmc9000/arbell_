@@ -46,11 +46,11 @@
 	}
 
 	.btn-cancelar{
-	    position: absolute;
+/*	    position: absolute;
 	    bottom: 20%;
-	    left: 50%;
-	    -ms-transform: translate(-50%, -50%);
-	    transform: translate(-50%, -50%);
+	    left: 50%;*/
+	    /*-ms-transform: translate(-50%, -50%);*/
+	    /*transform: translate(-50%, -50%);*/
 	}
 
 
