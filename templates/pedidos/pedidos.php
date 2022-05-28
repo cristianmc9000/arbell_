@@ -286,10 +286,10 @@ function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
                     newTableRow.className = "dinamic_rows"
                     
                     let estilos = "";
-                    let mod = `<a href='#' style='color: red' onclick='del_row("${jsonParsedArray[key]['id']}", "${id}","${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`
+                    let mod = `<a href='#' class="del_btn" style='color: red' onclick='del_row("${jsonParsedArray[key]['id']}", "${id}","${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`
                     if (jsonParsedArray[key]['estado'] == '0') {
                         estilos = "text-decoration: line-through; color: #636e72";
-                        mod = `<a href='#' style='color: #2ecc71' onclick='restore_row("${jsonParsedArray[key]['id']}", "${id}", "${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`;
+                        mod = `<a href='#' class="del_btn" style='color: #2ecc71' onclick='restore_row("${jsonParsedArray[key]['id']}", "${id}", "${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`;
                     }
 
                     newRow = newTableRow.insertCell(0)
@@ -354,6 +354,9 @@ function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
 }
 
 function del_row(codp, id, pubs, pubs_cd, cant, e) {
+    
+    document.getElementsByClassName("del_btn").hidden = true;
+
     let total_cd_table_cell = evento.target.parentNode.parentNode.parentNode.cells[6]
     get_total(id).then(response=>{
         let total = parseFloat(response[0].total) - (parseFloat(pubs)*parseInt(cant))
@@ -376,13 +379,14 @@ function del_row(codp, id, pubs, pubs_cd, cant, e) {
                     }
                         
                     let cell = e.target.parentNode.parentNode    
-                    cell.innerHTML = `<a href='#' style='color: #2ecc71' onclick='restore_row("${codp}", "${id}", "${pubs}", "${pubs_cd}", "${cant}", event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`
+                    cell.innerHTML = `<a href='#' class="del_btn" style='color: #2ecc71' onclick='restore_row("${codp}", "${id}", "${pubs}", "${pubs_cd}", "${cant}", event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`
                     cell.style.textDecoration = 'none';
 
                     document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total.toFixed(1)+" Bs."
                     document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd.toFixed(1)+" Bs."
 
                     total_cd_table_cell.innerHTML = `${total_cd.toFixed(1)} Bs.`
+                    document.getElementsByClassName("del_btn").hidden = false;
                 }
 
             },
@@ -418,7 +422,7 @@ function restore_row(codp, id, pubs, pubs_cd, cant, e) {
                     }
                         
                     let cell = e.target.parentNode.parentNode;    
-                    cell.innerHTML = `<a href='#' style='color: red' onclick='del_row("${codp}", "${id}", "${pubs}", "${pubs_cd}", "${cant}", event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`;
+                    cell.innerHTML = `<a href='#' class="del_btn" style='color: red' onclick='del_row("${codp}", "${id}", "${pubs}", "${pubs_cd}", "${cant}", event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`;
                     cell.style.textDecoration = 'none';
 
                     document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total.toFixed(1)+" Bs."
