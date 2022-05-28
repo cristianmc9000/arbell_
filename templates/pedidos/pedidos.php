@@ -257,6 +257,9 @@ $(document).ready(function() {
     // $('.modal').leanModal();
 
 });
+
+let sw = 1;
+
 let evento
 function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
     evento = e;
@@ -355,7 +358,11 @@ function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
 
 function del_row(codp, id, pubs, pubs_cd, cant, e) {
     
-    document.getElementsByClassName("del_btn").hidden = true;
+    if (sw == 0) {
+        console.log("espera...")
+        return false;
+    }
+    sw = 0;
 
     let total_cd_table_cell = evento.target.parentNode.parentNode.parentNode.cells[6]
     get_total(id).then(response=>{
@@ -386,7 +393,9 @@ function del_row(codp, id, pubs, pubs_cd, cant, e) {
                     document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd.toFixed(1)+" Bs."
 
                     total_cd_table_cell.innerHTML = `${total_cd.toFixed(1)} Bs.`
-                    document.getElementsByClassName("del_btn").hidden = false;
+                        
+                    sw = 1;
+
                 }
 
             },
@@ -399,6 +408,14 @@ function del_row(codp, id, pubs, pubs_cd, cant, e) {
 }
 
 function restore_row(codp, id, pubs, pubs_cd, cant, e) {
+
+    if (sw == 0) {
+        console.log("espera...")
+        return false;
+
+    }
+    sw = 0;
+
     let total_cd_table_cell = evento.target.parentNode.parentNode.parentNode.cells[6]
     get_total(id).then(response=>{
         let total = parseFloat(response[0].total) + (parseFloat(pubs)*parseInt(cant))
@@ -429,6 +446,8 @@ function restore_row(codp, id, pubs, pubs_cd, cant, e) {
                     document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd.toFixed(1)+" Bs."
 
                     total_cd_table_cell.innerHTML = `${total_cd.toFixed(1)} Bs.`
+
+                    sw = 1;
                 }
 
             },
