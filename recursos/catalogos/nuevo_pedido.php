@@ -38,7 +38,7 @@
 		if ($x[6] == 16 || ($x[6] >= 32 && $x[6] <= 37)) {
 			$pubs_cd = $x[4];
 		}else{
-			$pubs_cd = (((float)($x[4]))-(((float)($x[4]))*((float)$_SESSION['desc'])));
+			$pubs_cd = round((((float)($x[4]))-(((float)($x[4]))*((float)$_SESSION['desc']))), 1);
 		}
 
 		$result = $conexion->query("INSERT INTO `detalle_pedido`(`codped`, `codpro`, `cant`, `pubs`, `pubs_cd`) VALUES (".$lastid.",'".$x[0]."',".$x[2].",'".$x[4]."','".$pubs_cd."')");

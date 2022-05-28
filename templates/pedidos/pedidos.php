@@ -58,6 +58,9 @@ if((mysqli_num_rows($Busq))>0){
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
+.lineh{
+    line-height: 1px;
+}
 </style>
 
 <div class="row">
@@ -118,7 +121,7 @@ if((mysqli_num_rows($Busq))>0){
             <td><?php echo $valor["total_cd"]?> Bs.</td>
 
             <td>
-            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['total']?>', '<?php echo $valor['total_cd']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>')"><i class="material-icons">check_circle</i></a>
+            <a href="#!" onclick="aceptar_pedido('<?php echo $valor['id']?>', '<?php echo $valor['ca']?>', '<?php echo $valor['cliente']?>', '<?php echo $valor['credito']?>', '<?php echo $valor['valor_peso']?>', '<?php echo $valor['descuento']?>', event)"><i class="material-icons">check_circle</i></a>
             <!-- <a href="#!"><i class="material-icons">build</i></a> -->
             </td>
             <td>
@@ -161,6 +164,7 @@ if((mysqli_num_rows($Busq))>0){
                             <th>Cantidad</th>
                             <th>Subtotal</th>
                             <th>Subtotal C/D</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody class="centered"></tbody>
@@ -253,31 +257,23 @@ $(document).ready(function() {
     // $('.modal').leanModal();
 
 });
-
-function aceptar_pedido(id, ca, cliente, credito, total, total_cd, valor_peso, descuento) {
-    console.log(total)
+let evento
+function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
+    evento = e;
     if (credito == '1') {
         credito = 'Crédito'
     }else{
         credito = "Contado"
     }
 
-    let json = [id, ca, credito, total_cd, valor_peso, descuento]
-    document.getElementById("id_ped").value = JSON.stringify(json)
-
-    document.getElementById("det_ca").innerHTML = "<b>Código arbell: </b>"+ca
-    document.getElementById("det_cli").innerHTML = "<b>Cliente: </b>"+cliente
-    document.getElementById("det_desc").innerHTML = "<b>Descuento: </b>"+descuento+"%"
-    document.getElementById("det_cred").innerHTML = "<b>Tipo pago: </b>"+credito
-    document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total+" Bs."
-    document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd+" Bs."
-    
+    let total 
+    let total_cd 
 
     $.ajax({
         url: "recursos/pedidos/detalle.php?id="+id,
         method: "GET",
         success: function(response) {
-            let total_cd = 0;
+            // let total_cd = 0;
             let cantidad = 0;
             let auxiliares = 0;
             var jsonParsedArray = JSON.parse(response)
@@ -288,23 +284,41 @@ function aceptar_pedido(id, ca, cliente, credito, total, total_cd, valor_peso, d
                 if (jsonParsedArray.hasOwnProperty(key)) {
                     let newTableRow = table.insertRow(-1)
                     newTableRow.className = "dinamic_rows"
+                    
+                    let estilos = "";
+                    let mod = `<a href='#' style='color: red' onclick='del_row("${jsonParsedArray[key]['id']}", "${id}","${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`
+                    if (jsonParsedArray[key]['estado'] == '0') {
+                        estilos = "text-decoration: line-through; color: #636e72";
+                        mod = `<a href='#' style='color: #2ecc71' onclick='restore_row("${jsonParsedArray[key]['id']}", "${id}", "${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`;
+                    }
+
                     newRow = newTableRow.insertCell(0)
+                    newRow.style = estilos
                     newRow.textContent = jsonParsedArray[key]['id']
 
                     newRow = newTableRow.insertCell(1)
+                    newRow.style = estilos
                     newRow.textContent = jsonParsedArray[key]['linea']
 
                     newRow = newTableRow.insertCell(2)
+                    newRow.style = estilos
                     newRow.textContent = jsonParsedArray[key]['descripcion']
 
                     newRow = newTableRow.insertCell(3)
+                    newRow.style = estilos
                     newRow.textContent = jsonParsedArray[key]['cantidad']
 
                     newRow = newTableRow.insertCell(4)
+                    newRow.style = estilos
                     newRow.textContent = jsonParsedArray[key]['pubs'] +" Bs."
 
                     newRow = newTableRow.insertCell(5)
+                    newRow.style = estilos
                     newRow.textContent = jsonParsedArray[key]['pubs_desc'] +" Bs."
+
+                    newRow = newTableRow.insertCell(6)
+                    newRow.className = 'center lineh'
+                    newRow.innerHTML = mod;
 
                     
                     // gan_exp = gan_exp + (parseFloat(jsonParsedArray[key]['pubs']) * parseInt(jsonParsedArray[key]['cantidad']) - parseFloat(jsonParsedArray[key]['pubs_cd']) * parseInt(jsonParsedArray[key]['cantidad']))
@@ -316,13 +330,120 @@ function aceptar_pedido(id, ca, cliente, credito, total, total_cd, valor_peso, d
                     }
                 }
             }
+            get_total(id).then(response=>{
+                total = response[0].total
+                total_cd = response[0].total_cd
 
-            $("#modal1").openModal();
+                let json = [id, ca, credito, total_cd, valor_peso, descuento]
+                document.getElementById("id_ped").value = JSON.stringify(json)
+
+                document.getElementById("det_ca").innerHTML = "<b>Código arbell: </b>"+ca
+                document.getElementById("det_cli").innerHTML = "<b>Cliente: </b>"+cliente
+                document.getElementById("det_desc").innerHTML = "<b>Descuento: </b>"+descuento+"%"
+                document.getElementById("det_cred").innerHTML = "<b>Tipo pago: </b>"+credito
+                document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total+" Bs."
+                document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd+" Bs."
+                $("#modal1").openModal();
+            })
+            
         },
         error: function(error) {
             console.log(error)
         }
     });
+}
+
+function del_row(codp, id, pubs, pubs_cd, cant, e) {
+    let total_cd_table_cell = evento.target.parentNode.parentNode.parentNode.cells[6]
+    get_total(id).then(response=>{
+        let total = parseFloat(response[0].total) - (parseFloat(pubs)*parseInt(cant))
+        let total_cd = parseFloat(response[0].total_cd) - (parseFloat(pubs_cd)*parseInt(cant))
+
+        let json = document.getElementById("id_ped").value
+        json = JSON.parse(json)
+        json[3] = total_cd
+        document.getElementById("id_ped").value = JSON.stringify(json)
+
+        $.ajax({
+            url: "recursos/pedidos/mod_item.php?codp="+codp+"&id="+id+"&estado=0",
+            method: "GET",
+            success: function(response) {
+                if (response) {
+                    let row = e.target.parentNode.parentNode.parentNode;
+                    for (var i = 0; i < row.cells.length-1; i++) {
+                        row.cells[i].style.textDecoration = "line-through";
+                        row.cells[i].style.color = "#636e72"; 
+                    }
+                        
+                    let cell = e.target.parentNode.parentNode    
+                    cell.innerHTML = `<a href='#' style='color: #2ecc71' onclick='restore_row("${codp}", "${id}", "${pubs}", "${pubs_cd}", "${cant}", event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`
+                    cell.style.textDecoration = 'none';
+
+                    document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total.toFixed(1)+" Bs."
+                    document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd.toFixed(1)+" Bs."
+
+                    total_cd_table_cell.innerHTML = `${total_cd.toFixed(1)} Bs.`
+                }
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        })
+    })
+
+}
+
+function restore_row(codp, id, pubs, pubs_cd, cant, e) {
+    let total_cd_table_cell = evento.target.parentNode.parentNode.parentNode.cells[6]
+    get_total(id).then(response=>{
+        let total = parseFloat(response[0].total) + (parseFloat(pubs)*parseInt(cant))
+        let total_cd = parseFloat(response[0].total_cd) + (parseFloat(pubs_cd)*parseInt(cant))
+
+        let json = document.getElementById("id_ped").value
+        json = JSON.parse(json)
+        json[3] = total_cd
+        document.getElementById("id_ped").value = JSON.stringify(json)
+
+        $.ajax({
+            url: "recursos/pedidos/mod_item.php?codp="+codp+"&id="+id+"&estado=1",
+            method: "GET",
+            success: function(response) {
+                console.log(response)
+                if (response) {
+                    let row = e.target.parentNode.parentNode.parentNode;
+                    for (var i = 0; i < row.cells.length-1; i++) {
+                        row.cells[i].style.textDecoration = "none";
+                        row.cells[i].style.color = "#000"; 
+                    }
+                        
+                    let cell = e.target.parentNode.parentNode;    
+                    cell.innerHTML = `<a href='#' style='color: red' onclick='del_row("${codp}", "${id}", "${pubs}", "${pubs_cd}", "${cant}", event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`;
+                    cell.style.textDecoration = 'none';
+
+                    document.getElementById("det_total").innerHTML = "<b>Total: </b>"+total.toFixed(1)+" Bs."
+                    document.getElementById("det_total_cd").innerHTML = "<b>Total C/D: </b>"+total_cd.toFixed(1)+" Bs."
+
+                    total_cd_table_cell.innerHTML = `${total_cd.toFixed(1)} Bs.`
+                }
+
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        })
+    })
+}
+
+const get_total = async (id) => {
+try{
+    const resp = await fetch("recursos/pedidos/get_total.php?id="+id)
+    const res = await resp.json()
+    return res
+}
+    catch(error){
+        console.log(error)
+    }
 }
 
 document.getElementById('cambio').addEventListener('click', () => {
@@ -377,6 +498,9 @@ document.getElementById('reg_ped').addEventListener('click', () => {
                         url: "recursos/pedidos/detalle.php?id="+id[0]+"&x=1",
                         method: "GET",
                         success: function(resp) {
+                            if (resp == 'nodata') {
+                                return Materialize.toast('El pedido no contiene productos.');
+                            }
                             resp = JSON.parse(resp)
                             resp.push({total_cd: total_cd})
                             resp.push({_descuento: descuento})
