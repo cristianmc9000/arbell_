@@ -8,7 +8,7 @@ if (isset($_GET["ges"])) {
   $year = $_GET["ges"];
 }
 
-$Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 2 AND a.fecha LIKE '".$year."%'";
+$Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha, a.total, a.total_cd, a.descuento, a.valor_peso, a.credito, a.periodo FROM pedidos a, clientes c WHERE a.ca = c.CA AND a.estado = 2 AND a.fecha LIKE '".$year."%'";
 
 // $_SESSION['periodo'] = $per;
 //consulta tabla inventario
@@ -16,7 +16,7 @@ $Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha,
 $Busq = $conexion->query($Sql); 
 if((mysqli_num_rows($Busq))>0){
     while($arr = $Busq->fetch_array()){ 
-        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito'], 'periodo'=>$arr['periodo']); 
+        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'total_cd'=>$arr['total_cd'],'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito'], 'periodo'=>$arr['periodo']); 
     }
 }else{
         $fila[] = array('id'=>'---', 'ca'=>'---', 'cliente'=>'---', 'fecha'=>'---', 'total'=>'---', 'descuento'=>'---', 'valor_peso'=>'---', 'credito'=>'---', 'periodo'=>'---');
@@ -84,7 +84,7 @@ if((mysqli_num_rows($Busq))>0){
             <td><?php echo $valor["fecha"]?></td>
             <td><?php echo $valor["periodo"] ?></td>
             <td><?php if($valor["credito"] == '1'){echo 'Crédito';}else{echo 'Contado';} ?></td>
-            <td><?php echo $valor["total"]?> Bs.</td>
+            <td><?php echo $valor["total_cd"]?> Bs.</td>
 
 
             <!-- <td> -->
