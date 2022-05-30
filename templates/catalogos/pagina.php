@@ -655,11 +655,13 @@ document.getElementById('return').addEventListener('click', () => {
 				// reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, codli];
 		// console.log(reg_pedidos + "<<<----")
 		// let x = "";
+		let cant_items = 0;
 		let a = new Array()
 		Object.keys(reg_pedidos).forEach(function(key) {
 			// console.log(reg_pedidos[key][7] +"<<< linea ")
 			// x = x+`{${key}:[{${reg_pedidos[key][1]},${reg_pedidos[key][2]},${reg_pedidos[key][3]},${reg_pedidos[key][5]},${reg_pedidos[key][6]}}]}`;
 			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6], reg_pedidos[key][7]]);
+			cant_items += parseInt(reg_pedidos[key][2]);
 		})
 		
 
@@ -691,7 +693,7 @@ document.getElementById('return').addEventListener('click', () => {
 	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 5000, classes: 'rounded'})
 	                	$("#modal2").modal('close')
 	                	clean_table();
-	                	let texto = `*LIDER/EXPERTA:*%0A${cliente}%0A*DETALLE DEL PEDIDO:*%0A${detalle}*Monto a pagar:* ${total_cd} Bs.%0A*Tipo de pago:* ${tipo}`;
+	                	let texto = `*LIDER/EXPERTA:*%0A${cliente}%0A*DETALLE DEL PEDIDO:*%0A${detalle}*Monto a pagar:* ${total_cd} Bs.%0A*Cant. Items:* ${cant_items}%0A*Tipo de pago:* ${tipo}`;
 	                							// *Catálogo Arbell:* Crema facial
 	                	window.location.href = "https://wa.me/59175174075?text="+texto;
 	                	// 76191403
