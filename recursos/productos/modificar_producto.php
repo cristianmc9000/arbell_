@@ -27,7 +27,7 @@ $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;
 }else{
-	$ruta2 = "images/fotos_prod/defecto.png";
+	$ruta2 = "images/fotos_prod/".$nombreimg;
 }
 
 if ($cod != $codant) {
