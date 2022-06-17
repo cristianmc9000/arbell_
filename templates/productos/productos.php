@@ -239,6 +239,7 @@ if (isset($_GET["mes"])) {
                 <input type="file" name="imagen">
               </div>
               <div class="file-path-wrapper">
+                <input id="imagen_ant" name="imagen_ant" type="text" hidden>
                 <input id="imagen" class="file-path validate" type="text">
               </div>
             </div>
@@ -450,6 +451,7 @@ $("#agregar_producto").on("submit", function(e){
 
 function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
   
+  $("#imagen_ant").val(foto)
   $("#imagen").val(foto)
   $("#codigo").val(id)
   $("#codigo_ant").val(id)

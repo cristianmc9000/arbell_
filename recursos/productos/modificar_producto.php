@@ -11,6 +11,7 @@ $linea = $_POST["linea"];
 $descripcion = $_POST["descripcion"];
 $periodo = $_SESSION["periodo"];
 // $year = $_SESSION['anio'];
+$imgant = $_POST['imagen_ant'];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
@@ -27,7 +28,7 @@ $ruta = $ruta."/".$nombreimg;
 move_uploaded_file($archivo, $ruta);
 $ruta2 = "images/fotos_prod/".$nombreimg;
 }else{
-	$ruta2 = "images/fotos_prod/".$nombreimg;
+	$ruta2 = $imgant;
 }
 
 if ($cod != $codant) {
