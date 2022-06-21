@@ -12,6 +12,7 @@ $lugarPOST = $_POST["lugar"];
 $correoPOST = $_POST["correo"];
 $nivelPOST = $_POST["nivel"];
 $fecha_alta = $_POST["fecha_alta"];
+$id_lider = $_POST["id_lider"];
 
 	$consultaBuscarCa = "SELECT * FROM clientes WHERE CA = ".$caPOST;
 	$resultadoConsultaBCA = mysqli_query($conexion, $consultaBuscarCa) or die(mysql_error());
@@ -27,8 +28,8 @@ if ($nivelPOST == 1) {
 	$nivelPOST = 'lider';
 }
 
-	$consultaAC ="INSERT INTO `clientes`(`CA`,`CI`, `nombre`, `apellidos`, `telefono`, `lugar`, `correo`, `nivel`, `fecha_alta`) VALUES ('".$caPOST."','".$ciPOST."','".$nombrePOST."','".$apellidosPOST."','".$telefonoPOST."','".$lugarPOST."','".$correoPOST."','".$nivelPOST."', '".$fecha_alta."')";
-	if(mysqli_query($conexion, $consultaAC) or die(mysql_error())){
+	$consultaAC ="INSERT INTO `clientes`(`CA`,`CI`, `nombre`, `apellidos`, `telefono`, `lugar`, `correo`, `nivel`, `lider`,`fecha_alta`) VALUES ('".$caPOST."','".$ciPOST."','".$nombrePOST."','".$apellidosPOST."','".$telefonoPOST."','".$lugarPOST."','".$correoPOST."','".$nivelPOST."', '".$id_lider."', '".$fecha_alta."')";
+	if(mysqli_query($conexion, $consultaAC) or die(mysqli_error($conexion))){
 		die('registrado: '.$nivelPOST);
 		// die('<script>Materialize.toast("<b>'.$nivelPOST.' agregado a la base de datos.</b>",5000);$("#modal1").closeModal();</script> ');
 	}

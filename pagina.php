@@ -63,7 +63,7 @@ while($arr = $Busq2->fetch_array())
   <!-- Datatables CDN downloaded -->
 <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css"/>
 <link rel="stylesheet" type="text/css" href="css/buttons.dataTables.css"/>
- 
+
 <script type="text/javascript" src="js/jszip.js"></script>
 <script type="text/javascript" src="js/pdfmake.js"></script>
 <script type="text/javascript" src="js/vfs_fonts.js"></script>
@@ -80,10 +80,10 @@ while($arr = $Busq2->fetch_array())
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
-  .roboto{
-    /*font-family: 'Segoe UI Light'*/
-    font-family: 'Roboto', sans-serif;
-  }
+.roboto{
+  font-family: 'Segoe UI Light'
+  /*font-family: 'Roboto', sans-serif;*/
+}
 
 #titulo1{
 	/*font-family: Matura MT Script Capitals;*/
@@ -340,30 +340,53 @@ $("#valor").on('input', function() {
 
 
   function cargar(e, x){
+    session_status()
+    .then(response =>{
+      if (response != 'Autenticado') {
+        window.location.replace("index.php");
+      }
+      for (var i = 1; i <= 8; i++) {
+        e.target.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
+      }
 
-    for (var i = 1; i <= 8; i++) {
-      // console.log(e.target.parentNode.parentNode.children[i])
-      e.target.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
-    }
+      e.target.parentNode.style.backgroundColor = "#3498db"
 
-    e.target.parentNode.style.backgroundColor = "#3498db"
-
-    if(x.includes("templates/inventarios")){
-      $("#cuerpo").load(x);
-    }else{
-    var y=".php";
-          $("#cuerpo").load(x+y);
-        }
+      if(x.includes("templates/inventarios")){
+        $("#cuerpo").load(x);
+      }else{
+        var y=".php";
+        $("#cuerpo").load(x+y);
+      }  
+    })
   }
   //PARA CARGAR LAS VENTAS 
   function cargar_v(e, x){
-    console.log(x)
-    for (var i = 1; i <= 8; i++) {
-      e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
-    }
-    e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
-    $("#cuerpo").load(x);
+    session_status()
+    .then(response => {
+      if (response != 'Autenticado') {
+        window.location.replace('index.php');
+      }else{
+        for (var i = 1; i <= 8; i++) {
+          e.target.parentNode.parentNode.parentNode.parentNode.children[i].style.backgroundColor = "#1abc9c"
+        }
+        e.target.parentNode.parentNode.parentNode.style.backgroundColor = "#3498db"
+        $("#cuerpo").load(x);
+      }
+    })
+    
+
         
+  }
+
+  const session_status = async () => {
+    try{
+      let status = await fetch('recursos/session_status.php');
+      let text = await status.text();
+      return text;
+    }
+    catch(error){
+      console.log(error);
+    }
   }
 
 

@@ -19,4 +19,6 @@ if (isset($_SESSION['ultima_actividad']) && ($hora - $_SESSION['ultima_actividad
 
 //Definimos el valor de la sesión "ultima_actividad" como el timestamp del servidor
 $_SESSION['ultima_actividad'] = $hora;
+
+
 ?>

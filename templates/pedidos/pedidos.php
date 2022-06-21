@@ -276,7 +276,7 @@ function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
         url: "recursos/pedidos/detalle.php?id="+id,
         method: "GET",
         success: function(response) {
-            // let total_cd = 0;
+
             let cantidad = 0;
             let auxiliares = 0;
             var jsonParsedArray = JSON.parse(response)
@@ -289,7 +289,8 @@ function aceptar_pedido(id, ca, cliente, credito, valor_peso, descuento, e) {
                     newTableRow.className = "dinamic_rows"
                     
                     let estilos = "";
-                    let mod = `<a href='#' class="del_btn" style='color: red' onclick='del_row("${jsonParsedArray[key]['id']}", "${id}","${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`
+                    let mod = `<a href='#' class="del_btn" style='color: red' onclick='del_row("${jsonParsedArray[key]['id']}", "${id}","${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>delete</i></a><small>Eliminar</small>`;
+
                     if (jsonParsedArray[key]['estado'] == '0') {
                         estilos = "text-decoration: line-through; color: #636e72";
                         mod = `<a href='#' class="del_btn" style='color: #2ecc71' onclick='restore_row("${jsonParsedArray[key]['id']}", "${id}", "${jsonParsedArray[key]['pubs']}","${jsonParsedArray[key]['pubs_desc']}", ${jsonParsedArray[key]['cantidad']},event)'><i class='material-icons'>restore_from_trash</i></a><small>Restaurar</small>`;
@@ -539,7 +540,7 @@ document.getElementById('reg_ped').addEventListener('click', () => {
                                 },
                                 method: "post",
                                 success: function(response) {
-                                    console.log(response)
+                                    return console.log(response)
                                     $("#modal1").closeModal()
                                     $("#cuerpo").load("templates/pedidos/pedidos.php")
                                     Materialize.toast("El pedido fué registrado.", 4000)
