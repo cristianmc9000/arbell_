@@ -33,7 +33,7 @@ if (isset($array[0]->{'codped'})) {
 
 mysqli_query($conexion, $insertarCompra);
 
-die(mysqli_error($conexion));
+// die(mysqli_error($conexion));
 
 //obtener el último id autogenerado tabla: ventas
 $ultimoid = var_export(mysqli_insert_id($conexion), true);

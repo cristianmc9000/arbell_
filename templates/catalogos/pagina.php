@@ -114,6 +114,7 @@
 	    <li><a href="#!" onclick="_load(`templates/catalogos/perfil`)" class="waves-effect waves-teal"><i class="material-icons">person</i>Mi perfil</a></li>
 	    <li><a href="#!" onclick="_load(`templates/catalogos/mipedido`)" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
 	    <li><a href="#!" onclick="_load(`templates/catalogos/historial`)"class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
+	    <li><a href="#!" onclick="_load(`templates/catalogos/expertas`)"class="waves-effect waves-teal"><i class="material-icons">groups_2</i>Expertas</a></li>
 	    <li><div class="divider"></div></li>
 	    <!-- <li><a class="subheader"></a></li> -->
 	    <li>
