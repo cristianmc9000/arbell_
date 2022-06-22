@@ -540,7 +540,7 @@ document.getElementById('reg_ped').addEventListener('click', () => {
                                 },
                                 method: "post",
                                 success: function(response) {
-                                    return console.log(response)
+                                    // return console.log(response)
                                     $("#modal1").closeModal()
                                     $("#cuerpo").load("templates/pedidos/pedidos.php")
                                     Materialize.toast("El pedido fué registrado.", 4000)
