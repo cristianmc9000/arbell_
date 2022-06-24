@@ -1,7 +1,12 @@
 <?php 
 	require('../../recursos/conexion.php');
 	session_start();
-	$ca=$_SESSION["ca"];
+	$ca= "";
+    if (isset($_GET['ca'])) {
+        $ca = $_GET['ca'];
+    }else{
+        $ca = $_SESSION["ca"];
+    }
 	date_default_timezone_set("America/La_Paz");
 	$year = ""; 
 	if (isset($_GET["ges"])) {
@@ -15,7 +20,6 @@
 		// echo var_dump($result[0]['ca']);
 	}
 	
-
 ?>
 <style>
 .card__img {
@@ -229,7 +233,8 @@ function detalle(id) {
 
 
 function enviarfecha() {
-    ges = $('#ges').val();
-    $("#cuerpo").load("templates/catalogos/historial.php?ges=" + ges);
+    let ges = $('#ges').val();
+    let ca = `<?php echo $ca; ?>`; 
+    $("#cuerpo").load("templates/catalogos/historial.php?ges="+ges+"&ca="+ca);
 }
 </script>

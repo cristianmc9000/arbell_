@@ -54,7 +54,7 @@
 	}
 
 	.ui-autocomplete-row{
-    padding: 1px;
+    padding: 8px;
     background-color: #f4f4f4;
     border-bottom:1px solid #ccc;
     font-weight:bold;
@@ -78,12 +78,69 @@
     position: fixed;
     z-index: 999;
 	}
+	#modal1{
+		min-height: 80%;
+		height: 80%;
+	}
+	#modal1-content{
+		min-height: 90%;
+		height: 90%;
+	}
+	#modal2{
+		/*position: absolute;*/
+		/*top: 0% !important;*/
+		min-height: auto;
+		height: auto;
+	}
+	#modal2-content{
+		min-height: auto;
+		height: auto;
+	}
+	#contenedor_foto{
+		min-width: 60%;
+		max-width: 60%;
+	}
 	@media only screen and (max-width : 992px) {
 	.get_out {
 		left: 0;
 		top: 0;
 		position: fixed;
 		z-index: 999;
+	}
+	#btn_eliminar_experta{
+		min-height: 100%;
+		display: flex;
+		align-items: center;
+		position: absolute;
+		right: 5px;
+	}
+	.ui-menu{
+		font-size: 1.3rem !important;
+  	z-index: 9999;
+	}
+	#modal1{
+		/*position: absolute;*/
+		/*top: 0% !important;*/
+		min-height: auto;
+		height: auto;
+	}
+	#modal1-content{
+		min-height: auto;
+		height: auto;
+	}
+	#modal2{
+		/*position: absolute;*/
+		top: 0% !important;
+		min-height: 85%;
+		height: 85%;
+	}
+	#modal2-content{
+		min-height: 90%;
+		height: 90%;
+	}
+	#contenedor_foto{
+		min-width: auto;
+		max-width: 100%;
 	}
 }
 
@@ -114,7 +171,7 @@
 	    <li><a href="#!" onclick="_load(`templates/catalogos/perfil`)" class="waves-effect waves-teal"><i class="material-icons">person</i>Mi perfil</a></li>
 	    <li><a href="#!" onclick="_load(`templates/catalogos/mipedido`)" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
 	    <li><a href="#!" onclick="_load(`templates/catalogos/historial`)"class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
-	    <li><a href="#!" onclick="_load(`templates/catalogos/expertas`)"class="waves-effect waves-teal"><i class="material-icons">groups_2</i>Expertas</a></li>
+	    <li <?php if($_SESSION['nivel'] == 'experta'){echo 'hidden';}?>><a href="#!" onclick="_load(`templates/catalogos/expertas`)"class="waves-effect waves-teal"><i class="material-icons">groups_2</i>Expertas</a></li>
 	    <li><div class="divider"></div></li>
 	    <!-- <li><a class="subheader"></a></li> -->
 	    <li>
@@ -239,9 +296,10 @@
 		</div>
 	</div>
 	<!-- antes era col s12 m12 l4 xl5 -->
-	<div class="col s12 m12 l12" style="margin-top: -8%;" id="div_tabla_pedidos">
+	<div class="col s12 m12 l12" id="div_tabla_pedidos"> <!-- style="margin-top: -8%;" -->
 		<!-- <div class="col l6 m10 offset-m1 s12"> -->
 			<div class="center"><h4>Tu pedido</h4></div>
+
 			<table id="pedidos_cliente" class="content-table centered z-depth-4">
 				<thead>
 					<tr>
@@ -267,7 +325,7 @@
 			</div>
 		<!-- </div> -->
 	</div>
-	<div class="container">
+	<div class="col s12">
 		<p>
       <label>
         <input type="checkbox" id="pago" />
@@ -284,11 +342,13 @@
 
   <!-- Modal Structure - detalle de producto -->
   <div id="modal1" class="modal fuente modal_prod">
-    <div class="modal-content" style="padding-bottom: 0px;">
+    <div class="modal-content" id="modal1-content" style="padding-bottom: 0px;">
       
       <div class="center">
       	<h6 id="modal_title"  style=" font-weight: bold;"></h6>
-      	<img id="modal_foto" src="images/fotos_prod/default.png" width="100%" alt="">
+      	<div id="contenedor_foto" style="margin: auto">
+      		<img id="modal_foto" src="images/fotos_prod/default.png" width="100%" alt="">
+      	</div>
       </div>
       <div style="line-height: 0.5em">
       	<p id="modal_cod"></p>
@@ -302,23 +362,71 @@
 
   <!-- Modal Structure - confirmación de pedidos -->
   <div id="modal2" class="modal roboto modal_prod">
-    <div class="modal-content" style="padding-bottom: 0px;">
+    <div class="modal-content" id="modal2-content">
       
       <div class="center">
-      	<h6 id="modal_title"  style=" font-weight: bold;">Detalle del pedido</h6><br>
+      	<h6 id="modal_title" class="rubik" style=" font-weight: bold;">DETALLE DEL PEDIDO</h6><br>
       </div>
-      <div style="line-height: 0.5em">
-      	<div hidden>
-      		<input type="text" id="input_cant">
-      		<input type="text" id="input_total">
-      		<input type="text" id="input_total_cd">
-      	</div>
-      	<p id="conf_fecha"></p>
-      	<p id="conf_cant"></p>
-      	<!-- <p id="conf_monto"></p> -->
-      	<p id="conf_monto_cd"></p>
-      	<p id="conf_cred"></p>
+
+	  	<!-- <div class="row"> -->
+
+				<div <?php if($_SESSION['nivel'] == 'experta'){echo 'hidden';}?>>
+					<p>
+			      <label>
+			        <input type="checkbox" id="check_pedido_experta" />
+			        <span>Pedir para mi experta</span>
+			      </label>
+			    </p>
+		    </div>
+
+			    <div id="pedido_experta_container" style="position: relative;" class="col s12" hidden>
+				    <div class="input-field col s7">
+				    	<input type="text" id="input_pedido_experta" autocomplete="off">
+				    	<label for="input_pedido_experta">Buscar experta...</label>
+				    </div>
+				    <div class="input-field col s4">
+				    	<input type="text" id="input_ca_pedido_experta" value="" disabled>
+				    	<label class="active" for="input_ca_pedido_experta">Código:</label>
+				    </div>
+				    <div id="btn_eliminar_experta" class="col s1">
+	            <a href="#" style="color: red" id="a_eliminar_experta"><i class="material-icons">close</i></a>
+	          </div>
+			    </div>
+
+			<!-- </div> -->
+
+      <div>
+      	
+      		<div hidden>
+	      		<input type="text" id="input_cant">
+	      		<input type="text" id="input_total">
+	      		<input type="text" id="input_total_cd">
+	      	</div>
+					<table class="det rubik z-depth-4">
+						<tr>
+							<th width="30%">Fecha: </th>
+							<td><span id="conf_fecha"></span></td>
+						</tr>
+						<tr>
+							<th width="30%">Hora: </th>
+							<td><span id="conf_hora"></span></td>
+						</tr>
+						<tr>
+							<th >Items: </th>
+							<td><span id="conf_cant"></span></td>
+						</tr>
+						<tr>
+							<th>Total: </th>
+							<td><span id="conf_monto_cd"></span></td>
+						</tr>
+						<tr>
+							<th>Tipo de pago: </th>
+							<td><span id="conf_cred"></span></td>
+						</tr>
+					</table>
+
     	</div>
+
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-light btn red left">Cancelar</a>
@@ -398,6 +506,26 @@
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
         // console.log(item)
+        return $("<li class='ui-autocomplete-row fuente'></li>")
+        .data("item.autocomplete", item.id)
+        .append(item.label)
+        .appendTo(ul);
+    };
+
+    $('#input_pedido_experta').autocomplete({
+      source: "recursos/catalogos/search_experta.php",
+      minLength: 3,
+      select: function(event, ui)
+      {
+      		console.log(ui.item)
+        	document.getElementById("input_ca_pedido_experta").value = ui.item.ca;
+        	document.getElementById("input_pedido_experta").value = ui.item.value;
+        	document.getElementById('input_pedido_experta').disabled = true;
+        	M.updateTextFields();
+        	// $('#search_data').val(ui.item.value)
+      }
+    }).data('ui-autocomplete')._renderItem = function(ul, item){
+        console.log(item)
         return $("<li class='ui-autocomplete-row fuente'></li>")
         .data("item.autocomplete", item.id)
         .append(item.label)
@@ -626,8 +754,23 @@ document.getElementById('return').addEventListener('click', () => {
 	}
 
 	document.getElementById('mod_con').addEventListener('click', () => {
+		const MESES = [
+		  "Enero",
+		  "Febrero",
+		  "Marzo",
+		  "Abril",
+		  "Mayo",
+		  "Junio",
+		  "Julio",
+		  "Agosto",
+		  "Septiembre",
+		  "Octubre",
+		  "Noviembre",
+		  "Diciembre",
+		];
 		let today = new Date();
-		let date = today.getDate()+'-'+("0" + (today.getMonth() + 1)).slice(-2)+'-'+today.getFullYear()+" "+today.getHours() + ":" + today.getMinutes();
+		let date = today.getDate()+' de '+MESES[today.getMonth()]+' del '+today.getFullYear()
+		let hour = today.getHours() + ":" + today.getMinutes();
 		let cred
 		if (document.getElementById('pago').checked) {
 			cred = "Crédito"
@@ -635,17 +778,32 @@ document.getElementById('return').addEventListener('click', () => {
 			cred = "Contado"
 		}
 
-		document.getElementById("conf_fecha").innerHTML = `<b>Fecha y hora: </b>${date}`
-		document.getElementById("conf_cant").innerHTML = `<b>Items: </b>${document.getElementById('input_cant').value}`
+		document.getElementById("conf_fecha").innerHTML = `${date}`
+		document.getElementById("conf_hora").innerHTML = `${hour}`
+		document.getElementById("conf_cant").innerHTML = `${document.getElementById('input_cant').value}`
 		// document.getElementById("conf_monto").innerHTML = `<b>Subtotal: </b>${document.getElementById('input_total').value} Bs.`
-		document.getElementById("conf_monto_cd").innerHTML = `<b>Total: </b>${document.getElementById('input_total_cd').value} Bs.`
-		document.getElementById("conf_cred").innerHTML = `<b>Tipo de pago: </b>${cred}`
+		document.getElementById("conf_monto_cd").innerHTML = `${document.getElementById('input_total_cd').value} Bs.`
+		document.getElementById("conf_cred").innerHTML = `${cred}`
 
 		$("#modal2").modal('open')
 
 	});
 
 	document.getElementById('conf_ped').addEventListener("click", () => {
+
+		let ca_exp = document.getElementById('input_ca_pedido_experta').value;
+		let nombres_experta = document.getElementById('input_pedido_experta').value;
+
+		if((document.getElementById('check_pedido_experta').checked) && (ca_exp.length < 1)){
+			return M.toast({html: 'Debe ingresar los datos de la experta.'});
+		}
+
+
+		if (ca_exp.length < 1) {
+			ca_exp  = "";
+		}else{
+			ca_exp = "&ca_exp="+ca_exp;
+		}
 
 		let total = document.getElementById('input_total').value;
 		let total_cd = document.getElementById('input_total_cd').value;
@@ -669,11 +827,16 @@ document.getElementById('return').addEventListener('click', () => {
 		x = JSON.stringify(a)
 		// x = JSON.parse(a)
 		// return console.log(a.length)
-		let cliente = "```<?php echo $_SESSION['usuario'].' '.$_SESSION['apellidos']?>```";
+		let cliente = "";
+		if (nombres_experta.length < 1) {
+			cliente = "```<?php echo $_SESSION['usuario'].' '.$_SESSION['apellidos']?>```";
+		}else{
+			cliente = "```"+nombres_experta+"```";
+		}
 		// console.log(a[0][0]+" <<< X")
 		let detalle = "";
 		a.forEach(function(x) {
-			console.log(x[0])
+			// console.log(x[0])
 			detalle = detalle+'*'+x[0]+'* ```'+x[1]+'``` *x'+x[2]+'*%0A';
 			// *${x[0]}*-${x[1]} *x${x[2]}*%0A
 		})
@@ -686,10 +849,10 @@ document.getElementById('return').addEventListener('click', () => {
 
 		if(a.length > 0){
 		    $.ajax({
-	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&total_cd="+total_cd+"&a="+x+"&cred="+credito,
+	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&total_cd="+total_cd+"&a="+x+"&cred="+credito+ca_exp,
 	            method: "GET",
 	            success: function(response) {
-	            	console.log(response+"<<<< respuesta de php")
+	            	// console.log(response+"<<<< respuesta de php")
 	              if (response == 1) {
 	                M.toast({html:'<span style="color: #2ecc71">Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</span>', displayLength: 5000, classes: 'rounded'})
 	                	$("#modal2").modal('close')
@@ -710,6 +873,27 @@ document.getElementById('return').addEventListener('click', () => {
 		}else{
 			M.toast({html: "No se ha seleccionado ningún producto..."});
 		}
+	})
+
+	document.getElementById("check_pedido_experta").addEventListener('change', () => {
+		let check = document.getElementById("check_pedido_experta").checked;
+		if (check) {
+			document.getElementById('input_pedido_experta').disabled = false;
+			document.getElementById('input_pedido_experta').value = "";
+			document.getElementById('input_ca_pedido_experta').value = "";
+			document.getElementById('pedido_experta_container').hidden = false;
+		}else{
+			document.getElementById('input_pedido_experta').disabled = false;
+			document.getElementById('input_pedido_experta').value = "";
+			document.getElementById('input_ca_pedido_experta').value = "";
+			document.getElementById('pedido_experta_container').hidden = true;
+		}
+	})
+
+	document.getElementById('a_eliminar_experta').addEventListener('click', () => {
+		document.getElementById('input_pedido_experta').disabled = false;
+		document.getElementById('input_pedido_experta').value = "";
+		document.getElementById('input_ca_pedido_experta').value = "";
 	})
 
 	function clean_table() {

@@ -78,6 +78,7 @@ if(($caBD == $ca) && ($pass == $datos['password']) ){
 	$_SESSION['estado'] = 'Autenticadox';
 	$_SESSION['userCI'] = $datos['CI'];
 	$_SESSION['ca'] = $caBD;
+	$_SESSION['nivel'] = $datos['nivel'];
 	$_SESSION['telf'] = $datos['telefono'];
 	$_SESSION['desc'] = $descuento;
 	$_SESSION['dir'] = $datos['lugar'];

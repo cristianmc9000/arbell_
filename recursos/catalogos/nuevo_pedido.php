@@ -6,7 +6,13 @@
 	date_default_timezone_set("America/La_Paz");
 	$fecha = date("Y-m-d H:i:s");
 
-	$ca = $_SESSION['ca'];
+	$ca = "";
+	if (isset($_GET['ca_exp'])) {
+		$ca = $_GET['ca_exp'];
+	}else{
+		$ca = $_SESSION['ca'];
+	}
+
 	$per = $_SESSION['periodox'];
 
 	$result = $conexion->query("SELECT * FROM pedidos WHERE ca = '".$ca."' AND estado = 1");
