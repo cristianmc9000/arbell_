@@ -1,14 +1,6 @@
 <?php 
 	session_start();
-	require('recursos/conexion.php');
 	$salir = '<a href="recursos/salir.php" class="right" target="_self"><i class="material-icons">logout</i>Cerrar sesión</a>';
-
-	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT 50");
-	$res = $result->fetch_all(MYSQLI_ASSOC);
-
-	$result2 = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
-	$res2 = $result2->fetch_all(MYSQLI_ASSOC);
-
 ?>
 <!DOCTYPE html>
 <html lang="ES">
@@ -26,7 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
 		integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous"
 		referrerpolicy="no-referrer" />
-	<!-- <link rel="stylesheet" href="css/viewpdf.css"> -->
+	<link rel="stylesheet" href="css/viewpdf.css">
 
   <script src="js/jquery-3.0.0.min.js"></script>
   <!-- Compiled and minified JavaScript -->
@@ -151,17 +143,6 @@
 		min-width: auto;
 		max-width: 100%;
 	}
-	#modal3{
-		/*position: absolute;*/
-		top: 0% !important;
-		min-height: auto;
-		height: auto;
-	}
-	#modal3-content{
-		min-height: auto;
-		height: auto;
-		margin-bottom: 0px;
-	}
 }
 
 </style>
@@ -247,76 +228,58 @@
 
 <div id="cuerpo" class="row"> 
 
-	<!-- <div class="contenedor col s12 m6" id="pdf_container"> -->
+	<div class="contenedor col s12 m6" id="pdf_container">
+		<div id="princ" class="">
+				<img width="95%" id="img_container" src="images/catalogos/Catalogo_02-2022_2_page-0001.jpg" alt="">
+		</div>
+		<div id="foot">
+			<ul style="margin-top: 0px;margin-bottom: 0px;">
+				<li>
+					<button id="openPDF" hidden>
+						<span>Open</span> <i class="fas fa-folder-open"></i>
+					</button>
+					<input type="file" id="inputFile" hidden>
+				</li>
+				<li class="pagination">
+					<button id="previous"><i class="fas fa-arrow-alt-circle-left"></i></button>
+					<span id="current_page">0</span>
+					<button id="next"><i class="fas fa-arrow-alt-circle-right"></i></button>
+				</li>
 
-	<!-- </div> -->
+				<li hidden>
+					<span id="zoomValue">150%</span>
+					<input type="range" id="zoom" name="cowbell" min="100" max="300" value="150" step="50" disabled>
+				</li>
+			</ul>
+		</div>
+	</div>
 
 	<div id="form__">
 		<div class="container col s12 m6" id="form_container">
-				<div class="input-field col s12 m6">
-					<i class="material-icons prefix">search</i>
-					<input id="search_data" type="text" autocomplete="off" class="validate semi">
-					<label for="search_data">Buscar producto...</label>
+			<!-- <div class="row">	 -->
+				<div class="input-field col s5 m6 offset-m3">
+			        <input id="search_data" type="text" autocomplete="off" class="validate semi" required>
+			        <label for="search_data">Código producto</label>
 			  </div>
-				<div id="__datosprod" hidden><input id='__datosp' cp='1'/></div>
+				<div class="input-field col s2 m4 offset-m4" style="text-align: center;" >
+					<!-- aqui va el código de la imagen. -->
+					<img id="img_prod" src="images/fotos_prod/default.png" alt="" style="width: 100%; border-radius: 10px;">
+					<small class="fuente" style="line-height: 0px;"><b id="cod_prod"></b></small>
+				</div>
+				<div class="input-field col s4 offset-s1 m12" id="div_cantidad" hidden>
+					<div class="number-container">
+						<!-- <label for="">Cantidad</label> -->
+						<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
+					</div>
+				</div>
+				<div id="__datosprod" hidden><input id='__datosp' cp='1' hidden/></div>
+			<!-- </div> -->
 		</div>
-		<div class="col s12" id="cards_body">
-      
-      <?php foreach($res as $key  => $valor){ ?>
-      <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']*$res2[0]['valor'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>')">
-          <div class="z-depth-1 card horizontal p_card__pad" style="background-color: #f5f6fa">
-              <div class="card-stacked">
-                  <div class="" >
-                      <span><p style="line-height: 0 "><b><?php echo $valor['id'] ?></b></p></span>
-                      <span><small><p style="line-height: 1 "><?php echo $valor['descripcion']?></p></small></span><br>
-                      <span style="position: absolute; bottom: 0px;"><b><?php echo $valor['pupesos']*$res2[0]['valor']." Bs."?></b></span>
-                  </div>
-              </div>
-              <div class="p_card__img">
-                  <img loading="lazy" class="p_img__card" src="<?php echo $valor['foto'] ?>">
-              </div>
-          </div>
-      </div>
-      <?php } ?>
 
-    </div>
-
-<!-- 		<div class="input-field col s4 offset-s1 m12" id="div_cantidad" hidden>
-					<div class="number-container">
-						<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
-					</div>
-				</div> CANTIDAD DE PRODUTOS-->
-<!-- 		<div class="container center col s12 m6" style="padding-top: 2em;" id="add_container">
+		<div class="container center col s12 m6" style="padding-top: 2em;" id="add_container">
 			<a class="waves-effect waves-light btn-large shop red lighten-1 fuente" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
-		</div> AGREGAR AL CARRITO-->
+		</div>
 	</div>
-
-	<div id="modal3" class="modal fuente modal_prod">
-    <div class="modal-content row" id="modal3-content" style="padding-bottom: 0px;">
-      <div class="center col s12">
-      	<!-- <h6 id="modal_title"  style=" font-weight: bold;"></h6> -->
-      	<div id="contenedor_foto" style="margin: auto">
-      		<img id="cant_foto" src="images/fotos_prod/default.png" width="100%" alt="">
-      	</div>
-      </div>
-      <div style="line-height: 1" class="col s7">
-      	<p id="cant_cod"></p>
-      	<b><p id="cant_desc"></p></b>
-      	<b><p id="cant_precio"></p></b>
-    	</div>
-    	<div class="col s4 offset-s1" id="div_cantidad">
-					<div class="number-container">
-						<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
-					</div>
-    	</div>
-    </div>
-
-    <div class="modal-footer">
-    	<a href="#!" class="modal-close rubik waves-effect red waves-light btn left">Cancelar</a>
-      <a href="#!" class="rubik waves-effect waves-light btn right"><i class="material-icons right">add_shopping_cart</i>Agregar</a>
-    </div>
-  </div>
-
 
 	<div class="container">
 		<div class="row roboto" id="cart_row" hidden>
@@ -469,7 +432,7 @@
 </html>
 
 
-<!-- <script type="text/javascript" src="js/viewpdf.js"></script> -->
+<script type="text/javascript" src="js/viewpdf.js"></script>
 <script>
 	let total_img = 0;
 	$(document).ready(function(){
@@ -563,14 +526,46 @@
     };
 
   });
-function cantidad_prod(id, descripcion, precio, foto, stock) {
-	let instance = M.Modal.getInstance(document.getElementById('modal3'))
-	document.getElementById("cant_foto").src = foto;
-	document.getElementById("cant_cod").innerHTML = '<b>'+id+'</b>';
-	document.getElementById("cant_desc").innerHTML = descripcion;
-	document.getElementById("cant_precio").innerHTML = precio+" Bs.";
-	instance.open();
-}
+
+let pag = 1;
+document.getElementById('next').addEventListener('click', () => {
+	if (pag >= total_img) {
+		return pag = total_img;
+	}
+	pag += 1;
+	let name = "";
+	if (pag < 10) {
+		name = "images/catalogos/Catalogo_02-2022_2_page-000"+pag+".jpg";
+	}
+	if (pag >= 10 && pag < 100) {
+		name = "images/catalogos/Catalogo_02-2022_2_page-00"+pag+".jpg"
+	}
+	if (pag > 99) {
+		name = "images/catalogos/Catalogo_02-2022_2_page-0"+pag+".jpg"
+	}
+	document.getElementById("current_page").innerHTML = pag+" de "+total_img
+	document.getElementById("img_container").src = name;
+})
+
+document.getElementById('previous').addEventListener('click', () => {
+	if (pag < 2) {
+		return pag = 1;
+	}else{
+		pag -= 1;
+		let name = "";
+		if (pag < 10) {
+			name = "images/catalogos/Catalogo_02-2022_2_page-000"+pag+".jpg";
+		}
+		if (pag >= 10 && pag < 100) {
+			name = "images/catalogos/Catalogo_02-2022_2_page-00"+pag+".jpg"
+		}
+		if (pag > 99) {
+			name = "images/catalogos/Catalogo_02-2022_2_page-0"+pag+".jpg"
+		}
+		document.getElementById("current_page").innerHTML = pag+" de "+total_img
+		document.getElementById("img_container").src = name;
+	}
+})
 
 var reg_pedidos = new Array();
 

@@ -49,7 +49,7 @@
                         <p>Estado: <?php if($valor['estado'] == '1'){echo 'Pendiente';}else{echo 'Aceptado';} ?></p>
                         <p>Tipo de pago: <?php if ($valor['credito']=='1') {echo 'Crédito';}else{echo 'Contado';}?></p>
                         <p>
-                        <div class="dd"><?php echo $valor['fecha']; ?></div>
+                            <div class="dd"><?php echo $valor['fecha']; ?></div>
                         </p>
 
                         <p style="position: absolute; bottom: 0px; "><b>Total:
