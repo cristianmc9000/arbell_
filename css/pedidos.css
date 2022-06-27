@@ -114,7 +114,7 @@
 .number-container{
    /* width: 450px;
     height: 450px;*/
-    background-color: #dfe4ea;
+    background-color: #fff;
     color: black;
     align-items: center;
     justify-content: center;
@@ -140,11 +140,12 @@
 }
 
 .number-container input:hover{
-    background: #c9c0a6 ;
+    background: #aaddff ;
     color: #fff;
 }
 
 .nice-number button{
+	cursor: pointer;
     background-color: #26a69a;
     width: 40px;
     border: none;
@@ -157,8 +158,8 @@
 .nice-number button:hover{
     background: #489acc;
     color: #fff;
-
 }
+
 
 .shop{
 	/*border-radius: 10% !important;*/

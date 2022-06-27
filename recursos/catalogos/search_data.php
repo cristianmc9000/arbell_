@@ -18,7 +18,7 @@ if(isset($_GET["term"]))
        $temp_array['value'] = $row['id'];
        $temp_array['foto'] = $row['foto'];
        $temp_array['cant'] = $row['cantidad'];
-       $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="60" /> '.$row['descripcion'].'';
+       // $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="60" /> '.$row['descripcion'].'';
        $temp_array['pupesos'] = $row['pupesos'];
 
        $output[] = $temp_array;

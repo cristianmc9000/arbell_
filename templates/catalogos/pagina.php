@@ -108,16 +108,25 @@
 		min-width: 60%;
 		max-width: 60%;
 	}
+	#cant_contenedor_foto{
+		min-width: 65%;
+		max-width: 65%;
+	}
+	#modal3{
+		max-width: 35em;
+		/*position: absolute;*/
+		/*top: 5% !important;*/
+		/*min-height: 80%;*/
+		/*height: auto;*/
+	}
+	#modal3-content{
+		/*min-height: auto;*/
+		/*height: auto;*/
+		/*margin-bottom: 0px;*/
+	}
 	.ui-menu{
 		font-size: 1.3rem !important;
   	z-index: 9999;
-	}
-	@media only screen and (max-width : 992px) {
-	.get_out {
-		left: 0;
-		top: 0;
-		position: fixed;
-		z-index: 999;
 	}
 	#btn_eliminar_experta{
 		min-height: 100%;
@@ -126,6 +135,30 @@
 		position: absolute;
 		right: 5px;
 	}
+	.div_cantidad_{
+		position: relative;
+	}
+	.number-container{
+		min-height: 100%;
+		display: flex;
+		align-items: center;
+		position: absolute;
+		right: 5px;
+	}
+	@media only screen and (max-width : 992px) {
+	.get_out {
+		left: 0;
+		top: 0;
+		position: fixed;
+		z-index: 999;
+	}
+/*	#btn_eliminar_experta{
+		min-height: 100%;
+		display: flex;
+		align-items: center;
+		position: absolute;
+		right: 5px;
+	}*/
 
 	#modal1{
 		/*position: absolute;*/
@@ -150,6 +183,10 @@
 	#contenedor_foto{
 		min-width: auto;
 		max-width: 100%;
+	}
+	#cant_contenedor_foto{
+		min-width: auto;
+		max-width: 80%;
 	}
 	#modal3{
 		/*position: absolute;*/
@@ -252,8 +289,8 @@
 	<!-- </div> -->
 
 	<div id="form__">
-		<div class="container col s12 m6" id="form_container">
-				<div class="input-field col s12 m6">
+		<div class="container col s12 l6 offset-l3" id="form_container">
+				<div class="input-field">
 					<i class="material-icons prefix">search</i>
 					<input id="search_data" type="text" autocomplete="off" class="validate semi">
 					<label for="search_data">Buscar producto...</label>
@@ -263,7 +300,7 @@
 		<div class="col s12" id="cards_body">
       
       <?php foreach($res as $key  => $valor){ ?>
-      <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos']*$res2[0]['valor'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>')">
+      <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>')">
           <div class="z-depth-1 card horizontal p_card__pad" style="background-color: #f5f6fa">
               <div class="card-stacked">
                   <div class="" >
@@ -292,29 +329,37 @@
 	</div>
 
 	<div id="modal3" class="modal fuente modal_prod">
-    <div class="modal-content row" id="modal3-content" style="padding-bottom: 0px;">
-      <div class="center col s12">
-      	<!-- <h6 id="modal_title"  style=" font-weight: bold;"></h6> -->
-      	<div id="contenedor_foto" style="margin: auto">
-      		<img id="cant_foto" src="images/fotos_prod/default.png" width="100%" alt="">
-      	</div>
+
+    <div class="modal-content" id="modal3-content" style="padding-top: 3px; padding-bottom: 0px;">
+    	<div class="row">
+	      <div class="center col s12">
+	      	<!-- <h6 id="modal_title"  style=" font-weight: bold;"></h6> -->
+	      	<div id="cant_contenedor_foto" style="margin: auto">
+	      		<img id="cant_foto" src="images/fotos_prod/default.png" width="100%" alt="">
+	      	</div>
+	      </div>
       </div>
-      <div style="line-height: 1" class="col s7">
-      	<p id="cant_cod"></p>
-      	<b><p id="cant_desc"></p></b>
-      	<b><p id="cant_precio"></p></b>
-    	</div>
-    	<div class="col s4 offset-s1" id="div_cantidad">
-					<div class="number-container">
-						<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
-					</div>
+      <div class="row div_cantidad_">
+	      <div style="line-height: 1" class="col s7">
+	      	<h6>
+	      		<b><p id="cant_cod"></p></b>
+	      		<small><b><p id="cant_desc"></p></b></small>
+	      		<b><p id="cant_precio"></p></b>
+	      	</h6>
+	    	</div>
+	    	<div class="col s4 offset-s1" id="div_cantidad">
+						<div class="number-container">
+							<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
+						</div>
+	    	</div>
     	</div>
     </div>
 
     <div class="modal-footer">
     	<a href="#!" class="modal-close rubik waves-effect red waves-light btn left">Cancelar</a>
-      <a href="#!" class="rubik waves-effect waves-light btn right"><i class="material-icons right">add_shopping_cart</i>Agregar</a>
+      <a href="#!" class="rubik waves-effect waves-light btn right" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar</a>
     </div>
+
   </div>
 
 
@@ -474,17 +519,17 @@
 	let total_img = 0;
 	$(document).ready(function(){
 
-		$.ajax({
-      url: "recursos/catalogos/files.php",
-      method: "GET",
-      success: function(response) {
-      	total_img = response;
-      	document.getElementById("current_page").innerHTML = "1 de "+total_img
-      },
-      error: function(error) {
-          console.log(error)
-      }
-		})
+		// $.ajax({
+  //     url: "recursos/catalogos/files.php",
+  //     method: "GET",
+  //     success: function(response) {
+  //     	total_img = response;
+  //     	document.getElementById("current_page").innerHTML = "1 de "+total_img
+  //     },
+  //     error: function(error) {
+  //         console.log(error)
+  //     }
+		// })
 		$('select').formSelect();
 		$('.fixed-action-btn').floatingActionButton({
 			hoverEnabled: false,
@@ -511,36 +556,36 @@
 		//   }
 		// })
 
-		$('#search_data').autocomplete({
-      source: "recursos/catalogos/search_data.php",
-      minLength: 3,
-      select: function(event, ui)
-      {
-        // $("#id_").val(ui.item.id)
-        // $("#linea_").val(ui.item.linea)
-        // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
-        // $("#codli_").val(ui.item.codli)
-        if (ui.item.pupesos == null) {
-        	$("#__datosprod").html("<input id='__datosp' cp='0' hidden/>")
-        	document.getElementById("img_prod").src = "images/fotos_prod/default.png";
-        	document.getElementById("cod_prod").innerHTML = "Agotado";
-        }else{
-        	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' cl='"+ui.item.codli+"' hidden/>");
-        	// $("#img_prod").src(ui.item.foto);
-        	document.getElementById("img_prod").src = ui.item.foto;
-        	document.getElementById("cod_prod").innerHTML = ui.item.value
-        	document.getElementById("div_cantidad").hidden = false;
-        	$('#search_data').val(ui.item.value)
-        }
-        // $('#foto_prod').attr("src", ui.item.foto);
-      }
-    }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
-        return $("<li class='ui-autocomplete-row fuente'></li>")
-        .data("item.autocomplete", item.id)
-        .append(item.label)
-        .appendTo(ul);
-    };
+		// $('#search_data').autocomplete({
+  //     source: "recursos/catalogos/search_data.php",
+  //     minLength: 3,
+  //     select: function(event, ui)
+  //     {
+  //       // $("#id_").val(ui.item.id)
+  //       // $("#linea_").val(ui.item.linea)
+  //       // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
+  //       // $("#codli_").val(ui.item.codli)
+  //       if (ui.item.pupesos == null) {
+  //       	$("#__datosprod").html("<input id='__datosp' cp='0' hidden/>")
+  //       	document.getElementById("img_prod").src = "images/fotos_prod/default.png";
+  //       	document.getElementById("cod_prod").innerHTML = "Agotado";
+  //       }else{
+  //       	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' cl='"+ui.item.codli+"' hidden/>");
+  //       	// $("#img_prod").src(ui.item.foto);
+  //       	document.getElementById("img_prod").src = ui.item.foto;
+  //       	document.getElementById("cod_prod").innerHTML = ui.item.value
+  //       	document.getElementById("div_cantidad").hidden = false;
+  //       	$('#search_data').val(ui.item.value)
+  //       }
+  //       // $('#foto_prod').attr("src", ui.item.foto);
+  //     }
+  //   }).data('ui-autocomplete')._renderItem = function(ul, item){
+  //       // console.log(item)
+  //       return $("<li class='ui-autocomplete-row fuente'></li>")
+  //       .data("item.autocomplete", item.id)
+  //       .append(item.label)
+  //       .appendTo(ul);
+  //   };
 
     $('#input_pedido_experta').autocomplete({
       source: "recursos/catalogos/search_experta.php",
@@ -563,12 +608,55 @@
     };
 
   });
-function cantidad_prod(id, descripcion, precio, foto, stock) {
+
+
+document.getElementById('search_data').addEventListener('input', () =>{
+    let key = document.getElementById('search_data').value;
+    if (key.length < 3 && key.length > 0) {
+    	return false;
+    }
+    let cards_body = document.getElementById('cards_body');
+    fetch('recursos/catalogos/search_data.php?term='+key)
+    .then(response => {
+        response.json().then(function(res) { 
+        		let cad = ""; 
+        		if (res.value === "") {
+        			cad = "No se encontraron coincidencas."
+        		}else{
+	            res.forEach(function(item, index, arr){
+					      cad = cad + `<div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('${item.value}','${item.id}','${item.pupesos}','${item.foto}', '${item.cant}', '${item.codli}')">
+									          <div class="z-depth-1 card horizontal p_card__pad" style="background-color: #f5f6fa">
+									              <div class="card-stacked">
+									                  <div class="" >
+									                      <span><p style="line-height: 0 "><b>${item.value}</b></p></span>
+									                      <span><small><p style="line-height: 1 ">${item.id}</p></small></span><br>
+									                      <span style="position: absolute; bottom: 0px;">${item.pupesos*parseFloat("<?php echo $res2[0]['valor']; ?>")} Bs.</b></span>
+									                  </div>
+									              </div>
+									              <div class="p_card__img">
+									                  <img loading="lazy" class="p_img__card" src="${item.foto}">
+									              </div>
+									          </div>
+							      		</div>`
+	            })
+	          }              
+            cards_body.innerHTML = cad;
+        })
+    })
+})
+
+function cantidad_prod(id, descripcion, precio, foto, stock, codli) {
 	let instance = M.Modal.getInstance(document.getElementById('modal3'))
+
+	let cambio = `<?php echo $res2[0]['valor'] ?>`
+	let precio_bs = precio*parseFloat(cambio);
 	document.getElementById("cant_foto").src = foto;
-	document.getElementById("cant_cod").innerHTML = '<b>'+id+'</b>';
+	document.getElementById("cant_cod").innerHTML = id;
 	document.getElementById("cant_desc").innerHTML = descripcion;
-	document.getElementById("cant_precio").innerHTML = precio+" Bs.";
+	document.getElementById("cant_precio").innerHTML = precio_bs+" Bs.";
+
+	document.getElementById('__datosprod').innerHTML = "<input id='__datosp' cp='"+id+"' np='"+descripcion+"' pp='"+precio+"' fp='"+foto+"' st='"+stock+"' cl='"+codli+"'/>";
+
 	instance.open();
 }
 
@@ -586,6 +674,8 @@ document.getElementById('add').addEventListener('click', () => {
 	var pub = $("#__datosp").attr("pp");
 	var pup = $("#__datosp").attr("pp");
 
+	console.log(cp)
+
 	$.ajax({
     url: "recursos/catalogos/check_order.php",
     method: "GET",
@@ -594,11 +684,11 @@ document.getElementById('add').addEventListener('click', () => {
     	if (response) {
     		return M.toast({html: 'Usted ya tiene un pedido activo.', displayLength: 2000})
     	}else{
-				if (cp == 0) {
+				if (cp === 0) {
 					$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
 					return M.toast({html: "Producto agotado."})
 				}
-				if (cp == 1) {
+				if (cp === 1) {
 					return M.toast({html: "<span style='color:#ffeb3b'>Debe seleccionar un producto.</span>"})
 				}
 				if (parseInt(cantp) > parseInt(st)) {
@@ -618,7 +708,6 @@ document.getElementById('add').addEventListener('click', () => {
 					pub = (parseFloat(pub)*0.05).toFixed(1);
 					// console.log(pub)
 					reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl];
-
 
 					$("#pedidos_cliente tbody").html("")
 					var table = $("#pedidos_cliente tbody")[0];
@@ -654,12 +743,12 @@ document.getElementById('add').addEventListener('click', () => {
 				M.toast({html: "<span style='color:#1de9b6'>Agregado al carrito de compra.</span>", displayLength: 2500})
 				$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
 				$('#search_data').val("")
-			  document.getElementById("img_prod").src = "images/fotos_prod/default.png";
-				document.getElementById("cod_prod").innerHTML = "";
-				document.getElementById("div_cantidad").hidden = true;
+			  // document.getElementById("img_prod").src = "images/fotos_prod/default.png";
+				// document.getElementById("cod_prod").innerHTML = "";
+				// document.getElementById("div_cantidad").hidden = true;
 				$('#__cantidad').val(1)
 				$("#mod_con").removeClass("disabled")
-
+				$("#modal3").modal('close');
     	}
     },
     error: function(error) {
@@ -685,9 +774,9 @@ document.getElementById('cart').addEventListener('click', () => {
 	// console.log("mostrar")
 	// M.toast({html: "Agregado al carrito de compras."})
 	document.getElementById('cart').hidden = true
-	document.getElementById('add_container').hidden = true
+	document.getElementById('form__').hidden = true
 	document.getElementById('form_container').hidden = true
-	document.getElementById('pdf_container').hidden = true
+	// document.getElementById('pdf_container').hidden = true
 	document.getElementById('cart_row').hidden = false
 	document.getElementById('menu').hidden = true
 });
@@ -696,9 +785,9 @@ document.getElementById('return').addEventListener('click', () => {
 	// console.log("ocultar")
 	// M.toast({html: "Agregado al carrito de compras."})
 	document.getElementById('cart').hidden = false
-	document.getElementById('add_container').hidden = false
+	document.getElementById('form__').hidden = false
 	document.getElementById('form_container').hidden = false
-	document.getElementById('pdf_container').hidden = false
+	// document.getElementById('pdf_container').hidden = false
 	document.getElementById('cart_row').hidden = true
 	document.getElementById('menu').hidden = false
 });
