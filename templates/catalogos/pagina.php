@@ -3,6 +3,8 @@
 	require('recursos/conexion.php');
 	$salir = '<a href="recursos/salir.php" class="right" target="_self"><i class="material-icons">logout</i>Cerrar sesión</a>';
 
+	// SELECT codp, SUM(cantidad) as cant FROM `detalle_venta` WHERE 1 GROUP BY codp ORDER BY cant DESC
+
 	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT 50");
 	$res = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -229,6 +231,7 @@
 	    <li><a href="#!" onclick="_load(`templates/catalogos/mipedido`)" class="waves-effect waves-teal"><i class="material-icons">shopping_basket</i>Mi pedido</a></li>
 	    <li><a href="#!" onclick="_load(`templates/catalogos/historial`)"class="waves-effect waves-teal"><i class="material-icons">assignment</i>Historial de pedidos</a></li>
 	    <li <?php if($_SESSION['nivel'] == 'experta'){echo 'hidden';}?>><a href="#!" onclick="_load(`templates/catalogos/expertas`)"class="waves-effect waves-teal"><i class="material-icons">groups_2</i>Expertas</a></li>
+	    <li <?php if($_SESSION['nivel'] == 'experta'){echo 'hidden';}?>><a href="#!" onclick="_load(`templates/catalogos/reportes`)"class="waves-effect waves-teal"><i class="material-icons">auto_stories</i>Reporte de expertas</a></li>
 	    <li><div class="divider"></div></li>
 	    <!-- <li><a class="subheader"></a></li> -->
 	    <li>
@@ -289,13 +292,13 @@
 	<!-- </div> -->
 
 	<div id="form__">
-		<div class="container col s12 l6 offset-l3" id="form_container">
-				<div class="input-field">
-					<i class="material-icons prefix">search</i>
-					<input id="search_data" type="text" autocomplete="off" class="validate semi">
-					<label for="search_data">Buscar producto...</label>
-			  </div>
-				<div id="__datosprod" hidden><input id='__datosp' cp='1'/></div>
+		<div class="row">
+			<div class="input-field col s12 m6 offset-m3" id="form_container">
+						<i class="material-icons prefix">search</i>
+						<input id="search_data" type="text" autocomplete="off" class="validate semi">
+						<label for="search_data">Buscar producto...</label>
+					<div id="__datosprod" hidden><input id='__datosp' cp='1'/></div>
+			</div>
 		</div>
 		<div class="col s12" id="cards_body">
       
@@ -306,7 +309,7 @@
                   <div class="" >
                       <span><p style="line-height: 0 "><b><?php echo $valor['id'] ?></b></p></span>
                       <span><small><p style="line-height: 1 "><?php echo $valor['descripcion']?></p></small></span><br>
-                      <span style="position: absolute; bottom: 0px;"><b><?php echo $valor['pupesos']*$res2[0]['valor']." Bs."?></b></span>
+                      <span style="position: absolute; bottom: 0px;"><b><?php echo round($valor['pupesos']*$res2[0]['valor'], 1)." Bs."?></b></span>
                   </div>
               </div>
               <div class="p_card__img">
@@ -630,7 +633,7 @@ document.getElementById('search_data').addEventListener('input', () =>{
 									                  <div class="" >
 									                      <span><p style="line-height: 0 "><b>${item.value}</b></p></span>
 									                      <span><small><p style="line-height: 1 ">${item.id}</p></small></span><br>
-									                      <span style="position: absolute; bottom: 0px;">${item.pupesos*parseFloat("<?php echo $res2[0]['valor']; ?>")} Bs.</b></span>
+									                      <span style="position: absolute; bottom: 0px;">${(item.pupesos*parseFloat("<?php echo $res2[0]['valor']; ?>")).toFixed(1)} Bs.</b></span>
 									                  </div>
 									              </div>
 									              <div class="p_card__img">
@@ -649,7 +652,7 @@ function cantidad_prod(id, descripcion, precio, foto, stock, codli) {
 	let instance = M.Modal.getInstance(document.getElementById('modal3'))
 
 	let cambio = `<?php echo $res2[0]['valor'] ?>`
-	let precio_bs = precio*parseFloat(cambio);
+	let precio_bs = (precio*parseFloat(cambio)).toFixed(1);
 	document.getElementById("cant_foto").src = foto;
 	document.getElementById("cant_cod").innerHTML = id;
 	document.getElementById("cant_desc").innerHTML = descripcion;
@@ -674,7 +677,7 @@ document.getElementById('add').addEventListener('click', () => {
 	var pub = $("#__datosp").attr("pp");
 	var pup = $("#__datosp").attr("pp");
 
-	console.log(cp)
+	// console.log(cp)
 
 	$.ajax({
     url: "recursos/catalogos/check_order.php",
@@ -701,11 +704,11 @@ document.getElementById('add').addEventListener('click', () => {
 				else{
 					
 
-
-					pp = ((parseFloat(pp)*0.05).toFixed(1))*parseInt(cantp);
+					let _cambio = parseFloat(`<?php echo $res2[0]['valor'] ?>`);
+					pp = ((parseFloat(pp)*_cambio).toFixed(1))*parseInt(cantp);
 					pp = parseFloat(pp.toFixed(1))
 
-					pub = (parseFloat(pub)*0.05).toFixed(1);
+					pub = (parseFloat(pub)*_cambio).toFixed(1);
 					// console.log(pub)
 					reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl];
 
@@ -775,7 +778,7 @@ document.getElementById('cart').addEventListener('click', () => {
 	// M.toast({html: "Agregado al carrito de compras."})
 	document.getElementById('cart').hidden = true
 	document.getElementById('form__').hidden = true
-	document.getElementById('form_container').hidden = true
+	// document.getElementById('form_container').hidden = true
 	// document.getElementById('pdf_container').hidden = true
 	document.getElementById('cart_row').hidden = false
 	document.getElementById('menu').hidden = true
@@ -786,7 +789,7 @@ document.getElementById('return').addEventListener('click', () => {
 	// M.toast({html: "Agregado al carrito de compras."})
 	document.getElementById('cart').hidden = false
 	document.getElementById('form__').hidden = false
-	document.getElementById('form_container').hidden = false
+	// document.getElementById('form_container').hidden = false
 	// document.getElementById('pdf_container').hidden = false
 	document.getElementById('cart_row').hidden = true
 	document.getElementById('menu').hidden = false
