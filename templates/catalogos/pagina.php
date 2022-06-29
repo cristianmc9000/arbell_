@@ -147,6 +147,16 @@
 		position: absolute;
 		right: 5px;
 	}
+
+	.p_card_pad{
+		/*transition: transform 10s;*/
+	}
+	.p_card__pad:hover{
+		/*color: blue;*/
+		transform:  scale(1.03);
+		box-shadow: 4px 4px 8px 2px rgba(0,0,0,0.4);
+	}
+
 	@media only screen and (max-width : 992px) {
 	.get_out {
 		left: 0;
@@ -210,7 +220,7 @@
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" id="menu" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-			<a href="#" id="titulo" class="brand-logo center dancing">Distrib. Carmina</a>
+			<a href="#" id="titulo" class="brand-logo center fuente">Dist. Carmina</a>
 			<ul class="right">
 				<li><a href="#" id="cart"><i class="grande material-icons"><img style="max-height: 40px;" src="images/icons/vacio.png"/></i></a></li>
 			</ul>
@@ -304,7 +314,7 @@
       
       <?php foreach($res as $key  => $valor){ ?>
       <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>')">
-          <div class="z-depth-1 card horizontal p_card__pad" style="background-color: #f5f6fa">
+          <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
               <div class="card-stacked">
                   <div class="" >
                       <span><p style="line-height: 0 "><b><?php echo $valor['id'] ?></b></p></span>

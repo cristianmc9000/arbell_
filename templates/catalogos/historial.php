@@ -14,9 +14,34 @@
 	}else{
 		$year = date("Y");
 	}
-	$result = $conexion->query("SELECT * FROM `pedidos` WHERE estado != 0 AND ca=".$ca." AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
-	$result = $result->fetch_all(MYSQLI_ASSOC);
-	if ($result) {
+	$result = $conexion->query("SELECT * FROM pedidos WHERE estado != 0 AND estado != 2 AND ca=".$ca." AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
+	$res = $result->fetch_all(MYSQLI_ASSOC);
+
+    $result2 = $conexion->query("SELECT * FROM ventas WHERE estado = 1 AND codp != 'NULL' AND ca=".$ca."  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
+    $res2 = $result2->fetch_all(MYSQLI_ASSOC);
+
+    if ($result2) {
+
+        $arr = array();
+            foreach($res2 as $valor2){
+  
+                    $arr['id'] = $valor2['codp'];
+                    $arr['ca'] = $valor2['ca'];
+                    $arr['fecha'] = $valor2['fecha'];
+                    $arr['total_cd'] = $valor2['total'];
+                    $arr['descuento'] = $valor2['descuento'];
+                    $arr['valor_peso'] = $valor2['valor_peso'];
+                    $arr['credito'] = $valor2['credito'];
+                    $arr['periodo'] = $valor2['periodo'];
+                    $arr['estado'] = '2';
+                    array_push($res, $arr);
+            }
+    }
+    // echo var_dump($result[0]['total_cd']);
+    $no_result = "";
+    // echo var_dump($res);
+	if (!$res2 && !$res) {
+        $no_result = "<center><h1 class='roboto'>No existe un historial de pedidos.</h1></center>";
 		// echo var_dump($result[0]['ca']);
 	}
 	
@@ -40,10 +65,12 @@
             <option value="2026">2026</option>
         </select>
         <br>
-        <?php foreach($result as $key  => $valor){ ?>
+        <?php echo $no_result; ?>
+        <?php foreach($res as $key  => $valor){ ?>
         <div class="col s12 m6 l6 xl6 rubik">
+
             <div class="z-depth-3 card horizontal card__pad"
-                <?php if ($valor['estado'] == '1') {echo 'style="background-color: #f1c40f"';}else{echo 'style="background-color: #2ecc71"';}?>>
+                <?php if ($valor['estado'] == '1') {echo 'style="background-color: #f1c40f"';}elseif($valor['credito'] == 1){echo 'style="background-color: #ff7979"';}else{echo 'style="background-color: #2ecc71"';}?>>
                 <div class="card-stacked">
                     <div class="">
                         <p>Estado: <?php if($valor['estado'] == '1'){echo 'Pendiente';}else{echo 'Aceptado';} ?></p>
@@ -57,7 +84,7 @@
                     </div>
                 </div>
                 <div class="card__img">
-                    <div><a href="#" onclick="detalle('<?php echo $valor['id'] ?>')" style="width: 100%"
+                    <div><a href="#" onclick="detalle('<?php echo $valor['id'] ?>', '<?php echo $valor['estado'] ?>')" style="width: 100%"
                             class="btn waves-effect waves-dark white black-text">Detalle</a></div>
                     <div <?php if ($valor['estado'] == '1' || $valor['credito'] == '0') {echo 'hidden';}?>><a href="#"
                             onclick="pagos('<?php echo $valor['id'] ?>', '<?php echo $valor['credito'] ?>', '<?php echo $valor['total_cd'] ?>')"
@@ -70,9 +97,8 @@
         <?php } ?>
     </div>
 
-    <div class="rubik">
 
-        <div id="modal1"  style="" class="modal">
+        <div id="modal_historial_pagos"  style="" class="modal rubik">
             <div class="modal-content">
                 <h4>Historial de pagos</h4>
 
@@ -101,8 +127,9 @@
             </div>
         </div>
 
-        <div id="modal2" class="modal">
+        <div id="modal_historial_detalle" class="modal rubik">
             <div class="modal-content">
+                <input type="text" id="historial_codigo_pedido" hidden>
                 <h4>Detalle del pedido</h4>
                 <br>
                 <div>
@@ -123,11 +150,26 @@
             </div>
             <br>
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Aceptar</a>
+                <div id="div_historial_cancelar_pedido"><a href="#!" id="historial_cancelar_pedido" class="waves-effect waves-light red btn left" hidden>Cancelar pedido</a></div>
+                <a href="#!" class="modal-close waves-effect waves-light btn">Cerrar</a>
             </div>
         </div>
 
-    </div>
+        <div id="modal_conf_cancelar_pedido" class="modal rubik">
+            <div class="modal-content">
+                <h4>Se cancelará el pedido seleccionado.</h4>
+                <br>
+
+            </div>
+            <br>
+            <div class="modal-footer">
+                <a href="#!"  class="modal-close waves-effect waves-light red btn left">Cerrar</a>
+                <a href="#!" id="conf_historial_cancelar_pedido" class="waves-effect waves-light btn">Aceptar</a>
+            </div>
+        </div>
+
+
+
 </div>
 <script>
 $(document).ready(function() {
@@ -181,8 +223,8 @@ function pagos(id, credito, total_cd) {
                     }
                 }
                 document.getElementById('saldo').innerHTML =
-                    `Saldo: ${(parseFloat(total_cd)-parseFloat(subtotal)).toFixed(1)}`;
-                $("#modal1").modal('open')
+                    `Saldo pendiente: ${(parseFloat(total_cd)-parseFloat(subtotal)).toFixed(1)}`;
+                $("#modal_historial_pagos").modal('open')
             },
             error: function(error) {
                 console.log(error)
@@ -194,7 +236,13 @@ function pagos(id, credito, total_cd) {
 
 }
 
-function detalle(id) {
+function detalle(id, estado) {
+    document.getElementById('historial_codigo_pedido').value = id;
+    
+    if (estado == '2') {
+        document.getElementById('div_historial_cancelar_pedido').hidden = true;
+    }
+
     $(".dinamic_rows").remove();
     $.ajax({
         url: "recursos/catalogos/detalle.php?id=" + id,
@@ -221,16 +269,36 @@ function detalle(id) {
                 }
             }
 
-            $("#modal2").modal('open')
+            $("#modal_historial_detalle").modal('open')
         },
         error: function(error) {
             console.log(error)
         }
     })
-
-
 }
 
+document.getElementById('historial_cancelar_pedido').addEventListener('click', () => {
+    let instance = M.Modal.getInstance(document.getElementById('modal_conf_cancelar_pedido'))
+    instance.open();
+})
+
+document.getElementById('conf_historial_cancelar_pedido').addEventListener('click', () => {
+    var cod = document.getElementById('historial_codigo_pedido').value;
+    let ca = `<?php echo $ca ;?>`
+
+    fetch('recursos/catalogos/cancel_ped.php?cod='+cod)
+    .then(response => response.text())
+    .then(data => {
+        if (data == '11') {
+            $("#modal_conf_cancelar_pedido").modal('close');
+            $("#modal_historial_detalle").modal('close');
+            M.toast({html: 'Se ha cancelado el pedido.', displayLength: 3000})
+            $("#cuerpo").load('templates/catalogos/historial.php?ca='+ca);
+        }else{
+            console.log('error');
+        }
+    })
+})
 
 function enviarfecha() {
     let ges = $('#ges').val();

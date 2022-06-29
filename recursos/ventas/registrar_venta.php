@@ -6,7 +6,7 @@ require("../sesiones.php");
 session_start();
 //OBTENER FECHA Y HORA ACTUALES DE BOLIVIA
 date_default_timezone_set("America/La_Paz");
-$fecha = date("Y-m-d h:i:s");
+$fecha = date("Y-m-d H:i:s");
 $userci = $_SESSION['userCI'];
 $array = json_decode($_POST["json"]);
 $periodo = $_SESSION['periodox'];

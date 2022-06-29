@@ -30,7 +30,7 @@
     <div class="col s12 m12 l12 xl12" id="cards_body">
         <?php foreach($result as $key  => $valor){ ?>
         <div class="col s12 m6 l6 xl6 nunito">
-            <div class="z-depth-3 card horizontal card__pad" style="background-color: #ee6e73">
+            <div class="z-depth-4 card horizontal card__pad" style="background-color: #eee5e9; border-radius: 20px; border-color: #ccc3c7; border-style: solid;">
                 <div class="card-stacked">
                     <div class="" >
                         <span><b>Nombre: </b><?php echo $valor['nombre'].' '.$valor['apellidos']?></span><br>
@@ -43,7 +43,7 @@
                     <div></div>
                     <div>
                         <a href="#" onclick="historial('<?php echo $valor['CA'] ?>')" style="float: right"
-                            class="btn waves-effect waves-dark white black-text">Historial</a>
+                            class="btn waves-effect waves-light red lighten-2 ">Historial</a>
                     </div>
                 </div>
             </div>

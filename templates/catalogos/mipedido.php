@@ -46,9 +46,9 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 </style>
 <br>
 <div id="404" class="col s12 m6 offset-m3">
-	<img src="images/404.png" width="100%" alt="">
+	<!-- <img src="images/404.png" width="100%" alt=""> -->
 	<div id="txt" class="container">
-		<span class="dancing center"><h3><b>Parece que no tienes pedidos activos!</b></h3></span>
+		<span class="roboto center"><h2>Parece que no tienes pedidos activos!</h2></span>
 	</div>
 </div>
 
