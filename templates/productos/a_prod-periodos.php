@@ -116,8 +116,7 @@
 
 var mensaje = $("#mensaje");
 mensaje.hide();
-
-
+  
   $(document).ready(function() {
     // $('select').material_select();
   });

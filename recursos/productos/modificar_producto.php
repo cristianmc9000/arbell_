@@ -16,6 +16,15 @@ $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
 
+$pubs = $_POST["pbs"];
+
+if (!empty($pubs)) {
+	$cambio = $_POST['_cambio'];
+	$pup = ((float)$pubs) / ((float)$cambio);
+	$pup = round($pup, 1);
+	$result = $conexion->query("UPDATE inventario a SET a.pupesos='".$pup."',a.pubs='".$pubs."' WHERE a.codp = '".$cod."' AND id = (SELECT MAX(b.id) FROM inventario b WHERE a.codp = b.codp AND b.estado = 1)");
+}
+
 if(strlen($descripcion) > $maxCaracteres) {
 	die('<script>Materialize.toast("La descripción del producto no puede superar los 250 caracteres." , 4000);</script>');
 };
@@ -45,7 +54,7 @@ if ($cod != $codant) {
 
 	$consulta ="UPDATE productos SET id='".$cod."', foto='".$ruta2."', linea='".$linea."', descripcion='".$descripcion."' WHERE id= '".$codant."'";
 
-	if(mysqli_query($conexion, $consulta) or die(mysql_error())) {
+	if(mysqli_query($conexion, $consulta) or die(mysqli_error($conexion))) {
 		die('?mes='.$periodo);
 	}
 

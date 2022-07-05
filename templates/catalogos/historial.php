@@ -16,8 +16,12 @@
 	}
 	$result = $conexion->query("SELECT * FROM pedidos WHERE estado != 0 AND estado != 2 AND ca=".$ca." AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
 	$res = $result->fetch_all(MYSQLI_ASSOC);
+    if (mysqli_num_rows($result) > 0) {
+        $res[0]['codv'] = '';
+    }
 
-    $result2 = $conexion->query("SELECT * FROM ventas WHERE estado = 1 AND codp != 'NULL' AND ca=".$ca."  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
+    $result2 = $conexion->query("SELECT * FROM ventas WHERE estado = 1 AND ca=".$ca."  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC");
+    // SELECT * FROM ventas WHERE estado = 1 AND codp != 'NULL' AND ca=".$ca."  AND fecha LIKE '%".$year."%' ORDER BY fecha DESC
     $res2 = $result2->fetch_all(MYSQLI_ASSOC);
 
     if ($result2) {
@@ -26,6 +30,7 @@
             foreach($res2 as $valor2){
   
                     $arr['id'] = $valor2['codp'];
+                    $arr['codv'] = $valor2['codv'];
                     $arr['ca'] = $valor2['ca'];
                     $arr['fecha'] = $valor2['fecha'];
                     $arr['total_cd'] = $valor2['total'];
@@ -41,7 +46,7 @@
     $no_result = "";
     // echo var_dump($res);
 	if (!$res2 && !$res) {
-        $no_result = "<center><h1 class='roboto'>No existe un historial de pedidos.</h1></center>";
+        $no_result = "<div class='valign-wrapper' style='height: 60vh;'><h1 class='roboto center'>No tienes un historial de compras.</h1></div>";
 		// echo var_dump($result[0]['ca']);
 	}
 	
@@ -65,7 +70,9 @@
             <option value="2026">2026</option>
         </select>
         <br>
+
         <?php echo $no_result; ?>
+
         <?php foreach($res as $key  => $valor){ ?>
         <div class="col s12 m6 l6 xl6 rubik">
 
@@ -74,7 +81,7 @@
                 <div class="card-stacked">
                     <div class="">
                         <p>Estado: <?php if($valor['estado'] == '1'){echo 'Pendiente';}else{echo 'Aceptado';} ?></p>
-                        <p>Tipo de pago: <?php if ($valor['credito']=='1') {echo 'Crédito';}else{echo 'Contado';}?></p>
+                        <p>Tipo de pago: <?php if ($valor['credito']=='1' || $valor['credito']=='2') {echo 'Crédito';}else{echo 'Contado';}?></p>
                         <p>
                             <div class="dd"><?php echo $valor['fecha']; ?></div>
                         </p>
@@ -84,10 +91,9 @@
                     </div>
                 </div>
                 <div class="card__img">
-                    <div><a href="#" onclick="detalle('<?php echo $valor['id'] ?>', '<?php echo $valor['estado'] ?>')" style="width: 100%"
+                    <div><a onclick="detalle('<?php echo $valor['id'] ?>', '<?php echo $valor['estado'] ?>', `<?php echo $valor['codv'] ?>`)" style="width: 100%"
                             class="btn waves-effect waves-dark white black-text">Detalle</a></div>
-                    <div <?php if ($valor['estado'] == '1' || $valor['credito'] == '0') {echo 'hidden';}?>><a href="#"
-                            onclick="pagos('<?php echo $valor['id'] ?>', '<?php echo $valor['credito'] ?>', '<?php echo $valor['total_cd'] ?>')"
+                    <div <?php if ($valor['estado'] == '1' || $valor['credito'] == '0') {echo 'hidden';}?>><a onclick="pagos('<?php echo $valor['id'] ?>', '<?php echo $valor['credito'] ?>', '<?php echo $valor['total_cd'] ?>', '<?php echo $valor['codv'] ?>')"
                             style="width: 100%" class="btn waves-effect waves-dark white black-text">Pagos</a></div>
 
                     <!-- <img class=" img__card" src="images/arbell_logo.png"> -->
@@ -150,7 +156,7 @@
             </div>
             <br>
             <div class="modal-footer">
-                <div id="div_historial_cancelar_pedido"><a href="#!" id="historial_cancelar_pedido" class="waves-effect waves-light red btn left" hidden>Cancelar pedido</a></div>
+                <div id="div_historial_cancelar_pedido"><a id="historial_cancelar_pedido" class="waves-effect waves-light red btn left" hidden>Cancelar pedido</a></div>
                 <a href="#!" class="modal-close waves-effect waves-light btn">Cerrar</a>
             </div>
         </div>
@@ -188,14 +194,14 @@ $(document).ready(function() {
     });
 });
 
-function pagos(id, credito, total_cd) {
-    if (credito == '1') {
-
+function pagos(id, credito, total_cd, codv) {
+    if (credito == '1' || credito == '2'){
         $(".dinamic_rows").remove();
         $.ajax({
-            url: "recursos/catalogos/pagos.php?id=" + id,
+            url: "recursos/catalogos/pagos.php?id="+id+"&codv="+codv,
             method: "GET",
             success: function(response) {
+                // return console.log(response);
                 res = JSON.parse(response)
                 //INSERTANDO FILAS A LA TABLA VER PAGOS
                 let table = document.getElementById("pagos")
@@ -236,16 +242,18 @@ function pagos(id, credito, total_cd) {
 
 }
 
-function detalle(id, estado) {
+function detalle(id, estado, codv) {
+    // console.log(id, codv)
     document.getElementById('historial_codigo_pedido').value = id;
-    
     if (estado == '2') {
         document.getElementById('div_historial_cancelar_pedido').hidden = true;
+    }else{
+        document.getElementById('div_historial_cancelar_pedido').hidden = false;
     }
 
     $(".dinamic_rows").remove();
     $.ajax({
-        url: "recursos/catalogos/detalle.php?id=" + id,
+        url: "recursos/catalogos/detalle.php?id="+id+"&codv="+codv,
         method: "GET",
         success: function(response) {
             res = JSON.parse(response)
@@ -265,7 +273,7 @@ function detalle(id, estado) {
                     newRow.textContent = res[key]['cant']
 
                     newRow = newTableRow.insertCell(3)
-                    newRow.textContent = res[key]['pubs'] + " Bs."
+                    newRow.textContent = res[key]['pubs_cd'] + " Bs."
                 }
             }
 

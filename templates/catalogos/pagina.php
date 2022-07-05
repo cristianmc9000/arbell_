@@ -4,8 +4,22 @@
 	$salir = '<a href="recursos/salir.php" class="right" target="_self"><i class="material-icons">logout</i>Cerrar sesión</a>';
 
 	// SELECT codp, SUM(cantidad) as cant FROM `detalle_venta` WHERE 1 GROUP BY codp ORDER BY cant DESC
+	if (isset($_GET['pageno'])) {
+		$pageno = $_GET['pageno'];
+	}else{
+		$pageno = 1;
+	}
 
-	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT 50");
+	// $pag_elems = 10;
+	$indice = ($pageno -1)*10;
+
+
+	$total_pages_sql = "SELECT COUNT(*) FROM productos WHERE estado = 1";
+	$result_pages = mysqli_query($conexion,$total_pages_sql);
+	$total_rows = mysqli_fetch_array($result_pages)[0];
+	$total_pages = ceil($total_rows / 10);
+
+	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT ".$indice.", 10");
 	$res = $result->fetch_all(MYSQLI_ASSOC);
 
 	$result2 = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
@@ -330,16 +344,21 @@
       <?php } ?>
 
     </div>
-
-<!-- 		<div class="input-field col s4 offset-s1 m12" id="div_cantidad" hidden>
-					<div class="number-container">
-						<input class="browser-default" type="number" name="" id="__cantidad" min="1" max="100" disabled>
-					</div>
-				</div> CANTIDAD DE PRODUTOS-->
-<!-- 		<div class="container center col s12 m6" style="padding-top: 2em;" id="add_container">
-			<a class="waves-effect waves-light btn-large shop red lighten-1 fuente" id="add"><i class="material-icons right">add_shopping_cart</i>Agregar al carrito</a>
-		</div> AGREGAR AL CARRITO-->
 	</div>
+	<br>
+	<div id="div_paginador" class="center">
+		<ul class="pagination">
+		    <li><a href="?pageno=1">Inicio</a></li>
+		    <li class="<?php if($pageno <= 1){ echo 'disabled'; } ?>">
+		        <a href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>"><i class="material-icons">arrow_back</i></a>
+		    </li>
+		    <li class="<?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+		        <a href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>"><i class="material-icons">arrow_forward</i></a>
+		    </li>
+		    <li><a href="?pageno=<?php echo $total_pages; ?>">Final</a></li>
+		</ul>
+	</div>
+
 
 	<div id="modal3" class="modal fuente modal_prod">
 
@@ -532,17 +551,6 @@
 	let total_img = 0;
 	$(document).ready(function(){
 
-		// $.ajax({
-  //     url: "recursos/catalogos/files.php",
-  //     method: "GET",
-  //     success: function(response) {
-  //     	total_img = response;
-  //     	document.getElementById("current_page").innerHTML = "1 de "+total_img
-  //     },
-  //     error: function(error) {
-  //         console.log(error)
-  //     }
-		// })
 		$('select').formSelect();
 		$('.fixed-action-btn').floatingActionButton({
 			hoverEnabled: false,
@@ -559,47 +567,6 @@
 			buttonPosition: 'around'
 		});
 
-		// $.ajax({  CÓDIGO PARA VISUALIZAR PDF
-		//   url: "recursos/catalogos/last-pdf.php",
-		//   method: "GET",
-		//   success: function(response) {
-		//   	response = JSON.parse(response)
-		//  		console.log(response.ruta);
-		//  		load_pdf(response.ruta);
-		//   }
-		// })
-
-		// $('#search_data').autocomplete({
-  //     source: "recursos/catalogos/search_data.php",
-  //     minLength: 3,
-  //     select: function(event, ui)
-  //     {
-  //       // $("#id_").val(ui.item.id)
-  //       // $("#linea_").val(ui.item.linea)
-  //       // $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
-  //       // $("#codli_").val(ui.item.codli)
-  //       if (ui.item.pupesos == null) {
-  //       	$("#__datosprod").html("<input id='__datosp' cp='0' hidden/>")
-  //       	document.getElementById("img_prod").src = "images/fotos_prod/default.png";
-  //       	document.getElementById("cod_prod").innerHTML = "Agotado";
-  //       }else{
-  //       	$("#__datosprod").html("<input id='__datosp' cp='"+ui.item.value+"' np='"+ui.item.id+"' pp='"+ui.item.pupesos+"' fp='"+ui.item.foto+"' st='"+ui.item.cant+"' cl='"+ui.item.codli+"' hidden/>");
-  //       	// $("#img_prod").src(ui.item.foto);
-  //       	document.getElementById("img_prod").src = ui.item.foto;
-  //       	document.getElementById("cod_prod").innerHTML = ui.item.value
-  //       	document.getElementById("div_cantidad").hidden = false;
-  //       	$('#search_data').val(ui.item.value)
-  //       }
-  //       // $('#foto_prod').attr("src", ui.item.foto);
-  //     }
-  //   }).data('ui-autocomplete')._renderItem = function(ul, item){
-  //       // console.log(item)
-  //       return $("<li class='ui-autocomplete-row fuente'></li>")
-  //       .data("item.autocomplete", item.id)
-  //       .append(item.label)
-  //       .appendTo(ul);
-  //   };
-
     $('#input_pedido_experta').autocomplete({
       source: "recursos/catalogos/search_experta.php",
       minLength: 3,
@@ -610,18 +577,14 @@
         	document.getElementById("input_pedido_experta").value = ui.item.value;
         	document.getElementById('input_pedido_experta').disabled = true;
         	M.updateTextFields();
-        	// $('#search_data').val(ui.item.value)
       }
     }).data('ui-autocomplete')._renderItem = function(ul, item){
-        // console.log(item)
         return $("<li class='ui-autocomplete-row fuente'></li>")
         .data("item.autocomplete", item.id)
         .append(item.label)
         .appendTo(ul);
     };
-
   });
-
 
 document.getElementById('search_data').addEventListener('input', () =>{
     let key = document.getElementById('search_data').value;
@@ -638,7 +601,7 @@ document.getElementById('search_data').addEventListener('input', () =>{
         		}else{
 	            res.forEach(function(item, index, arr){
 					      cad = cad + `<div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('${item.value}','${item.id}','${item.pupesos}','${item.foto}', '${item.cant}', '${item.codli}')">
-									          <div class="z-depth-1 card horizontal p_card__pad" style="background-color: #f5f6fa">
+									          <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
 									              <div class="card-stacked">
 									                  <div class="" >
 									                      <span><p style="line-height: 0 "><b>${item.value}</b></p></span>
@@ -784,47 +747,31 @@ function modal_detalle(cod, producto, pub, foto) {
 
 
 document.getElementById('cart').addEventListener('click', () => {
-	// console.log("mostrar")
-	// M.toast({html: "Agregado al carrito de compras."})
+	document.getElementById('div_paginador').hidden = true;
 	document.getElementById('cart').hidden = true
 	document.getElementById('form__').hidden = true
-	// document.getElementById('form_container').hidden = true
-	// document.getElementById('pdf_container').hidden = true
 	document.getElementById('cart_row').hidden = false
 	document.getElementById('menu').hidden = true
 });
 
 document.getElementById('return').addEventListener('click', () => {
-	// console.log("ocultar")
-	// M.toast({html: "Agregado al carrito de compras."})
+	document.getElementById('div_paginador').hidden = false;
 	document.getElementById('cart').hidden = false
 	document.getElementById('form__').hidden = false
-	// document.getElementById('form_container').hidden = false
-	// document.getElementById('pdf_container').hidden = false
 	document.getElementById('cart_row').hidden = true
 	document.getElementById('menu').hidden = false
 });
 
 	function borrar_prod(x) {
-		// console.log(x)
-		// console.log(reg_pedidos[x]+"<<<antes")
 		delete reg_pedidos[x];
-		// console.log(reg_pedidos['AX00229']+"<<<despues")
-		// console.log(reg_pedidos)
-				//borrando tabla
-			// $('#pedidos_cliente tr:not(:first-child)').slice(0).remove();
-			// var table = $("#pedidos_cliente")[0];
 			$("#pedidos_cliente tbody").html("") //limpiar tabla
 			var table = $("#pedidos_cliente tbody")[0]; //obtener tabla
-			
+		
 			let total =  0;
 			let total_ped_cd = 0;
 			let total_aux = 0;
 			let in_cant = 0;
-			//llenando tabla
-			// console.log(reg_pedidos.length, "tamaño del array reg pedidos") // REVISANDO EL ARRAY
-			// var json_ped = JSON.parse(JSON.stringify(reg_pedidos))
-			// console.log(json_ped)
+
 			Object.keys(reg_pedidos).forEach(function(key) {
 				console.log(reg_pedidos[key]+"<dentro del foreach")
 				var row = table.insertRow(-1);
@@ -908,35 +855,26 @@ document.getElementById('return').addEventListener('click', () => {
 		let total = document.getElementById('input_total').value;
 		let total_cd = document.getElementById('input_total_cd').value;
 		let credito = document.getElementById('pago').checked;
-		// let json_detalle = reg_pedidos.filter(Boolean)
-		// json_detalle = JSON.stringify(json_detalle)
 
-				// reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, codli];
-		// console.log(reg_pedidos + "<<<----")
-		// let x = "";
 		let cant_items = 0;
 		let a = new Array()
 		Object.keys(reg_pedidos).forEach(function(key) {
-			// console.log(reg_pedidos[key][7] +"<<< linea ")
-			// x = x+`{${key}:[{${reg_pedidos[key][1]},${reg_pedidos[key][2]},${reg_pedidos[key][3]},${reg_pedidos[key][5]},${reg_pedidos[key][6]}}]}`;
 			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6], reg_pedidos[key][7]]);
 			cant_items += parseInt(reg_pedidos[key][2]);
 		})
 		
 
 		x = JSON.stringify(a)
-		// x = JSON.parse(a)
-		// return console.log(a.length)
+
 		let cliente = "";
 		if (nombres_experta.length < 1) {
 			cliente = "```<?php echo $_SESSION['usuario'].' '.$_SESSION['apellidos']?>```";
 		}else{
 			cliente = "```"+nombres_experta+"```";
 		}
-		// console.log(a[0][0]+" <<< X")
+
 		let detalle = "";
 		a.forEach(function(x) {
-			// console.log(x[0])
 			detalle = detalle+'*'+x[0]+'* ```'+x[1]+'``` *x'+x[2]+'*%0A';
 			// *${x[0]}*-${x[1]} *x${x[2]}*%0A
 		})
@@ -1015,6 +953,12 @@ document.getElementById('return').addEventListener('click', () => {
 			$(".sidenav").sidenav('close')
 		}
 		$("#cuerpo").load(url+y);
+	}
+
+	function siguiente() {
+		let dir = window.location.href;
+		console.log(dir+"?pageno=")
+		$("#cuerpo").load()
 	}
 
 </script>

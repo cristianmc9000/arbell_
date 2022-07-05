@@ -262,17 +262,12 @@ $("#pup").on("keydown input", function(e){
     pesos = $("#pup").val()
     bs = pesos * parseFloat($("#valor").val());
     $("#pub").val(bs.toFixed(1));
-
-
-    // console.log(e.keyCode)
-    // if ((e.keyCode > 48 && e.keyCode < 57) || e.keyCode == 190 || e.keyCode == 46) {
-    //     return true
-    // }else{
-    //     return false
-    // }
-
 })
-
+$("#pub").on("keydown input", function(e){
+    bs = $("#pub").val()
+    pesos = bs / parseFloat($("#valor").val());
+    $("#pup").val(pesos.toFixed(1));
+})
 //funcion periodo
 function enviarfecha() {
     mes = $('#mes').val();

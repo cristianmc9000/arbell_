@@ -8,11 +8,15 @@ $per = $_GET["mes"];
 if (isset($_GET["mes"])) {
   $per = $_GET["mes"];
   $_SESSION['periodo'] = $per;
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per;  
+  // "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
+  
+  
 }else{
   $_SESSION['periodo'] = 'total';
   $per = 'total';
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+  // SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli
 }
 
 /* $_SESSION['anio'] = $anio; */
@@ -26,23 +30,26 @@ $Busq = $conexion->query($Sql);
 if((mysqli_num_rows($Busq))>0){
   while($arr = $Busq->fetch_array()){ 
 
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad']); 
+        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'periodo'=>$arr['periodo'], 'pubs'=>$arr['pubs']); 
 
   }
 }else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--');
+        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','periodo'=>'--', 'pubs'=>'--');
 }
   //consulta de lineas
-if (isset($_GET["mes"])) {
+// isset($_GET["mes"])
+
   $Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
   $Busq2 = $conexion->query($Sql2);
+
+if ($Busq2) {
   if((mysqli_num_rows($Busq2))>0){
     while($arr2 = $Busq2->fetch_array()){ 
       $fila2[] = array('codli'=>$arr2['codli'], 'nombre'=>$arr2['nombre']); 
     }
   }
 }else{
-  $fila2[] = array('codli'=>"--", 'nombre'=>"--"); 
+  // $fila2[] = array('codli'=>"--", 'nombre'=>"--"); 
 }
 
 ?>
@@ -82,9 +89,9 @@ if (isset($_GET["mes"])) {
 <div class="col s11">
   <div class=" col s12 ">
       <div class="col s3">
-          <b style= "color:blue"> Periodo:</b>
+          <b style= "color:blue">Seleccionar periodo:</b>
           <select onchange="enviarfecha()" name="mes" id="mes" class="browser-default">
-              <option value="0" selected disabled> Seleccionar</option>
+              <option value="<?php echo $per; ?>" selected disabled><?php echo $per ?></option>
               <option value="total">Total</option>
               <option value="1"> 1 </option>
               <option value="2"> 2 </option>
@@ -113,27 +120,31 @@ if (isset($_GET["mes"])) {
   <table id="tabla1" class="highlight" >
     <thead>
       <tr>
-          <th>Ver</th>
-          <th>Código<br>(Producto)</th>
-          <th>Linea</th>
-          <th>Descripción</th>
-          <th>Cantidad</th>
-          <th <?php if ($per == 'total') echo 'hidden'; ?>>Modificar</th>
-          <th>Borrar</th>
+          <th class="center">Ver</th>
+          <th class="center">Código<br>(Producto)</th>
+          <th class="center">Linea</th>
+          <th class="center">Descripción</th>
+          <th class="center">Periodo</th>
+          <th class="center">Cantidad</th>
+          <th class="center">Precio</th>
+          <th class="center">Modificar</th>
+          <th class="center">Borrar</th>
       </tr>
     </thead>
     <tbody>
     <?php foreach($fila as $a  => $valor){ ?>
       <tr>
         <td><img src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
-        <td><?php echo $valor["id"] ?></td>
+        <td class="center"><?php echo $valor["id"] ?></td>
         <td><?php echo $valor["linea"]?></td>
         <td><?php echo $valor["descripcion"]?></td>
-        <td><?php echo $valor["cantidad"] ?></td>
-        <td <?php if ($per == 'total') echo 'hidden'; ?>>
-          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>')"><i class="material-icons">build</i></a>
+        <td class="center"><?php echo $valor['periodo']?></td>
+        <td class="center"><?php echo $valor["cantidad"] ?></td>
+        <td class="center"><?php if (empty($valor['pubs'])) {echo 'Agotado';}else{ echo $valor["pubs"].' Bs.';}?> </td>
+        <td  class="center">
+          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>','<?php echo $valor['pubs']?>')"><i class="material-icons">build</i></a>
         </td>
-        <td>
+        <td class="center">
           <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
         </td>
       
@@ -250,8 +261,12 @@ if (isset($_GET["mes"])) {
             </div>
           </div>
           <div class="row">  
+            <div class="input-field col s12">
+              <input id="descripcion" name="descripcion" type="text" required>
+              <label class="active" for="descripcion">Descripción:</label>
+            </div>
             <div class="input-field col s6">
-              <select id = "lin" name="linea" class="browser-default">
+              <select id = "lin" name="linea" class="browser-default" >
                 <option id="lin_prev" value="" ></option>
                 <?php foreach($fila2 as $a  => $valor){ ?>
                   <option value="<?php echo $valor["codli"] ?>"><?php echo $valor["nombre"] ?></option>
@@ -259,18 +274,19 @@ if (isset($_GET["mes"])) {
               </select>
             </div>
             <div class="input-field col s6">
-              <input id="descripcion" name="descripcion" type="text" required>
-              <label class="active" for="descripcion">Descripción:</label>
+              <input type="text" id="_cambio" name="_cambio" hidden>
+              <input id="pbs" name="pbs" type="text" onkeypress="return check(event)" autocomplete="off" required>
+              <label class="active" for="pbs">Precio en Bs.:</label>
             </div>
           </div>
-
-          <div class="modal-footer">
-              <button id="btn-mod_prod" class="btn waves-effect waves-light" type="submit" >Aceptar</button>
-              <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-          </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+
+    <div class="modal-footer">
+        <button id="btn-mod_prod" class="btn waves-effect waves-light" form="modificar_producto" type="submit" >Aceptar</button>
+        <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+    </div>
 </div>
 </div>
 
@@ -306,7 +322,7 @@ if (isset($_GET["mes"])) {
 var mensaje = $("#mensaje");
 $(document).ready(function() {
     $('#tabla1').dataTable({
-        "order": [[ 0, "desc" ]],
+        "order": [[ 1, "asc" ]],
         "language": {
           "lengthMenu": "Mostrar _MENU_ registros por página",
           "zeroRecords": "Lo siento, no se encontraron datos",
@@ -449,8 +465,8 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
-  
+function mod_producto(foto, id, linea, codli, descripcion, cantidad, pubs) {
+
   $("#imagen_ant").val(foto)
   $("#imagen").val(foto)
   $("#codigo").val(id)
@@ -462,7 +478,16 @@ function mod_producto(foto, id, linea, codli, descripcion, cantidad) {
   // FIN SELECCIONAR LINEA
   $("#descripcion").val(descripcion)
   $("#cantidad").val(cantidad)
-  // $("#fechav").val(fechav)
+
+  if (pubs) {
+    $("#pbs").val(pubs)
+    $("#_cambio").val($("#valor").val());
+    document.getElementById('pbs').disabled = false;
+  }else{
+    $("#pbs").val('Agotado')
+    document.getElementById('pbs').disabled = true;
+  }
+
   $("#modal2").openModal()
 }
 
@@ -480,17 +505,17 @@ $("#modificar_producto").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
+      // return console.log(echo)
       if (echo !== "") {
         $("#btn-mod_prod").removeClass('disabled')
         document.getElementById('btn-mod_prod').disabled = false
         mensaje.html(echo);
-        console.log(echo);
+        // console.log(echo);
         if (echo.includes("?mes")) {
           $("#modal2").closeModal(); 
           Materialize.toast("PRODUCTO MODIFICADO." , 4000);
-          $("#cuerpo").load("templates/productos/productos.php"+echo);
+          $("#cuerpo").load("templates/productos/productos.php?"+echo);
         }
-        
       }
     });
 });
