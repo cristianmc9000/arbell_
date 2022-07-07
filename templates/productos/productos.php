@@ -8,14 +8,14 @@ $per = $_GET["mes"];
 if (isset($_GET["mes"])) {
   $per = $_GET["mes"];
   $_SESSION['periodo'] = $per;
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per;  
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per;  
   // "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
   
   
 }else{
   $_SESSION['periodo'] = 'total';
   $per = 'total';
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
   // SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli
 }
 
@@ -30,11 +30,11 @@ $Busq = $conexion->query($Sql);
 if((mysqli_num_rows($Busq))>0){
   while($arr = $Busq->fetch_array()){ 
 
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'periodo'=>$arr['periodo'], 'pubs'=>$arr['pubs']); 
+        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'periodo'=>$arr['periodo'], 'pubs'=>$arr['pubs'], 'checkbox'=>$arr['checkbox']); 
 
   }
 }else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','periodo'=>'--', 'pubs'=>'--');
+        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','periodo'=>'--', 'pubs'=>'--', 'checkbox'=>'--');
 }
   //consulta de lineas
 // isset($_GET["mes"])
@@ -82,7 +82,11 @@ if ($Busq2) {
       border: 1px solid;
       border-collapse: collapse !important;
   }
-
+  .check{
+    position: relative !important;
+    left: 0 !important;
+    opacity: 1 !important;
+  }
   </style>
 
 <div class="row">
@@ -134,7 +138,7 @@ if ($Busq2) {
     <tbody>
     <?php foreach($fila as $a  => $valor){ ?>
       <tr>
-        <td><img src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
+        <td><img loading="lazy"src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
         <td class="center"><?php echo $valor["id"] ?></td>
         <td><?php echo $valor["linea"]?></td>
         <td><?php echo $valor["descripcion"]?></td>
@@ -142,7 +146,7 @@ if ($Busq2) {
         <td class="center"><?php echo $valor["cantidad"] ?></td>
         <td class="center"><?php if (empty($valor['pubs'])) {echo 'Agotado';}else{ echo $valor["pubs"].' Bs.';}?> </td>
         <td  class="center">
-          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>','<?php echo $valor['pubs']?>')"><i class="material-icons">build</i></a>
+          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>','<?php echo $valor['pubs']?>', '<?php echo $valor['checkbox']?>')"><i class="material-icons">build</i></a>
         </td>
         <td class="center">
           <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
@@ -243,7 +247,7 @@ if ($Busq2) {
     <h4>Modificar producto</h4>  
     <div class="row">
       <form class="col s12" id="modificar_producto">
-          <div class="row">
+        <div class="row">
             <div class="input-field file-field col s6">
               <div class="btn">
                 <span>Foto</span>
@@ -254,17 +258,18 @@ if ($Busq2) {
                 <input id="imagen" class="file-path validate" type="text">
               </div>
             </div>
+
             <div class="input-field col s6">
               <input id="codigo" name="codigo" type="text" required>
               <label class="active" for="codigo">Código:</label>
               <input id="codigo_ant" name="codant" type="text" hidden>
             </div>
-          </div>
-          <div class="row">  
+
             <div class="input-field col s12">
               <input id="descripcion" name="descripcion" type="text" required>
               <label class="active" for="descripcion">Descripción:</label>
             </div>
+
             <div class="input-field col s6">
               <select id = "lin" name="linea" class="browser-default" >
                 <option id="lin_prev" value="" ></option>
@@ -273,10 +278,28 @@ if ($Busq2) {
                 <?php } ?>
               </select>
             </div>
+
             <div class="input-field col s6">
               <input type="text" id="_cambio" name="_cambio" hidden>
               <input id="pbs" name="pbs" type="text" onkeypress="return check(event)" autocomplete="off" required>
               <label class="active" for="pbs">Precio en Bs.:</label>
+            </div>
+
+            <div class="input-field col s6">
+              <p>
+                <label>
+                  <input type="checkbox" class="check" name="check_pedido" id="check_pedido" />
+                  <span>Quitar de la página de pedidos</span>
+                </label>
+              </p>
+            </div>
+            <div class="input-field col s6">
+              <p>
+                <label>
+                  <input type="checkbox" class="check" name="check_promo" id="check_promo" />
+                  <span>Agregar a promoción</span>
+                </label>
+              </p>
             </div>
           </div>
         </form>
@@ -465,7 +488,22 @@ $("#agregar_producto").on("submit", function(e){
     });
 });
 
-function mod_producto(foto, id, linea, codli, descripcion, cantidad, pubs) {
+function mod_producto(foto, id, linea, codli, descripcion, cantidad, pubs, checkbox) {
+
+  // document.getElementById('check_promo').checked = false;
+  // document.getElementById('precio_promo').disabled = true;
+  if (checkbox == '0') {
+    document.getElementById('check_promo').checked = false;
+    document.getElementById('check_pedido').checked = false;
+  }
+  if (checkbox == '1') {
+    document.getElementById('check_promo').checked = true;
+    document.getElementById('check_pedido').checked = false;
+  }
+  if (checkbox == '2') {
+    document.getElementById('check_promo').checked = false;
+    document.getElementById('check_pedido').checked = true;
+  }
 
   $("#imagen_ant").val(foto)
   $("#imagen").val(foto)
@@ -602,6 +640,18 @@ function enviarfecha() {
     
 }
 
+document.getElementById('check_promo').addEventListener('change', ()=>{
+  let check_promo = document.getElementById('check_promo').checked
+  if (check_promo) {
+    document.getElementById('check_pedido').checked = false;
+  }
+})
+document.getElementById('check_pedido').addEventListener('change', ()=>{
+  let check_pedido = document.getElementById('check_pedido').checked
+  if (check_pedido) {
+    document.getElementById('check_promo').checked = false;
+  }
+})
 </script>
 
 </div>

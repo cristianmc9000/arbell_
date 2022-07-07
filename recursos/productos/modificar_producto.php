@@ -15,14 +15,31 @@ $imgant = $_POST['imagen_ant'];
 $nombreimg = $_FILES['imagen']['name'];
 $archivo = $_FILES['imagen']['tmp_name'];
 $maxCaracteres = "250";
-
 $pubs = $_POST["pbs"];
+
+$check_promo = $_POST['check_promo'];
+$check_pedido = $_POST['check_pedido'];
+
+if (empty($check_promo) AND empty($check_pedido)) {
+	$result = $conexion->query("UPDATE `productos` SET `checkbox`='0' WHERE id = ".$cod);
+}
+if ($check_promo == 'on') {
+	$result = $conexion->query("UPDATE `productos` SET `checkbox`='1' WHERE id = ".$cod);
+}
+if ($check_pedido == 'on') {
+		$result = $conexion->query("UPDATE `productos` SET `checkbox`='2' WHERE id = ".$cod);
+}
+
+
 
 if (!empty($pubs)) {
 	$cambio = $_POST['_cambio'];
 	$pup = ((float)$pubs) / ((float)$cambio);
 	$pup = round($pup, 1);
 	$result = $conexion->query("UPDATE inventario a SET a.pupesos='".$pup."',a.pubs='".$pubs."' WHERE a.codp = '".$cod."' AND id = (SELECT MAX(b.id) FROM inventario b WHERE a.codp = b.codp AND b.estado = 1)");
+	if (!$result) {
+		die(mysqli_error($conexion));
+	}
 }
 
 if(strlen($descripcion) > $maxCaracteres) {

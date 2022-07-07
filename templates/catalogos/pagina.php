@@ -19,7 +19,7 @@
 	$total_rows = mysqli_fetch_array($result_pages)[0];
 	$total_pages = ceil($total_rows / 10);
 
-	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.linea = b.codli AND a.id = f.codp AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY id ASC LIMIT ".$indice.", 10");
+	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 0 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
 	$res = $result->fetch_all(MYSQLI_ASSOC);
 
 	$result2 = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
@@ -622,8 +622,22 @@ document.getElementById('search_data').addEventListener('input', () =>{
 })
 
 function cantidad_prod(id, descripcion, precio, foto, stock, codli) {
-	let instance = M.Modal.getInstance(document.getElementById('modal3'))
 
+
+
+	fetch('recursos/catalogos/checkbox.php?id='+id)
+	.then(response => response.text())
+	.then(data => {
+		if (data == '2') {
+			return M.toast({html: 'Producto retirado del catalogo', displayLength: 3000})
+		}
+		if (data == '1') {
+			return M.toast({html: 'Producto movido a promociones', displayLength: 3000})
+		}
+	})
+
+
+	let instance = M.Modal.getInstance(document.getElementById('modal3'))
 	let cambio = `<?php echo $res2[0]['valor'] ?>`
 	let precio_bs = (precio*parseFloat(cambio)).toFixed(1);
 	document.getElementById("cant_foto").src = foto;
