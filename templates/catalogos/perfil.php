@@ -122,7 +122,8 @@ $dir = $result[0]['lugar'];
 		$("#rep").show();
   	})
 	$("#hide_pass").on('click', function() {
-		$("#password").attr('disabled');
+		document.getElementById('password').disabled = true;
+		// $("#password").attr('disabled');
 		$("#hide__pass").hide();
 		$("#mod__pass").show();
 		$("#new_pass").html('Contraseña');

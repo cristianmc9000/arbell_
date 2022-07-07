@@ -80,7 +80,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 				<tr>
 					<th>PRODUCTO</th>
 					<th>CANTIDAD</th>
-					<th>PRECIO</th>
+					<th>PRECIO Bs.</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -207,7 +207,7 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 				var row = table.insertRow(-1);
 				row.insertCell(0).innerHTML = "<?php echo $valor['descripcion'] ?>";
 				row.insertCell(1).innerHTML = "<?php echo $valor['cant'] ?>";
-				row.insertCell(2).innerHTML = (parseFloat("<?php echo $valor['cant'] ?>")*parseFloat("<?php echo $valor['pubs'].' Bs.'?>")).toFixed(1);
+				row.insertCell(2).innerHTML = Number(parseFloat("<?php echo $valor['pubs'].' Bs.'?>").toFixed(1));
 			}
 		"<?php } ?>";
 	}
