@@ -22,6 +22,7 @@ if ($periodo == 0) {
 		$per_b = "per".$periodo;
 		$per_b = $gestion.$_SESSION[$per_b];
 	}
+	// echo $per_a."-----".$per_b;
 	$result = $conexion->query("SELECT a.codv, a.ca, b.nombre, b.apellidos, a.fecha, a.total, a.credito, a.descuento, a.valor_peso FROM ventas a, clientes b WHERE (a.fecha BETWEEN '".$per_a."' AND '".$per_b."') AND a.ca = b.CA AND a.estado = 1");
 }
 

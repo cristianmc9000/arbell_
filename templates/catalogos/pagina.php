@@ -52,6 +52,13 @@
     z-index: 999;
 	}
 	
+	#back_expertas{
+		float: left;
+		position: relative;
+		/*z-index: 1;*/
+		/*height: 56px;*/
+		margin: 0 18px;
+	}
 
 </style>
 
@@ -60,6 +67,7 @@
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#" id="menu" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+			<a href="#" id="back_expertas" onclick="$('#cuerpo').load('templates/catalogos/expertas.php')" hidden><i class="material-icons left">keyboard_return</i></a>
 			<a href="#" id="titulo" class="brand-logo center fuente">Dist. Carmina</a>
 			<ul class="right">
 				<li><a href="#" id="cart"><i class="grande material-icons"><img style="max-height: 40px;" src="images/icons/vacio.png"/></i></a></li>
@@ -109,10 +117,11 @@
 </html>
 
 <script>
-
+	// var reg_pedidos = new Array();
 	$(document).ready(function(){
   	$('.sidenav').sidenav();
   	$("#cuerpo").load('templates/catalogos/inicio.php');
+
   });
 
 

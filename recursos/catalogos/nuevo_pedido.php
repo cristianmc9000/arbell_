@@ -15,6 +15,12 @@
 
 	$per = $_SESSION['periodox'];
 
+	$res3 = $conexion->query('SELECT block FROM clientes WHERE CA = "'.$ca.'"');
+	$res3 = $res3->fetch_all(MYSQLI_ASSOC);
+	if ($res3[0]['block'] == '0') {
+		die('block');
+	}
+
 	$result = $conexion->query("SELECT * FROM pedidos WHERE ca = '".$ca."' AND estado = 1");
 	$result = mysqli_num_rows($result);
 	if ($result > 0) {

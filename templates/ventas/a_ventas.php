@@ -192,7 +192,7 @@ $(document).ready(function() {
     //----------filtro lider/experta---------------
     $('#search_le').autocomplete({
         source: "recursos/ventas/buscar_le.php",
-        minLength: 1,
+        minLength: 3,
         select: function(event, ui) {
             $("#descuento_").removeAttr('disabled');
             $("#ca").val(ui.item.ca)

@@ -2,8 +2,10 @@
 	require('../../recursos/conexion.php');
 	session_start();
 	$ca= "";
+    $sw = 0;
     if (isset($_GET['ca'])) {
         $ca = $_GET['ca'];
+        $sw = 1;
     }else{
         $ca = $_SESSION["ca"];
     }
@@ -134,6 +136,7 @@
         </div>
 
         <div id="modal_historial_detalle" class="modal rubik">
+            <a href="#!" class="modal-close waves-effect waves-light btn-small right"><i class="material-icons"><b>close</b></i></a>
             <div class="modal-content">
                 <input type="text" id="historial_codigo_pedido" hidden>
                 <h4>Detalle del pedido</h4>
@@ -156,12 +159,12 @@
             </div>
             <br>
             <div class="modal-footer">
-                <div id="div_historial_cancelar_pedido"><a id="historial_cancelar_pedido" class="waves-effect waves-light red btn left" hidden>Cancelar pedido</a></div>
-                <a href="#!" class="modal-close waves-effect waves-light btn">Cerrar</a>
+                <div id="div_historial_cancelar_pedido" class="center"><a id="historial_cancelar_pedido" class="waves-effect waves-light red btn" hidden>Cancelar pedido</a></div>
             </div>
         </div>
 
         <div id="modal_conf_cancelar_pedido" class="modal rubik">
+            <a href="#!"  class="modal-close waves-effect waves-light red btn-small right"><b><i class="material-icons">close</i></b></a>
             <div class="modal-content">
                 <h4>Se cancelará el pedido seleccionado.</h4>
                 <br>
@@ -169,8 +172,9 @@
             </div>
             <br>
             <div class="modal-footer">
-                <a href="#!"  class="modal-close waves-effect waves-light red btn left">Cerrar</a>
-                <a href="#!" id="conf_historial_cancelar_pedido" class="waves-effect waves-light btn">Aceptar</a>
+                <div class="center">
+                    <a href="#!" id="conf_historial_cancelar_pedido" class="waves-effect waves-light btn">Confirmar</a>
+                </div>
             </div>
         </div>
 
@@ -192,6 +196,12 @@ $(document).ready(function() {
         fecha = new Date(e.innerText);
         e.innerText = fecha.toLocaleDateString("es-ES", options);;
     });
+
+    if (`<?php echo $sw ;?>` == '1') {
+        document.getElementById('menu').hidden = true;
+        document.getElementById('back_expertas').hidden = false;
+    }
+
 });
 
 function pagos(id, credito, total_cd, codv) {

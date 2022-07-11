@@ -19,6 +19,11 @@
     flex-direction: column;
     justify-content: space-between;
 }
+.horizontal{
+    /*display: grid !important;*/
+    /*grid-template-columns: 1fr 1fr;*/
+    gap: 5px;
+}
 </style>
 <br>
 <div class="container">
@@ -29,21 +34,22 @@
     </div>
     <div class="col s12 m12 l12 xl12" id="cards_body">
         <?php foreach($result as $key  => $valor){ ?>
-        <div class="col s12 m6 l6 xl6 nunito">
+        <div class="col s12 m6 l6 xl6 roboto">
             <div class="z-depth-4 card horizontal card__pad" style="background-color: #eee5e9; border-radius: 20px; border-color: #ccc3c7; border-style: solid;">
                 <div class="card-stacked">
-                    <div class="" >
-                        <span><b>Nombre: </b><?php echo $valor['nombre'].' '.$valor['apellidos']?></span><br>
+                        <span><b>Nombre: </b><small><?php echo $valor['nombre'].' '.$valor['apellidos']?></small></span><br>
                         <span><b>Celular: </b><?php echo $valor['telefono']?></span><br>
                         <span><b>CA: </b><?php echo $valor['CA']?></span><br>
                         <span><b>CI: </b><?php echo $valor['CI']?></span>
-                    </div>
                 </div>
                 <div class="card__img">
-                    <div></div>
                     <div>
-                        <a href="#" onclick="historial('<?php echo $valor['CA'] ?>')" style="float: right"
-                            class="btn waves-effect waves-light red lighten-2 ">Historial</a>
+                        <a onclick="historial('<?php echo $valor['CA'] ?>')" style="float: right"
+                            class="btn-small waves-effect waves-light ">Historial</a>
+                    </div>
+                    <div>
+                        <a onclick="bloquear('<?php echo $valor['CA'] ?>', event)" style="float: right"
+                            class="btn-small waves-effect waves-light red lighten-2 "><?php if($valor['block'] == '1'){echo 'Bloquear';}else{echo 'Desbloquear';}?></a>
                     </div>
                 </div>
             </div>
@@ -69,29 +75,44 @@ $(document).ready(function() {
 });
 
 document.getElementById('buscar_experta').addEventListener('input', () =>{
+    var filtro = document.getElementById('buscar_experta').value;
+    if (filtro.length > 0 && filtro.length < 3) {
+        return false;
+    }
+
     let key = document.getElementById('buscar_experta').value;
     let cards_body = document.getElementById('cards_body');
     fetch('recursos/catalogos/filtro_expertas.php?key='+key)
     .then(response => {
         response.json().then(function(res) {  
             let cad = "";
+            let block = '';
             res.forEach(function(item, index, arr){
 
-                cad = cad + `<div class="col s12 m6 l6 xl6 nunito">
-                                <div class="z-depth-3 card horizontal card__pad" style="background-color: #ee6e73">
+                if (item['block'] == '1') {
+                    block = 'Bloquear'
+                }else{
+                    block = 'Desbloquear'
+                }
+
+                cad = cad + `<div class="col s12 m6 l6 xl6 roboto">
+                                <div class="z-depth-4 card horizontal card__pad" style="background-color: #eee5e9; border-radius: 20px; border-color: #ccc3c7; border-style: solid;">
                                     <div class="card-stacked">
                                         <div class="" >
-                                            <span><b>Nombre: </b>${item['nombre']+" "+item['apellidos']}</span><br>
+                                            <span><b>Nombre: </b><small>${item['nombre']+" "+item['apellidos']}</small></span><br>
                                             <span><b>Celular: </b>${item['telefono']}</span><br>
                                             <span><b>CA: </b>${item['CA']}</span><br>
                                             <span><b>CI: </b>${item['CI']}</span>
                                         </div>
                                     </div>
                                     <div class="card__img">
-                                        <div></div>
                                         <div>
-                                            <a href="#" onclick="historial('${item['CA']}')" style="float: right"
-                                                class="btn waves-effect waves-dark white black-text">Historial</a>
+                                            <a onclick="historial('${item['CA']}')" style="float: right"
+                                                class="btn-small waves-effect waves-light">Historial</a>
+                                        </div>
+                                        <div>
+                                            <a onclick="bloquear('${item['CA']}', event)" style="float: right"
+                                                class="btn-small waves-effect waves-light red lighten-2 ">${block}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -102,9 +123,23 @@ document.getElementById('buscar_experta').addEventListener('input', () =>{
     })
 })
 function historial(ca) {
-    console.log(ca)
     $("#cuerpo").load("templates/catalogos/historial.php?ca="+ca);
 }
+function bloquear(ca, e) {
+    fetch('recursos/catalogos/block.php?ca='+ca)
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes('1')) {
+            e.target.innerHTML = 'Bloquear'
+        }else{
+            e.target.innerHTML = 'Desbloquear'
+        }
+    })
+}
 
+document.getElementById("back_expertas").addEventListener('click', ()=> {
+    document.getElementById('menu').hidden = false;
+    document.getElementById('back_expertas').hidden = true;
+})
 
 </script>

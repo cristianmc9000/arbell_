@@ -41,8 +41,8 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
   <div class="row" id="tabs_catalogo">
   	<ul id="tabs-swipe-demo" class="tabs">
-	    <li class="tab col s6 m3"><a class="active" href="#test-swipe-1">&#128214 Catálogo</a></li>
-	    <li class="tab col s6 m3"><a href="#test-swipe-2">&#x2B50 Ofertas </a></li>
+	    <li class="tab col s6"><a class="active" href="#test-swipe-1">&#128214 Catálogo</a></li>
+	    <li class="tab col s6"><a href="#test-swipe-2">&#x2B50 Ofertas </a></li>
 	  </ul>
 	  <div id="test-swipe-1" class="col s12">
 	  	<div id="form__">
@@ -167,7 +167,7 @@
 			</div>
 		</div>
 		<!-- antes era col s12 m12 l4 xl5 -->
-		<div class="col s12 m12 l12" id="div_tabla_pedidos"> <!-- style="margin-top: -8%;" -->
+		<div class="col s12" id="div_tabla_pedidos"> <!-- style="margin-top: -8%;" -->
 			<!-- <div class="col l6 m10 offset-m1 s12"> -->
 				<div class="center"><h4>Tu pedido</h4></div>
 
@@ -309,7 +309,7 @@
 	var inst = M.Tabs.init(el, options);
 
 	$(document).ready(function(){
-
+	
 		$("#titulo").html('Dist. Carmina')
 		$('.modal').modal();
 	    $('input[type="number"]').niceNumber({
@@ -637,7 +637,9 @@ function modal_detalle(cod, producto, pub, foto) {
 	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&total_cd="+total_cd+"&a="+x+"&cred="+credito+ca_exp,
 	            method: "GET",
 	            success: function(response) {
-	            	// console.log(response+"<<<< respuesta de php")
+	            	if (response.includes('block')) {
+	            		return M.toast({html: "Usuario bloqueado, no puede realizar pedidos.", displayLength: 3000})
+	            	}
 	              if (response == 1) {
 	                M.toast({html:'<span style="color: #2ecc71"><b>Pedido realizado, puedes ver tu pedido en la sección de Mi pedido</b></span>', displayLength: 5000, classes: 'rounded'})
 	                	$("#modal2").modal('close')

@@ -5,12 +5,14 @@ session_start();
 
 $gestion = $_GET['ges'];
 $periodo = $_GET['per'];
-// echo $gestion."---".$periodo;
+$ca = $_GET['ca'];
 
 if ($periodo == 0) {
-	$result = $conexion->query(" SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
+	$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.ca = b.CA AND a.estado = 1 AND lider = '".$ca."' GROUP BY a.ca");
+	$result2 = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.ca = '".$ca."' AND b.CA = '".$ca."' AND a.estado = 1 GROUP BY a.ca");
 }else{
-	$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.periodo = ".$periodo." AND a.ca = b.CA AND a.estado = 1 GROUP BY a.ca");
+	$result = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.periodo = ".$periodo." AND a.ca = b.CA AND a.estado = 1 AND lider = '".$ca."' GROUP BY a.ca");
+	$result2 = $conexion->query("SELECT a.ca, b.nombre, b.apellidos, SUM(a.total) AS monto FROM ventas a, clientes b WHERE a.fecha LIKE '".$gestion."%' AND a.periodo = ".$periodo." AND a.ca = '".$ca."' AND b.CA = '".$ca."' AND a.estado = 1 GROUP BY a.ca");
 }
 
 	if((mysqli_num_rows($result))>0){
@@ -20,6 +22,17 @@ if ($periodo == 0) {
 	}else{
 	        $fila[] = array('ca'=>'--', 'nombre'=>'--', 'apellidos'=>'--', 'monto'=>'--');
 	}
+
+	if (mysqli_num_rows($result2)>0) {
+		$res = $result2->fetch_all(MYSQLI_ASSOC);
+	}else{
+		$res = $conexion->query("SELECT CA, nombre, apellidos FROM clientes WHERE CA = '".$ca."'");
+		$res = $res->fetch_all(MYSQLI_ASSOC);
+		$res[0]['monto'] = '0';
+	}
+
+	
+	// echo $res[0]['nombre'].' '.$res[0]['apellidos'];
 
 ?>
 <style>
@@ -89,21 +102,21 @@ $(document).ready(function() {
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/ms-excel--v1.png"/></i>',
         titleAttr:  'Exportar a Excel',
         className:  'btn-flat green',
-        title: 			'Reporte de lider/experta del periodo: <?php if($_GET["per"] == '0'){echo 'Todos los periodos';}else{echo $_GET["per"];} ?>'
+        title: 			'Reporte de líder: <?php echo $res[0]["nombre"]." ".$res[0]["apellidos"]; if($_GET["per"] == '0'){echo '\n Periodo: Todos los periodos';}else{echo '\n Periodo: '.$_GET["per"];} ?><?php echo '\n Valor de compras de lider: '.round($res[0]["monto"], 1)." Bs.";?>'
       },
       {
         extend:     'pdfHtml5',
         text:       '<i class="material-icons-outlined"><img src="https://img.icons8.com/material/24/000000/pdf-2--v1.png"/></i>',
         titleAttr:  'Exportar a PDF',
         className:  'btn-flat red',
-        title: 			'Reporte de lider/experta del periodo: <?php if($_GET["per"] == '0'){echo 'Todos los periodos';}else{echo $_GET["per"];} ?>'
+        title: 			'Reporte de líder: <?php echo $res[0]["nombre"]." ".$res[0]["apellidos"]; if($_GET["per"] == '0'){echo '\n Periodo: Todos los periodos';}else{echo '\n Periodo: '.$_GET["per"];} ?><?php echo '\n Valor de compras de lider: '.round($res[0]["monto"], 1)." Bs.";?>'
       },
       {
         extend:     'print',
         text:       '<i class="material-icons-outlined">print</i>',
         titleAttr:  'Imprimir',
         className:  'btn-flat blue',
-        title: 			'<span style="font-size:30">Reporte del lider/experta de periodo: <?php if($_GET["per"] == '0'){echo 'Todos los periodos';}else{echo $_GET["per"];} ?> </span>'
+        title: 			'<span style="font-size:20; line-height:1.2em"><b>Reporte del líder</b>: <?php echo $res[0]["nombre"]." ".$res[0]["apellidos"];?><br><?php if($_GET["per"] == '0'){echo '<b>Periodo:</b> Todos los periodos';}else{echo "<b>Periodo:</b> ".$_GET["per"];} ?><br><b>Valor de compras de lider: </b><?php echo round($res[0]["monto"], 1)." Bs."?></span>'
       }
     ]
     });
