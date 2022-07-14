@@ -6,7 +6,6 @@
 	}else{
 		$pageno = 1;
 	}
-
 	$indice = ($pageno -1)*10;
 
 	$total_pages_sql = "SELECT COUNT(*) FROM productos WHERE estado = 1";
@@ -233,13 +232,9 @@
 <!-- Modal Structure - confirmación de pedidos -->
 <div id="modal2" class="modal roboto modal_prod">
 <div class="modal-content" id="modal2-content">
-  
   <div class="center">
   	<h6 id="modal_title" class="rubik" style=" font-weight: bold;">DETALLE DEL PEDIDO</h6><br>
   </div>
-
-  	<!-- <div class="row"> -->
-
 			<div <?php if($_SESSION['nivel'] == 'experta'){echo 'hidden';}?>>
 				<p>
 		      <label>
@@ -262,11 +257,7 @@
             <a href="#" style="color: red" id="a_eliminar_experta"><i class="material-icons">close</i></a>
           </div>
 		    </div>
-
-		<!-- </div> -->
-
   <div>
-  	
   		<div hidden>
       		<input type="text" id="input_cant">
       		<input type="text" id="input_total">
@@ -294,15 +285,18 @@
 						<td><span id="conf_cred"></span></td>
 					</tr>
 				</table>
-
 	</div>
+	</div>
+	<div class="modal-footer">
+	  <a href="#!" class="modal-close waves-effect waves-light btn red left">Cancelar</a>
+	  <a href="#!" id="conf_ped" class="waves-effect waves-light btn right">Confirmar pedido</a>
+	</div>
+</div>
 
+<div class="footer-alert" id="footer-alert_">
+	<div class="container roboto" ><span>Tienes 1 pedido pendiente, <?php if($_SESSION['nivel'] == 'lider'){echo 'solo puedes realizar pedidos para tus expertas.';}else{echo 'no puedes realizar más pedidos.';} ?></span></div>
 </div>
-<div class="modal-footer">
-  <a href="#!" class="modal-close waves-effect waves-light btn red left">Cancelar</a>
-  <a href="#!" id="conf_ped" class="waves-effect waves-light btn right">Confirmar pedido</a>
-</div>
-</div>
+
 <script>
 	var el = document.getElementsByClassName('tabs')[0]
 	var options = {}
@@ -336,6 +330,43 @@
 	        .append(item.label)
 	        .appendTo(ul);
 	    };
+	    if (Object.keys(reg_pedidos).length > 0) {
+	    $("#pedidos_cliente tbody").html("")
+					var table = $("#pedidos_cliente tbody")[0];
+					let total =  0;
+					let in_cant = 0;
+					let total_aux = 0;
+					let total_ped_cd = 0;
+					Object.keys(reg_pedidos).forEach(function(key) {
+						var row = table.insertRow(-1);
+						row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
+						row.insertCell(0).innerHTML = reg_pedidos[key][3];
+						row.insertCell(0).innerHTML = reg_pedidos[key][2];
+						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
+						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
+						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
+						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
+						}else{
+							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
+						}
+					});
+					total_ped_cd = ((parseFloat(total_ped_cd)*(1-parseFloat('<?php echo $_SESSION['desc']; ?>')))+parseFloat(total_aux)).toFixed(1)
+					$("#total_ped").html(total +" Bs.");
+					$("#total_ped_cd").html(total_ped_cd+" Bs.");
+					$("#input_total").val(total);
+					$("#input_total_cd").val(total_ped_cd);
+					$("#input_cant").val(in_cant);
+					$("#mod_con").removeClass("disabled");
+			}
+			fetch('recursos/catalogos/check_order.php')
+			.then(response => response.text())
+			.then(data => {
+				// console.log(data.length)
+				if (data.length == 0) {
+					document.getElementById('footer-alert_').style.visibility = 'hidden';
+				}
+			})
   	});
 
 document.getElementById('search_data').addEventListener('input', () =>{
@@ -403,7 +434,7 @@ function cantidad_prod(id, descripcion, precio, foto, stock, codli) {
 
 }
 
-var reg_pedidos = new Array();
+// var reg_pedidos = new Array();
 
 document.getElementById('add').addEventListener('click', () => {
 	
@@ -419,14 +450,14 @@ document.getElementById('add').addEventListener('click', () => {
 
 	// console.log(cp)
 
-	$.ajax({
-    url: "recursos/catalogos/check_order.php",
-    method: "GET",
-    success: function(response) {
+	// $.ajax({
+    // url: "recursos/catalogos/check_order.php",
+    // method: "GET",
+    // success: function(response) {
     	// console.log(response);
-    	if (response) {
-    		return M.toast({html: 'Usted ya tiene un pedido activo.', displayLength: 2000})
-    	}else{
+    	// if (response) {
+    		// return M.toast({html: 'Usted ya tiene un pedido activo.', displayLength: 2000})
+    	// }else{
 				if (cp === 0) {
 					$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
 					return M.toast({html: "Producto agotado."})
@@ -490,14 +521,14 @@ document.getElementById('add').addEventListener('click', () => {
 				// document.getElementById("cod_prod").innerHTML = "";
 				// document.getElementById("div_cantidad").hidden = true;
 				$('#__cantidad').val(1)
-				$("#mod_con").removeClass("disabled")
+				$("#mod_con").removeClass("disabled") //<---
 				$("#modal3").modal('close');
-    	}
-    },
-    error: function(error) {
-        console.log(error)
-    }
-	})
+    	// }
+    // },
+    // error: function(error) {
+        // console.log(error)
+    // }
+	// })
 });
 
 function modal_detalle(cod, producto, pub, foto) {

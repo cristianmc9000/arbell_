@@ -117,7 +117,7 @@
 </html>
 
 <script>
-	// var reg_pedidos = new Array();
+	var reg_pedidos = new Array();
 	$(document).ready(function(){
   	$('.sidenav').sidenav();
   	$("#cuerpo").load('templates/catalogos/inicio.php');
@@ -132,7 +132,10 @@ document.getElementById('cart').addEventListener('click', () => {
 	document.getElementById('tabs_catalogo').hidden = true
 	document.getElementById('cart_row').hidden = false
 	document.getElementById('menu').hidden = true
+
 });
+
+
 
 	function _load (url) {
 		let y = '.php';

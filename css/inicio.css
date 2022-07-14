@@ -1,4 +1,15 @@
-
+.footer-alert{
+	display:flex;
+	align-items: center; 
+	position: fixed; 
+	bottom: 0px; 
+	width: 100%;
+	background-color: #34495e; 
+	height: 35px; 
+	color: #f9e98d; 
+	line-height: 1.1em;
+	/*visibility: hidden;*/
+}
 #modal1{
 	min-height: 80%;
 	height: 80%;

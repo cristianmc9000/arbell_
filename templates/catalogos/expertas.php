@@ -22,7 +22,7 @@
 .horizontal{
     /*display: grid !important;*/
     /*grid-template-columns: 1fr 1fr;*/
-    gap: 5px;
+    /*gap: 5px;*/
 }
 </style>
 <br>
@@ -37,12 +37,12 @@
         <div class="col s12 m6 l6 xl6 roboto">
             <div class="z-depth-4 card horizontal card__pad" style="background-color: #eee5e9; border-radius: 20px; border-color: #ccc3c7; border-style: solid;">
                 <div class="card-stacked">
-                        <span><b>Nombre: </b><small><?php echo $valor['nombre'].' '.$valor['apellidos']?></small></span><br>
-                        <span><b>Celular: </b><?php echo $valor['telefono']?></span><br>
-                        <span><b>CA: </b><?php echo $valor['CA']?></span><br>
-                        <span><b>CI: </b><?php echo $valor['CI']?></span>
+                        <div><span><b>Nombre: </b><small><?php echo $valor['nombre'].' '.$valor['apellidos']?></small></span></div>
+                        <div><span><b>Celular: </b><?php echo $valor['telefono']?></span></div>
+                        <div><span><b>CA: </b><?php echo $valor['CA']?></span></div>
+                        <div><span><b>CI: </b><?php echo $valor['CI']?></span></div>
                 </div>
-                <div class="card__img">
+                <div class="card__img" style="margin-left: 5px;">
                     <div>
                         <a onclick="historial('<?php echo $valor['CA'] ?>')" style="float: right"
                             class="btn-small waves-effect waves-light ">Historial</a>
@@ -105,7 +105,7 @@ document.getElementById('buscar_experta').addEventListener('input', () =>{
                                             <span><b>CI: </b>${item['CI']}</span>
                                         </div>
                                     </div>
-                                    <div class="card__img">
+                                    <div class="card__img" style="margin-left:5px;">
                                         <div>
                                             <a onclick="historial('${item['CA']}')" style="float: right"
                                                 class="btn-small waves-effect waves-light">Historial</a>
