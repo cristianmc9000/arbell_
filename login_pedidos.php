@@ -4,8 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="theme-color" content="#ee6e73">
+    <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <link rel="icon" type="image/x-icon" href="img/iconoarbell.ico">
+    <link rel="manifest" href="manifest.json">
+
     <link rel="stylesheet" href="css/pedidos.css">
-    <link rel="icon" type="image/x-icon" href="images/iconoarbell.ico" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
     <!-- Compiled and minified CSS -->
@@ -80,6 +85,7 @@
 <input type="text" id="existe" value="false" hidden>
 
 <!-- <script type="module" src="https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js"></script> -->
+<script src="script.js"></script>
 <script>
 $("#acceso").on("submit", function(e) {
     e.preventDefault();

@@ -8,6 +8,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#ee6e73">
+	<meta name="MobileOptimized" content="width">
+	<meta name="HandheldFriendly" content="true">
+	<link rel="icon" type="image/x-icon" href="img/iconoarbell.ico">
+	<link rel="manifest" href="./manifest.json">
+
 
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -115,7 +121,7 @@
 
 </body>
 </html>
-
+<script src="./script.js"></script>
 <script>
 	var reg_pedidos = new Array();
 	$(document).ready(function(){
