@@ -24,7 +24,7 @@
 
 ?>
 
-<link rel="stylesheet" type="text/css" href="css/inicio.css">
+<link rel="stylesheet" type="text/css" href="./css/inicio.css">
 <style>
 	.tabs-content{
 		/*content: "";*/
