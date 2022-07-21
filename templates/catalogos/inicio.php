@@ -390,9 +390,9 @@ header, main, body, footer {
 				<a href="#!" class="btn-large red lighten-2" id="return"><i class="material-icons">keyboard_return</i></a>
 			</div>
 		</div>
-		<!-- antes era col s12 m12 l4 xl5 -->
-		<div class="col s12" id="div_tabla_pedidos"> <!-- style="margin-top: -8%;" -->
-			<!-- <div class="col l6 m10 offset-m1 s12"> -->
+
+		<div class="col s12" id="div_tabla_pedidos"> 
+
 				<div class="center"><h4>Tu pedido</h4></div>
 
 				<table id="pedidos_cliente" class="content-table centered z-depth-4">
