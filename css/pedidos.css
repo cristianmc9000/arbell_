@@ -91,13 +91,11 @@
 
 	@media (min-width: 1350px) {
 	  .img_querie {
-	  	/*margin-top: 50%;*/
-	  	/*margin-left: auto;*/
-	  	/*margin-right: auto;*/
+
 	    width: 20% !important;
 	  }
 	  .img_querie img{
-	  	/*width: 100%;*/
+
 	  }
 	}
 
@@ -112,8 +110,7 @@
 
 
 .number-container{
-   /* width: 450px;
-    height: 450px;*/
+
     background-color: #fff;
     color: black;
     align-items: center;
@@ -194,7 +191,7 @@ body{
     min-height: 100%;
     max-height: 100%;
     max-width: 100%;
-    /*border-radius: 25%;*/
+
 }
 
 .p_card__pad{
@@ -218,7 +215,7 @@ header, main, body, footer {
   padding-left: 300px;
 }
 #form__{
-	/*padding-top: 8%;*/
+
 }
 
 @media only screen and (max-width : 992px) {
