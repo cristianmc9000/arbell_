@@ -23,7 +23,7 @@
 	$res3 = $result3->fetch_all(MYSQLI_ASSOC);
 
 ?>
-<link rel="stylesheet" type="text/css" href="css/pedidos.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/pedidos.css"> -->
 <link rel="stylesheet" type="text/css" href="css/inicio.css">
 
 <style>
