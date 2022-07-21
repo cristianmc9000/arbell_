@@ -269,7 +269,7 @@ header, main, body, footer {
 	    <li class="tab col s6"><a href="#test-swipe-2">&#x2B50 Ofertas </a></li>
 	  </ul>
 	  <div id="test-swipe-1" class="col s12">
-	  	<div id="form__">
+	  	<div id="form__" style="padding-top: 0 !important;">
 				<div class="row">
 					<div class="input-field col s12 m6 offset-m3" id="form_container">
 								<i class="material-icons prefix">search</i>
