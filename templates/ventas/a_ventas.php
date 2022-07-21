@@ -297,7 +297,7 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     document.querySelectorAll('._id').forEach(function (e) {
         if(e.innerText == id_actual){
             sw = 1;
-        } 
+        }
     })
     if (sw == 1) {
         return Materialize.toast('Ese producto ya ha sido agregado.', 3000);
