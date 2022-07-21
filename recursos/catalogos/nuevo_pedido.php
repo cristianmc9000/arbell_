@@ -43,11 +43,12 @@
 	}
 	$dato = "";
 
-				// cp, np, cantp, pp, pub, pup, codli
+				// cp, np, cantp, pp, pub, pup, codli, checkbox
 	$pubs_cd = 0;
 	foreach($a as $x){
 		// $dato = $dato."--".$x[0];
-		if ($x[6] == 16 || ($x[6] >= 32 && $x[6] <= 37)) {
+		// die($x[0]."--".$x[1]."--".$x[2]."--".$x[3]."--".$x[4]."--".$x[5]."--".$x[6]."--".$x[7]);
+		if ($x[6] == 16 || ($x[6] >= 32 && $x[6] <= 37) || $x[7] == 1) {
 			$pubs_cd = $x[4];
 		}else{
 			$pubs_cd = round((((float)($x[4]))-(((float)($x[4]))*((float)$_SESSION['desc']))), 1);

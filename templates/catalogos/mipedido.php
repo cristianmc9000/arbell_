@@ -125,9 +125,9 @@ $fila[] = array('codped'=>$arr['codped'], 'descripcion'=>$arr['descripcion'], 'c
 	    $.ajax({
             url: "recursos/catalogos/ver_pedido.php",
             success: function(echo) {
-                console.log(echo)
+                // console.log(echo)
 				var arr = echo.split(",");
-				console.log(arr)
+				// console.log(arr)
 				if (echo == "sinpedidos") {
 					$('#actped').css('color', 'red');
 					$('#actped').html("No tienes pedidos activos.");

@@ -111,6 +111,7 @@ session_start();
                             <input type="text" id="pubs_" value="" hidden>
                             <input type="text" id="subtotal_" value="" hidden>
                             <input type="text" id="codli_" value="" hidden>
+                            <input type="text" id="checkbox_" value="" hidden>
                         </div>
                     
                         <div class="contenedor_img">
@@ -231,7 +232,7 @@ $(document).ready(function() {
     //buscar producto 
     $('#search_producto').autocomplete({
         source: "recursos/ventas/buscar_producto.php",
-        minLength: 1,
+        minLength: 3,
         select: function(event, ui) {
             console.log(ui.item.value);
             $("#pupesos_").val(parseFloat(ui.item.pupesos).toFixed(1))
@@ -242,6 +243,7 @@ $(document).ready(function() {
             $('#linea_').val(ui.item.linea)
             $('#pubs_').val(parseFloat(ui.item.pupesos).toFixed(1))
             $('#codli_').val(ui.item.codli)
+            $('#checkbox_').val(ui.item.checkbox)
             $('#foto_prod').attr("src", ui.item.foto);
         }
     }).data('ui-autocomplete')._renderItem = function(ul, item) {
@@ -289,6 +291,20 @@ function confirmar_venta() {
 document.getElementById("insert_row_producto").addEventListener("submit", function(event) {
 
     event.preventDefault();
+
+    let id_actual = $("#id_").val();
+    let sw = 0;
+    document.querySelectorAll('._id').forEach(function (e) {
+        if(e.innerText == id_actual){
+            sw = 1;
+        } 
+    })
+    if (sw == 1) {
+        return Materialize.toast('Ese producto ya ha sido agregado.', 3000);
+    }
+
+    // return false;
+
     $("#descuento_").prop("disabled", true);
     if ((parseInt($("#cantidad_").val()) > parseInt($("#stock_").val())) || (parseInt($("#cantidad_").val()) < 1)) {
         Materialize.toast("<span style='color: yellow'>La cantidad ingresada es mayor al stock </span>", 5000)
@@ -302,14 +318,18 @@ document.getElementById("insert_row_producto").addEventListener("submit", functi
     desc_ = parseFloat(desc_) * 0.01
 
     let codli = $("#codli_").val()
+    let checkbox = $("#checkbox_").val()
+
     let pupesos = parseFloat($("#pupesos_").val())
     //valor sin descuento si no pertenece a la linea auxiliares
     let pupesos_desc = pupesos
     let pubs_desc = parseFloat(pubs_)
     let _aux_cant = 0
 
-    if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37') {
-        _aux_cant = parseInt($("#cantidad_").val())
+    if (codli == '16' || codli == '33' || codli == '34' || codli == '35' || codli == '36' || codli == '37' || checkbox == '1') {
+        if (checkbox != '1') {
+            _aux_cant = parseInt($("#cantidad_").val())
+        }
     }else{
         // PRECIO CON DESCUENTO EN PESOS
         pupesos_desc = pupesos * desc_;

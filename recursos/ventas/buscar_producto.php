@@ -6,7 +6,7 @@ include('../conexion.php');
 if(isset($_GET["term"]))
 {
     //modificar consulta para que salga nombre de la linea ...
-    $result = $conexion->query("SELECT a.id, a.periodo, (SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS maxpupesos,c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");
+    $result = $conexion->query("SELECT a.id, a.periodo, a.checkbox,(SELECT d.pupesos FROM inventario d WHERE d.fecha_reg = (SELECT MAX(e.fecha_reg) FROM inventario e WHERE e.codp = a.id) AND d.estado = 1 AND d.codp = a.id AND CONCAT(d.codp,' ',a.descripcion) LIKE '%".$_GET["term"]."%' LIMIT 1) AS maxpupesos,c.cantidad AS stock, a.linea, a.descripcion, a.foto, b.nombre FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.linea = b.codli AND CONCAT(a.id,' ',a.descripcion) LIKE '%".$_GET["term"]."%' ORDER BY a.id ASC");
 
     $total_row = mysqli_num_rows($result); 
     $output = array();
@@ -19,8 +19,9 @@ if(isset($_GET["term"]))
         $temp_array['stock'] = $row['stock'];
         $temp_array['linea'] = $row['nombre'];
         $temp_array['codli'] = $row['linea'];
+        $temp_array['checkbox'] = $row['checkbox'];
         $temp_array['value'] = $row['descripcion'];
-        $temp_array['label'] = '<img class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
+        $temp_array['label'] = '<img loading="lazy" class="zoom" src="'.$row['foto'].'" width="85" />   '.$row['descripcion'].'';
         $temp_array['pupesos'] = $row['maxpupesos'];
         $temp_array['foto'] = $row['foto'];
         $output[] = $temp_array;

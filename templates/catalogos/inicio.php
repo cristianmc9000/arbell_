@@ -13,13 +13,13 @@
 	$total_rows = mysqli_fetch_array($result_pages)[0];
 	$total_pages = ceil($total_rows / 10);
 
-	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 0 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
+	$result = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 0 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
 	$res = $result->fetch_all(MYSQLI_ASSOC);
 
 	$result2 = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
 	$res2 = $result2->fetch_all(MYSQLI_ASSOC);
 
-	$result3 = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 1 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
+	$result3 = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 1 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
 	$res3 = $result3->fetch_all(MYSQLI_ASSOC);
 
 ?>
@@ -57,7 +57,7 @@
 
 				<div class="col s12" id="cards_body">
 				  <?php foreach($res as $key  => $valor){ ?>
-				  <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>')">
+				  <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>', '<?php echo $valor['checkbox'] ?>')">
 				      <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
 				          <div class="card-stacked">
 				              <div class="" >
@@ -101,7 +101,7 @@
 
 				<div class="col s12" id="cards_body_promo">
 				  <?php foreach($res3 as $key  => $valor){ ?>
-				  <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>')">
+				  <div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('<?php echo $valor['id'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['pupesos'] ?>','<?php echo $valor['foto'] ?>', '<?php echo $valor['cantidad'] ?>', '<?php echo $valor['linea'] ?>', '<?php echo $valor['checkbox'] ?>')">
 				      <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
 				          <div class="card-stacked">
 				              <div class="" >
@@ -346,7 +346,7 @@
 						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
 						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38) || reg_pedidos[key][8] == '1') {
 							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
 						}else{
 							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
@@ -384,7 +384,7 @@ document.getElementById('search_data').addEventListener('input', () =>{
         			cad = "No se encontraron coincidencas."
         		}else{
 	            res.forEach(function(item, index, arr){
-					      cad = cad + `<div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('${item.value}','${item.id}','${item.pupesos}','${item.foto}', '${item.cant}', '${item.codli}')">
+					      cad = cad + `<div class="col s12 m6 rubik" loading="lazy" onclick="cantidad_prod('${item.value}','${item.id}','${item.pupesos}','${item.foto}', '${item.cant}', '${item.codli}', '${item.checkbox}')">
 									          <div class="z-depth-3 card horizontal p_card__pad" style="background-color: #eee5e9; border-radius: 20px">
 									              <div class="card-stacked">
 									                  <div class="" >
@@ -405,7 +405,7 @@ document.getElementById('search_data').addEventListener('input', () =>{
     })
 })
 
-function cantidad_prod(id, descripcion, precio, foto, stock, codli) {
+function cantidad_prod(id, descripcion, precio, foto, stock, codli, checkbox) {
 
 
 	let instance = M.Modal.getInstance(document.getElementById('modal3'))
@@ -416,7 +416,7 @@ function cantidad_prod(id, descripcion, precio, foto, stock, codli) {
 	document.getElementById("cant_desc").innerHTML = descripcion;
 	document.getElementById("cant_precio").innerHTML = precio_bs+" Bs.";
 
-	document.getElementById('__datosprod').innerHTML = "<input id='__datosp' cp='"+id+"' np='"+descripcion+"' pp='"+precio+"' fp='"+foto+"' st='"+stock+"' cl='"+codli+"'/>";
+	document.getElementById('__datosprod').innerHTML = "<input id='__datosp' cp='"+id+"' np='"+descripcion+"' pp='"+precio+"' fp='"+foto+"' st='"+stock+"' cl='"+codli+"' cb='"+checkbox+"'/>";
 	
 	fetch('recursos/catalogos/checkbox.php?id='+id)
 	.then(response => response.text())
@@ -448,7 +448,7 @@ document.getElementById('add').addEventListener('click', () => {
 	var cl = $("#__datosp").attr("cl");
 	var pub = $("#__datosp").attr("pp");
 	var pup = $("#__datosp").attr("pp");
-
+	var cb = $("#__datosp").attr("cb");
 	// console.log(cp)
 
 	// $.ajax({
@@ -482,7 +482,7 @@ document.getElementById('add').addEventListener('click', () => {
 
 					pub = (parseFloat(pub)*_cambio).toFixed(1);
 					// console.log(pub)
-					reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl];
+					reg_pedidos[cp] = [cp, np, cantp, pp, fp, pub, pup, cl, cb];
 
 					$("#pedidos_cliente tbody").html("")
 					var table = $("#pedidos_cliente tbody")[0];
@@ -498,7 +498,7 @@ document.getElementById('add').addEventListener('click', () => {
 						row.insertCell(0).innerHTML = `<a href='#' onclick='modal_detalle("${key}", "${reg_pedidos[key][1]}", "${reg_pedidos[key][5]}", "${reg_pedidos[key][4]}")'>${key}</a>`;
 						total  = parseFloat(total) + parseFloat(reg_pedidos[key][3]);
 						in_cant = in_cant + parseInt(reg_pedidos[key][2]);
-						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38)) {
+						if (reg_pedidos[key][7] == '16' || (reg_pedidos[key][7] > 32 && reg_pedidos[key][7] < 38) || reg_pedidos[key][8] == '1') {
 							total_aux = parseFloat(total_aux) + parseFloat(reg_pedidos[key][3])
 						}else{
 							total_ped_cd = parseFloat(total_ped_cd) + parseFloat(reg_pedidos[key][3]);
@@ -552,7 +552,7 @@ function modal_detalle(cod, producto, pub, foto) {
 			let in_cant = 0;
 
 			Object.keys(reg_pedidos).forEach(function(key) {
-				console.log(reg_pedidos[key]+"<dentro del foreach")
+				// console.log(reg_pedidos[key]+"<dentro del foreach")
 				var row = table.insertRow(-1);
 				row.insertCell(0).innerHTML = `<a style='text-decotarion: none; cursor: pointer; color: red;' onclick='borrar_prod("${key}")'><i class='material-icons prefix'>delete</i></a>`;
 				row.insertCell(0).innerHTML = reg_pedidos[key][3];
@@ -638,13 +638,13 @@ function modal_detalle(cod, producto, pub, foto) {
 		let cant_items = 0;
 		let a = new Array()
 		Object.keys(reg_pedidos).forEach(function(key) {
-			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6], reg_pedidos[key][7]]);
+			a.push([reg_pedidos[key][0], reg_pedidos[key][1], reg_pedidos[key][2], reg_pedidos[key][3], reg_pedidos[key][5], reg_pedidos[key][6], reg_pedidos[key][7], reg_pedidos[key][8]]);
 			cant_items += parseInt(reg_pedidos[key][2]);
 		})
 		
 
 		x = JSON.stringify(a)
-
+		// return console.log(x)
 		let cliente = "";
 		if (nombres_experta.length < 1) {
 			cliente = "```<?php echo $_SESSION['usuario'].' '.$_SESSION['apellidos']?>```";
@@ -669,6 +669,7 @@ function modal_detalle(cod, producto, pub, foto) {
 	            url: "recursos/catalogos/nuevo_pedido.php?total="+total+"&total_cd="+total_cd+"&a="+x+"&cred="+credito+ca_exp,
 	            method: "GET",
 	            success: function(response) {
+	            	// console.log(response)
 	            	if (response.includes('block')) {
 	            		return M.toast({html: "Usuario bloqueado, no puede realizar pedidos.", displayLength: 3000})
 	            	}
