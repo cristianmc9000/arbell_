@@ -241,7 +241,7 @@ header, main, body, footer {
   padding-left: 300px;
 }
 #form__{
-	padding-top: 0% !important;
+	/*padding-top: 0% !important;*/
 }
 
 @media only screen and (max-width : 992px) {
@@ -249,7 +249,7 @@ header, main, body, footer {
 		padding-left: 0;
 	}
 	#form__{
-		padding-top: 0%;
+		/*padding-top: 0%;*/
 	}
 	.get_out {
 		left: 0;
