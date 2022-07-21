@@ -28,22 +28,19 @@
 
 <style>
 	.tabs-content{
-		/*content: "";*/
-    /*display: table;*/
-    /*clear: both;*/
+
 	}
 	.carousel{
-		/*overflow: auto !important;*/
+
 	}
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
-/*@import url('https://fonts.googleapis.com/css2?family=Macondo&display=swap');*/
+
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@200&display=swap');
-/*@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap');*/
-/*@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');*/
+
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
-/*@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');*/
+
 	body{
 		background-color: #eee5e9;
 	}
@@ -62,9 +59,7 @@
 	}
 	.fuente{
 		font-family: 'Karla', sans-serif;
-		/*font-family: 'Alfa Slab One', cursive;*/
-		/*font-family: 'Dancing Script', cursive;*/
-		/*font-family: 'Roboto', sans-serif;*/
+
 	}
 	.roboto{
 		font-family: 'Roboto', sans-serif;
@@ -84,11 +79,7 @@
 	}
 
 	.btn-cancelar{
-/*	    position: absolute;
-	    bottom: 20%;
-	    left: 50%;*/
-	    /*-ms-transform: translate(-50%, -50%);*/
-	    /*transform: translate(-50%, -50%);*/
+
 	}
 
 
@@ -106,10 +97,7 @@
 	        transform: none;
     	}
 	  .img_querie {
-	  	/*margin-top: 30%;*/
-	  	/*margin-left: auto;*/
-	  	/*margin-right: auto;*/
-	    /*width: 70%;*/
+
 	  }
 	  .img_querie img{
 	  	width: 100%;
@@ -118,7 +106,7 @@
 		width: 100%;
 	  }
 	  .modal_prod{
-	  	/*min-height: 80%;*/
+
 	  	width: 100%;
 	  	min-width: 100%;
 	  }
@@ -129,13 +117,11 @@
 
 	@media (min-width: 1350px) {
 	  .img_querie {
-	  	/*margin-top: 50%;*/
-	  	/*margin-left: auto;*/
-	  	/*margin-right: auto;*/
+
 	    width: 20% !important;
 	  }
 	  .img_querie img{
-	  	/*width: 100%;*/
+
 	  }
 	}
 
@@ -150,8 +136,7 @@
 
 
 .number-container{
-   /* width: 450px;
-    height: 450px;*/
+
     background-color: #fff;
     color: black;
     align-items: center;
@@ -200,10 +185,10 @@
 
 
 .shop{
-	/*border-radius: 10% !important;*/
+
 }
 body{
-	/*overflow-x: hidden;*/
+
 }
 
 
@@ -256,7 +241,7 @@ header, main, body, footer {
   padding-left: 300px;
 }
 #form__{
-	/*padding-top: 8%;*/
+
 }
 
 @media only screen and (max-width : 992px) {
