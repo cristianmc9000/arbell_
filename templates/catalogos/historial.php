@@ -239,7 +239,7 @@ function pagos(id, credito, total_cd, codv) {
                     }
                 }
                 // console.log(parseFloat(total_cd), parseFloat(subtotal)+"<<< subtotal fuera del for")
-                document.getElementById('saldo').innerHTML = `Saldo pendiente: ${(parseFloat(total_cd)-parseFloat(subtotal)).toFixed(1)}`;
+                document.getElementById('saldo').innerHTML = `Saldo pendiente: ${Number((parseFloat(total_cd)-parseFloat(subtotal)).toFixed(1))} Bs.`;
                 $("#modal_historial_pagos").modal('open')
             },
             error: function(error) {

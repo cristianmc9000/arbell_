@@ -8,7 +8,7 @@
 		$cad = $_GET['codv'];
 	}
 
-	$result = $conexion->query("SELECT a.monto, a.fecha_pago FROM pagos a WHERE codv = ".$cad);
+	$result = $conexion->query("SELECT a.monto, a.fecha_pago FROM pagos a WHERE a.estado = 1 AND a.codv = ".$cad);
 	$result = $result->fetch_all(MYSQLI_ASSOC);
 
 	if ($result) {
