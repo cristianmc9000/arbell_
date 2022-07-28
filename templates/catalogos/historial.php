@@ -233,13 +233,13 @@ function pagos(id, credito, total_cd, codv) {
                             newRow = newTableRow.insertCell(1)
                             newRow.textContent = res[key]['monto'] + " Bs."
 
-                            subtotal += res[key]['monto'];
-
+                            subtotal = subtotal + parseFloat(res[key]['monto']);
+                            // console.log(res[key]['monto'], subtotal + "<<<< dentro del for")
                         }
                     }
                 }
-                document.getElementById('saldo').innerHTML =
-                    `Saldo pendiente: ${(parseFloat(total_cd)-parseFloat(subtotal)).toFixed(1)}`;
+                // console.log(parseFloat(total_cd), parseFloat(subtotal)+"<<< subtotal fuera del for")
+                document.getElementById('saldo').innerHTML = `Saldo pendiente: ${(parseFloat(total_cd)-parseFloat(subtotal)).toFixed(1)}`;
                 $("#modal_historial_pagos").modal('open')
             },
             error: function(error) {
