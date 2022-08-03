@@ -66,7 +66,7 @@ if((mysqli_num_rows($Busq))>0){
 </div>
 
 <!-- TABLA -->
-<table id="tabla1" class="highlight">
+<table id="tabla1" class="highlight" >
     <thead>
         <tr>
             <th>Código</th>

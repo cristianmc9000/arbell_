@@ -14,8 +14,9 @@ $monto = $sql->fetch_array(MYSQLI_ASSOC);
 $sql2 = $conexion->query("SELECT total FROM ventas WHERE codv = ".$codv);
 $total = $sql2->fetch_array(MYSQLI_ASSOC);
 
-$monto = (float)$monto["monto"];
+$monto = round(((float)$monto["monto"]), 1);
 $total = (float)$total["total"];
+
 
 if ($monto >= $total) {
 	$conexion->query("UPDATE ventas SET credito = 2 WHERE codv = ".$codv);

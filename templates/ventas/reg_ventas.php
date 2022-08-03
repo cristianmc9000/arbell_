@@ -542,7 +542,7 @@ function pagos(e, ca, nombre, apellidos) {
                 }
             }
         $("#subtotal").html("Subtotal: "+subtotal+" Bs.")
-        $("#debe").html("Saldo: "+(saldo-subtotal).toFixed(2)+" Bs.")
+        $("#debe").html("Saldo: "+(saldo-subtotal).toFixed(1)+" Bs.")
         $("#saldo").html("Total: "+subtotal+" Bs./"+saldo+" Bs.")
 
         $("#_subtotal").val(subtotal)
@@ -606,7 +606,7 @@ function borrar_pago(e, id, codv) {
                     let total = parseFloat($("#_total").val())
 
                     $("#subtotal").html("Subtotal: "+nuevo_sub+" Bs.")
-                    $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
+                    $("#debe").html("Saldo: "+(total-nuevo_sub).toFixed(1)+" Bs.")
                     $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
                     
                     let gest = "templates/ventas/reg_ventas.php?ges="+'<?php echo $_GET["ges"]?>'
@@ -644,12 +644,11 @@ function nuevo_pago() {
     let total = parseFloat($("#_total").val())
     if (subtotal+monto > total ) {return Materialize.toast("La suma de los pagos excede el total.", 4000)}
 
-    
-
     $.ajax({
         url: "recursos/ventas/nuevo_pago.php?codv="+codv+"&monto="+monto,
         method: "GET",
         success: function(response) {
+            // return console.log(response);
             respuesta = JSON.parse(response)
             monto_ = parseFloat(respuesta.monto)
             nuevo_sub = subtotal+monto_
@@ -675,7 +674,7 @@ function nuevo_pago() {
             let gest = "templates/ventas/reg_ventas.php?ges="+'<?php echo $_GET["ges"]?>'
 
             $("#subtotal").html("Subtotal: "+(nuevo_sub)+" Bs.")
-            $("#debe").html("Saldo: "+(total-nuevo_sub)+" Bs.")
+            $("#debe").html("Saldo: "+(total-nuevo_sub).toFixed(1)+" Bs.")
             $("#saldo").html("Total: "+nuevo_sub+" Bs./"+total+" Bs.")
             $("#btn-cerrar_modal2").attr('onclick', '$("#cuerpo").load("'+gest+'")')
 
