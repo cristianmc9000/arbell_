@@ -741,7 +741,7 @@ document.getElementById('add').addEventListener('click', () => {
 				$("#cart i").html('<img style="max-height: 40px;" src="images/icons/lleno.png"/>');
 				M.toast({html: "<span style='color:#1de9b6'><b>Agregado al carrito de compra.</b></span>", displayLength: 2500})
 				$("#__datosprod").html("<input id='__datosp' cp='1' hidden/>")
-				$('#search_data').val("")
+				// $('#search_data').val("")
 			  // document.getElementById("img_prod").src = "images/fotos_prod/default.png";
 				// document.getElementById("cod_prod").innerHTML = "";
 				// document.getElementById("div_cantidad").hidden = true;
