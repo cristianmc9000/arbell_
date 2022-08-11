@@ -1,6 +1,5 @@
 <?php
-require('../../recursos/sesiones.php');
-session_start();
+
 require('../../recursos/conexion.php');
 
 // echo $_GET['ges'];
@@ -11,37 +10,34 @@ $Busq = $conexion->query($Sql);
 $fila = $Busq->fetch_all(MYSQLI_ASSOC);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <style>
-    .fuente {
-        font-family: 'Segoe UI light';
-        color: red;
-    }
+<style>
+.fuente {
+    font-family: 'Segoe UI light';
+    color: red;
+}
 
-    table.highlight>tbody>tr:hover {
-        background-color: #a0aaf0 !important;
-    }
+table.highlight>tbody>tr:hover {
+    background-color: #a0aaf0 !important;
+}
 
-    .borde_tabla {
-        border: 1px solid;
-        border-collapse: collapse !important;
-    }
+.borde_tabla {
+    border: 1px solid;
+    border-collapse: collapse !important;
+}
 
-    .borde_tabla tr td, .borde_tabla tr th {
+.borde_tabla tr td, .borde_tabla tr th {
 
-        border: 1px solid;
-        border-collapse: collapse !important;
-        padding-top:  1px;
-        padding-bottom:  1px;
-    }
+    border: 1px solid;
+    border-collapse: collapse !important;
+    padding-top:  1px;
+    padding-bottom:  1px;
+}
 
-    </style>
-</head>
+</style>
 
-<body>
+
+
     <div class="col s11">
         <div class="col s1">
                 <b style= "color:blue"> Gestión:</b>
@@ -828,5 +824,3 @@ function enviarges() {
     $("#cuerpo").load("templates/ventas/reg_ventas.php?ges="+ges);
 }
 </script>
-
-</body>
