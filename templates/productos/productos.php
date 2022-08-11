@@ -8,14 +8,14 @@ $per = $_GET["mes"];
 if (isset($_GET["mes"])) {
   $per = $_GET["mes"];
   $_SESSION['periodo'] = $per;
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per;  
+  $Sql = "SELECT a.id, a.foto, b.nombre as nomli, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per;  
   // "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli and a.periodo = ".$per; 
   
   
 }else{
   $_SESSION['periodo'] = 'total';
   $per = 'total';
-  $Sql = "SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
+  $Sql = "SELECT a.id, a.foto, b.nombre as nomli, b.codli, a.descripcion, c.cantidad, a.periodo, (SELECT d.pubs FROM inventario d WHERE d.id=(SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.codp = a.id AND d.estado = 1) as pubs, a.checkbox FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli";
   // SELECT a.id, a.foto, b.nombre, b.codli, a.descripcion, c.cantidad, a.periodo FROM productos a, lineas b, invcant c WHERE a.id = c.codp AND a.estado = 1 AND a.linea = b.codli
 }
 
@@ -127,13 +127,13 @@ if ($Busq2) {
       <tr>
         <td><img loading="lazy"src="<?php echo $valor["foto"]?>" width="50px" height="40px" alt=""></td>
         <td class="center"><?php echo $valor["id"] ?></td>
-        <td><?php echo $valor["linea"]?></td>
+        <td><?php echo $valor["nomli"]?></td>
         <td><?php echo $valor["descripcion"]?></td>
         <td class="center"><?php echo $valor['periodo']?></td>
         <td class="center"><?php echo $valor["cantidad"] ?></td>
         <td class="center"><?php if (empty($valor['pubs'])) {echo 'Agotado';}else{ echo $valor["pubs"].' Bs.';}?> </td>
         <td  class="center">
-          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['linea'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>','<?php echo $valor['pubs']?>', '<?php echo $valor['checkbox']?>')"><i class="material-icons">build</i></a>
+          <a href="#!" onclick="mod_producto('<?php echo $valor['foto']?>','<?php echo $valor['id']?>','<?php echo $valor['nomli'] ?>','<?php echo $valor['codli'] ?>','<?php echo $valor['descripcion'] ?>','<?php echo $valor['cantidad']?>','<?php echo $valor['pubs']?>', '<?php echo $valor['checkbox']?>')"><i class="material-icons">build</i></a>
         </td>
         <td class="center">
           <a href="#!" onclick="borrar_producto('<?php echo $valor['id'] ?>');"><i class="material-icons">delete</i></a>
