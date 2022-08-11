@@ -19,7 +19,7 @@
 	$result2 = $conexion->query("SELECT valor FROM cambio WHERE id = 2");
 	$res2 = $result2->fetch_all(MYSQLI_ASSOC);
 
-	$result3 = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 1 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC LIMIT ".$indice.", 10");
+	$result3 = $conexion->query("SELECT a.id, a.linea, a.descripcion, a.foto, a.checkbox, (SELECT d.pupesos FROM inventario d WHERE d.id = (SELECT MAX(e.id) FROM inventario e WHERE e.codp = a.id AND e.estado = 1) AND d.estado = 1 AND d.codp = a.id) AS pupesos, b.nombre, f.cantidad FROM productos a, invcant f, lineas b WHERE a.estado = 1 AND a.checkbox = 1 AND a.linea = b.codli AND a.id = f.codp ORDER BY id ASC");
 	$res3 = $result3->fetch_all(MYSQLI_ASSOC);
 
 ?>
