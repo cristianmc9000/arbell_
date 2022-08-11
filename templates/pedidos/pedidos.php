@@ -17,13 +17,14 @@ $Sql = "SELECT a.id, a.ca, CONCAT(c.nombre,' ',c.apellidos) as cliente, a.fecha,
 //consulta tabla inventario
 
 $Busq = $conexion->query($Sql); 
-if((mysqli_num_rows($Busq))>0){
-    while($arr = $Busq->fetch_array()){ 
-        $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'total_cd'=>$arr['total_cd'], 'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito'], 'periodo'=>$arr['periodo']); 
-    }
-}else{
-        $fila[] = array('id'=>'---', 'ca'=>'---', 'cliente'=>'---', 'fecha'=>'---', 'total'=>'---', 'total_cd'=>'---', 'descuento'=>'---', 'valor_peso'=>'---', 'credito'=>'---', 'periodo'=>'---');
-}
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
+// if((mysqli_num_rows($Busq))>0){
+//     while($arr = $Busq->fetch_array()){ 
+//         $fila[] = array('id'=>$arr['id'], 'ca'=>$arr['ca'], 'cliente'=>$arr['cliente'], 'fecha'=>$arr['fecha'], 'total'=>$arr['total'], 'total_cd'=>$arr['total_cd'], 'descuento'=>$arr['descuento'], 'valor_peso'=>$arr['valor_peso'], 'credito'=>$arr['credito'], 'periodo'=>$arr['periodo']); 
+//     }
+// }else{
+//         $fila[] = array('id'=>'---', 'ca'=>'---', 'cliente'=>'---', 'fecha'=>'---', 'total'=>'---', 'total_cd'=>'---', 'descuento'=>'---', 'valor_peso'=>'---', 'credito'=>'---', 'periodo'=>'---');
+// }
 ?>
 
 <style>

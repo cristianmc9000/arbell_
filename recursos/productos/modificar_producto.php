@@ -21,15 +21,14 @@ $check_promo = $_POST['check_promo'];
 $check_pedido = $_POST['check_pedido'];
 
 if (empty($check_promo) AND empty($check_pedido)) {
-	$result = $conexion->query("UPDATE `productos` SET `checkbox`='0' WHERE id = ".$cod);
+	$result = $conexion->query("UPDATE `productos` SET `checkbox`='0' WHERE id = '".$cod."'");
 }
 if ($check_promo == 'on') {
-	$result = $conexion->query("UPDATE `productos` SET `checkbox`='1' WHERE id = ".$cod);
+	$result = $conexion->query("UPDATE `productos` SET `checkbox`='1' WHERE id = '".$cod."'");
 }
 if ($check_pedido == 'on') {
-		$result = $conexion->query("UPDATE `productos` SET `checkbox`='2' WHERE id = ".$cod);
+		$result = $conexion->query("UPDATE `productos` SET `checkbox`='2' WHERE id = '".$cod."'");
 }
-
 
 
 if (!empty($pubs)) {

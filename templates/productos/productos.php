@@ -26,28 +26,15 @@ if (isset($_GET["mes"])) {
 
 
 $Busq = $conexion->query($Sql); 
-
-if((mysqli_num_rows($Busq))>0){
-  while($arr = $Busq->fetch_array()){ 
-
-        $fila[] = array('id'=>$arr['id'], 'foto'=>$arr['foto'], 'linea'=>$arr['nombre'], 'codli'=>$arr['codli'], 'descripcion'=>$arr['descripcion'], 'cantidad'=>$arr['cantidad'], 'periodo'=>$arr['periodo'], 'pubs'=>$arr['pubs'], 'checkbox'=>$arr['checkbox']); 
-
-  }
-}else{
-        $fila[] = array('id'=>'--','foto'=>'--','linea'=>'--','codli'=>'--','descripcion'=>'--','pupesos'=>'--','pubs'=>'--','cantidad'=>'--','periodo'=>'--', 'pubs'=>'--', 'checkbox'=>'--');
-}
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
   //consulta de lineas
 // isset($_GET["mes"])
 
-  $Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
-  $Busq2 = $conexion->query($Sql2);
+$Sql2 = "SELECT codli, nombre FROM lineas WHERE periodo = ".$per." AND estado = 1";
+$Busq2 = $conexion->query($Sql2);
 
 if ($Busq2) {
-  if((mysqli_num_rows($Busq2))>0){
-    while($arr2 = $Busq2->fetch_array()){ 
-      $fila2[] = array('codli'=>$arr2['codli'], 'nombre'=>$arr2['nombre']); 
-    }
-  }
+  $fila2 = $Busq2->fetch_all(MYSQLI_ASSOC);
 }else{
   // $fila2[] = array('codli'=>"--", 'nombre'=>"--"); 
 }
