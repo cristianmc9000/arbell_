@@ -7,14 +7,8 @@ require('../../recursos/conexion.php');
 
 $Sql = "SELECT a.codv, a.ca, b.lugar, b.nombre, b.apellidos, a.fecha, a.total, a.periodo, a.credito FROM ventas a, clientes b WHERE a.ca = b.CA AND a.estado = 1 AND a.fecha LIKE '".$_GET['ges']."%'"; 
 $Busq = $conexion->query($Sql); 
-if((mysqli_num_rows($Busq))>0){
-    while($arr = $Busq->fetch_array()) 
-        { 
-            $fila[] = array('codv'=>$arr['codv'], 'ca'=>$arr['ca'], 'lugar'=>$arr['lugar'],'nombre'=>$arr['nombre'],'apellidos'=>$arr['apellidos'],'fecha'=>$arr['fecha'],'total'=>$arr['total'], 'periodo'=>$arr['periodo'],'credito'=>$arr['credito']);
-        } 
-}else{
-    $fila[] = array('codv'=>'--', 'ca'=>'--', 'lugar'=>'--', 'nombre'=>'--','apellidos'=>'--','fecha'=>'--','total'=>'--', 'periodo'=>'--','credito'=>'--');
-}
+
+$fila = $Busq->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -534,7 +528,7 @@ function pagos(e, ca, nombre, apellidos) {
     ver_pagos(cell[0].innerText).then(respuesta => {
         let subtotal = 0
         $(".dinamic_rows").remove();
-        var jsonParsedArray = JSON.parse(respuesta)
+        var jsonParsedArray = respuesta
             for (key in jsonParsedArray) {
                 if (jsonParsedArray.hasOwnProperty(key)) {
                     subtotal += parseFloat(jsonParsedArray[key]['monto'])
@@ -577,17 +571,27 @@ function pagos(e, ca, nombre, apellidos) {
 //RECUPERAR DATOS DE LA BD TABLA: PAGOS(JSON)
 function ver_pagos(codv) {
     return new Promise((resolve, reject) => {
-        $.ajax({
-            url: "recursos/ventas/ver_pagos.php?codv="+codv,
-            method: "GET",
-            success: function(response) {
-                resolve(response)
-            },
-            error: function(error) {
-                console.log(error)
-                reject(error)
-            }
+        
+        fetch("recursos/ventas/ver_pagos.php?codv="+codv)
+        .then(response => response.json())
+        .then(response => {
+            resolve(response)
         })
+        .catch(error =>{
+            reject(error);
+        })
+        // reject(error)
+        // $.ajax({
+        //     url: "recursos/ventas/ver_pagos.php?codv="+codv,
+        //     method: "GET",
+        //     success: function(response) {
+        //         resolve(response)
+        //     },
+        //     error: function(error) {
+        //         console.log(error)
+        //         reject(error)
+        //     }
+        // })
     })
 }
 //FUNCION PARA BORRAR UN PAGO DE LA BASE DE DATOS TABLA: PAGOS
@@ -719,7 +723,7 @@ function imprimir_pago() {
     let array_ = ""
     let subtotal = 0
     ver_pagos(codv).then(respuesta => {
-        let jsonParsedArray = JSON.parse(respuesta)
+        let jsonParsedArray = respuesta
         for (key in jsonParsedArray) {
             subtotal += parseFloat(jsonParsedArray[key]['monto'])
             if (jsonParsedArray.hasOwnProperty(key)) {
