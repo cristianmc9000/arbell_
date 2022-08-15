@@ -235,8 +235,8 @@ while($arr = $Busq->fetch_array())
           <div class="row" id="mod_row_seleccionar_lider">
             <div class="input-field col s12">
               <input type="text" id="mod_id_lider" name="id_lider" hidden>
-              <input type="text" id="mod_search_lider" placeholder="Buscar Lider" autocomplete="off" class="validate" />
-              <label for="search_lider" class="active">Lider a cargo:</label>
+              <input type="text" id="mod_search_lider" placeholder="Buscar Líder" autocomplete="off" class="validate" />
+              <label for="mod_search_lider" class="active">Lider a cargo:</label>
               <div id="mod_btn_eliminar_lider" hidden>
                 <a href="#"><i class="material-icons">close</i></a>
               </div>
@@ -488,7 +488,7 @@ $("#agregar_cliente").on("submit", function(e){
       contentType: false,
       processData: false
     }).done(function(echo){
-      // console.log(echo)
+      // return console.log(echo)
       if (echo.includes('reg')){
       	Materialize.toast('<b>'+echo+'</b>', 4000)
       	$("#modal1").closeModal()

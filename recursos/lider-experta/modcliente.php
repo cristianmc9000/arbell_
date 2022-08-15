@@ -17,7 +17,7 @@ $id_lider = $_POST["id_lider"];
 $ca_ant = $_POST['ca_ant'];
 $ci_ant = $_POST['ci_ant'];
 
-if (strlen($_POST["id_lider"])>1) {
+if (strlen($_POST["id_lider"])>=1) {
 	$str = ', lider = '.$id_lider;
 }else{
 	$str = ', lider = NULL';
