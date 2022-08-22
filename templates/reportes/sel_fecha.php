@@ -94,7 +94,7 @@
   </div>
 
   <div class="center hijo" >
-    <a href="#" onclick="reporte()" class="btn-large pink">Reporte por gestión</a>
+    <a href="#" onclick="reporte()" class="btn-large pink">Generar reporte</a>
   </div>
 
 </div>
